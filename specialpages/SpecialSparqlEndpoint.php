@@ -88,8 +88,15 @@ function validAndSendQuery(){
 				$rs = $sp->query($query);
 				$errs = $sp->getErrors();
 				if ($errs) {
+					$wgOut->addHTML("<h1>ERROR(s)</h1>\n");
 					foreach ($errs as $err) {
-						$wgOut->addHTML("<h1>ERROR</h1> <pre>$err.</pre> \n");
+						if(is_array($err)){
+							foreach ($err as $suberr) {
+								$wgOut->addHTML("<pre>$suberr.</pre> \n");
+							}
+						}else{							
+							$wgOut->addHTML("<pre>$err.</pre> \n");
+						}
 					}
 				}else{
 					//						//efSparqlParserFunction_simple( $querySparqlWiki,$endpoint ,$classHeaders = '',$headers = '', $debug = null)

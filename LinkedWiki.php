@@ -91,25 +91,30 @@ function efSparqlParserFunction_Magic( &$magicWords, $langCode ) {
 	return true;
 }
 
+function fSparqlParserFunction_pageiri(&$parser) {
+	$resolver = Title::makeTitle( NS_SPECIAL, 'URIResolver' );
+	$resolverurl = $resolver->getFullURL() . '/';
+	return SparqlTools::decodeURItoIRI($resolverurl).$parser->getTitle()->getPrefixedDBkey();
+}
+
 function efSparqlParserFunction_Render( $parser) {
-	
-	
 	global $wgLinkedWikiLocalEndPoint,$wgLinkedWikiEndPoint,$wgLinkedWikiGraphWiki;
 	$args = func_get_args(); // $parser, $param1 = '', $param2 = ''
 	$countArgs = count($args);
-	$query = isset($args[1])? $args[1] : "";
+	$query = isset($args[1])? urldecode($args[1]) : "";
 	$vars = array();
 	for($i = 2;$i < $countArgs;$i++) {
-		if(preg_match_all('#^([^= ]+)=(.*)$#i', $args[$i],$match)){
+		if(preg_match_all('#^([^= ]+) *= *(.*)$#i', $args[$i],$match)){
 			$vars[$match[1][0]] = $match[2][0];
 		}
 	}
 	
 	if ($query != "") {
 		
+		$query  = efWsparqlParserFunction_parserquery($query,$parser);
+		
 		// which endpoint?
 		$endpoint = isset($vars["endpoint"]) ? $vars["endpoint"] : $wgLinkedWikiEndPoint;
-		$format = isset($vars["format"]) ? $vars["format"] : "template";
 		$classHeaders = isset($vars["classHeaders"]) ? $vars["classHeaders"] :'';
 		$headers = isset($vars["headers"]) ? $vars["headers"] :'';
 		$templates = isset($vars["templates"]) ? $vars["templates"] :'';
@@ -145,15 +150,16 @@ function efWsparqlParserFunction_Render( $parser) {
 	$vars = array();
 	for($i = 2;$i < $countArgs;$i++) {
 		if(preg_match_all('#^([^= ]+)=(.*)$#i', $args[$i],$match)){
-			$vars[$match[1][0]] = $match[2][0];
 			if($match[1][0] == "query"){
-				$query = $match[2][0];
+				$query = urldecode($match[2][0]);
 			}elseif($match[1][0] == "debug"){
 				$debug = $match[2][0];
 			}elseif($match[1][0] == "endpoint"){
 				$endpoint = $match[2][0];
 			}elseif($match[1][0] == "cache"){
 				$cache = $match[2][0];
+			}else{
+				$vars[] = $args[$i];
 			}
 		}else{
 				$vars[] = $args[$i];
@@ -164,7 +170,10 @@ function efWsparqlParserFunction_Render( $parser) {
 			$parser->disableCache(); 
 	}
 		
-	if ($query != "" && $namewidget != "" ) {		
+	if ($query != "" && $namewidget != "" ) {			
+		
+		$query  = efWsparqlParserFunction_parserquery($query,$parser);
+		
 		return efSparqlParserFunction_widget($namewidget,$query,$endpoint,$debug,$vars);
 	}else {
 		$parser->disableCache(); 
@@ -208,14 +217,14 @@ function efSparqlParserFunction_widget($namewidget, $querySparqlWiki,$endpoint ,
 		$res_rows[] = implode(" | ",$res_row );
 		$i++;
 	}
-	$str = implode(" | ",$res_rows );
-
+	
+	$str = "{{#widget:".$namewidget."|".implode(" | ",$vars )."|".implode(" | ",$res_rows )."}}";
 	if ($debug != null ){
+		$str .= "\n".print_r($vars, true);
 		$str .= print_r($rs, true);
 		return  array("<pre>".$str."</pre>",'noparse' => true, 'isHTML' => true);
 	}
 
-	$str = "{{#widget:".$namewidget."|".implode(" | ",$vars )."|".$str."}}";
 	return array($str, 'noparse' => false);
 }
 
@@ -228,7 +237,6 @@ function efSparqlParserFunction_array(  $querySparqlWiki,$endpoint ,$classHeader
 	$specialC = array("&#39;");
 	$replaceC = array("'");
 	$querySparql  = str_replace($specialC ,$replaceC , $querySparqlWiki);
-	//echo $querySparqlWiki ;echo $querySparql ;
 
 	$str = "";
 	$sp = new FourStore_StorePlus($endpoint);
@@ -275,9 +283,9 @@ function efSparqlParserFunction_array(  $querySparqlWiki,$endpoint ,$classHeader
 		unset($arrayParameters);
 		foreach ( $variables as $variable) {
 			if($row[$variable." type"] == "uri" ){
-				$arrayParameters[] =   efSparqlParserFunction_uri2Link($row[$variable],true) ;
+				$arrayParameters[] = $variable." = ". efSparqlParserFunction_uri2Link($row[$variable],true) ;
 			}else {
-				$arrayParameters[] =  $row[$variable] ;
+				$arrayParameters[] = $variable." = ". $row[$variable] ;
 			}
 		}
 		foreach ( $TableFormatTemplates as $TableFormatTemplate) {
@@ -291,7 +299,8 @@ function efSparqlParserFunction_array(  $querySparqlWiki,$endpoint ,$classHeader
 	$str .= "|}\n";
 
 	if ($debug != null ){
-		$str .= print_r($querySparql, true);
+		$str .= "INPUT WIKI : ".$querySparqlWiki."\n";
+		$str .= "Query : ".$querySparql."\n";
 		$str .= print_r($arrayParameters, true);
 		$str .= print_r($rs, true);
 		return  array("<pre>".$str."</pre>",'noparse' => true, 'isHTML' => true);
@@ -373,8 +382,11 @@ function efSparqlParserFunction_simple( $querySparqlWiki,$endpoint ,$classHeader
 	$str .= "|}\n";
 
 	if ($debug != null ){
+		$str .= "INPUT WIKI : ".$querySparqlWiki."\n";
+		$str .= "Query : ".$querySparql."\n";
 		$str .= print_r($rs, true);
-		return  array("<pre>".$str."</pre>",'noparse' => true, 'isHTML' => true);
+		$str .= print_r($rs, true);
+		return  array("<pre>".$str."</pre>",'noparse' => true, 'isHTML' => false);
 	}
 
 	return array($str, 'noparse' => false, 'isHTML' => false);
@@ -437,4 +449,19 @@ function  efSparqlParserFunction_uri2Link($uri,$nowiki = false){
 		$result =  str_replace("=","{{equal}}",$uri);
 	}
 	return $result;
+}
+
+function efWsparqlParserFunction_parserquery($query,$parser) {	
+	global $wgLinkedWikiGraphWiki;
+	
+	$res = $query;
+	if (preg_match("/<PAGEIRI>/i",$res)) {
+			$uri  = "<".fSparqlParserFunction_pageiri($parser).">";
+		   $res  = str_replace("<PAGEIRI>",$uri , $res);			
+	}
+	if (preg_match("/<WIKIGRAPH>/i",$res)) {
+			$uri  = "<".$wgLinkedWikiGraphWiki.">";
+		   $res  = str_replace("<WIKIGRAPH>",$uri , $res);	
+	}
+	return $res;
 }

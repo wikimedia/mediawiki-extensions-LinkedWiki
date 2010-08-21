@@ -78,8 +78,6 @@ class SparqlTools {
 							GRAPH <".$graph."> {    
 							$docd 
 			    		}}";
-				
-			error_log($q);
 				$res = @$sp->query($q,'raw' );
 				$err = $sp->getErrors();
 			    if ($err ) {
@@ -106,7 +104,6 @@ class SparqlTools {
 						GRAPH <".$graph."> {    
 						$turtle
 		    		}}";
-			error_log($q);
 			$res = @$sp_write->query($q,'raw');
 			$err = $sp_write->getErrors();
 		    if ($err) {
