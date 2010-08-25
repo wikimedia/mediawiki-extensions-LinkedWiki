@@ -60,6 +60,7 @@ class SparqlTools {
 			$sp_readonly = @ new FourStore_StorePlus($endpoint);	
 			//DELETE OLD TRIPLES WITH THE SUBJECT $uri
 			$q = "select * where {GRAPH <".$graph."> {<".$iri.">  ?p ?o.}} ";
+			
 	    	$oldTriples = @$sp_readonly->query($q,'rows');
 	    	$err = $sp_readonly->getErrors();
 		    if ($err) {
@@ -104,6 +105,7 @@ class SparqlTools {
 						GRAPH <".$graph."> {    
 						$turtle
 		    		}}";
+						
 			$res = @$sp_write->query($q,'raw');
 			$err = $sp_write->getErrors();
 		    if ($err) {

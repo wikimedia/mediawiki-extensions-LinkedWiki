@@ -271,7 +271,7 @@ class SMW_LinkedWikiStore extends SMWSQLStore2 {
 				$iri = SparqlTools::decodeURItoIRI(SMWExporter::expandURI($name));				
 				$res = "<".$iri.">";
 		}elseif ( $node instanceof SMWExpLiteral ) {
-			$res = "\"".addcslashes($name,"\t\n\r\b\f\"\'\\")."\"";
+			$res = "\"".addcslashes($name,"\t\n\r\f\"\'\\")."\"";
 			$type = $node->getDatatype(); 
 			if ($type != '' ) {
          		$res .= "^^<".$type.">";

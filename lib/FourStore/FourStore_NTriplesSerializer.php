@@ -65,7 +65,7 @@ class FourStore_NTriplesSerializer extends ARC2_RDFSerializer {
     }
     /* literal */
     $quot = '"';
-    $v['value'] = addcslashes($v['value'],"\t\n\r\b\f\"\'\\") ;
+    $v['value'] = addcslashes($v['value'],"\t\n\r\f\"\'\\") ;//remove \b of the list 
     $suffix = isset($v['lang']) && $v['lang'] ? '@' . $v['lang'] : '';
     $suffix = isset($v['datatype']) && $v['datatype'] != "" ? '^^' . $this->getTerm($v['datatype']) : $suffix;
  	 return $quot .$v['value'] . $quot . $suffix;

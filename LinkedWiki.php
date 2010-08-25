@@ -78,6 +78,8 @@ $wgHooks['LanguageGetMagic'][]       = 'efSparqlParserFunction_Magic';
 function efSparqlParserFunction_Setup( &$parser ) {
 	$parser->setFunctionHook( 'sparql', 'efSparqlParserFunction_Render' );
 	$parser->setFunctionHook( 'wsparql', 'efWsparqlParserFunction_Render' );
+	$parser->setFunctionHook( 'properties', 'efPropertiesParserFunction_Render' );
+	
 	return true;
 }
 
@@ -87,6 +89,7 @@ function efSparqlParserFunction_Magic( &$magicWords, $langCode ) {
 	# All remaining elements are synonyms for our parser function
 	$magicWords['sparql'] = array( 0, 'sparql' );
 	$magicWords['wsparql'] = array( 0, 'wsparql' );
+	$magicWords['properties'] = array( 0, 'properties' );
 	# unless we return true, other parser functions extensions won't get loaded.
 	return true;
 }
@@ -260,9 +263,9 @@ function efSparqlParserFunction_array(  $querySparqlWiki,$endpoint ,$classHeader
 		$classStr = "";
 		for ($i = 0; $i < count($TableClassHeaders) ; $i++) {
 			if(!isset($TableClassHeaders[$i]) || $TableClassHeaders[$i] == "")
-			$classStr = "";
+				$classStr = "";
 			else
-			$classStr =  $TableClassHeaders[$i] . "|";
+				$classStr =  $TableClassHeaders[$i] . "|";
 			$TableTitleHeaders[$i] =  $classStr . $TableTitleHeaders[$i];
 		}
 
@@ -464,4 +467,21 @@ function efWsparqlParserFunction_parserquery($query,$parser) {
 		   $res  = str_replace("<WIKIGRAPH>",$uri , $res);	
 	}
 	return $res;
+}
+
+function efPropertiesParserFunction_Render( &$parser, $propertyName = '', $list = '' ) {
+	$outStr = "";
+	$arraylist;
+	$strComma = "";
+	if($propertyName != '' && $list != '' ){
+		$property = trim($propertyName);
+		$arraylist = explode( "," , $list );
+		foreach ($arraylist as $value) {
+			$v = trim($value);
+		    $outStr .= $strComma."[[".$property."::".$v."|".$v."]]";
+		    $strComma = ", ";
+		}
+		unset($v); 
+	}
+    return $outStr;
 }

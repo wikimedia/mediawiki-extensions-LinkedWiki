@@ -145,6 +145,7 @@ function validAndSendQuery(){
 		return	"PREFIX xsd:<http://www.w3.org/2001/XMLSchema#>   \n".
 				"PREFIX rdfs:<http://www.w3.org/2000/01/rdf-schema#>  \n".
 				"PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>  \n".
+				"PREFIX owl:<http://www.w3.org/2002/07/owl#>  \n".
 				"PREFIX a:<".SparqlTools::decodeURItoIRI($smwgNamespace).">  \n".
 				"PREFIX cat:<".SparqlTools::decodeURItoIRI($smwgNamespace.SMWExporter::encodeURI($wgContLang->getNsText( NS_CATEGORY ).":")).">  \n".
 				"PREFIX prop:<".SparqlTools::decodeURItoIRI($smwgNamespace.SMWExporter::encodeURI($wgContLang->getNsText( SMW_NS_PROPERTY ).":")).">  \n";
@@ -180,7 +181,7 @@ function validAndSendQuery(){
 		$str ="=".wfMsg('specialsparqlendpoint_querydescription')."=\n";
 		$str .="$description \n\n";
 		$str .="=".wfMsg('specialsparqlendpoint_querysparql')."= \n";	
-		$str .="<pre>".htmlentities($query)."</pre>\n\n";
+		$str .="<pre>".htmlentities($query, ENT_QUOTES, 'UTF-8')."</pre>\n\n";
 		$str .="=".wfMsg('specialsparqlendpoint_queryresult')."=\n";
 		$str .="{{#sparql: $query }}\n";
 		$str .="=".wfMsg('specialsparqlendpoint_querytutorial')."=\n";
