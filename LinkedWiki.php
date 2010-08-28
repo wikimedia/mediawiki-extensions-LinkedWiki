@@ -401,13 +401,11 @@ function  efSparqlParserFunction_footer($duration){
 }
 
 function  efSparqlParserFunction_uri2Link($uri,$nowiki = false){
+	//TODO : $title ??? CLEAN ?
 	global $wgServer;
 	$result = "";
 	//$fromPatternThisWiki = "#^". str_replace( '.', '\.', $wgServer).".*:URIResolver/(.*)$#i";
 	$fromPatternThisWiki = "#^". str_replace( '.', '\.', $wgServer).".*:URIResolver/(?:(.*):(.*)|(.*))$#i";
-	$fromPatternTitleDBKeyMain = "|^http://www\.broadcatchwiki\.com/[^/]*/wiki/a/(.*)$|i";
-	$fromPatternTitleDBKeyProperty = "|^http://www\.broadcatchwiki\.com/[^/]*/wiki/property/(.*)$|i";
-	$fromPatternTitleDBKeyCategory = "|^http://www\.broadcatchwiki\.com/[^/]*/wiki/category/(.*)$|i";
 	$titleObj = null;
 	$title = "";
 	$forCategory = "";
@@ -417,15 +415,17 @@ function  efSparqlParserFunction_uri2Link($uri,$nowiki = false){
 		$uri = str_replace( "_", "%20", $uri );
 		$uri = urldecode( $uri );
 		preg_match_all($fromPatternThisWiki,$uri,$match);
-		if( $match[1][0] == '')	//no namespace
-		$titleObj = Title::newFromText( $match[3][0] );
-		else{
+		if( $match[1][0] == ''){	//no namespace
+			$titleObj = Title::newFromText( $match[3][0]);
+			$title  = $match[3][0];
+		}else{
 			global $wgContLang;
 			$ns = $wgContLang->getNsIndex($match[1][0]);
 			if(!$ns)
 			$isKnow = false;
 			else{
 				$titleObj = Title::newFromText($match[2][0],$ns);
+				$title  = $match[2][0];
 				if($ns == NS_CATEGORY){
 					$forCategory = ":";
 				}
@@ -439,14 +439,14 @@ function  efSparqlParserFunction_uri2Link($uri,$nowiki = false){
 	if($isKnow){
 		if($nowiki ){
 			if($titleObj != null)
-			$result =   $titleObj->getPrefixedDBkey();
+				$result =   $titleObj->getText();
 			else
-			$result =  $title;
+				$result = $title;
 		}else{
 			if($titleObj != null)
-			$result =   "[[".$forCategory.$titleObj->getPrefixedDBkey()."|".$titleObj->getText() ."]]";
+				$result =   "[[".$forCategory.$titleObj->getPrefixedDBkey()."|".$titleObj->getText() ."]]";
 			else
-			$result =  "[[".$forCategory.$title."]]";
+				$result =  "[[".$forCategory.$title."]]";
 		}
 	}else{
 		$result =  str_replace("=","{{equal}}",$uri);

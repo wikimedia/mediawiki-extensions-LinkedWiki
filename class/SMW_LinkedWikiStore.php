@@ -273,7 +273,8 @@ class SMW_LinkedWikiStore extends SMWSQLStore2 {
 		}elseif ( $node instanceof SMWExpLiteral ) {
 			$res = "\"".addcslashes($name,"\t\n\r\f\"\'\\")."\"";
 			$type = $node->getDatatype(); 
-			if ($type != '' ) {
+			// bug of 4Store so I add a condition  $type != "http://www.w3.org/2001/XMLSchema#string"
+			if ($type != '' && $type != "http://www.w3.org/2001/XMLSchema#string" ) {
          		$res .= "^^<".$type.">";
 			}
 		}else{
