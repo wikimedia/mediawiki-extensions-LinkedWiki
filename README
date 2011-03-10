@@ -1,18 +1,16 @@
 == About ==
 
 This extension semantic mediawiki, LinkedWiki, can print 
-a simple query sparql in a page mediawiki with a remote and local endpoint.
+a simple query sparql in a page mediawiki with a remote endpoint 
+like the service BorderCloud.com or local endpoint like with 4store.
 You can also build (and share) a widget mediawiki 
 and print the result of your query in your widget.
-If you want test your widgets or extensions with 
-your local sparql endpoint, this extension can connect your semantic mediawiki
-with 4Store.
 
 See also : http://www.mediawiki.org/wiki/Extension:LinkedWiki
 
 == license ==
 
- Copyright (c) 2010 Bourdercloud.com
+ Copyright (c) 2011 Bourdercloud.com
 
 	This work is licensed under the Creative Commons 
 	Attribution-NonCommercial-ShareAlike 3.0 
@@ -33,10 +31,16 @@ See : http://www.mediawiki.org/wiki/Extension:LinkedWiki
 
 == Release-Notes ==
 
+* V1.0.0.0 version Extension LinkedWiki by Karima Rafes <karima.rafes@bordercloud.com>
+	- Add the connector SMW for BorderCloud with the lib http://github.com/BorderCloud/bordercloud-php
+	- Add tag lang for the wiki farm
+	- Add replace old lib by the last of 4store-php http://github.com/BorderCloud/4store-php
+
 * V0.1.0.0 version Extension LinkedWiki by Karima Rafes <karima.rafes@bordercloud.com>
 	- Add the connector SMW for 4Store with the lib http://github.com/BorderCloud/4store-php
 	- Add special page : Special:SparqlEndpoint
 	- Add parser sparql : print a sparqlresult in an array of wikipage
 	- Add parser wsparql : print a widget with in the parameters the sparqlresult
 
-
+== Example ==
+You can share your example with SPARQL

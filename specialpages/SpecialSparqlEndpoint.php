@@ -1,11 +1,13 @@
 <?php
 /**
- * @version 0.1.0.0
+ * @version 1.0.0.0
  * @package Bourdercloud/linkedwiki
- * @copyright (c) 2010 Bourdercloud.com
+ * @copyright (c) 2011 Bourdercloud.com
  * @author Karima Rafes <karima.rafes@bordercloud.com>
  * @link http://www.mediawiki.org/wiki/Extension:LinkedWiki
  * @license CC-by-nc-sa V3.0
+ *
+ * Last version : http://github.com/BorderCloud/LinkedWiki
  
  Description : http://www.mediawiki.org/wiki/Extension:LinkedWiki
  
@@ -84,7 +86,7 @@ function validAndSendQuery(){
 			$wgOut->addHTML("</form>");
 
 			if ( $queryWithoutPrefix != ""){
-				$sp = new FourStore_StorePlus($wgLinkedWikiEndPoint);
+				$sp = new Endpoint($wgLinkedWikiEndPoint);
 				$rs = $sp->query($query);
 				$errs = $sp->getErrors();
 				if ($errs) {
@@ -94,8 +96,12 @@ function validAndSendQuery(){
 							foreach ($err as $suberr) {
 								$wgOut->addHTML("<pre>$suberr.</pre> \n");
 							}
-						}else{							
-							$wgOut->addHTML("<pre>$err.</pre> \n");
+						}else{		
+							if (preg_match("/bcjeton/i", $err) && ( preg_match("/insert/i", $strQuery) || preg_match("/delete/i",$strQuery))) { 
+							    $wgOut->addHTML("<pre>You have not the right to write in the dataset.</pre> \n");
+							}else{		
+								$wgOut->addHTML("<pre>$err.</pre> \n");
+							}
 						}
 					}
 				}else{
@@ -120,7 +126,7 @@ function validAndSendQuery(){
 				$wgOut->addHTML("</form>");
 					
 				$wgOut->addWikiText("==".wfMsg('specialsparqlendpoint_linkxml')."==");
-				$queryurl= $wgLinkedWikiLocalEndPoint."?query=".urlencode( str_replace('\n','',$query));
+				$queryurl= $wgLinkedWikiLocalEndPoint."sparql/?query=".urlencode( str_replace('\n','',$query));
 				$wgOut->addHTML("<a href='$queryurl'>".htmlentities( $queryurl, ENT_QUOTES, 'UTF-8')."</a>");
 			}
 		}else {
@@ -128,14 +134,15 @@ function validAndSendQuery(){
 
 			$wgOut->disable();
 			header("content-type: application/xml");
-			$s = new FourStore_Store($wgLinkedWikiEndPoint);
+			$s = new Endpoint($wgLinkedWikiEndPoint);
 			echo $s->queryRead($query);
 		}
 		$this->setHeaders();
 	}
 
 	function exampleSparql($index = 0){
-		return "select * { ?x ?y ?z . } LIMIT 5";
+		global $wgLinkedWikiGraphWiki;
+		return "select * where {GRAPH <$wgLinkedWikiGraphWiki> { ?x ?y ?z .} } LIMIT 5";
 	}
 
 	function prefix(){

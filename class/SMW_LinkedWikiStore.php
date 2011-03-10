@@ -1,15 +1,13 @@
 <?php
 /**
- * @version 0.1.0.0
+ * @version 1.0.0.0
  * @package Bourdercloud/linkedwiki
- * @copyright (c) 2010 Bourdercloud.com
+ * @copyright (c) 2011 Bourdercloud.com
  * @author Karima Rafes <karima.rafes@bordercloud.com>
  * @link http://www.mediawiki.org/wiki/Extension:LinkedWiki
  * @license CC-by-nc-sa V3.0
- 
- Description : http://www.mediawiki.org/wiki/Extension:LinkedWiki
- 
- Copyright (c) 2010 Bourdercloud.com
+ *
+ * Last version : http://github.com/BorderCloud/LinkedWiki
 
 	This work is licensed under the Creative Commons 
 	Attribution-NonCommercial-ShareAlike 3.0 
@@ -38,7 +36,7 @@ class SMW_LinkedWikiStore extends SMWSQLStore2 {
 //	private function updatePageLinkedWikiStore(Title $title,$uri) {
 //		global $wgLinkedWikiGraphWiki,$wgLinkedWikiEndPoint; 
 //		try{
-//			SparqlTools::insertRDF($uri,$wgLinkedWikiGraphWiki,$wgLinkedWikiEndPoint);
+//			SparqlTools::insertRDF($uri,$wgLinkedWikiGraphWiki,$wgLinkedWikiEndPoint,$wgLinkedWikiBorderCloudJeton);
 //		}catch (Exception $e){
 //			LinkedWikiJob::doJob($title,
 //								$uri,
@@ -50,9 +48,9 @@ class SMW_LinkedWikiStore extends SMWSQLStore2 {
 //	}
 	
 	private function deletePageLinkedWikiStore(Title $title,$uri) {
-		global $wgLinkedWikiGraphWiki,$wgLinkedWikiEndPoint; 
+		global $wgLinkedWikiGraphWiki,$wgLinkedWikiEndPoint,$wgLinkedWikiBorderCloudJeton; 
 //		try{
-			SparqlTools::deleteTriples($uri,$wgLinkedWikiGraphWiki,$wgLinkedWikiEndPoint);
+			SparqlTools::deleteTriples($uri,$wgLinkedWikiGraphWiki,$wgLinkedWikiEndPoint,$wgLinkedWikiBorderCloudJeton);
 //		}catch (Exception $e){			
 //			LinkedWikiJob::doJob($title,
 //								$uri,
@@ -79,14 +77,14 @@ class SMW_LinkedWikiStore extends SMWSQLStore2 {
 	}
 	
 	function _update( SMWSemanticData $data) {
-		global $wgLinkedWikiGraphWiki,$wgLinkedWikiEndPoint; 
+		global $wgLinkedWikiGraphWiki,$wgLinkedWikiEndPoint,$wgLinkedWikiBorderCloudJeton; 
 		$ed = SMWExporter::makeExportData( $data ); // ExpData
 		$iri = $this->getIRI( $ed->getSubject()->getName());
 		//first solution but the rdf is not update in real time //FIXME
 //		$this->updatePageLinkedWikiStore($data->getSubject()->getTitle(),$uri);
 
 		//SECOND SOLUTION
-		SparqlTools::deleteTriples($iri,$wgLinkedWikiGraphWiki,$wgLinkedWikiEndPoint);
+		SparqlTools::deleteTriples($iri,$wgLinkedWikiGraphWiki,$wgLinkedWikiEndPoint,$wgLinkedWikiBorderCloudJeton);
 		$triples = array();				
 		$tl = $ed->getTripleList(); // list of tenary arrays
 
@@ -112,7 +110,7 @@ class SMW_LinkedWikiStore extends SMWSQLStore2 {
             }
 				
 		}
-		SparqlTools::insert($this->implodeTriples($triples),$wgLinkedWikiGraphWiki,$wgLinkedWikiEndPoint);
+		SparqlTools::insert($this->implodeTriples($triples),$wgLinkedWikiGraphWiki,$wgLinkedWikiEndPoint,$wgLinkedWikiBorderCloudJeton);
 	}
 	
 	
@@ -166,12 +164,12 @@ class SMW_LinkedWikiStore extends SMWSQLStore2 {
 		 $res = parent::setup( $verbose );
 		
 		//TEST if the wiki can connect to endpoint and if the endpoint is compatible.
-		global $wgLinkedWikiGraphWiki,$wgLinkedWikiEndPoint; 
+		global $wgLinkedWikiGraphWiki,$wgLinkedWikiEndPoint,$wgLinkedWikiBorderCloudJeton; 
 		$this->reportProgress( "\nLinkedWiki : Checking parameters in your LocalSettings.php \n", $verbose );		
 		$this->reportProgress( 'LinkedWiki :         $wgLinkedWikiEndPoint : Endpoint\'s address = ' .$wgLinkedWikiEndPoint."\n", $verbose );
 		$this->reportProgress( 'LinkedWiki :         $wgLinkedWikiGraphWiki : Graph  = ' .$wgLinkedWikiGraphWiki."\n", $verbose );
 		$this->reportProgress( "LinkedWiki : checking connection to Endpoint :...", $verbose );
-		$s = new FourStore_Store($wgLinkedWikiEndPoint);
+		$s = new Endpoint($wgLinkedWikiEndPoint);
 		if(! $s->check())
 			$this->reportProgress( " KO. the server is down "."\n", $verbose );
 		else{
@@ -180,7 +178,11 @@ class SMW_LinkedWikiStore extends SMWSQLStore2 {
 			$this->reportProgress( "LinkedWiki : checking the compatibility of this Endpoint :...\n", $verbose );
 			
 			$this->reportProgress( "LinkedWiki :        query INSERT DATA (SPARQL 1.1 Update) : ", $verbose );
-			$sp_write = new FourStore_StorePlus($wgLinkedWikiEndPoint,false );
+			if($wgLinkedWikiBorderCloudJeton == null){
+				$sp_write = new Endpoint($wgLinkedWikiEndPoint,false );
+			}else{
+				$sp_write = new Endpoint($wgLinkedWikiEndPoint,$wgLinkedWikiBorderCloudJeton );
+			}
 			$q = " 	PREFIX a: <http://example.com/test/a/>
 					PREFIX b: <http://example.com/test/b/> 
 					INSERT DATA {  
@@ -192,7 +194,7 @@ class SMW_LinkedWikiStore extends SMWSQLStore2 {
 			$res = $sp_write->query($q,'raw');
 			$err = $sp_write->getErrors();
 		    if ($err || !$res) {
-			   $this->reportProgress( " KO \n", $verbose );
+			   $this->reportProgress( " KO \n", $verbose  . print_r($err,true). print_r($res,true));
 			}else{
 			   $this->reportProgress( " OK \n", $verbose );
 			}
@@ -211,18 +213,18 @@ class SMW_LinkedWikiStore extends SMWSQLStore2 {
 			$res = $sp_write->query($q,'raw');
 			$err = $sp_write->getErrors();
 			if ($err || !$res) {
-			   $this->reportProgress( " KO \n", $verbose );
+			   $this->reportProgress( " KO \n" . print_r($err,true). print_r($res,true), $verbose );
 			}else{
 			   $this->reportProgress( " OK \n", $verbose );
 			}
 			
 			$this->reportProgress( "LinkedWiki :        query SELECT (SPARQL 1.0) : ", $verbose );
-			$sp_readonly = new FourStore_StorePlus($wgLinkedWikiEndPoint);
+			$sp_readonly = new Endpoint($wgLinkedWikiEndPoint);
 		    $q = "select * where { GRAPH <".$wgLinkedWikiGraphWiki."> {?x ?y ?z.}} ";
 		    $rows = $sp_readonly->query($q, 'rows');
-		    $err = $sp_readonly->getErrors();
+		    $err = $sp_readonly->getErrors();		    
 			if ($err || !$res) {
-			   $this->reportProgress( " KO \n", $verbose );
+			   $this->reportProgress( " KO \n" . print_r($err,true). print_r($res,true), $verbose);
 			}else{
 			   $this->reportProgress( " OK \n", $verbose );
 			}
@@ -231,12 +233,12 @@ class SMW_LinkedWikiStore extends SMWSQLStore2 {
 	}
 
 	function drop( $verbose = true ) {		
-		global $wgLinkedWikiGraphWiki,$wgLinkedWikiEndPoint; 
+		global $wgLinkedWikiGraphWiki,$wgLinkedWikiEndPoint,$wgLinkedWikiBorderCloudJeton; 
 		$res = parent::drop();
 		
 		$this->reportProgress( "LinkedWiki : Delete the graph <".$wgLinkedWikiGraphWiki."> in the endpoint ". $wgLinkedWikiEndPoint." : ", $verbose );		
 		try{
-		   SparqlTools::deleteGraph($wgLinkedWikiGraphWiki);
+		   SparqlTools::deleteGraph($wgLinkedWikiGraphWiki,$wgLinkedWikiBorderCloudJeton);
 		   LinkedWikiJob::cleanJobs();
 		   $this->reportProgress( " OK \n", $verbose );
 		}catch (Exception $e){
@@ -272,6 +274,14 @@ class SMW_LinkedWikiStore extends SMWSQLStore2 {
 				$res = "<".$iri.">";
 		}elseif ( $node instanceof SMWExpLiteral ) {
 			$res = "\"".addcslashes($name,"\t\n\r\f\"\'\\")."\"";
+			
+			//tag lang
+			global $wgLinkedWikiLanguageTag;
+			if($wgLinkedWikiLanguageTag != null){
+				$res .= "@".$wgLinkedWikiLanguageTag;
+			}
+			
+			//type
 			$type = $node->getDatatype(); 
 			// bug of 4Store so I add a condition  $type != "http://www.w3.org/2001/XMLSchema#string"
 			if ($type != '' && $type != "http://www.w3.org/2001/XMLSchema#string" ) {

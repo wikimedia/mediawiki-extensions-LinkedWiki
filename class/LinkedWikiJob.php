@@ -1,15 +1,13 @@
 <?php
 /**
- * @version 0.1.0.0
+ * @version 1.0.0.0
  * @package Bourdercloud/linkedwiki
- * @copyright (c) 2010 Bourdercloud.com
+ * @copyright (c) 2011 Bourdercloud.com
  * @author Karima Rafes <karima.rafes@bordercloud.com>
  * @link http://www.mediawiki.org/wiki/Extension:LinkedWiki
  * @license CC-by-nc-sa V3.0
- 
- Description : http://www.mediawiki.org/wiki/Extension:LinkedWiki
- 
- Copyright (c) 2010 Bourdercloud.com
+ *
+ * Last version : http://github.com/BorderCloud/LinkedWiki
 
 	This work is licensed under the Creative Commons 
 	Attribution-NonCommercial-ShareAlike 3.0 
@@ -56,9 +54,9 @@ class LinkedWikiJob extends Job {
 		$success = true;
 		try{
 			if($this->params["mode"] == "update"){
-				 SparqlTools::updateRDF($this->params["uri"],$this->params["mode"],$this->params["graph"],$this->params["endpoint"]);
+				 SparqlTools::updateRDF($this->params["uri"],$this->params["mode"],$this->params["graph"],$this->params["endpoint"],$wgLinkedWikiBorderCloudJeton);
 			}elseif($this->params["mode"] == "delete"){
-				 SparqlTools::deleteTriples($this->params["uri"],$this->params["mode"],$this->params["graph"],$this->params["endpoint"]);
+				 SparqlTools::deleteTriples($this->params["uri"],$this->params["mode"],$this->params["graph"],$this->params["endpoint"],$wgLinkedWikiBorderCloudJeton);
 			}
 			
 		}catch (Exception $e) {

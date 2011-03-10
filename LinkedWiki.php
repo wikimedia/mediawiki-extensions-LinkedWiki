@@ -1,13 +1,14 @@
 <?php
 /**
- * @version 0.1.0.0
+ * @version 1.0.0.0
  * @package Bourdercloud/linkedwiki
- * @copyright (c) 2010 Bourdercloud.com
+ * @copyright (c) 2011 Bourdercloud.com
  * @author Karima Rafes <karima.rafes@bordercloud.com>
+ * @link http://www.mediawiki.org/wiki/Extension:LinkedWiki
+ * @license CC-by-nc-sa V3.0
  *
  * Last version : http://github.com/BorderCloud/LinkedWiki
- *
- Copyright (c) 2010 Bourdercloud.com
+
 
 	This work is licensed under the Creative Commons 
 	Attribution-NonCommercial-ShareAlike 3.0 
@@ -36,6 +37,9 @@ $wgExtensionCredits['other'][] = array(
 $wgLinkedWikiEndPoint = "http://localhost:8080/sparql/";
 $wgLinkedWikiGraphWiki = "http://fr.linkedwiki.org/wiki/";
 $wgLinkedWikiLocalEndPoint = "http://fr.linkedwiki.org/sparql/";
+$wgLinkedWikiLanguageTag = null;
+$wgLinkedWikiBorderCloudJeton = null;
+
 
 //Paths
 $wgLinkedWikiPath = dirname(__FILE__);
@@ -45,14 +49,13 @@ $wgLinkedWikiSpecialPagesPath = $wgLinkedWikiPath . "/specialpages";
 
 //Libraries
 /* ARC2 static class inclusion */
-include_once( $wgLinkedWikiLibPath . "/arc/ARC2.php");
-include_once( $wgLinkedWikiLibPath . "/FourStore/FourStore_StorePlus.php");
-include_once( $wgLinkedWikiLibPath . "/FourStore/FourStore_Store.php");
-include_once( $wgLinkedWikiLibPath . "/FourStore/SparqlTools.php");
+include_once( $wgLinkedWikiLibPath . "/arc2/ARC2.php");
+//include_once( $wgLinkedWikiLibPath . "/4store/SparqlTools.php");
+
 
 //Classes
-$wgAutoloadClasses['SparqlTools'] =  $wgLinkedWikiClassesPath.'/SparqlTools.php';
-//$wgAutoloadClasses['LinkedWikiJob'] =  $wgLinkedWikiClassesPath.'/LinkedWikiJob.php';
+//$wgAutoloadClasses['SparqlTools'] =  $wgLinkedWikiClassesPath.'/SparqlTools.php';
+$wgAutoloadClasses['LinkedWikiJob'] =  $wgLinkedWikiClassesPath.'/LinkedWikiJob.php';
 $wgAutoloadClasses['SMW_LinkedWikiStore'] =  $wgLinkedWikiClassesPath.'/SMW_LinkedWikiStore.php';
 $wgAutoloadClasses['SpecialSparqlEndpoint']                  = $wgLinkedWikiSpecialPagesPath . '/SpecialSparqlEndpoint.php';
 
@@ -195,7 +198,7 @@ function efSparqlParserFunction_widget($namewidget, $querySparqlWiki,$endpoint ,
 	$querySparql  = str_replace($specialC ,$replaceC , $querySparqlWiki);
 
 	$str = "";
-	$sp = new FourStore_StorePlus($endpoint);
+	$sp = new Endpoint($endpoint);
 	$rs = $sp->query($querySparqlWiki);
 	$errs = $sp->getErrors();
 	if ($errs) {
@@ -242,7 +245,7 @@ function efSparqlParserFunction_array(  $querySparqlWiki,$endpoint ,$classHeader
 	$querySparql  = str_replace($specialC ,$replaceC , $querySparqlWiki);
 
 	$str = "";
-	$sp = new FourStore_StorePlus($endpoint);
+	$sp = new Endpoint($endpoint);
 	$rs = $sp->query($querySparqlWiki);
 	$errs = $sp->getErrors();
 	if ($errs) {
@@ -318,7 +321,7 @@ function efSparqlParserFunction_simple( $querySparqlWiki,$endpoint ,$classHeader
 	$querySparql  = str_replace($specialC ,$replaceC , $querySparqlWiki);
 
 	$str = "";
-	$sp = new FourStore_StorePlus($endpoint);
+	$sp = new Endpoint($endpoint);
 	$rs = $sp->query($querySparqlWiki);
 	$errs = $sp->getErrors();
 	if ($errs) {
