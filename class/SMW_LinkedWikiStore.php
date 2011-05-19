@@ -274,19 +274,19 @@ class SMW_LinkedWikiStore extends SMWSQLStore2 {
 				$res = "<".$iri.">";
 		}elseif ( $node instanceof SMWExpLiteral ) {
 			$res = "\"".addcslashes($name,"\t\n\r\f\"\'\\")."\"";
-			
-			//tag lang
-			global $wgLinkedWikiLanguageTag;
-			if($wgLinkedWikiLanguageTag != null){
-				$res .= "@".$wgLinkedWikiLanguageTag;
-			}
-			
+				
 			//type
 			$type = $node->getDatatype(); 
 			// bug of 4Store so I add a condition  $type != "http://www.w3.org/2001/XMLSchema#string"
 			if ($type != '' && $type != "http://www.w3.org/2001/XMLSchema#string" ) {
          		$res .= "^^<".$type.">";
-			}
+			}else{
+                  //tag lang
+                  global $wgLinkedWikiLanguageTag;
+                  if($wgLinkedWikiLanguageTag != null){
+                       $res .= "@".$wgLinkedWikiLanguageTag;
+                  }
+            }
 		}else{
 			if (preg_match('#^_[0-9]*$#i', $name)) {//namespace ? blank ?
 				$res = "";
