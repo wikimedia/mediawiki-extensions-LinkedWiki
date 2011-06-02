@@ -80,6 +80,20 @@ class Endpoint {
 	 */
 	private $_debug;
 	
+	/**
+	 * in the constructor set the proxy_host if necessary
+	 * @access private
+	 * @var string
+	 */
+	private $_proxy_host;
+	
+	/**
+	 * in the constructor set the proxy_port if necessary
+	 * @access private
+	 * @var int
+	 */
+	private $_proxy_port;
+	
 	/** For Arc2 **/
 	private $_arc2_RemoteStore;
 	private $_arc2_Reader;
@@ -93,23 +107,50 @@ class Endpoint {
 	 * @param boolean $debug : false by default, set debug to true in order to get usefull output
 	 * @access public
 	 */
-	public function __construct($endpoint,$jeton = null,$graph = null,$debug = false)
+	public function __construct($endpoint,
+								$jeton = null,
+								$graph = null,
+								$debug = false,
+								$proxy_host = null,
+								$proxy_port = null)
 	{
 		$this->_debug = $debug;
-		$this->_endpoint = $endpoint."sparql/";
+		$endpointRoot = "";
+		
+		if (preg_match("|/sparql/?$|i", $endpoint)) {
+		   	$this->_endpoint = $endpoint;
+		  	$endpointRoot = preg_replace("|^(.*/)sparql/?$|i", "$1", $endpoint);
+		} else {
+		   	$endpointRoot = $endpoint;
+		   	$this->_endpoint = $endpointRoot."sparql/";
+		}
+		
 		$this->_jeton = $jeton;
 		$this->_graph = $graph;
-		$this->_endpoint_write = $endpoint."update/";
-		$this->_endpoint_refresh = $endpoint."refresh/";
-		$this->_endpoint_reset = $endpoint."reset/";
-		$this->_endpoint_upload = $endpoint."upload/";
-		$this->_endpoint_export = $endpoint."export/";	
+		$this->_endpoint_write = $endpointRoot."update/";
+		$this->_endpoint_refresh = $endpointRoot."refresh/";
+		$this->_endpoint_reset = $endpointRoot."reset/";
+		$this->_endpoint_upload = $endpointRoot."upload/";
+		$this->_endpoint_export = $endpointRoot."export/";	
 		
-		$this->_config = array(
-		/* remote endpoint */
-		  'remote_store_endpoint' => $this->_endpoint."/sparql",
-		);
-
+		$this->_proxy_host = $proxy_host;
+		$this->_proxy_port = $proxy_port;		
+		
+		if($this->_proxy_host != null && $this->_proxy_port != null){
+			$this->_config = array(
+				/* remote endpoint */
+			  'remote_store_endpoint' => $this->_endpoint,
+				  /* network */
+			  'proxy_host' => $this->_proxy_host,
+			  'proxy_port' => $this->_proxy_port,			
+			);
+		}else{
+			$this->_config = array(
+			/* remote endpoint */
+			  'remote_store_endpoint' => $this->_endpoint,
+			);		
+		}
+		
 		$this->_arc2_RemoteStore = @ARC2::getRemoteStore($this->_config);
 	}
 	
@@ -187,7 +228,7 @@ class Endpoint {
 	public function refreshInfo($graph = null ) {
 		if($graph == null)
 			$graph = $this->_graph;
-		$client = new Curl();
+		$client = $this->initCurl();
 		$sUri    = $this->_endpoint_refresh;
 		$data = array(	
 			"bcjeton" => $this->_jeton,	
@@ -208,7 +249,7 @@ class Endpoint {
 	public function resetGraph($graph = null ) {
 		if($graph == null)
 			$graph = $this->_graph;
-		$client = new Curl();
+		$client = $this->initCurl();
 		$sUri    = $this->_endpoint_reset;
 		$data = array(	
 			"bcjeton" => $this->_jeton,	
@@ -297,16 +338,16 @@ class Endpoint {
 	 * @access public
 	 */
 	public function queryRead($query,$typeOutput="application/sparql-results+xml" ) {
-		$client = new Curl();
+		$client = $this->initCurl();
 		$sUri    = $this->_endpoint;
-		$data = array("query" =>   $query,"output" => $typeOutput);
 
 		$this->debugLog($query,$sUri);
+		$data = array("query" =>   $query);
 		
-//		if($typeOutput == "application/sparql-results+xml" )
-//			$response = $client->send_post_data($sUri,$data);
-//		else
-			$response = $client->send_post_data($sUri,$data);
+		if($typeOutput != "application/sparql-results+xml" )
+			$data = array("query" => $query,"output" => $typeOutput);
+
+		$response = $client->send_post_data($sUri,$data);
 
 		$code = $client->get_http_response_code();
 			
@@ -355,13 +396,56 @@ class Endpoint {
 	 */
 	public function queryUpdate($query) { 
 		$post_endpoint =  $this->_endpoint_write;
+		
+		//fix bug with the server 
+		$firstquery = "";
+		$nextquery = "";
+		$maxlen = 1000; //1012 max
+		if(strlen($query) > $maxlen){
+			if (preg_match("#(.*DATA[^{]*{[^{]*{)([^}]*)(} *}.*)#i", $query, $matches)) {
+				$lenTurtleMax = $maxlen - (strlen($matches[1]) + strlen($matches[3]));
+				$turtleToInsert = $matches[2];
+				$turtleNextStep = "";
+				if (preg_match_all("#(\s*[^\s]+\s+[^\s]+\s+[^\s]+\s*\.\s*)#is", $turtleToInsert, $triples)) {
+					$lenTurtleFirstquery = 0;
+					$TurtleFirstquery = "";
+					$TurtleNextquery = "";
+					$isnotfill = true;
+					foreach($triples[1] as $triple){
+						if($isnotfill){
+							$len =   strlen($triple);
+							if( $lenTurtleMax >= ($len + $lenTurtleFirstquery)){
+								$TurtleFirstquery .= $triple;
+								$lenTurtleFirstquery += $len;
+							}else{
+								$isnotfill = false;
+								$TurtleNextquery .= $triple;
+							}
+						}else{
+							$TurtleNextquery .= $triple;
+						}
+						
+					}	
+									
+					$firstquery = $matches[1] . $TurtleFirstquery . $matches[3];
+					$nextquery = $matches[1] . $TurtleNextquery . $matches[3];
+							
+				}
+				
+				
+				
+			}	
+		}else{
+			$firstquery = $query;
+		}
+		//////
 
 		$sUri    = $post_endpoint;
-		$data =array("query" =>    $query,"bcjeton" => $this->_jeton) ;
+		$data =array("bcjeton" => $this->_jeton,"query" =>    $firstquery) ;
 
 		$this->debugLog($query,$sUri);
 			
-		$client = new Curl();
+		$client = $this->initCurl();
 		$response = $client->send_post_data($sUri, $data);
 		$code = $client->get_http_response_code();
 
@@ -369,7 +453,11 @@ class Endpoint {
 			
 		if($code == 200 )
 		{
-			return true;
+			if($nextquery != ""){
+				return  $this->queryUpdate($nextquery);
+			}else{
+				return true;
+			}
 		}
 		else
 		{
@@ -393,7 +481,7 @@ class Endpoint {
 	 * @access public
 	 */
 	public function importFile($filename, $typefile = "rdfxml", $append = true) {
-		$client = new Curl();
+		$client = $this->initCurl();
 		$sUri    = $this->_endpoint_upload;
 		
 		if($append){
@@ -430,7 +518,7 @@ class Endpoint {
 	 * @access public
 	 */
 	public function isFileWaitToParse($codefile) {
-		$client = new Curl();
+		$client = $this->initCurl();
 		$sUri    = $this->_endpoint_upload;
 		$data = array(	
 			"codefile" => $codefile);
@@ -461,7 +549,7 @@ class Endpoint {
 	public function saveAs($file, $typefile = "ntriples") {
 		$res = false;
 		$fp = fopen($file, 'w');
-		$client = new Curl();
+		$client = $this->initCurl();
 		$url   = $this->_endpoint_export."?bcjeton=".$this->_jeton."&typeFile=".$typefile."&graph=".$this->_graph;	
 		$res =  $client->fetch_into_file($url, $fp, null,600);
 		fclose($fp);
@@ -590,5 +678,12 @@ class Endpoint {
 			echo $error ;
 		}
 	}
-
+	
+	private function initCurl(){
+		$objCurl = new Curl();
+		if($this->_proxy_host != null && $this->_proxy_port != null){
+			$objCurl->set_proxy($this->_proxy_host.":".$this->_proxy_port);	
+		}
+		return $objCurl;
+	}
 }

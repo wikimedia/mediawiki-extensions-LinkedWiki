@@ -56,6 +56,20 @@ class Endpoint {
 	 */
 	private $_readOnly;
 	
+	/**
+	 * in the constructor set the proxy_host if necessary
+	 * @access private
+	 * @var string
+	 */
+	private $_proxy_host;
+	
+	/**
+	 * in the constructor set the proxy_port if necessary
+	 * @access private
+	 * @var int
+	 */
+	private $_proxy_port;
+	
 	/** For Arc2 **/
 	private $_arc2_RemoteStore;
 	private $_arc2_Reader;
@@ -67,19 +81,35 @@ class Endpoint {
 	 * @param boolean $debug : false by default, set debug to true in order to get usefull output
 	 * @access public
 	 */
-	public function __construct($endpoint,$readOnly = true,$debug = false)
+	public function __construct($endpoint,
+								$readOnly = true,
+								$debug = false,
+								$proxy_host = null,
+								$proxy_port = null)
 	{
 		$this->_debug = $debug;
 		$this->_endpoint = $endpoint;
 		$this->_readOnly = $readOnly;
 		
-		$this->_config = array(
-		/* remote endpoint */
-		  'remote_store_endpoint' => $this->_endpoint."sparql/",
-		);
-
-		$this->_arc2_RemoteStore = ARC2::getRemoteStore($this->_config);
+		$this->_proxy_host = $proxy_host;
+		$this->_proxy_port = $proxy_port;		
 		
+		if($this->_proxy_host != null && $this->_proxy_port != null){
+			$this->_config = array(
+				/* remote endpoint */
+			  'remote_store_endpoint' => $this->_endpoint."sparql/",
+				  /* network */
+			  'proxy_host' => $this->_proxy_host,
+			  'proxy_port' => $this->_proxy_port,			
+			);
+		}else{
+			$this->_config = array(
+			/* remote endpoint */
+			  'remote_store_endpoint' => $this->_endpoint."sparql/",
+			);			
+		}
+
+		$this->_arc2_RemoteStore = ARC2::getRemoteStore($this->_config);		
 	}
 	
 	/**
@@ -103,7 +133,7 @@ class Endpoint {
 				return $this->_arc2_RemoteStore->addError('No right to write in the triplestore.');
 		}
 		
-		$client = new Curl();
+		$client = $this->initCurl();
 
 		$headers = array( 'Content-Type: application/x-turtle' );
 		$sUri    = $this->_endpoint. "data/" . $graph;
@@ -139,7 +169,7 @@ class Endpoint {
 		$data = array( "graph" => $graph, "data" => $turtle , "mime-type" => 'application/x-turtle' );
 		$sUri    = $this->_endpoint. "data/";
 
-		$client = new Curl();
+		$client = $this->initCurl();
 		$response = $client->send_post_data($sUri, $data);
 		$code = $client->get_http_response_code();
 
@@ -166,7 +196,7 @@ class Endpoint {
 				return $this->_arc2_RemoteStore->addError('No right to write in the triplestore.');
 		}
 		
-		$client = new Curl();
+		$client = $this->initCurl();
 		$sUri    = $this->_endpoint. "data/". $graph ;
 		$response = $client->send_delete($sUri);
 		$code = $client->get_http_response_code();
@@ -271,7 +301,7 @@ class Endpoint {
 	 * @access public
 	 */
 	public function queryRead($query,$typeOutput=null ) {
-		$client = new Curl();
+		$client = $this->initCurl();
 		$sUri    = $this->_endpoint."sparql/";
 		
 		$data = array("query" =>   $query);	
@@ -280,7 +310,7 @@ class Endpoint {
 		}else{
 			$response = $client->fetch_url($sUri."?query=".$query."&output=".$typeOutput);
 		}
-
+ 
 		$code = $client->get_http_response_code();
 			
 		$this->debugLog($query,$sUri,$code,$response);
@@ -332,7 +362,7 @@ class Endpoint {
 
 		$this->debugLog($query,$sUri);
 			
-		$client = new Curl();
+		$client = $this->initCurl();
 		$response = $client->send_post_data($sUri, $data);
 		$code = $client->get_http_response_code();
 
@@ -465,5 +495,13 @@ class Endpoint {
 
 			echo $error ;
 		}
+	}
+	
+	private function initCurl(){
+		$objCurl = new Curl();
+		if($this->_proxy_host != null && $this->_proxy_port != null){
+			$objCurl->set_proxy($this->_proxy_host.":".$this->_proxy_port);	
+		}
+		return $objCurl;
 	}
 }

@@ -136,7 +136,7 @@ class Curl
 	 * @return string data
 	 * @access public
     */
-	function send_post_data($url, $postdata, $arrayHeader=null, $ip=null, $timeout=10)
+	function send_post_data($url, $postdata, $arrayHeader=null, $ip=null, $timeout=90)
 	{
 		//set various curl options first
 
@@ -161,6 +161,8 @@ class Curl
 
 		//set method to post
 		curl_setopt($this->ch, CURLOPT_POST, true);
+		
+		curl_setopt($this->ch, CURLOPT_BUFFERSIZE, 64000);
 
 		//generate post string
 		$post_array = array();
