@@ -31,6 +31,10 @@ See : http://www.mediawiki.org/wiki/Extension:LinkedWiki
 
 == Release-Notes ==
 
+* V1.0.1.1 version Extension LinkedWiki by Karima Rafes <karima.rafes@bordercloud.com>
+	- Update the lib bordercloud-php 1.2.1.2
+	- Update the lib 4store-php 0.4.1.0
+
 * V1.0.0.0 version Extension LinkedWiki by Karima Rafes <karima.rafes@bordercloud.com>
 	- Add the connector SMW for BorderCloud with the lib http://github.com/BorderCloud/bordercloud-php
 	- Add tag lang for the wiki farm
