@@ -402,42 +402,62 @@ class Endpoint {
 		$nextquery = "";
 		$maxlen = 1000; //1012 max
 		if(strlen($query) > $maxlen){
-			if (preg_match("#(.*DATA[^{]*{[^{]*{)([^}]*)(} *}.*)#i", $query, $matches)) {
+			//TODO refactoring ?
+			if (preg_match("#^(.*DATA[^{]*{[^{]*{)([^}]*)(} *}.*)$#is", $query, $matches)) {
 				$lenTurtleMax = $maxlen - (strlen($matches[1]) + strlen($matches[3]));
 				$turtleToInsert = $matches[2];
 				$turtleNextStep = "";
-				if (preg_match_all("#(\s*[^\s]+\s+[^\s]+\s+[^\s]+\s*\.\s*)#is", $turtleToInsert, $triples)) {
-					$lenTurtleFirstquery = 0;
-					$TurtleFirstquery = "";
-					$TurtleNextquery = "";
-					$isnotfill = true;
-					foreach($triples[1] as $triple){
-						if($isnotfill){
-							$len =   strlen($triple);
-							if( $lenTurtleMax >= ($len + $lenTurtleFirstquery)){
-								$TurtleFirstquery .= $triple;
-								$lenTurtleFirstquery += $len;
-							}else{
-								$isnotfill = false;
-								$TurtleNextquery .= $triple;
-							}
-						}else{
-							$TurtleNextquery .= $triple;
-						}
-						
-					}	
-									
-					$firstquery = $matches[1] . $TurtleFirstquery . $matches[3];
-					$nextquery = $matches[1] . $TurtleNextquery . $matches[3];
-							
-				}
 				
+				$p =  ARC2::getSPARQLPlusParser();		
+				$p->parse($query);
+				$infos = $p->getQueryInfos();
 				
+				//print_r($p);
+				//print_r($infos);
 				
+				$triples = $infos['query']['construct_triples'] ;
+				//print_r($triples);
+				$lenTurtleFirstquery = 0;
+				$TurtleFirstquery = '';
+				$TurtleNextquery = '';
+				$isnotfill = true;
+			    $nl = "\n";
+			    $index = ARC2::getSimpleIndex($triples, 0);
+			    foreach ($index as $s => $ps) {
+			      $s = $this->getTerm($s);
+			      foreach ($ps as $p => $os) {
+			        $p = $this->getTerm($p);
+			        if (!is_array($os)) {// single literal o 
+			          $os = array(array('value' => $os, 'type' => 'literal'));
+			        }
+			        foreach ($os as $o) {
+			          $o = $this->getTerm($o);
+			          $triple =  $s . ' ' . $p . ' ' . $o . ' .'.$nl;
+			          if($isnotfill){		          
+			          				$len =   strlen($triple);
+									if( $lenTurtleMax >= ($len + $lenTurtleFirstquery)){
+										$TurtleFirstquery .= $triple;
+										$lenTurtleFirstquery += $len;
+									}else{
+										$isnotfill = false;
+										$TurtleNextquery .= $triple;
+									}
+			          }else{
+			          	$TurtleNextquery .= $triple;
+			          }
+			        }
+			      }
+			    }
+				$firstquery = $matches[1] . $TurtleFirstquery . $matches[3];
+				$nextquery = $matches[1] . $TurtleNextquery . $matches[3];			
 			}	
 		}else{
 			$firstquery = $query;
 		}
+		
+		/*echo 		"ZZZZZZZZ********************************************************\n";	
+		echo 		"ZZZZZZZZ\n".$firstquery."\n";					
+		echo 		"ZZZZZZZZNEXT\n".$nextquery."\n";*/
 		//////
 
 		$sUri    = $post_endpoint;
@@ -686,4 +706,26 @@ class Endpoint {
 		}
 		return $objCurl;
 	}
+	
+  
+   private function getTerm($v) {
+    if (!is_array($v)) {
+      if (preg_match('/^\_\:/', $v)) {
+        return $v;
+      }
+      if (preg_match('/^[a-z0-9]+\:[^\s\"]*$/is', $v)) {
+        return '<' . $v . '>';
+      }
+      return $this->getTerm(array('type' => 'literal', 'value' => $v));
+    }
+    if ($v['type'] != 'literal') {
+      return $this->getTerm($v['value']);
+    }
+    /* literal */
+    $quot = '"';
+    $v['value'] = addcslashes($v['value'],"\t\n\r\f\"\'\\") ;//remove \b of the list 
+    $suffix = isset($v['lang']) && $v['lang'] ? '@' . $v['lang'] : '';
+    $suffix = isset($v['datatype']) && $v['datatype'] != "" ? '^^' . $this->getTerm($v['datatype']) : $suffix;
+ 	 return $quot .$v['value'] . $quot . $suffix;
+  }
 }
