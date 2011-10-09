@@ -1,17 +1,5 @@
-<?php 
-/**
- * @version 1.2.0.0
- * @package bordercloud/client
- * @copyright (c) 2011 Bourdercloud.com
- * @author Karima Rafes <karima.rafes@bordercloud.com>
- *
- All rights reserved Copyright (c) 2011 Bourdercloud.com
+<?php
 
- */
-
-/**
- * Simple tools to test a network
- */
 class Net {
 	
 	/**

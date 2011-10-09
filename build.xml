@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="LinkedWiki" default="build" basedir=".">
+ 
+<!--         <property name="src"   value="./src"/> -->
+<!--         <property name="tests"  value="./tests" /> -->
+<!--         <property name="deploy_web"  value="/var/www/moncv" /> -->
+ 
+<!--         <target name="deploy" description="Copies files to web ."> -->
+<!--                 <echo message="Running build.xml. Copying files from dev to web..." /> -->
+<!--                 <copy todir="${deploy_web}"> -->
+<!--                         <fileset dir="${src}"> -->
+<!--                                 <include name="**/*.php" /> -->
+<!--                                 <include name="**/*.htm" /> -->
+<!--                         </fileset> -->
+<!--                 </copy> -->
+<!--         </target> -->
+ 
+<!--         <target name="test"> -->
+<!--                 <exec   -->
+<!--                         passthru="true"   -->
+<!--                         command="phpunit ${tests}/AllTests.php"  -->
+<!--                         checkreturn="true" /> -->
+<!--         </target> -->
+ 
+<!--         <target name="build" depends="test,deploy"/> -->
+
+	<property name="bin.svn.path" value="/usr/bin/svn"/>
+	<!--
+		==============================================
+		Mediawiki properties
+		==============================================
+	-->	
+	<property name="mediawiki.web.dir" value="/var/www/vhosts/test/REL1_17"/>
+	<property name="mediawiki.svn.repo" value="http://svn.wikimedia.org/svnroot/mediawiki/branches/REL1_17/phase3"/>
+    
+    <!--
+		==============================================
+		Mediawiki properties
+		==============================================
+	-->	
+	<property name="linkedwiki.extension.web.dir" value="/var/www/vhosts/test/REL1_17/extensions/LinkedWiki"/>
+	<property name="linkedwiki.extension.local.dir" value="/srv/disk_server1/git/wiki.extension.LinkedWiki"/>
+
+ <property name="exportdirextension"  value="/var/www/vhosts/test/REL1_17/extensions" />
+
+  <target name="install">  
+    <!--   install mediawiki -->
+  	<svncheckout
+   		svnpath="${bin.svn.path}"
+   		repositoryurl="${mediawiki.svn.repo}"
+   		todir="${mediawiki.web.dir}"/>
+  </target>
+  
+  <target name="update">  
+  	<svnupdate	   
+   		svnpath="${bin.svn.path}"
+   		todir="${mediawiki.web.dir}"/>
+  </target>
+  
+  <target name="build">  
+	    <mkdir dir="${linkedwiki.extension.web.dir}" />
+		 <copy todir="${linkedwiki.extension.web.dir}" >
+		  <fileset dir="${linkedwiki.extension.local.dir}">
+		    <include name="**/*.*" />
+		  </fileset>
+		</copy>
+  
+  </target>
+  
+</project>

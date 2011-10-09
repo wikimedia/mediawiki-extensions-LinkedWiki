@@ -25,11 +25,26 @@ See also : http://www.mediawiki.org/wiki/Extension:LinkedWiki
 If you have remarks, questions, or suggestions, please send them to
 karima.rafes@bordercloud.com. 
 
-== Installation, Tutorial and download ==
+== Installation ==
+
+Put this line in your Localsettings.php :
+
+require_once( "{$IP}/extensions/LinkedWiki/LinkedWiki.php" );
+
+== Tutorial and download ==
 
 See : http://www.mediawiki.org/wiki/Extension:LinkedWiki
 
 == Release-Notes ==
+
+* V2.0.0 Alpha 1 version Extension LinkedWiki by Karima Rafes <karima.rafes@bordercloud.com>
+	- simplify client SPARQL for MediaWiki (with or without SMW) 
+	- Remove ARC2 and replace with the SPARQL (simple)
+	- Add parameter templateBare if YES : print only cells
+	- Add parameter footer if NO : hide footer	
+
+* V1.0.1.2 version Extension LinkedWiki by Karima Rafes <karima.rafes@bordercloud.com>
+	- Update the lib 4store-php 0.4.2.0
 
 * V1.0.1.1 version Extension LinkedWiki by Karima Rafes <karima.rafes@bordercloud.com>
 	- Update the lib bordercloud-php 1.2.1.2
