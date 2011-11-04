@@ -32,7 +32,7 @@ class specialsparqlquery extends SpecialPage {
 	}
 
 	public function execute($par = null) {
-		global $wgOut;
+		global $wgOut,$wgScriptPath;
 		$queryWithoutPrefix = isset($_REQUEST["queryWithoutPrefix"])?stripslashes($_REQUEST["queryWithoutPrefix"]):"";
 		$query = isset($_REQUEST["query"])?stripslashes($_REQUEST["query"]):"";
 		$endpoint = isset($_REQUEST["endpoint"])?stripslashes(trim($_REQUEST["endpoint"])):"http://dbpedia.org/sparql";
@@ -70,6 +70,7 @@ class specialsparqlquery extends SpecialPage {
 			$wgOut->addHTML($strQuery);
 			$wgOut->addHTML("</textarea>");
 			$wgOut->addHTML("<br/>");
+			$wgOut->addHTML("<script language='javascript' type='text/javascript' src='".$wgScriptPath."/extensions/LinkedWiki/js/bordercloud.js'></script>");
 			$wgOut->addHTML("<SCRIPT>
 <!-- 
 function validAndSendQuery(){
@@ -81,11 +82,22 @@ function validAndSendQuery(){
 		window.open('".$endpoint."?query=' + escape(query.replace('\\n','')));
 	}
 }
+function validWithJS(){
+	var query = document.formQuery.prefix.value + ' ' + document.formQuery.queryWithoutPrefix.value;
+
+	bcValidateSPARQL('".$endpoint."',query);
+}
 //-->
 </SCRIPT>");
 			$wgOut->addHTML("<input type='button' value='".wfMsg('specialsparqlquery_sendquery')."'  onClick='validAndSendQuery();' />");
+			$wgOut->addHTML("<input type='button' value='(R&D) Validation (js)'  onClick='validWithJS();' />");
 			$wgOut->addHTML("   Xml : <input type='checkbox'  name='toXML' />");
 			$wgOut->addHTML(" </form>");
+			
+ 			$wgOut->addHTML("<div  id='bc_div'></div>");
+			$wgOut->addHTML("<div style='display: none;'>");
+			$wgOut->addHTML("<img id='canvas-image-wait' src='".$wgScriptPath."/extensions/LinkedWiki/js/wait.png'></img>");
+			$wgOut->addHTML("</div>");
 
 			if ( $queryWithoutPrefix != ""){
 				$sp = new Endpoint($endpoint);
