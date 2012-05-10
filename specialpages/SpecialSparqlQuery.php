@@ -137,7 +137,7 @@ function validWithJS(){
 	}
 
 	function exampleSparql(){
-		return "select * where { ?x ?y ?z . } LIMIT 5";
+		return "select * where { ?x ?y ?z . } LIMIT 15";
 	}
 
 	function prefix(){

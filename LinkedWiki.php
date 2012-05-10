@@ -142,8 +142,9 @@ function efWsparqlParserFunction_Render( $parser) {
 	$endpoint =  "http://dbpedia.org/sparql";
 	$namewidget = isset($args[1])? $args[1] : "";
 	$vars = array();
-	for($i = 2;$i < $countArgs;$i++) {
-		if(preg_match_all('#^([^= ]+)=(.*)$#i', $args[$i],$match)){
+	for($i = 2;$i < $countArgs;$i++) {		
+		// FIX bug : Newline breaks query
+		if(preg_match_all('#^([^= ]+)=((.|\n)*)$#i', $args[$i],$match)){
 			if($match[1][0] == "query"){
 				$query = urldecode($match[2][0]);
 			}elseif($match[1][0] == "debug"){

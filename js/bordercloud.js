@@ -175,13 +175,24 @@ function makeTable(doc_datasets){
 	 table += '<tr>';
 	 for(var i in doc_datasets.head.vars)
 	 {
-		 if(doc_datasets.head.vars[i] != null ){
 			 table += '<th>';
 			 table += doc_datasets.head.vars[i];
-			 table += '</th>';		 
-		 }
+			 table += '</th>';
 	 }
 	 table += '</tr>';
+	 
+	 for(var i in doc_datasets.results.bindings)
+	 {
+		 table += '<tr>';
+		 for(var ii in doc_datasets.results.bindings[i])
+		 {
+				 table += '<td>';
+				 table += doc_datasets.results.bindings[i][ii].value ;
+				 table += '</td>';	
+		 }
+		 table += '</tr>';
+	 }
+	 
 	 table += '</table>';
 	 return table;
 }
