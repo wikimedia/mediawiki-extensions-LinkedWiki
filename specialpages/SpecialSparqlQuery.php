@@ -28,7 +28,8 @@ class specialsparqlquery extends SpecialPage {
 
 	public function __construct() {
 		parent::__construct( 'specialsparqlquery' );
-		wfLoadExtensionMessages('specialsparqlquery');
+        /** @noinspection PhpUndefinedFunctionInspection */
+        //wfLoadExtensionMessages('specialsparqlquery');
 	}
 
 	public function execute($par = null) {
@@ -49,22 +50,22 @@ class specialsparqlquery extends SpecialPage {
 		if ( $query != "" && $output == "save" && $titleRequest != ""  ) {
 
 			if($this->pageExists($titleRequest)){
-				$wgOut->addHTML("<h2>".wfMsg('specialsparqlquery_error_title_exists_yet')."</h2> \n");
+				$wgOut->addHTML("<h2>".wfMessage('specialsparqlquery_error_title_exists_yet')->text()."</h2> \n");
 				$wgOut->addHTML();
 			}else{
 				$this->savePage($titleRequest, $this->template($query,$description));
-				$wgOut->addWikiText(wfMsg('specialsparqlquery_your_query_saved_here')."[[$titleRequest]]");
+				$wgOut->addWikiText(wfMessage('specialsparqlquery_your_query_saved_here')->text()."[[$titleRequest]]");
 			}
 		}
 			
 		if ( $query == "" || $output == "save" || $output == "wiki" ) {
-			$wgOut->addWikiText(wfMsg('specialsparqlquery_mainpage'));
+			$wgOut->addWikiText(wfMessage('specialsparqlquery_mainpage')->text());
 			$wgOut->addHTML("<pre>".htmlentities($this->prefix(), ENT_QUOTES, 'UTF-8')."</pre>");
 			$wgOut->addHTML("<form method='post' name='formQuery'>");
 			$wgOut->addHTML("<input type='hidden' name='output' value='wiki'>");
 			$wgOut->addHTML("<input type='hidden' name='prefix' value='".htmlentities($this->prefix(), ENT_QUOTES, 'UTF-8')." '>");
 			$wgOut->addHTML("<input type='hidden' name='query' >");
-			$wgOut->addHTML(wfMsg('specialsparqlquery_endpointsparql')." : <input type='text' name='endpoint' size='50' value='".$endpoint." '>");
+			$wgOut->addHTML(wfMessage('specialsparqlquery_endpointsparql')->text()." : <input type='text' name='endpoint' size='50' value='".$endpoint." '>");
 			$wgOut->addHTML("<textarea name='queryWithoutPrefix' cols='25' rows='15'>");
 			$strQuery = $queryWithoutPrefix != "" ? $queryWithoutPrefix : $this->exampleSparql(0) ;
 			$wgOut->addHTML($strQuery);
@@ -89,7 +90,7 @@ function validWithJS(){
 }
 //-->
 </SCRIPT>");
-			$wgOut->addHTML("<input type='button' value='".wfMsg('specialsparqlquery_sendquery')."'  onClick='validAndSendQuery();' />");
+			$wgOut->addHTML("<input type='button' value='".wfMessage('specialsparqlquery_sendquery')->text()."'  onClick='validAndSendQuery();' />");
 			$wgOut->addHTML("<input type='button' value='(R&D) Validation (js)'  onClick='validWithJS();' />");
 			$wgOut->addHTML("   Xml : <input type='checkbox'  name='toXML' />");
 			$wgOut->addHTML(" </form>");
@@ -123,8 +124,8 @@ function validWithJS(){
 					$arr = efSparqlParserFunction_simple( $query, $endpoint,  '',  '',   null );
 					$wgOut->addWikiText($arr[0]);
 
-					$wgOut->addWikiText("==".wfMsg('specialsparqlquery_usethisquery')."==");
-					$wgOut->addWikiText(wfMsg('specialsparqlquery_usethisquery_tutorial'));
+					$wgOut->addWikiText("==".wfMessage('specialsparqlquery_usethisquery')->text()."==");
+					$wgOut->addWikiText(wfMessage('specialsparqlquery_usethisquery_tutorial')->text());
 					$wgOut->addHTML("<pre>{{#sparql:".htmlentities($query, ENT_QUOTES, 'UTF-8')."\n|endpoint=".htmlentities($endpoint, ENT_QUOTES, 'UTF-8')."}}</pre>");
 				}
 				

@@ -440,8 +440,8 @@ function efSparqlParserFunction_tableCell( $querySparqlWiki,$endpoint ,$debug = 
 }
 
 function  efSparqlParserFunction_footer($duration){
-	$today = date(wfMsg('date'));
-	return $today ." -- [{{fullurl:{{FULLPAGENAME}}|action=purge}} ".wfMsg('refresh')."] -- ".wfMsg('durate')." :". round($duration, 3) ."s";
+	$today = date(wfMessage( 'date' )->text());
+	return $today ." -- [{{fullurl:{{FULLPAGENAME}}|action=purge}} ".wfMessage( 'refresh' )->text()."] -- ".wfMessage( 'durate' )->text()." :". round($duration, 3) ."s";
 }
 
 function  efSparqlParserFunction_uri2Link($uri,$nowiki = false){
