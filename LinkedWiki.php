@@ -44,6 +44,7 @@ require_once( $wgLinkedWikiLibPath ."/sparql/Endpoint.php");
 
 //Classes
 $wgAutoloadClasses['SpecialSparqlQuery'] = $wgLinkedWikiSpecialPagesPath . '/SpecialSparqlQuery.php';
+$wgAutoloadClasses['SpecialExportCSV'] = $wgLinkedWikiSpecialPagesPath . '/SpecialExportCSV.php';
 
 //Install extension //TODO
 $wgExtensionMessagesFiles['LinkedWiki'] = dirname( __FILE__ ) . '/LinkedWiki.i18n.php';
@@ -53,6 +54,9 @@ $wgExtensionMessagesFiles['SpecialSparqlQuery'] = $wgLinkedWikiSpecialPagesPath 
 $wgExtensionAliasesFiles['SpecialSparqlQuery'] = $wgLinkedWikiSpecialPagesPath . '/SpecialSparqlQuery.alias.php';
 $wgSpecialPages['SpecialSparqlQuery']                     = array( 'SpecialSparqlQuery' );
 $wgSpecialPageGroups['SpecialSparqlQuery']                = 'media';
+
+#$wgSpecialPages['SpecialExportCSV']                     = array( 'SpecialExportCSV' );
+
 
 //Add PARSER
 # Define a setup function
@@ -292,7 +296,7 @@ function efSparqlParserFunction_array(  $querySparqlWiki,$endpoint ,$classHeader
 	
 	if($footer != "NO"){
 		$str .= "|- style=\"font-size:80%\" align=\"right\"\n";
-		$str .= "| colspan=\"".count($TableFormatTemplates )."\"|". efSparqlParserFunction_footer($rs['query_time'])."\n";
+		$str .= "| colspan=\"".count($TableFormatTemplates )."\"|". efSparqlParserFunction_footer($rs['query_time'],$querySparqlWiki,$endpoint ,$classHeaders ,$headers)."\n";
 	}
 	
 	$str .= "|}\n";
@@ -378,7 +382,7 @@ function efSparqlParserFunction_simple( $querySparqlWiki,$endpoint ,$classHeader
 
 	if($footer != "NO"){
 		$str .= "|- style=\"font-size:80%\" align=\"right\"\n";
-		$str .= "| colspan=\"".count($variables)."\"|". efSparqlParserFunction_footer($rs['query_time'])."\n";
+		$str .= "| colspan=\"".count($variables)."\"|". efSparqlParserFunction_footer($rs['query_time'],$querySparqlWiki,$endpoint ,$classHeaders,$headers)."\n";
 	}
 	
 	$str .= "|}\n";
@@ -439,9 +443,12 @@ function efSparqlParserFunction_tableCell( $querySparqlWiki,$endpoint ,$debug = 
 	return array($str, 'noparse' => false, 'isHTML' => false);
 }
 
-function  efSparqlParserFunction_footer($duration){
-	$today = date(wfMessage( 'date' )->text());
-	return $today ." -- [{{fullurl:{{FULLPAGENAME}}|action=purge}} ".wfMessage( 'refresh' )->text()."] -- ".wfMessage( 'durate' )->text()." :". round($duration, 3) ."s";
+function  efSparqlParserFunction_footer($duration,$querySparqlWiki,$endpoint ,$classHeaders = '',$headers = ''){
+	$today = date(wfMessage( 'linkedwiki-date' )->text());
+	return $today ." -- [{{fullurl:{{FULLPAGENAME}}|action=purge}} ".wfMessage( 'linkedwiki-refresh' )->text()."] -- ".
+        wfMessage( 'linkedwiki-durate' )->text()." :".
+        round($duration, 3) ."s";
+        //"Version : [{{canonicalurl:Special:Specialexportcsv}}?query={{urlencode:$querySparqlWiki}}&$endpoint={{urlencode:$querySparqlWiki}}&classHeaders={{urlencode:$querySparqlWiki}}&headers={{urlencode:$querySparqlWiki}} CSV] ";
 }
 
 function  efSparqlParserFunction_uri2Link($uri,$nowiki = false){
