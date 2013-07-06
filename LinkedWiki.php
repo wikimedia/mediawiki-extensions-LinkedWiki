@@ -50,15 +50,15 @@ $wgAutoloadClasses['SpecialExportCSV'] = $wgLinkedWikiSpecialPagesPath . '/Speci
 $wgExtensionMessagesFiles['LinkedWiki'] = dirname( __FILE__ ) . '/LinkedWiki.i18n.php';
 
 //Add special pages
-$wgExtensionMessagesFiles['SpecialSparqlQuery'] = $wgLinkedWikiSpecialPagesPath . '/SpecialSparqlQuery.i18n.php';
-$wgExtensionAliasesFiles['SpecialSparqlQuery'] = $wgLinkedWikiSpecialPagesPath . '/SpecialSparqlQuery.alias.php';
-$wgSpecialPages['SpecialSparqlQuery']                     = array( 'SpecialSparqlQuery' );
-$wgSpecialPageGroups['SpecialSparqlQuery']                = 'media';
+$wgExtensionMessagesFiles['linkedwiki-specialsparqlquery'] = $wgLinkedWikiSpecialPagesPath . '/SpecialSparqlQuery.i18n.php';
+$wgExtensionAliasesFiles['linkedwiki-specialsparqlquery'] = $wgLinkedWikiSpecialPagesPath . '/SpecialSparqlQuery.alias.php';
+$wgSpecialPages['linkedwiki-specialsparqlquery']                     = array( 'SpecialSparqlQuery' ); //name of the class
+$wgSpecialPageGroups['linkedwiki-specialsparqlquery']                = 'pagetools';
 
 #$wgSpecialPages['SpecialExportCSV']                     = array( 'SpecialExportCSV' );
 
 
-//Add PARSER
+//PARSER
 # Define a setup function
 $wgHooks['ParserFirstCallInit'][] = 'efSparqlParserFunction_Setup';
 # Add a hook to initialise the magic word

@@ -3,10 +3,10 @@ $aliases = array();
  
 /** English */
 $aliases['en'] = array(
-    'SpecialSparqlQuery' => array('SparqlQuery', 'Sparql Query'),
+    'linkedwiki-specialsparqlquery' => array('SparqlQuery', 'Sparql editor'),
 );
  
 /** Français */
 $aliases['fr'] = array(
-	'SpecialSparqlQuery' => array( 'SparqlQuery', 'Sparql Query'),
+	'linkedwiki-specialsparqlquery' => array( 'SparqlQuery', 'Editeur Sparql'),
 );

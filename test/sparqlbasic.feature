@@ -12,7 +12,7 @@ Feature: client_sparql
 #Check if I can write in the wiki
  Scenario: Start a new page using the URL
     Given I am at page that does not exist
-    When I click link Create
+    When I click link Create source
       And I enter article text
       And I click Save page button
     Then newly created page should open
@@ -21,7 +21,7 @@ Feature: client_sparql
       
 Scenario: Create a table
     Given I am at page that does not exist
-    When I click link Create
+    When I click link Create source
       And I enter the wikitext:
         """
 {| class="wikitable sortable" 
@@ -40,7 +40,7 @@ Scenario: Create a table
 Scenario: Print a empty table with a query SPARQL
     Given I am at page that does not exist
     And I has a empty graph http://example.com/data in the triplestore http://192.168.1.100:8181
-    When I click link Create
+    When I click link Create source
       And I enter the wikitext:
         """
 {{#sparql:
@@ -70,7 +70,7 @@ INSERT DATA
                          dc:creator "A.N.Other2" .
 }}
         """
-    When I click link Create
+    When I click link Create source
       And I enter the wikitext:
         """
 {{#sparql:
