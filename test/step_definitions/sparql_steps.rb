@@ -1,14 +1,14 @@
-When(/^I enter the wikitext:$/) do |wikiText|  
-  on(EditPage).article_text = wikiText
-end
+#When(/^I enter the wikitext:$/) do |wikiText|  
+#  on(EditPage).article_text = wikiText
+#end
 
-Then(/^table should be there:$/) do |table|
-   nodesTR = Nokogiri::HTML(@browser.html).css(".wikitable tr")
-   tableResult = nodesTR.map {|tr| tr.css("th,td").map {|cell| cell.text.strip}}
-#   p tableResult
-#   p table.raw()
-   table.diff!(tableResult)
-end
+#Then(/^table should be there:$/) do |table|
+#   nodesTR = Nokogiri::HTML(@browser.html).css(".wikitable tr")
+#   tableResult = nodesTR.map {|tr| tr.css("th,td").map {|cell| cell.text.strip}}
+##   p tableResult
+##   p table.raw()
+#   table.diff!(tableResult)
+#end
 
 Given /^I has a empty graph ([^ ]*) in the triplestore ([^ ]*)$/ do |graph,endpoint|
   c = Curl::Easy.http_delete("#{endpoint}/data/?graph=#{graph}")
