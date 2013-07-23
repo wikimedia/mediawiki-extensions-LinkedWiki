@@ -33,6 +33,20 @@ $wgExtensionCredits['other'][] = array(
    'author' => array( '[http://www.mediawiki.org/wiki/User:Karima_Rafes Karima Rafes]' )
 );
 
+$linkedWikiTpl = array(
+	'localBasePath' => dirname( __FILE__ ) . '/js',
+	'remoteExtPath' => 'LinkedWiki/js',
+	'group' => 'ext.LinkedWiki',
+);
+
+$wgResourceModules += array(
+	/* Third-party modules */
+
+	'ext.LinkedWiki.table2CSV' => $linkedWikiTpl + array(
+		'scripts' => 'table2CSV.js',
+	),
+);
+
 //Paths
 $wgLinkedWikiPath = dirname(__FILE__);
 $wgLinkedWikiClassesPath = $wgLinkedWikiPath . "/class";
@@ -91,6 +105,9 @@ function fSparqlParserFunction_pageiri(&$parser) {
 
 function efSparqlParserFunction_Render( $parser) {
 	//global $wgLinkedWikiLocalEndPoint,$wgLinkedWikiEndPoint,$wgLinkedWikiGraphWiki;
+	global $wgOut;
+	$wgOut->addModules( 'ext.LinkedWiki.table2CSV' );
+	
 	$args = func_get_args(); // $parser, $param1 = '', $param2 = ''
 	$countArgs = count($args);
 	$query = isset($args[1])? urldecode($args[1]) : "";
@@ -125,7 +142,7 @@ function efSparqlParserFunction_Render( $parser) {
 			if($templates != ""){
 				return efSparqlParserFunction_array($query,$endpoint,$classHeaders ,$headers , $templates,$footer , $debug);
 			}else{
-				return efSparqlParserFunction_simple($query,$endpoint,$classHeaders,$headers,$footer, $debug);
+				return efSparqlParserFunction_simpleHTML($query,$endpoint,$classHeaders,$headers,$footer, $debug);
 			}
 		}
 	}else {
@@ -311,7 +328,7 @@ function efSparqlParserFunction_array(  $querySparqlWiki,$endpoint ,$classHeader
 
 	return array($str, 'noparse' => false, 'isHTML' => false);
 }
-
+/*
 function efSparqlParserFunction_simple( $querySparqlWiki,$endpoint ,$classHeaders = '',$headers = '',$footer = '', $debug = null){
 	$specialC = array("&#39;");
 	$replaceC = array("'");
@@ -396,6 +413,98 @@ function efSparqlParserFunction_simple( $querySparqlWiki,$endpoint ,$classHeader
 	}
 
 	return array($str, 'noparse' => false, 'isHTML' => false);
+}*/
+
+function efSparqlParserFunction_simpleHTML( $querySparqlWiki,$endpoint ,$classHeaders = '',$headers = '',$footer = '', $debug = null){
+	$specialC = array("&#39;");
+	$replaceC = array("'");
+	$querySparql  = str_replace($specialC ,$replaceC , $querySparqlWiki);
+
+	$str = "";
+	$sp = new Endpoint($endpoint);
+	$rs = $sp->query($querySparqlWiki);
+	$errs = $sp->getErrors();
+	if ($errs) {
+		$strerr = "";
+		foreach ($errs as $err) {
+			$strerr .= "'''Error #sparql :". $err ."'''<br/>";
+		}
+		return $strerr;
+	}
+
+	$lignegrise = false;
+	$variables = $rs['result']['variables'];
+	$str = "<table class='wikitable sortable'>\n";
+	if( $headers !='' ){
+		$TableTitleHeaders = explode(",",$headers);
+		$TableClassHeaders = explode(",",$classHeaders);
+		$classStr = "";
+		$lineTD = "";
+		for ($i = 0; $i < count($TableClassHeaders) ; $i++) {
+			if(!isset($TableClassHeaders[$i]) || $TableClassHeaders[$i] == ""){
+				$classStr = "";
+			}else{
+				$classStr =  " class=\"".$TableClassHeaders[$i] . "\"";
+			}
+			$TableTitleHeaders[$i] = "<th".$classStr.">" . $TableTitleHeaders[$i]."</th>";
+		}
+		$str .= "<tr>";
+		$str .= implode("\n",$TableTitleHeaders );
+		$str .= "</tr>\n";
+	}else{
+		$TableClassHeaders = explode(",",$classHeaders);
+		$classStr = "";
+		for ($i = 0; $i < count($variables) ; $i++) {
+			if(!isset($TableClassHeaders[$i]) || $TableClassHeaders[$i] == "")
+			$classStr = "";
+			else
+			$classStr =  " class=\"".$TableClassHeaders[$i] . "\"";
+			$TableTitleHeaders[$i] = "<th".$classStr.">".$variables[$i]."</th>";
+		}
+
+		$str .= "<tr>\n";
+		$str .= implode("\n",$TableTitleHeaders );
+		$str .= "</tr>\n";
+	}
+	
+	
+	foreach ( $rs['result']['rows'] as $row) {
+	
+		$str .= "<tr";
+		if($lignegrise)
+			$str .= " bgcolor=\"#f5f5f5\" ";		
+		$str .= ">\n";
+		$lignegrise = !$lignegrise;
+		foreach ( $variables as $variable) {
+		      $str .= "<td>";
+		      
+			if($row[$variable." type"] == "uri" ){
+				$str .=  efSparqlParserFunction_uri2Link($row[$variable]) ;
+			}else{
+				$str .= $row[$variable] ;
+			}
+			$str .= "</td>\n";
+		}
+		$str .= "</tr>\n";
+	}
+
+	if($footer != "NO"){
+		$str .= "<tr style=\"font-size:80%\" align=\"right\">\n";
+		$str .= "<td colspan=\"".count($variables)."\">". efSparqlParserFunction_footerHTML($rs['query_time'],$querySparqlWiki,$endpoint ,$classHeaders,$headers)."</td>\n";
+		$str .= "</tr>\n";
+	}
+	
+	$str .= "</table>\n";
+
+	if ($debug != null  &&  $debug == "YES"){
+		$str .= "INPUT WIKI : ".$querySparqlWiki."\n";
+		$str .= "Query : ".$querySparql."\n";
+		$str .= print_r($rs, true);
+		$str .= print_r($rs, true);
+		return  array("<pre>".$str."</pre>",'noparse' => true, 'isHTML' => false);
+	}
+
+	return array($str, 'noparse' => false, 'isHTML' => true);
 }
 
 function efSparqlParserFunction_tableCell( $querySparqlWiki,$endpoint ,$debug = null){
@@ -447,9 +556,29 @@ function  efSparqlParserFunction_footer($duration,$querySparqlWiki,$endpoint ,$c
 	$today = date(wfMessage( 'linkedwiki-date' )->text());
 	return $today ." -- [{{fullurl:{{FULLPAGENAME}}|action=purge}} ".wfMessage( 'linkedwiki-refresh' )->text()."] -- ".
         wfMessage( 'linkedwiki-durate' )->text()." :".
-        round($duration, 3) ."s";
+        round($duration, 3) ."s"  ;
         //"Version : [{{canonicalurl:Special:Specialexportcsv}}?query={{urlencode:$querySparqlWiki}}&$endpoint={{urlencode:$querySparqlWiki}}&classHeaders={{urlencode:$querySparqlWiki}}&headers={{urlencode:$querySparqlWiki}} CSV] ";
 }
+
+function  efSparqlParserFunction_footerHTML($duration,$querySparqlWiki,$endpoint ,$classHeaders = '',$headers = ''){
+	global $wgRequest;
+	$today = date(wfMessage( 'linkedwiki-date' )->text());
+	
+	$subject = $wgRequest->getRequestURL();
+$url ="";	
+$pattern = '/\?.*(title=[^&]*).*$/';
+if(preg_match($pattern, $subject) == 1)
+  $url = preg_replace($pattern, "?\${1}&action=purge",$subject) ;
+  else
+$url = $subject . "?action=purge";
+
+	
+	//$url = preg_replace( '/(\?[^\?]*$)/i', "",$wgRequest->getRequestURL()) . "?action=purge";
+	//$url = $wgRequest->getRequestURL() . "?action=purge";
+	return $today ." -- <a href=\"".$url."\">".wfMessage( 'linkedwiki-refresh' )->text()."</a> -- ".
+        wfMessage( 'linkedwiki-durate' )->text()." :".
+        round($duration, 3) ."s -- <a class=\"csv\" style=\"cursor: pointer;\" >CSV</a>";
+	}
 
 function  efSparqlParserFunction_uri2Link($uri,$nowiki = false){
 	//TODO : $title ??? CLEAN ?
