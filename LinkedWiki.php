@@ -45,6 +45,15 @@ $wgResourceModules += array(
 	'ext.LinkedWiki.table2CSV' => $linkedWikiTpl + array(
 		'scripts' => 'table2CSV.js',
 	),
+	'ext.LinkedWiki.lwgraph' => $linkedWikiTpl + array(
+		'scripts' => 'lwgraph.js',
+	),
+	'ext.LinkedWiki.flowchart' => $linkedWikiTpl + array(
+		'scripts' => 'flowchart.js',
+		'dependencies' => array(
+			'ext.LinkedWiki.lwgraph',
+		)
+	),
 );
 
 //Paths
@@ -82,6 +91,7 @@ function efSparqlParserFunction_Setup( &$parser ) {
 	$parser->setFunctionHook( 'sparql', 'efSparqlParserFunction_Render' );
 	$parser->setFunctionHook( 'wsparql', 'efWsparqlParserFunction_Render' );
 	$parser->setFunctionHook( 'properties', 'efPropertiesParserFunction_Render' );
+	$parser->setHook( 'lwgraph', 'efLwgraphRender' );
 	
 	return true;
 }
@@ -101,6 +111,42 @@ function fSparqlParserFunction_pageiri(&$parser) {
 	$resolver = Title::makeTitle( NS_SPECIAL, 'URIResolver' );
 	$resolverurl = $resolver->getFullURL() . '/';
 	return SparqlTools::decodeURItoIRI($resolverurl).$parser->getTitle()->getPrefixedDBkey();
+}
+
+function efLwgraphRender( $input, array $args, Parser $parser, PPFrame $frame ) {
+      global $wgOut;
+       $html = "";
+        $width = isset($args["width"])?$args["width"]:"100%";
+        $height = isset($args["height"])?$args["height"]:"150px";
+        $border = isset($args["border"]) && $args["border"]>0 ? "border:".$args["border"]."px solid #000000;" : "" ;
+        
+       if (isset($args["debug"]) && $args["debug"] == "true"){        
+	    $attr = array();    
+	    foreach( $args as $name => $value )
+		    $attr[] =  $name . ' = ' .  $value ;
+		    
+	    $html .= "<div><b>lwgraph DEBUG :</b><br/>".implode( '<br/>', $attr )."</div>";
+            $html .= "<pre>".htmlspecialchars( $input )."</pre>";            
+	    
+        }
+        
+        if (isset($args["type"]) == "flow"){ 
+	    $wgOut->addModules('ext.LinkedWiki.flowchart');   
+        }
+        
+        preg_match_all("/\[\[([^\]\|]*)(?:\|[^\]]*)?\]\]/U", $input,$out);
+        $arrayTitle = array_unique ($out[1]);
+        
+        $textGraph = $input;
+        foreach ($arrayTitle as $title) {
+	  $titleObject = Title::newFromText( $title );
+	  if ( !$titleObject->exists() ) 
+	      $textGraph = str_replace("[[".$title, "~[[".$title, $textGraph);
+	      $textGraph = str_replace("~~", "~", $textGraph);
+	}
+        $html .= "<canvas  class=\"lwgraph-flow\" style=\"".$border."width: ".$width.";height:".$height."\">".$textGraph."</canvas>";
+        
+        return array($html, 'isHTML' => true);
 }
 
 function efSparqlParserFunction_Render( $parser) {
