@@ -33,7 +33,7 @@ class specialsparqlquery extends SpecialPage {
 	}
 
 	public function execute($par = null) {
-		global $wgOut,$wgScriptPath;
+		global $wgOut,$wgScriptPath; 
 		$queryWithoutPrefix = isset($_REQUEST["queryWithoutPrefix"])?stripslashes($_REQUEST["queryWithoutPrefix"]):"";
 		$query = isset($_REQUEST["query"])?stripslashes($_REQUEST["query"]):"";
 		$endpoint = isset($_REQUEST["endpoint"])?stripslashes(trim($_REQUEST["endpoint"])):"http://dbpedia.org/sparql";
@@ -121,8 +121,8 @@ function validWithJS(){
 					}
 				}else{
 					//						//efSparqlParserFunction_simple( $querySparqlWiki,$endpoint ,$classHeaders = '',$headers = '', $debug = null)
-					$arr = efSparqlParserFunction_simple( $query, $endpoint,  '',  '',   null );
-					$wgOut->addWikiText($arr[0]);
+					$arr = efSparqlParserFunction_simpleHTML( $query, $endpoint,  '',  '',   null );
+					$wgOut->addHTML($arr[0]);
 
 					$wgOut->addWikiText("==".wfMessage('linkedwiki-specialsparqlquery_usethisquery')->text()."==");
 					$wgOut->addWikiText(wfMessage('linkedwiki-specialsparqlquery_usethisquery_tutorial')->text());

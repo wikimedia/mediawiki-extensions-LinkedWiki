@@ -53,6 +53,22 @@ $wgResourceModules += array(
 		'dependencies' => array(
 			'ext.LinkedWiki.lwgraph',
 		)
+	),	
+	
+	'ext.LinkedWiki.flint' => $linkedWikiTpl + array(
+		'scripts' => array(
+			'FlintSparqlEditor/sparql/lib/codemirror.js',
+			'FlintSparqlEditor/sparql/sparql10querymode_ll1.js',
+			'FlintSparqlEditor/sparql/sparql11querymode_ll1.js',
+			'FlintSparqlEditor/sparql/sparql11updatemode_ll1.js',
+			'FlintSparqlEditor/sparql/flint-editor.js',
+			'FlintSparqlEditor/sparql/init-local.js',
+		),
+		'styles' => array(
+			'FlintSparqlEditor/sparql/lib/codemirror.css',
+			'FlintSparqlEditor/sparql/css/sparqlcolors.css',
+			'FlintSparqlEditor/sparql/css/docs.css',
+		), 
 	),
 );
 
@@ -67,7 +83,7 @@ require_once( $wgLinkedWikiLibPath ."/sparql/Endpoint.php");
 
 //Classes
 $wgAutoloadClasses['SpecialSparqlQuery'] = $wgLinkedWikiSpecialPagesPath . '/SpecialSparqlQuery.php';
-$wgAutoloadClasses['SpecialExportCSV'] = $wgLinkedWikiSpecialPagesPath . '/SpecialExportCSV.php';
+$wgAutoloadClasses['SpecialSparqlFlintEditor'] = $wgLinkedWikiSpecialPagesPath . '/SpecialSparqlFlintEditor.php';
 
 //Install extension //TODO
 $wgExtensionMessagesFiles['LinkedWiki'] = dirname( __FILE__ ) . '/LinkedWiki.i18n.php';
@@ -78,8 +94,10 @@ $wgExtensionAliasesFiles['linkedwiki-specialsparqlquery'] = $wgLinkedWikiSpecial
 $wgSpecialPages['linkedwiki-specialsparqlquery']                     = array( 'SpecialSparqlQuery' ); //name of the class
 $wgSpecialPageGroups['linkedwiki-specialsparqlquery']                = 'pagetools';
 
-#$wgSpecialPages['SpecialExportCSV']                     = array( 'SpecialExportCSV' );
-
+$wgExtensionMessagesFiles['linkedwiki-specialsparqlflinteditor'] = $wgLinkedWikiSpecialPagesPath . '/SpecialSparqlFlintEditor.i18n.php';
+$wgExtensionAliasesFiles['linkedwiki-specialsparqlflinteditor'] = $wgLinkedWikiSpecialPagesPath .  '/SpecialSparqlFlintEditor.alias.php';
+$wgSpecialPages['linkedwiki-specialsparqlflinteditor']  = array( 'SpecialSparqlFlintEditor' ); //name of the class
+$wgSpecialPageGroups['linkedwiki-specialsparqlflinteditor']  = 'pagetools';
 
 //PARSER
 # Define a setup function
