@@ -426,7 +426,7 @@
 #flint-sidebar-commands {
 	height: 284px;
 	overflow: auto;
-	//min-width: 490px;
+	/*min-width: 490px;*/
 	margin: 15px -5px 0px -5px;
 }
 
@@ -442,7 +442,7 @@
 	padding: 2px;
 	width: 114px;
 	margin: 3px;
-	//font-size: 1em;
+	/*font-size: 1em;*/
 	color: black;
 	overflow: hidden;
 	background-color: white;
@@ -463,7 +463,7 @@
 	top: 0;
 	overflow: hidden;
 	right: 0;
-	//min-width: 490px;
+	/*min-width: 490px;*/
 	height: 15px;
 	background: #f0f0f0;
 	border-bottom: solid 1px #aaa;
@@ -703,7 +703,7 @@
 	width: 100%;
 	margin: 0px;
 	padding: 0em;
-	//font-size: 15em;
+	/*font-size: 15em;*/
 	border: none;
 	height: 197px;
 }
