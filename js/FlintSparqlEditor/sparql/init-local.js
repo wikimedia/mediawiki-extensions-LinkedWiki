@@ -190,7 +190,7 @@ $( function () {
 							"name" : "SPARQL 1.1 Update",
 							"mode" : "sparql11update"
 						} ]
-					}
+					};
 
 					var flintEd = new FlintEditor("flint-test",
 							mw.config.get( 'wgExtensionAssetsPath' ) + "/LinkedWiki/js/FlintSparqlEditor/sparql/images", flintConfig);
