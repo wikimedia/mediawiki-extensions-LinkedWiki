@@ -144,7 +144,11 @@ class Endpoint extends Base {
 	public function query($q, $result_format = '') {	
 		$t1 = Endpoint::mtime();
 		$response = $this->queryRead($q);
-		xml_parse($this->_parserSparqlResult->getParser(),$response, true);		
+		xml_parse($this->_parserSparqlResult->getParser(),$response, true);
+		// to find bug during the parsing
+		//$parser = $this->_parserSparqlResult->getParser();
+		//xml_parse($parser,$response, true);
+		//echo "ERROR*************".xml_error_string (xml_get_error_code($parser));
 		$result = $this->_parserSparqlResult->getResult();
 		$result['query_time'] =   Endpoint::mtime() - $t1 ;
 		return $result;

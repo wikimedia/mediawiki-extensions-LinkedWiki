@@ -420,7 +420,7 @@
 	margin-top: 0em;
 	padding-left: 0em;
 	white-space: nowrap;
-	font-size: 15em;
+	font-size: 1em;
 }
 
 #flint-sidebar-commands {
@@ -703,7 +703,7 @@
 	width: 100%;
 	margin: 0px;
 	padding: 0em;
-	/*font-size: 15em;*/
+	font-size: 1em;
 	border: none;
 	height: 197px;
 }

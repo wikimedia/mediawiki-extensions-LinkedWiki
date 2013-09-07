@@ -1,3 +1,6 @@
+/*global escape: true */
+/*exported bcValidateSPARQL */
+/*jshint -W061 */
 var imageObjWaiting = null;
 var canvas = null;
 var div = null;
@@ -7,36 +10,129 @@ var div = null;
 //
 var rotation = 0;
 var processusWaiting = null;
-var messageWaiting = "Waiting...";
+var messageWaiting = 'Waiting...';
 //
 //
 //var graph = null;
 //var datasetSelected = null;
 //
-//var doc_datasets = null;
+//var docDatasets = null;
 //var doc_links = null;
 //
 //var requestGetDatasetJson = null;
 //var requestGetLinksetJson = null;
 
+function makeTable(docDatasets) {
+	var
+		table,
+		i,
+		i1,
+		ii;
 
-function bcValidateSPARQL(endpoint,query){
-	imageObjWaiting = document.getElementById("canvas-image-wait");
-	div =document.getElementById("bc_div");
+	table = '<table class="wikitable sortable">';
+	table += '<tr>';
+	for (i in docDatasets.head.vars)
+	{
+		if (docDatasets.head.vars.hasOwnProperty(i)) {
+			table += '<th>';
+			table += docDatasets.head.vars[i];
+			table += '</th>';
+		}
+	}
+	table += '</tr>';
 
-	if(canvas === null){
+	for (i1 in docDatasets.results.bindings)
+	{
+		if (docDatasets.results.bindings.hasOwnProperty(i1)) {
+			table += '<tr>';
+			for (ii in docDatasets.results.bindings[i1])
+			{
+				if (docDatasets.results.bindings[i1].hasOwnProperty(ii)) {
+					table += '<td>';
+					table += docDatasets.results.bindings[i1][ii].value;
+					table += '</td>';
+				}
+			}
+			table += '</tr>';
+		}
+	}
+
+	table += '</table>';
+	return table;
+}
+
+function downloadDatasets(endpoint, query) {
+	//send request
+	var
+		req = new XMLHttpRequest(),
+		docDatasets;
+
+	req.open('GET', endpoint + '/?output=json&query=' + escape(query.replace('\\n', '')),
+			true);
+	req.onreadystatechange = function () {
+		if (req.readyState === 4) {
+			if (req.status === 200 || req.status === 0) {
+				if (req.responseText === '') {
+					messageWaiting = 'Error : The domain in the query is different of Web site...';
+					return;
+				}
+				docDatasets = eval('(' + req.responseText + ')');
+				//docDatasets = JSON.parse(json); // no with Chrome
+				//messageWaiting = "Reading the datasets...";
+
+				div.innerHTML =  makeTable(docDatasets);
+				// download_links();	
+			} else {
+				messageWaiting = 'Error loading page';
+			}
+		}
+	};
+	req.send(null);
+}
+
+function waiting() {
+	var
+		ctx = canvas.getContext('2d'),
+		xcenter = ctx.canvas.width / 2,
+		ycenter = ctx.canvas.height / 2,
+		sourceWidth = 65,
+		sourceHeight = 65;
+		//ximage = xcenter - sourceWidth/2,
+		//yimage = ycenter - sourceHeight/2;
+
+	ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
+	ctx.save();
+	ctx.translate(xcenter, ycenter);// to get it in the origin
+	rotation -= 2;
+	ctx.rotate(rotation * Math.PI / 64);//rotate in origin
+	ctx.drawImage(imageObjWaiting, -sourceWidth / 2, -sourceHeight / 2);
+	ctx.restore();
+
+	ctx.textAlign = 'center';
+	ctx.textBaseline = 'middle';
+	ctx.fillStyle = '#474754';
+	ctx.font = '30px arial';
+	ctx.fillText(messageWaiting, xcenter, ycenter + sourceHeight / 2 + 50);
+}
+
+function bcValidateSPARQL(endpoint, query) {
+	imageObjWaiting = document.getElementById('canvas-image-wait');
+	div = document.getElementById('bc_div');
+
+	if (canvas === null) {
 		div.innerHTML = '<canvas id="bc_canvas"></canvas>';
-		canvas =document.getElementById("bc_canvas");
+		canvas = document.getElementById('bc_canvas');
 	}
 
 	canvas.setAttribute('width', 300);
 	canvas.setAttribute('height', 200);
-	
-	ctx = canvas.getContext('2d');
-	
+
+	//var ctx = canvas.getContext('2d');
+
 	//Waiting logo
-	processusWaiting = setInterval(waiting,20);
-	
+	processusWaiting = setInterval(waiting, 20);
+
 //	//write
 //	messageWaiting = "TTTT";
 //	
@@ -62,12 +158,12 @@ function bcValidateSPARQL(endpoint,query){
 //		<td><a href="http://www.openlinksw.com/schemas/virtrdf#QuadMapValue" class="external free" rel="nofollow">http://www.openlinksw.com/schemas/virtrdf#QuadMapValue</a>\
 //		</td></tr>\
 //		</table>';
-	
 
-	
+
+
 	//requestGetDatasetJson = requestGetSparqlDatasetJson;
 
-	download_datasets(endpoint,query);	
+	downloadDatasets(endpoint, query);
 }
 
 //function initDatasetJson(json){
@@ -144,82 +240,3 @@ function bcValidateSPARQL(endpoint,query){
 //	}
 //}
 //
-function download_datasets(endpoint,query){	
-	//send request
-	var req = new XMLHttpRequest();
-	req.open("GET", endpoint + '/?output=json&query=' + escape(query.replace('\\n','')),
-			true); 
-	req.onreadystatechange = function (aEvt) {
-		if (req.readyState == 4) {
-			if(req.status == 200 || req.status === 0){
-					if (req.responseText === "") { 
-						messageWaiting = "Error : The domain in the query is different of Web site...";
-						return;
-					}
-					doc_datasets = eval('(' + req.responseText + ')'); 
-					//doc_datasets = JSON.parse(json); // no with Chrome
-				//messageWaiting = "Reading the datasets...";		
-				
-				div.innerHTML =  makeTable(doc_datasets);
-				// download_links();	
-			}else
-				messageWaiting = "Error loading page";
-			}
-			};
-	req.send(null); 
-}
-
-function makeTable(doc_datasets){
-	table = '<table class="wikitable sortable">';
-	table += '<tr>';
-	for(var i in doc_datasets.head.vars)
-	{
-		table += '<th>';
-		table += doc_datasets.head.vars[i];
-		table += '</th>';
-	}
-	table += '</tr>';
-	
-	for(var i1 in doc_datasets.results.bindings)
-	{
-		table += '<tr>';
-		for(var ii in doc_datasets.results.bindings[i1])
-		{
-			table += '<td>';
-			table += doc_datasets.results.bindings[i1][ii].value ;
-			table += '</td>';	
-		}
-		table += '</tr>';
-	}
-	
-	table += '</table>';
-	return table;
-}
-
-
-function waiting(){	
-    var xcenter = ctx.canvas.width/2;
-    var ycenter = ctx.canvas.height/2;
-    var sourceWidth = 65;
-    var sourceHeight = 65;
-    var ximage = xcenter - sourceWidth/2 ;
-    var yimage = ycenter - sourceHeight/2;
-    
-
-    
-    ctx.clearRect(0 ,0, ctx.canvas.width,ctx.canvas.height);
-
-	ctx.save();
-	ctx.translate(xcenter,ycenter); // to get it in the origin
-	rotation -=2;
-	ctx.rotate(rotation*Math.PI/64); //rotate in origin
-	ctx.drawImage(imageObjWaiting,-sourceWidth/2 ,-sourceHeight/2);
-	ctx.restore();
-
-	ctx.textAlign="center";
-	ctx.textBaseline = "middle";
-	ctx.fillStyle ="#474754";
-	ctx.font = "30px arial";
-	ctx.fillText(messageWaiting, xcenter,ycenter + sourceHeight/2 + 50);
-
-}

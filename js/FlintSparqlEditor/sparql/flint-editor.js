@@ -58,7 +58,7 @@ function FlintEditor(container, imagesPath, config) {
 					$('#flint-dialog-okay-button').css('visibility', 'visible');
 				}
 				$('.flint-dialog-body').css('margin-top',
-						($('#flint-editor').position().top + 200) + "px");
+						($('#flint-editor').position().top + 200) + 'px');
 				$('#flint-dialog').css('visibility', 'visible');
 			}
 		};

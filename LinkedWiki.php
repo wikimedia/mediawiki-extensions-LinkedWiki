@@ -106,6 +106,11 @@ $wgHooks['ParserFirstCallInit'][] = 'efSparqlParserFunction_Setup';
 $wgHooks['LanguageGetMagic'][]       = 'efSparqlParserFunction_Magic';
 
 function efSparqlParserFunction_Setup( &$parser ) {
+	//I can't put these lines in efLwgraphRender... bug ?
+	global $wgOut;
+	$wgOut->addModules('ext.LinkedWiki.table2CSV');
+	$wgOut->addModules('ext.LinkedWiki.flowchart');
+	
 	$parser->setFunctionHook( 'sparql', 'efSparqlParserFunction_Render' );
 	$parser->setFunctionHook( 'wsparql', 'efWsparqlParserFunction_Render' );
 	$parser->setFunctionHook( 'properties', 'efPropertiesParserFunction_Render' );
@@ -120,7 +125,7 @@ function efSparqlParserFunction_Magic( &$magicWords, $langCode ) {
 	# All remaining elements are synonyms for our parser function
 	$magicWords['sparql'] = array( 0, 'sparql' );
 	$magicWords['wsparql'] = array( 0, 'wsparql' );
-	$magicWords['properties'] = array( 0, 'properties' );
+	$magicWords['properties'] = array( 0, 'properties' );	
 	# unless we return true, other parser functions extensions won't get loaded.
 	return true;
 }
@@ -132,38 +137,39 @@ function fSparqlParserFunction_pageiri(&$parser) {
 }
 
 function efLwgraphRender( $input, array $args, Parser $parser, PPFrame $frame ) {
-      global $wgOut;
+      //global $wgOut;
        $html = "";
         $width = isset($args["width"])?$args["width"]:"100%";
         $height = isset($args["height"])?$args["height"]:"150px";
         $border = isset($args["border"]) && $args["border"]>0 ? "border:".$args["border"]."px solid #000000;" : "" ;
         
-       if (isset($args["debug"]) && $args["debug"] == "true"){        
+       if (isset($args["debug"]) && $args["debug"] == "true"){
 	    $attr = array();    
 	    foreach( $args as $name => $value )
 		    $attr[] =  $name . ' = ' .  $value ;
 		    
-	    $html .= "<div><b>lwgraph DEBUG :</b><br/>".implode( '<br/>', $attr )."</div>";
-            $html .= "<pre>".htmlspecialchars( $input )."</pre>";            
+			$html .= "<div><b>lwgraph DEBUG :</b><br/>".implode( '<br/>', $attr )."</div>";
+            $html .= "<pre>".htmlspecialchars( $input )."</pre>";
 	    
         }
         
-        if (isset($args["type"]) == "flow"){ 
-	    $wgOut->addModules('ext.LinkedWiki.flowchart');   
+        if (isset($args["type"]) && $args["type"] == "flow"){ 
+           // I put this addModules in efSparqlParserFunction_Setup
+	       //$wgOut->addModules('ext.LinkedWiki.flowchart');
+        
+        
+	        preg_match_all("/\[\[([^\]\|]*)(?:\|[^\]]*)?\]\]/U", $input,$out);
+	        $arrayTitle = array_unique ($out[1]);
+	        
+	        $textGraph = $input;
+	        foreach ($arrayTitle as $title) {
+				  $titleObject = Title::newFromText( $title );
+				  if ( !$titleObject->exists() ) 
+				      $textGraph = str_replace("[[".$title, "~[[".$title, $textGraph);
+				      $textGraph = str_replace("~~", "~", $textGraph);
+				}
+	        $html .= "<canvas  class=\"lwgraph-flow\" style=\"".$border."width: ".$width.";height:".$height."\">".$textGraph."</canvas>";
         }
-        
-        preg_match_all("/\[\[([^\]\|]*)(?:\|[^\]]*)?\]\]/U", $input,$out);
-        $arrayTitle = array_unique ($out[1]);
-        
-        $textGraph = $input;
-        foreach ($arrayTitle as $title) {
-	  $titleObject = Title::newFromText( $title );
-	  if ( !$titleObject->exists() ) 
-	      $textGraph = str_replace("[[".$title, "~[[".$title, $textGraph);
-	      $textGraph = str_replace("~~", "~", $textGraph);
-	}
-        $html .= "<canvas  class=\"lwgraph-flow\" style=\"".$border."width: ".$width.";height:".$height."\">".$textGraph."</canvas>";
-        
         return array($html, 'isHTML' => true);
 }
 
@@ -539,6 +545,8 @@ function efSparqlParserFunction_simpleHTML( $querySparqlWiki,$endpoint ,$classHe
 			$str .= " bgcolor=\"#f5f5f5\" ";		
 		$str .= ">\n";
 		$lignegrise = !$lignegrise;
+		
+		
 		foreach ( $variables as $variable) {
 		      $str .= "<td>";
 		      

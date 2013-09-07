@@ -80,7 +80,7 @@ class ParserSparqlResult extends Base {
    function contentHandler($parser_object,$data)
    {
 	   	if($this->_cellCurrent != null){
-		   //	echo "DATA". $data." - ".$this->_cellCurrent."\n";
+		   	//echo "DATA". $data." - ".$this->_cellCurrent."\n";
 		   	$this->_value .= $data;
 	   	}
    }

@@ -1,106 +1,130 @@
-jQuery.fn.lwDrawPolygon = function(shape) {
-	var a = $(this)[0].getContext('2d');
-	
+/*global $:false */
+jQuery.fn.lwDrawPolygon = function (shape) {
+	var
+		a = $(this)[0].getContext('2d'),
+		p; //var loop for
+
 	a.beginPath();
-	a.moveTo(shape[0][0],shape[0][1]);
-	for(var p in shape){
-		if (p > 0) a.lineTo(shape[p][0],shape[p][1]);
+	a.moveTo(shape[0][0], shape[0][1]);
+	for (p in shape) {
+		if (p > 0) {
+			a.lineTo(shape[p][0], shape[p][1]);
+		}
 	}
-	a.lineTo(shape[0][0],shape[0][1]);
+	a.lineTo(shape[0][0], shape[0][1]);
 	a.fill();
 
 };
 
-function lwTranslateShape(shape,x,y) {
-	var rv = [];
-	for(var p in shape){
-		rv.push([ shape[p][0] + x, shape[p][1] + y ]);
+function lwTranslateShape(shape, x, y) {
+	var
+		rv = [],
+		p; //var loop for
+	for (p in shape) {
+		if (shape.hasOwnProperty(p)) {
+			rv.push([ shape[p][0] + x, shape[p][1] + y ]);
+		}
 	}
 	return rv;
 
 }
 
-function lwRotateShape(shape,ang) {
+function lwRotateShape(shape, ang) {
+	var
+		rv = [],
+		p; //var loop for
 
-	function rotatePoint(ang,x,y) {
-	return [
-		(x * Math.cos(ang)) - (y * Math.sin(ang)),
-		(x * Math.sin(ang)) + (y * Math.cos(ang))
-		];
+	function rotatePoint(ang, x, y) {
+		return [
+				(x * Math.cos(ang)) - (y * Math.sin(ang)),
+				(x * Math.sin(ang)) + (y * Math.cos(ang))
+			];
 	}
 
-	var rv = [];
-	for(var p in shape){
-		rv.push(rotatePoint(ang,shape[p][0],shape[p][1]));
+	for (p in shape) {
+		if (shape.hasOwnProperty(p)) {
+			rv.push(rotatePoint(ang, shape[p][0], shape[p][1]));
+		}
 	}
 	return rv;
 
 }
 
-jQuery.fn.lwDrawLineArrow= function(text,color,x1,y1,x2,y2,draw) {
-	var a = $(this)[0].getContext('2d');
-	var arrow = [
-		[ 2, 0 ],
-		[ -10, -4 ],
-		[ -10, 4]
-		];
-	var marge = 10 ;
-	var height = 14;
-	var width = 0;
-	if(text !== null){
+jQuery.fn.lwDrawLineArrow = function (text, color, x1, y1, x2, y2, draw) {
+	var
+		a = $(this)[0].getContext('2d'),
+		arrow = [
+			[ 2, 0 ],
+			[ -10, -4 ],
+			[ -10, 4]
+		],
+		marge = 10,
+		height = 14,
+		width = 0,
+		metrics = 0,
+		cx = 0,
+		cy = 0,
+		ang = 0;
+
+	if (text !== null) {
 		a.save();
 
-	a.font = '14px Arial';
-	var metrics = a.measureText(text);
-	width = metrics.width;
-	
-	var cx = x1 > x2 ? x2 + x1 - x2 : x1 + x2 - x1;
-	var cy = y1 > y2 ? y2 + y1 - y2 : y1 + y2 - y1;
-	//a.translate(x1 - width/2 - marge -5 + x2-x1,y1 - height/2 + y2-y1);
-	a.translate(cx- width/2 - marge -5 ,cy - height/2 );
-	a.textAlign = 'center';
-	a.textBaseline = 'middle';
-	a.fillStyle = color;
-	a.fillText(text, 0,0);
-	a.restore();
+		a.font = '14px Arial';
+		metrics = a.measureText(text);
+		width = metrics.width;
+
+		cx = x1 > x2 ? x2 + x1 - x2 : x1 + x2 - x1;
+		cy = y1 > y2 ? y2 + y1 - y2 : y1 + y2 - y1;
+		//a.translate(x1 - width / 2 - marge -5 + x2-x1,y1 - height / 2 + y2-y1);
+		a.translate(cx - width / 2 - marge - 5, cy - height / 2);
+		a.textAlign = 'center';
+		a.textBaseline = 'middle';
+		a.fillStyle = color;
+		a.fillText(text,  0, 0);
+		a.restore();
 	}
-	if(draw){
+	if (draw) {
 		a.beginPath();
-		a.moveTo(x1,y1);
-		a.lineTo(x2,y2);
+		a.moveTo(x1, y1);
+		a.lineTo(x2, y2);
 		a.stroke();
-		var ang = Math.atan2(y2-y1,x2-x1);
-		$(this).lwDrawPolygon(lwTranslateShape(lwRotateShape(arrow,ang),x2,y2));
+		ang = Math.atan2(y2 - y1, x2 - x1);
+		$(this).lwDrawPolygon(lwTranslateShape(lwRotateShape(arrow, ang), x2, y2));
 	}
 
-	return width + marge*2;
+	return width + marge * 2;
 };
 
 
-jQuery.fn.lwDrawRect= function(text,color,x,y,draw) {
-	var a = $(this)[0].getContext('2d');
-	var rect = [[-30,30],[-30,-30],[30,-30],[30,30],[-28,30],[-28,28],[28,28],[28,-28],[-28,-28],[-28,30]];
-	var marge = 15;
+jQuery.fn.lwDrawRect = function (text, color, x, y, draw) {
+	var
+		a = $(this)[0].getContext('2d'),
+		rect = [[-30, 30], [-30, -30], [30, -30], [30, 30], [-28, 30], [-28, 28], [28, 28], [28, -28], [-28, -28], [-28, 30]],
+		marge = 15,
+		height = 20,
+		metrics = 0,
+		width = 0,
+		i;//var loop for
+
 	a.save();
 
-	a.translate(x,y);
-	var height = 20;
+	a.translate(x, y);
 	a.font = '20px Arial';
-	var metrics = a.measureText(text);
-	
-	var width = metrics.width;   
-	if(draw){
-		for(var i = 0; i < rect.length ; i++){
+	metrics = a.measureText(text);
+
+	width = metrics.width;
+	if (draw) {
+		for (i = 0; i < rect.length; i++) {
 			//console.log(rect[i][0]);
 			//console.log(rect[i][1]);
-			rect[i][0] = rect[i][0]>0? rect[i][0] -(30-marge) + width/2: rect[i][0]+(30-marge) - width/2 ;
-			rect[i][1] = rect[i][1]>0? rect[i][1] -(30-marge) + height/2: rect[i][1]+(30-marge) - height/2 ;
+			rect[i][0] = rect[i][0] > 0 ? rect[i][0] - (30 - marge) + width / 2: rect[i][0] + (30 - marge) - width / 2;
+			rect[i][1] = rect[i][1] > 0 ? rect[i][1] - (30 - marge) + height / 2: rect[i][1] + (30 - marge) - height / 2;
 		}
-		$(this).lwDrawPolygon(lwTranslateShape(rect,0,0));
+		$(this).lwDrawPolygon(lwTranslateShape(rect, 0, 0));
 		a.textAlign = 'center';
 		a.textBaseline = 'middle';
-		a.fillStyle = color;      
-		a.fillText(text, 0,0); 
+		a.fillStyle = color;
+		a.fillText(text, 0, 0);
 	}
 	a.restore();
 
@@ -125,13 +149,13 @@ jQuery.fn.lwDrawRect= function(text,color,x,y,draw) {
 //	canvas.width = parseInt($(this).css('width'));
 //	canvas.height =  parseInt($(this).css('height'));
 //
-//	console.log( index + ": " + $(this).text() );
+//	console.log( index + ": " + $(this).text());
 //
 //	canvas.addEventListener('click', function(evt) {
 //		var mousePos = getMousePos(canvas, evt);
 //		var shape = graphXXXX.getShape(mousePos.x ,mousePos.y)
 //		if( shape != null){
-//			var url = mw.config.get( 'wgScript' ) + '?title=' + encodeURIComponent(shape.title) ;
+//			var url = mw.config.get( 'wgScript') + '?title=' + encodeURIComponent(shape.title),
 //			if(shape.isPageExist)
 //				window.location.href = url;
 //			else
@@ -150,7 +174,7 @@ jQuery.fn.lwDrawRect= function(text,color,x,y,draw) {
 //		}, false);
 //
 //
-//	//$(this).lwDrawPolygon(lwTranslateShape(lwRotateShape(shape,Math.PI ),50,50));
+//	//$(this).lwDrawPolygon(lwTranslateShape(lwRotateShape(shape,Math.PI),50,50));
 //	//$(this).lwDrawLineArrow(0,0,250,50);
 //	//$(this).lwDrawRect("tteteteteoto",250,50);  
 //	
