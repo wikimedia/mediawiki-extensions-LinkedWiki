@@ -371,7 +371,9 @@ function efSparqlParserFunction_array(  $querySparqlWiki,$endpoint ,$classHeader
 			if($row[$variable." type"] == "uri" ){
 				$arrayParameters[] = $variable." = ". efSparqlParserFunction_uri2Link($row[$variable],true) ;
 			}else {
-				$arrayParameters[] = $variable." = ". $row[$variable] ;
+				if (isset($variable)) {
+					$arrayParameters[] = $variable." = ". $row[$variable];
+				}
 			}
 		}
 		foreach ( $TableFormatTemplates as $TableFormatTemplate) {
