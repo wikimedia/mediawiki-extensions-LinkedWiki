@@ -629,7 +629,7 @@ function efSparqlParserFunction_tableCell( $querySparqlWiki,$endpoint ,$debug = 
 function  efSparqlParserFunction_footer($duration,$querySparqlWiki,$endpoint ,$classHeaders = '',$headers = ''){
 	$today = date(wfMessage( 'linkedwiki-date' )->text());
 	return $today ." -- [{{fullurl:{{FULLPAGENAME}}|action=purge}} ".wfMessage( 'linkedwiki-refresh' )->text()."] -- ".
-        wfMessage( 'linkedwiki-durate' )->text()." :".
+        wfMessage( 'linkedwiki-duration' )->text()." :".
         round($duration, 3) ."s"  ;
         //"Version : [{{canonicalurl:Special:Specialexportcsv}}?query={{urlencode:$querySparqlWiki}}&$endpoint={{urlencode:$querySparqlWiki}}&classHeaders={{urlencode:$querySparqlWiki}}&headers={{urlencode:$querySparqlWiki}} CSV] ";
 }
@@ -650,7 +650,7 @@ $url = $subject . "?action=purge";
 	//$url = preg_replace( '/(\?[^\?]*$)/i', "",$wgRequest->getRequestURL()) . "?action=purge";
 	//$url = $wgRequest->getRequestURL() . "?action=purge";
 	return $today ." -- <a href=\"".$url."\">".wfMessage( 'linkedwiki-refresh' )->text()."</a> -- ".
-        wfMessage( 'linkedwiki-durate' )->text()." :".
+        wfMessage( 'linkedwiki-duration' )->text()." :".
         round($duration, 3) ."s -- <a class=\"csv\" style=\"cursor: pointer;\" >CSV</a>";
 	}
 
