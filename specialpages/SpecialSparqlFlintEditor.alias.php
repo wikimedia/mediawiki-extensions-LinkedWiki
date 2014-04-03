@@ -1,12 +1,12 @@
 <?php
-$aliases = array();
- 
+$specialPageAliases = array();
+
 /** English */
-$aliases['en'] = array(
-    'linkedwiki-specialsparqlflinteditor' => array('SparqlFlintEditor', 'Sparql Flint editor'),
+$specialPageAliases['en'] = array(
+	'linkedwiki-specialsparqlflinteditor' => array('SparqlFlintEditor', 'Sparql Flint editor'),
 );
- 
+
 /** Français */
-$aliases['fr'] = array(
-    'linkedwiki-specialsparqlflinteditor' => array( 'SparqlFlintEditor', 'Editeur Flint Sparql'),
+$specialPageAliases['fr'] = array(
+	'linkedwiki-specialsparqlflinteditor' => array( 'SparqlFlintEditor', 'Editeur Flint Sparql'),
 );

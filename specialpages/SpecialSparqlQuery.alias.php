@@ -1,12 +1,12 @@
 <?php
-$aliases = array();
- 
+$specialPageAliases = array();
+
 /** English */
-$aliases['en'] = array(
-    'linkedwiki-specialsparqlquery' => array('SparqlQuery', 'Sparql editor'),
+$specialPageAliases['en'] = array(
+	'linkedwiki-specialsparqlquery' => array('SparqlQuery', 'Sparql editor'),
 );
- 
+
 /** Français */
-$aliases['fr'] = array(
+$specialPageAliases['fr'] = array(
 	'linkedwiki-specialsparqlquery' => array( 'SparqlQuery', 'Editeur Sparql'),
 );
