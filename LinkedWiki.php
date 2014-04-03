@@ -91,13 +91,13 @@ $wgExtensionMessagesFiles['LinkedWiki'] = dirname( __FILE__ ) . '/LinkedWiki.i18
 //Add special pages
 $wgMessagesDirs['linkedwiki-specialsparqlquery'] = __DIR__ . '/i18n/sparqlquery';
 $wgExtensionMessagesFiles['linkedwiki-specialsparqlquery'] = $wgLinkedWikiSpecialPagesPath . '/SpecialSparqlQuery.i18n.php';
-$wgExtensionAliasesFiles['linkedwiki-specialsparqlquery'] = $wgLinkedWikiSpecialPagesPath . '/SpecialSparqlQuery.alias.php';
+$wgExtensionMessagesFiles['linkedwiki-specialsparqlquery-alias'] = $wgLinkedWikiSpecialPagesPath . '/SpecialSparqlQuery.alias.php';
 $wgSpecialPages['linkedwiki-specialsparqlquery']                     = array( 'SpecialSparqlQuery' ); //name of the class
 $wgSpecialPageGroups['linkedwiki-specialsparqlquery']                = 'pagetools';
 
 $wgMessagesDirs['linkedwiki-specialsparqlflinteditor'] = __DIR__ . '/i18n/sparqlflinteditor';
 $wgExtensionMessagesFiles['linkedwiki-specialsparqlflinteditor'] = $wgLinkedWikiSpecialPagesPath . '/SpecialSparqlFlintEditor.i18n.php';
-$wgExtensionAliasesFiles['linkedwiki-specialsparqlflinteditor'] = $wgLinkedWikiSpecialPagesPath .  '/SpecialSparqlFlintEditor.alias.php';
+$wgExtensionMessagesFiles['linkedwiki-specialsparqlflinteditor-alias'] = $wgLinkedWikiSpecialPagesPath .  '/SpecialSparqlFlintEditor.alias.php';
 $wgSpecialPages['linkedwiki-specialsparqlflinteditor']  = array( 'SpecialSparqlFlintEditor' ); //name of the class
 $wgSpecialPageGroups['linkedwiki-specialsparqlflinteditor']  = 'pagetools';
 
