@@ -1,0 +1,12 @@
+{
+    "@metadata": {
+        "authors": []
+    },
+    "linkedwiki-specialsparqlquery": "SPARQL editor",
+    "linkedwiki-specialsparqlquery_categorysparqlquery": "SPARQL query",
+    "linkedwiki-specialsparqlquery_mainpage": "This page will be used to test, optimize and share your queries if you wish.\n\nPost your questions to: [http://groups.google.com/group/linkedwiki Group linkedwiki]",
+    "linkedwiki-specialsparqlquery_sendquery": "Search",
+    "linkedwiki-specialsparqlquery_usethisquery": "Howto use this query in this wiki",
+    "linkedwiki-specialsparqlquery_usethisquery_tutorial": "Copy and paste this line in a page of this wiki.\n\nSee more: [https://www.mediawiki.org/wiki/Extension:LinkedWiki Extension:LinkedWiki]",
+    "linkedwiki-specialsparqlquery_endpointsparql": "Endpoint SPARQL"
+}
