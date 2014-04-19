@@ -71,6 +71,11 @@ $wgResourceModules += array(
 	),
 );
 
+//Default Config
+$wgLinkedWikiConfigDefaultEndpoint = "http://dbpedia.org/sparql";
+$wgLinkedWikiConfigProxyHost = null;//example : "http://proxy.XXXXX.com"
+$wgLinkedWikiConfigProxyPort = null;//example 888
+
 //Paths
 $wgLinkedWikiPath = dirname(__FILE__);
 $wgLinkedWikiClassesPath = $wgLinkedWikiPath . "/class";
@@ -78,7 +83,7 @@ $wgLinkedWikiLibPath = $wgLinkedWikiPath . "/lib";
 $wgLinkedWikiSpecialPagesPath = $wgLinkedWikiPath . "/specialpages";
 
 //Libraries
-require_once( $wgLinkedWikiLibPath ."/sparql/Endpoint.php");
+require_once( $wgLinkedWikiLibPath ."/SPARQL/Endpoint.php");
 
 //Classes
 $wgAutoloadClasses['SpecialSparqlQuery'] = $wgLinkedWikiSpecialPagesPath . '/SpecialSparqlQuery.php';
@@ -177,7 +182,7 @@ function efLwgraphRender( $input, array $args, Parser $parser, PPFrame $frame ) 
 
 function efSparqlParserFunction_Render( $parser) {
 	//global $wgLinkedWikiLocalEndPoint,$wgLinkedWikiEndPoint,$wgLinkedWikiGraphWiki;
-	global $wgOut;
+	global $wgOut,$wgLinkedWikiConfigDefaultEndpoint;
 	$wgOut->addModules( 'ext.LinkedWiki.table2CSV' );
 
 	$args = func_get_args(); // $parser, $param1 = '', $param2 = ''
@@ -195,7 +200,7 @@ function efSparqlParserFunction_Render( $parser) {
 		$query  = efWsparqlParserFunction_parserquery($query,$parser);
 
 		// which endpoint?
-		$endpoint = isset($vars["endpoint"]) ? $vars["endpoint"] : 'http://dbpedia.org/sparql';
+		$endpoint = isset($vars["endpoint"]) ? $vars["endpoint"] : $wgLinkedWikiConfigDefaultEndpoint;
 		$classHeaders = isset($vars["classHeaders"]) ? $vars["classHeaders"] :'';
 		$headers = isset($vars["headers"]) ? $vars["headers"] :'';
 		$templates = isset($vars["templates"]) ? $vars["templates"] :'';
@@ -224,6 +229,7 @@ function efSparqlParserFunction_Render( $parser) {
 }
 
 function efWsparqlParserFunction_Render( $parser) {
+	global $wgLinkedWikiConfigDefaultEndpoint;
 	$parser->disableCache(); //TODO OPTIMIZE
 
 	//global $wgLinkedWikiLocalEndPoint,$wgLinkedWikiEndPoint,$wgLinkedWikiGraphWiki;
@@ -232,7 +238,7 @@ function efWsparqlParserFunction_Render( $parser) {
 	$query = "";
 	$debug = null;
 	$cache = "yes";
-	$endpoint =  "http://dbpedia.org/sparql";
+	$endpoint =  $wgLinkedWikiConfigDefaultEndpoint;
 	$namewidget = isset($args[1])? $args[1] : "";
 	$vars = array();
 	for($i = 2;$i < $countArgs;$i++) {
@@ -274,13 +280,13 @@ function efWsparqlParserFunction_Render( $parser) {
 }
 
 function efSparqlParserFunction_widget($namewidget, $querySparqlWiki,$endpoint , $debug,$vars){
-
+	global $wgLinkedWikiConfigProxyHost,$wgLinkedWikiConfigProxyProxy;
 	$specialC = array("&#39;");
 	$replaceC = array("'");
 	$querySparql  = str_replace($specialC ,$replaceC , $querySparqlWiki);
 
 	$str = "";
-	$sp = new Endpoint($endpoint);
+	$sp = new Endpoint($endpoint,true,false,$wgLinkedWikiConfigProxyHost,$wgLinkedWikiConfigProxyProxy);
 	$rs = $sp->query($querySparqlWiki);
 	$errs = $sp->getErrors();
 	if ($errs) {
@@ -322,12 +328,13 @@ function efSparqlParserFunction_widget($namewidget, $querySparqlWiki,$endpoint ,
  * $headers : replacement of th values
  */
 function efSparqlParserFunction_array(  $querySparqlWiki,$endpoint ,$classHeaders = '',$headers = '', $templates = '', $footer = '', $debug = null ) {
+	global $wgLinkedWikiConfigProxyHost,$wgLinkedWikiConfigProxyProxy;
 	$specialC = array("&#39;");
 	$replaceC = array("'");
 	$querySparql  = str_replace($specialC ,$replaceC , $querySparqlWiki);
 
 	$str = "";
-	$sp = new Endpoint($endpoint);
+	$sp = new Endpoint($endpoint,true,false,$wgLinkedWikiConfigProxyHost,$wgLinkedWikiConfigProxyProxy);
 	$rs = $sp->query($querySparqlWiki);
 	$errs = $sp->getErrors();
 	if ($errs) {
@@ -490,12 +497,13 @@ function efSparqlParserFunction_simple( $querySparqlWiki,$endpoint ,$classHeader
 }*/
 
 function efSparqlParserFunction_simpleHTML( $querySparqlWiki,$endpoint ,$classHeaders = '',$headers = '',$footer = '', $debug = null){
+	global $wgLinkedWikiConfigProxyHost,$wgLinkedWikiConfigProxyProxy;
 	$specialC = array("&#39;");
 	$replaceC = array("'");
 	$querySparql  = str_replace($specialC ,$replaceC , $querySparqlWiki);
 
 	$str = "";
-	$sp = new Endpoint($endpoint);
+	$sp = new Endpoint($endpoint,true,false,$wgLinkedWikiConfigProxyHost,$wgLinkedWikiConfigProxyProxy);
 	$rs = $sp->query($querySparqlWiki);
 	$errs = $sp->getErrors();
 	if ($errs) {
@@ -584,12 +592,13 @@ function efSparqlParserFunction_simpleHTML( $querySparqlWiki,$endpoint ,$classHe
 }
 
 function efSparqlParserFunction_tableCell( $querySparqlWiki,$endpoint ,$debug = null){
+	global $wgLinkedWikiConfigProxyHost,$wgLinkedWikiConfigProxyProxy;
 	$specialC = array("&#39;");
 	$replaceC = array("'");
 	$querySparql  = str_replace($specialC ,$replaceC , $querySparqlWiki);
 
 	$str = "";
-	$sp = new Endpoint($endpoint);
+	$sp = new Endpoint($endpoint,true,false,$wgLinkedWikiConfigProxyHost,$wgLinkedWikiConfigProxyProxy);
 	$rs = $sp->query($querySparqlWiki);
 	$errs = $sp->getErrors();
 	if ($errs) {

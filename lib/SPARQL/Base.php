@@ -1,4 +1,9 @@
 <?php
+/**
+ * @git git@github.com:BorderCloud/SPARQL.git
+ * @author Karima Rafes <karima.rafes@bordercloud.com>
+ * @license http://creativecommons.org/licenses/by-sa/4.0/
+*/
 class Base {
 
 	private $_errors;

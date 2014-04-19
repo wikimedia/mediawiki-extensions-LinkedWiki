@@ -1,4 +1,9 @@
 <?php
+/**
+ * @git git@github.com:BorderCloud/SPARQL.git
+ * @author Karima Rafes <karima.rafes@bordercloud.com>
+ * @license http://creativecommons.org/licenses/by-sa/4.0/
+*/
 
 class Curl
 {
@@ -17,12 +22,12 @@ class Curl
 	var $debug = false;
 
 	/**
-	 * Contain last error message if error occurred
+	 * Contain last error message if error occured
 	 * @access private
 	 * @var string
 	 */
 	var $error_msg;
-
+	
 	/**
 	 * Curl_HTTP_Client constructor
 	 * @param boolean debug
@@ -104,7 +109,7 @@ class Curl
 
 	/**
 	 * Send post data to target URL
-	 * return data returned from url or false if error occurred
+	 * return data returned from url or false if error occured
 	 * @param string url
 	 * @param array assoc post data array ie. $foo['post_var_name'] = $value
 	 * @param string ip address to bind (default null)
@@ -115,7 +120,9 @@ class Curl
 	function send_post_data($url, $postdata, $arrayHeader=null, $ip=null, $timeout=10)
 	{
 		//set various curl options first
-
+		if($this->debug)
+			curl_setopt($this->ch, CURLOPT_VERBOSE, true);
+					
 		// set url to post to
 		curl_setopt($this->ch, CURLOPT_URL,$url);
 
@@ -150,9 +157,10 @@ class Curl
 		}
 
 		$post_string = implode("&",$post_array);
-
+		
 		if($this->debug)
 		{
+			curl_setopt($this->ch, CURLOPT_VERBOSE, true);
 			echo "Post String: $post_string\n";
 		}
 
@@ -170,7 +178,7 @@ class Curl
 		{
 			if($this->debug)
 			{
-				echo "Error Occurred in Curl\n";
+				echo "Error Occured in Curl\n";
 				echo "Error number: " .curl_errno($this->ch) ."\n";
 				echo "Error message: " .curl_error($this->ch)."\n";
 			}
@@ -185,7 +193,7 @@ class Curl
 
 	/**
 	 * fetch data from target URL
-	 * return data returned from url or false if error occurred
+	 * return data returned from url or false if error occured
 	 * @param string url
 	 * @param string ip address to bind (default null)
 	 * @param int timeout in sec for complete curl operation (default 5)
@@ -194,6 +202,9 @@ class Curl
     */
 	function fetch_url($url, $ip=null, $timeout=5)
 	{
+		if($this->debug)
+			curl_setopt($this->ch, CURLOPT_VERBOSE, true);
+			
 		// set url to post to
 		curl_setopt($this->ch, CURLOPT_URL,$url);
 
@@ -223,7 +234,7 @@ class Curl
 		{
 			if($this->debug)
 			{
-				echo "Error Occurred in Curl\n";
+				echo "Error Occured in Curl\n";
 				echo "Error number: " .curl_errno($this->ch) ."\n";
 				echo "Error message: " .curl_error($this->ch)."\n";
 			}
@@ -248,6 +259,8 @@ class Curl
     */
 	function fetch_into_file($url, $fp, $ip=null, $timeout=5)
 	{
+		if($this->debug)
+			curl_setopt($this->ch, CURLOPT_VERBOSE, true);
 		// set url to post to
 		curl_setopt($this->ch, CURLOPT_URL,$url);
 
@@ -277,7 +290,7 @@ class Curl
 		{
 			if($this->debug)
 			{
-				echo "Error Occurred in Curl\n";
+				echo "Error Occured in Curl\n";
 				echo "Error number: " .curl_errno($this->ch) ."\n";
 				echo "Error message: " .curl_error($this->ch)."\n";
 			}
@@ -292,7 +305,7 @@ class Curl
 
 	/**
 	 * Send multipart post data to the target URL
-	 * return data returned from url or false if error occurred
+	 * return data returned from url or false if error occured
 	 * (contribution by vule nikolic, vule@dinke.net)
 	 * @param string url
 	 * @param array assoc post data array ie. $foo['post_var_name'] = $value
@@ -304,6 +317,9 @@ class Curl
     */
 	function send_multipart_post_data($url, $postdata, $file_field_array=array(), $ip=null, $timeout=30)
 	{
+		if($this->debug)
+			curl_setopt($this->ch, CURLOPT_VERBOSE, true);
+	//curl_setopt($this->ch, CURLOPT_VERBOSE, true);
 		//set various curl options first
 
 		// set url to post to
@@ -360,8 +376,7 @@ class Curl
 
 		// set post string
 		//curl_setopt($this->ch, CURLOPT_POSTFIELDS, $post_string);
-
-
+		
 		// set multipart form data - file array field-value pairs
 		if(!empty($file_field_array))
 		{
@@ -384,7 +399,7 @@ class Curl
 		{
 			if($this->debug)
 			{
-				echo "Error Occurred in Curl\n";
+				echo "Error Occured in Curl\n";
 				echo "Error number: " .curl_errno($this->ch) ."\n";
 				echo "Error message: " .curl_error($this->ch)."\n";
 			}
@@ -432,9 +447,9 @@ class Curl
 	function get_info()
 	{
 		return curl_getinfo($this->ch);
-
+	
 	}
-
+	
 	/**
 	 * Return last error message and error number
 	 * @return string error msg
@@ -448,9 +463,85 @@ class Curl
 		return $err;
 	}
 
-	//$headersdata is array
+	function send_post_content($url, $headersdata,$postdata, $content, $ip=null, $timeout=10)
+	{
+		if($this->debug)
+			curl_setopt($this->ch, CURLOPT_VERBOSE, true);
+		//set various curl options first
+
+		// set url to post to
+		curl_setopt($this->ch, CURLOPT_URL,$url);
+
+		// return into a variable rather than displaying it
+		curl_setopt($this->ch, CURLOPT_RETURNTRANSFER,true);
+
+		//bind to specific ip address if it is sent trough arguments
+		if($ip)
+		{
+			if($this->debug)
+			{
+				echo "Binding to ip $ip\n";
+			}
+			curl_setopt($this->ch,CURLOPT_INTERFACE,$ip);
+		}
+
+		//set curl function timeout to $timeout
+		curl_setopt($this->ch, CURLOPT_TIMEOUT, $timeout);
+
+		curl_setopt($this->ch, CURLOPT_CUSTOMREQUEST, 'POST');
+		
+		//generate post string
+		$post_array = array();
+		
+		if(count($postdata)> 0){
+			foreach($postdata as $key=>$value)
+			{
+				$post_array[] = urlencode($key) . "=" . urlencode($value);
+			}
+			$post_array[] ="data=" . urlencode($content);
+			$post_string = implode("&",$post_array);
+		}else{
+			$post_string=$content;
+		}
+		
+		if($this->debug)
+		{
+			echo "content String: $content\n";
+			echo "header : ".print_r($headersdata,true)."\n";
+			echo "Post String: $post_string\n";
+			curl_setopt($this->ch, CURLOPT_VERBOSE, true);
+		}
+
+		// set header
+      curl_setopt($this->ch, CURLOPT_HTTPHEADER, array_merge(array('Content-Length: ' . strlen($post_string)),$headersdata));
+
+      // set post string
+			curl_setopt($this->ch, CURLOPT_POSTFIELDS, $post_string);
+
+		//and finally send curl request
+		$result = curl_exec($this->ch);
+
+		if(curl_errno($this->ch))
+		{
+			if($this->debug)
+			{
+				echo "Error Occured in Curl\n";
+				echo "Error number: " .curl_errno($this->ch) ."\n";
+				echo "Error message: " .curl_error($this->ch)."\n";
+			}
+
+			return false;
+		}
+		else
+		{
+			return $result;
+		}
+	}
+	
 	function send_put_data($url, $headersdata,$putdata, $ip=null, $timeout=10)
 	{
+		if($this->debug)
+			curl_setopt($this->ch, CURLOPT_VERBOSE, true);
 		//set various curl options first
 
 		// set url to post to
@@ -495,7 +586,7 @@ class Curl
 		{
 			if($this->debug)
 			{
-				echo "Error Occurred in Curl\n";
+				echo "Error Occured in Curl\n";
 				echo "Error number: " .curl_errno($this->ch) ."\n";
 				echo "Error message: " .curl_error($this->ch)."\n";
 			}
@@ -511,6 +602,8 @@ class Curl
 
 	function send_delete($url, $ip=null, $timeout=10)
 	{
+		if($this->debug)
+			curl_setopt($this->ch, CURLOPT_VERBOSE, true);
 		//set various curl options first
 
 		// set url to post to
@@ -543,7 +636,7 @@ class Curl
 		{
 			if($this->debug)
 			{
-				echo "Error Occurred in Curl\n";
+				echo "Error Occured in Curl\n";
 				echo "Error number: " .curl_errno($this->ch) ."\n";
 				echo "Error message: " .curl_error($this->ch)."\n";
 			}
@@ -555,5 +648,5 @@ class Curl
 			return $result;
 		}
 	}
-
+	
 }
