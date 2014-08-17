@@ -12,21 +12,21 @@ class Curl
 	 * @access private
 	 * @var resource
 	 */
-	var $ch ;
+	public $ch ;
 
 	/**
 	 * set debug to true in order to get usefull output
 	 * @access private
 	 * @var string
 	 */
-	var $debug = false;
+	public $debug = false;
 
 	/**
 	 * Contain last error message if error occured
 	 * @access private
 	 * @var string
 	 */
-	var $error_msg;
+	public $error_msg;
 	
 	/**
 	 * Curl_HTTP_Client constructor
