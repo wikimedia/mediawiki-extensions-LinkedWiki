@@ -7,7 +7,10 @@
 require_once("Curl.php");
 require_once("Net.php");
 require_once("Base.php");
+require_once("ToolsConvert.php");
+require_once("ToolsBlankNode.php");
 require_once("ParserSparqlResult.php");
+//require_once("ConversionMimetype.php");
 
 /**
  * Sparql HTTP Client for SPARQL1.1's Endpoint
@@ -224,6 +227,10 @@ class Endpoint extends Base {
 	 */
 	private $_nameParameterQueryWrite;
 	
+
+	private $_login;
+	private $_password;
+	
 	/** For Arc2 **/
 // 	private $_arc2_RemoteStore;
 // 	private $_arc2_Reader;
@@ -360,6 +367,42 @@ class Endpoint extends Base {
 	public function getNameParameterQueryRead() {
 		return $this->_nameparameterQueryRead;
 	}
+
+	/**
+	 * Set the server login
+	 * @param string $login : server login
+	 * @access public
+	 */
+	public function setLogin($login) {
+		$this->_login = $login;
+	}
+	
+	/**
+	 * Get the server login
+	 * @return string $login : server login
+	 * @access public
+	 */
+	public function getLogin() {
+		return $this->_login;
+	}
+	
+	/**
+	 * Set the server password
+	 * @param string $password : server password
+	 * @access public
+	 */
+	public function setPassword($password) {
+		$this->_password = $password;
+	}
+	
+	/**
+	 * Get the server login
+	 * @return string $password : server password
+	 * @access public
+	 */
+	public function getPassword() {
+		return $this->_password;
+	}
 	
 	/**
 	 * Check if the server is up.
@@ -452,7 +495,9 @@ class Endpoint extends Base {
 			$response = $client->send_post_data($sUri,$data);
 		}else{
 			$data = array($this->_nameParameterQueryRead =>   $query,
+			//"output" => ConversionMimetype::getShortnameOfMimetype($typeOutput), //possible fix for 4store/fuseki..
 			"Accept" => $typeOutput); //fix for sesame
+			//print_r($data);
 			$response = $client->send_post_data($sUri,$data,array('Accept: '.$typeOutput));
 		}		
 
@@ -462,7 +507,7 @@ class Endpoint extends Base {
 	
 		if($code < 200 || $code >= 300)
 		{
-			$error = $this->errorLog($query,$data,$sUri,$code,$response);
+			$error = $this->errorLog($query,$data,$sUri,$code,$response. $client->get_error_msg() );
 			$this->addError($error);
 			return false;
 		}
@@ -490,6 +535,7 @@ class Endpoint extends Base {
 				$response = $client->send_post_data($sUri,$data);
 			}else{
 				$data = array($this->_nameParameterQueryWrite =>   $query,
+ 				//"output" => ConversionMimetype::getShortnameOfMimetype($typeOutput), //possible fix for 4store/fuseki...
 				"Accept" => $typeOutput); //fix for sesame
 				$response = $client->send_post_data($sUri,$data,array('Accept: '.$typeOutput));
 			}		
@@ -565,9 +611,12 @@ class Endpoint extends Base {
 	 * @access private
 	 */
 	private function initCurl(){
-		$objCurl = new Curl();
+		$objCurl = new Curl();//$this->_debug
 		if($this->_proxy_host != null && $this->_proxy_port != null){
 			$objCurl->set_proxy($this->_proxy_host.":".$this->_proxy_port);	
+		}
+		if($this->_login != null && $this->_password != null){
+			$objCurl->set_credentials($this->_login,$this->_password);
 		}
 		return $objCurl;
 	}

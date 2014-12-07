@@ -2,8 +2,8 @@
 Feature: table2CSV
   Background:
     Given I am logged in
-      And I has a empty graph http://example.com/data in the triplestore http://192.168.1.100:8181
-      And I do this SPARQL query in the triplestore http://192.168.1.100:8181:
+      And I has a empty graph http://example.com/data in the triplestore http://192.168.1.40:8181
+      And I do this SPARQL query in the triplestore http://192.168.1.40:8181:
         """
 PREFIX dc: <http://purl.org/dc/elements/1.1/>
 INSERT DATA
@@ -29,7 +29,7 @@ GRAPH <http://example.com/data>
      dc:creator ?creator .
 } 
 } ORDER BY  ?title ?creator
-|endpoint=http://192.168.1.100:8181/sparql/
+|endpoint=http://192.168.1.40:8181/sparql/
 }}
         """
       And I click Save page button

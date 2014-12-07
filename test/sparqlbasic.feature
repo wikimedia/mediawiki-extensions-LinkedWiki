@@ -39,7 +39,7 @@ Scenario: Create a table
       
 Scenario: Print a empty table with a query SPARQL
     Given I am at page that does not exist
-    And I has a empty graph http://example.com/data in the triplestore http://192.168.1.100:8181
+    And I has a empty graph http://example.com/data in the triplestore http://192.168.1.40:8181
     When I click link Create source
       And I enter the wikitext:
         """
@@ -48,7 +48,7 @@ SELECT * WHERE {
 GRAPH <http://example.com/data> 
 { ?x ?y ?z . } 
 }
-|endpoint=http://192.168.1.100:8181/sparql/
+|endpoint=http://192.168.1.40:8181/sparql/
 }}
         """
       And I click Save page button
@@ -58,8 +58,8 @@ GRAPH <http://example.com/data>
         
 Scenario: Print a table with a query SPARQL
     Given I am at page that does not exist
-    And I has a empty graph http://example.com/data in the triplestore http://192.168.1.100:8181
-    And I do this SPARQL query in the triplestore http://192.168.1.100:8181:
+    And I has a empty graph http://example.com/data in the triplestore http://192.168.1.40:8181
+    And I do this SPARQL query in the triplestore http://192.168.1.40:8181:
         """
 PREFIX dc: <http://purl.org/dc/elements/1.1/>
 INSERT DATA
@@ -75,18 +75,18 @@ INSERT DATA
         """
 {{#sparql:
 PREFIX dc: <http://purl.org/dc/elements/1.1/>
-SELECT ?title ?creator WHERE {
+SELECT ?x ?title ?creator WHERE {
 GRAPH <http://example.com/data> 
 { ?x dc:title ?title ;
      dc:creator ?creator .
 } 
 } ORDER BY  ?title ?creator
-|endpoint=http://192.168.1.100:8181/sparql/
+|endpoint=http://192.168.1.40:8181/sparql/
 }}
         """
       And I click Save page button
     Then newly created page should open
       And LinkedWiki's table should be there:
-        | title | creator |
-        | Book 1 | A.N.Other1 |
-        | Book 2 | A.N.Other2 |
+        | x | title | creator |
+        | http://example/book1 | Book 1 | A.N.Other1 |
+        | http://example/book2 | Book 2 | A.N.Other2 |

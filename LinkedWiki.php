@@ -563,7 +563,7 @@ function efSparqlParserFunction_simpleHTML( $querySparqlWiki,$endpoint ,$classHe
 		      $str .= "<td>";
 
 			if($row[$variable." type"] == "uri" ){
-				$str .=  efSparqlParserFunction_uri2Link($row[$variable]) ;
+				$str .= "<a href='".$row[$variable]."'>".$row[$variable]."</a>" ;
 			}else{
 				$str .= $row[$variable] ;
 			}

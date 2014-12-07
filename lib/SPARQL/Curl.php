@@ -12,21 +12,21 @@ class Curl
 	 * @access private
 	 * @var resource
 	 */
-	public $ch ;
+	var $ch ;
 
 	/**
 	 * set debug to true in order to get usefull output
 	 * @access private
 	 * @var string
 	 */
-	public $debug = false;
+	var $debug = false;
 
 	/**
 	 * Contain last error message if error occured
 	 * @access private
 	 * @var string
 	 */
-	public $error_msg;
+	var $error_msg;
 	
 	/**
 	 * Curl_HTTP_Client constructor
@@ -63,7 +63,12 @@ class Curl
 	 */
 	function set_credentials($username,$password)
 	{
-		curl_setopt($this->ch, CURLOPT_USERPWD, "$username:$password");
+
+		curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($this->ch, CURLOPT_USERPWD, $username.":".$password);
+		curl_setopt($this->ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
+		curl_setopt($this->ch, CURLOPT_SSL_VERIFYPEER, false);
+		curl_setopt($this->ch, CURLOPT_FOLLOWLOCATION, true);
 	}
 
 	/**
@@ -117,7 +122,7 @@ class Curl
 	 * @return string data
 	 * @access public
     */
-	function send_post_data($url, $postdata, $arrayHeader=null, $ip=null, $timeout=10)
+	function send_post_data($url, $postdata, $arrayHeader=null, $ip=null, $timeout=600)
 	{
 		//set various curl options first
 		if($this->debug)
