@@ -24,7 +24,7 @@
  */
 if (!defined('MEDIAWIKI')) die();
 
-class specialsparqlflinteditor extends SpecialPage {
+class SpecialSparqlFlintEditor extends SpecialPage {
 
 	public function __construct() {
  		parent::__construct( 'linkedwiki-specialsparqlflinteditor' );

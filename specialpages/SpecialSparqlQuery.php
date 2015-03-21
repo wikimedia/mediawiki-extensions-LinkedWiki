@@ -24,7 +24,7 @@
  */
 if (!defined('MEDIAWIKI')) die();
 
-class specialsparqlquery extends SpecialPage {
+class SpecialSparqlQuery extends SpecialPage {
 
 	public function __construct() {
 		parent::__construct( 'linkedwiki-specialsparqlquery' );
