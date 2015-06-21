@@ -98,13 +98,11 @@ $wgMessagesDirs['linkedwiki-specialsparqlquery'] = __DIR__ . '/i18n/sparqlquery'
 $wgExtensionMessagesFiles['linkedwiki-specialsparqlquery'] = $wgLinkedWikiSpecialPagesPath . '/SpecialSparqlQuery.i18n.php';
 $wgExtensionMessagesFiles['linkedwiki-specialsparqlquery-alias'] = $wgLinkedWikiSpecialPagesPath . '/SpecialSparqlQuery.alias.php';
 $wgSpecialPages['linkedwiki-specialsparqlquery']                     = array( 'SpecialSparqlQuery' ); //name of the class
-$wgSpecialPageGroups['linkedwiki-specialsparqlquery']                = 'pagetools';
 
 $wgMessagesDirs['linkedwiki-specialsparqlflinteditor'] = __DIR__ . '/i18n/sparqlflinteditor';
 $wgExtensionMessagesFiles['linkedwiki-specialsparqlflinteditor'] = $wgLinkedWikiSpecialPagesPath . '/SpecialSparqlFlintEditor.i18n.php';
 $wgExtensionMessagesFiles['linkedwiki-specialsparqlflinteditor-alias'] = $wgLinkedWikiSpecialPagesPath .  '/SpecialSparqlFlintEditor.alias.php';
 $wgSpecialPages['linkedwiki-specialsparqlflinteditor']  = array( 'SpecialSparqlFlintEditor' ); //name of the class
-$wgSpecialPageGroups['linkedwiki-specialsparqlflinteditor']  = 'pagetools';
 
 //PARSER
 # Define a setup function

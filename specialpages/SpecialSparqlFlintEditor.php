@@ -37,4 +37,8 @@ class SpecialSparqlFlintEditor extends SpecialPage {
 		$wgOut->addHTML("<div id=\"flint-test\">");
 		$this->setHeaders();
 	}
+
+	protected function getGroupName() {
+		return 'pagetools';
+	}
 }

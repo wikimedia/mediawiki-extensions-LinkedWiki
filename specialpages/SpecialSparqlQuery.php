@@ -149,4 +149,7 @@ function validWithJS(){
 				
 	}
 
+	protected function getGroupName() {
+		return 'pagetools';
+	}
 }
