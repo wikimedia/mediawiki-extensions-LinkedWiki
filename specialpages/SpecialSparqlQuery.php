@@ -33,10 +33,10 @@ class SpecialSparqlQuery extends SpecialPage {
 	}
 
 	public function execute($par = null) {
-		global $wgOut,$wgScriptPath; 
+		global $wgOut,$wgScriptPath,$wgLinkedWikiConfigDefaultEndpoint; 
 		$queryWithoutPrefix = isset($_REQUEST["queryWithoutPrefix"])?stripslashes($_REQUEST["queryWithoutPrefix"]):"";
 		$query = isset($_REQUEST["query"])?stripslashes($_REQUEST["query"]):"";
-		$endpoint = isset($_REQUEST["endpoint"])?stripslashes(trim($_REQUEST["endpoint"])):"http://dbpedia.org/sparql";
+		$endpoint = isset($_REQUEST["endpoint"])?stripslashes(trim($_REQUEST["endpoint"])):$wgLinkedWikiConfigDefaultEndpoint;
 		$output = isset($_REQUEST["output"])?stripslashes($_REQUEST["output"]):"";
 		$titleRequest = isset($_REQUEST["titleRequest"])?stripslashes($_REQUEST["titleRequest"]):"";
 		$description = isset($_REQUEST["description"])?stripslashes($_REQUEST["description"]):"";

@@ -57,6 +57,7 @@ $wgResourceModules += array(
 	'ext.LinkedWiki.flint' => $linkedWikiTpl + array(
 		'scripts' => array(
 			'FlintSparqlEditor/sparql/lib/codemirror.js',
+			'FlintSparqlEditor/sparql/lib/jquery-migrate-1.0.0.js',
 			'FlintSparqlEditor/sparql/sparql10querymode_ll1.js',
 			'FlintSparqlEditor/sparql/sparql11querymode_ll1.js',
 			'FlintSparqlEditor/sparql/sparql11updatemode_ll1.js',
@@ -72,7 +73,8 @@ $wgResourceModules += array(
 );
 
 //Default Config
-$wgLinkedWikiConfigDefaultEndpoint = "http://dbpedia.org/sparql";
+#$wgLinkedWikiConfigDefaultEndpoint = "http://dbpedia.org/sparql";
+$wgLinkedWikiConfigDefaultEndpoint = "https://query.wikidata.org/bigdata/namespace/wdq/sparql";
 $wgLinkedWikiConfigProxyHost = null;//example : "http://proxy.XXXXX.com"
 $wgLinkedWikiConfigProxyPort = null;//example 888
 
@@ -383,8 +385,12 @@ function efSparqlParserFunction_array(  $querySparqlWiki,$endpoint ,$classHeader
 				}
 			}
 		}
-		foreach ( $TableFormatTemplates as $TableFormatTemplate) {
-			$str .= $separateur  . "{{".$TableFormatTemplate."|".implode ( "|", $arrayParameters)."}}";
+		foreach ( $TableFormatTemplates as $key => $TableFormatTemplate) {
+		        if(empty($TableFormatTemplate)){		        
+			    $str .= $separateur  . $row[$variables[$key]];
+		        }else{
+			    $str .= $separateur  . "{{".$TableFormatTemplate."|".implode ( "|", $arrayParameters)."}}";
+			}
 			$separateur = "||";
 		}
 		$str .= "\n";

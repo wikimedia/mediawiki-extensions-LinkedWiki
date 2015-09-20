@@ -37,6 +37,11 @@ See : http://www.mediawiki.org/wiki/Extension:LinkedWiki
 
 == Release-Notes ==
 
+* V2.1.0 Beta 1 version Extension LinkedWiki by Karima Rafes <karima.rafes@bordercloud.com>
+	- Ready for Wikidata version beta
+	- Fix the bug about JQuery ($.browser)
+	- Fix bug with template
+
 * V2.0.0 Alpha 1 version Extension LinkedWiki by Karima Rafes <karima.rafes@bordercloud.com>
 	- simplify client SPARQL for MediaWiki (with or without SMW) 
 	- Remove ARC2 and replace with the SPARQL (simple)
