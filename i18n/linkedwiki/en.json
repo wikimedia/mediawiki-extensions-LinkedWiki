@@ -1,9 +1,9 @@
 {
-    "@metadata": {
-        "authors": []
-    },
-    "linkedwiki-test": "test",
-    "linkedwiki-date": "H:i:s m/d/Y",
-    "linkedwiki-refresh": "Refresh",
-    "linkedwiki-duration": "Duration of query"
+	"@metadata": {
+		"authors": []
+	},
+	"linkedwiki-test": "test",
+	"linkedwiki-date": "H:i:s m/d/Y",
+	"linkedwiki-refresh": "Refresh",
+	"linkedwiki-duration": "Duration of query"
 }
