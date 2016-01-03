@@ -8,17 +8,17 @@
  * @license CC-by-nc-sa V3.0
  *
  * Last version : http://github.com/BorderCloud/LinkedWiki
- 
+
  Description : http://www.mediawiki.org/wiki/Extension:LinkedWiki
- 
+
  Copyright (c) 2010 Bourdercloud.com
 
-	This work is licensed under the Creative Commons 
-	Attribution-NonCommercial-ShareAlike 3.0 
-	Unported License. To view a copy of this license, 
-	visit http://creativecommons.org/licenses/by-nc-sa/3.0/ 
+	This work is licensed under the Creative Commons
+	Attribution-NonCommercial-ShareAlike 3.0
+	Unported License. To view a copy of this license,
+	visit http://creativecommons.org/licenses/by-nc-sa/3.0/
 	or send a letter to Creative Commons,
-	171 Second Street, Suite 300, San Francisco, 
+	171 Second Street, Suite 300, San Francisco,
 	California, 94105, USA.
 
  */
@@ -33,20 +33,20 @@ class SpecialSparqlQuery extends SpecialPage {
 	}
 
 	public function execute($par = null) {
-		global $wgOut,$wgScriptPath,$wgLinkedWikiConfigDefaultEndpoint; 
+		global $wgOut,$wgScriptPath,$wgLinkedWikiConfigDefaultEndpoint;
 		$queryWithoutPrefix = isset($_REQUEST["queryWithoutPrefix"])?stripslashes($_REQUEST["queryWithoutPrefix"]):"";
 		$query = isset($_REQUEST["query"])?stripslashes($_REQUEST["query"]):"";
 		$endpoint = isset($_REQUEST["endpoint"])?stripslashes(trim($_REQUEST["endpoint"])):$wgLinkedWikiConfigDefaultEndpoint;
 		$output = isset($_REQUEST["output"])?stripslashes($_REQUEST["output"]):"";
 		$titleRequest = isset($_REQUEST["titleRequest"])?stripslashes($_REQUEST["titleRequest"]):"";
 		$description = isset($_REQUEST["description"])?stripslashes($_REQUEST["description"]):"";
-			
+
 		// $wgOut->addHTML( isset($_REQUEST["query"])?stripslashes($_REQUEST["query"]):"Vide");
 		// $wgOut->addHTML(print_r($_REQUEST,true));
 		// $wgOut->addHTML(print_r($queryWithoutPrefix,true));
 		// $wgOut->addHTML(print_r($query,true));
 		// $wgOut->addHTML(print_r($output,true));
-			
+
 		if ( $query != "" && $output == "save" && $titleRequest != ""  ) {
 
 			if($this->pageExists($titleRequest)){
@@ -57,7 +57,7 @@ class SpecialSparqlQuery extends SpecialPage {
 				$wgOut->addWikiText(wfMessage('linkedwiki-specialsparqlquery_your_query_saved_here')->text()."[[$titleRequest]]");
 			}
 		}
-			
+
 		if ( $query == "" || $output == "save" || $output == "wiki" ) {
 			$wgOut->addWikiText(wfMessage('linkedwiki-specialsparqlquery_mainpage')->text());
 			$wgOut->addHTML("<pre>".htmlentities($this->prefix(), ENT_QUOTES, 'UTF-8')."</pre>");
@@ -73,13 +73,13 @@ class SpecialSparqlQuery extends SpecialPage {
 			$wgOut->addHTML("<br/>");
 			$wgOut->addHTML("<script language='javascript' type='text/javascript' src='".$wgScriptPath."/extensions/LinkedWiki/js/bordercloud.js'></script>");
 			$wgOut->addHTML("<SCRIPT>
-<!-- 
+<!--
 function validAndSendQuery(){
 	var query = document.formQuery.prefix.value + ' ' + document.formQuery.queryWithoutPrefix.value;
 	if(! document.formQuery.toXML.checked){
 		document.formQuery.query.value= query;
 		document.formQuery.submit();
-	}else{		
+	}else{
 		window.open('".$endpoint."?query=' + escape(query.replace('\\n','')));
 	}
 }
@@ -94,7 +94,7 @@ function validWithJS(){
 			$wgOut->addHTML("<input type='button' value='(R&D) Validation (js)'  onClick='validWithJS();' />");
 			$wgOut->addHTML("   Xml : <input type='checkbox'  name='toXML' />");
 			$wgOut->addHTML(" </form>");
-			
+
  			$wgOut->addHTML("<div  id='bc_div'></div>");
 			$wgOut->addHTML("<div style='display: none;'>");
 			$wgOut->addHTML("<img id='canvas-image-wait' src='".$wgScriptPath."/extensions/LinkedWiki/js/wait.png'></img>");
@@ -111,10 +111,10 @@ function validWithJS(){
 							foreach ($err as $suberr) {
 								$wgOut->addHTML("<pre>$suberr.</pre> \n");
 							}
-						}else{		
-							if (preg_match("/bcjeton/i", $err) && ( preg_match("/insert/i", $strQuery) || preg_match("/delete/i",$strQuery))) { 
+						}else{
+							if (preg_match("/bcjeton/i", $err) && ( preg_match("/insert/i", $strQuery) || preg_match("/delete/i",$strQuery))) {
 							    $wgOut->addHTML("<pre>You have not the right to write in the dataset.</pre> \n");
-							}else{		
+							}else{
 								$wgOut->addHTML("<pre>$err.</pre> \n");
 							}
 						}
@@ -128,8 +128,7 @@ function validWithJS(){
 					$wgOut->addWikiText(wfMessage('linkedwiki-specialsparqlquery_usethisquery_tutorial')->text());
 					$wgOut->addHTML("<pre>{{#sparql:".htmlentities($query, ENT_QUOTES, 'UTF-8')."\n|endpoint=".htmlentities($endpoint, ENT_QUOTES, 'UTF-8')."}}</pre>");
 				}
-				
-				//$wgOut->addWikiText("==".wfMsg('specialsparqlquery_linkxml')."==");				
+
 				//$queryurl= $endpoint."?query=".urlencode( str_replace('\n','',$query));
 				//$wgOut->addHTML("<a href='$queryurl'>".htmlentities( $queryurl, ENT_QUOTES, 'UTF-8')."</a>");
 			}
@@ -146,7 +145,7 @@ function validWithJS(){
 				"PREFIX rdfs:<http://www.w3.org/2000/01/rdf-schema#>  \n".
 				"PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>  \n".
 				"PREFIX owl:<http://www.w3.org/2002/07/owl#>  \n";
-				
+
 	}
 
 	protected function getGroupName() {
