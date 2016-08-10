@@ -74,7 +74,7 @@ $wgResourceModules += array(
 
 //Default Config
 #$wgLinkedWikiConfigDefaultEndpoint = "http://dbpedia.org/sparql";
-$wgLinkedWikiConfigDefaultEndpoint = "https://query.wikidata.org/bigdata/namespace/wdq/sparql";
+$wgLinkedWikiConfigDefaultEndpoint = "https://query.wikidata.org/sparql";
 $wgLinkedWikiConfigProxyHost = null;//example : "http://proxy.XXXXX.com"
 $wgLinkedWikiConfigProxyPort = null;//example 888
 
@@ -224,7 +224,7 @@ function efSparqlParserFunction_Render( $parser) {
 		}
 	}else {
 		$parser->disableCache();
-		return "'''Error #sparql : Argument incorrect (usage : #sparql: SELECT * WHERE {?a ?b ?c .} )'''";
+		return "'''Error #sparql : Incorrect argument (usage : #sparql: SELECT * WHERE {?a ?b ?c .} )'''";
 	}
 }
 
@@ -305,6 +305,9 @@ function efSparqlParserFunction_widget($namewidget, $querySparqlWiki,$endpoint ,
 	foreach ( $rs['result']['rows'] as $row) {
 		$res_row = array();
 		foreach ( $variables as $variable) {
+			// START ADD BY DOUG to support optional variables in query
+			if (!isset($row[$variable])) {continue;}
+			//END ADD BY DOUG
 			$res_row[] = "rows.".$i.".".$variable."=".$row[$variable];
 
 		}
@@ -377,6 +380,9 @@ function efSparqlParserFunction_array(  $querySparqlWiki,$endpoint ,$classHeader
 		$separateur = "|";
 		unset($arrayParameters);
 		foreach ( $variables as $variable) {
+			// START ADD BY DOUG to support optional variables in query
+			if (!isset($row[$variable])) {continue;}
+			//END ADD BY DOUG
 			if($row[$variable." type"] == "uri" ){
 				$arrayParameters[] = $variable." = ". efSparqlParserFunction_uri2Link($row[$variable],true) ;
 			}else {
@@ -620,6 +626,9 @@ function efSparqlParserFunction_tableCell( $querySparqlWiki,$endpoint ,$debug = 
 		$str .= "\n";
 		$separateur = "| ";
 		foreach ( $variables as $variable) {
+			// START ADD BY DOUG to support optional variables in query
+			if (!isset($row[$variable])) {continue;}
+			//END ADD BY DOUG
 			if($row[$variable." type"] == "uri" ){
 				$str .= $separateur .  efSparqlParserFunction_uri2Link($row[$variable]) ;
 			}else{
