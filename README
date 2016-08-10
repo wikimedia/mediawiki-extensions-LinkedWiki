@@ -10,7 +10,7 @@ and print the result of your query in your widget.
 
 == license ==
 
- Copyright (c) 2011 Bourdercloud.com
+ Copyright (c) 2016 Bourdercloud.com
 
 	This work is licensed under the Creative Commons 
 	Attribution-NonCommercial-ShareAlike 3.0 
@@ -36,6 +36,11 @@ require_once( "{$IP}/extensions/LinkedWiki/LinkedWiki.php" );
 See : http://www.mediawiki.org/wiki/Extension:LinkedWiki
 
 == Release-Notes ==
+
+* v2.1.1 Last version 2 before the version v3
+        - Fix bug with Wikidata
+        - Update the lib SPARQL 1.2.1
+        - Fix bug with OPTIONAL
 
 * V2.1.0 Beta 1 version Extension LinkedWiki by Karima Rafes <karima.rafes@bordercloud.com>
 	- Ready for Wikidata version beta
