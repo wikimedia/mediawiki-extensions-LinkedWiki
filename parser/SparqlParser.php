@@ -1,0 +1,414 @@
+<?php
+/**
+ * @copyright (c) 2016 Bourdercloud.com
+ * @author Karima Rafes <karima.rafes@bordercloud.com>
+ * @link http://www.mediawiki.org/wiki/Extension:LinkedWiki
+ * @license CC-by-nc-sa V3.0
+ *
+ *  Last version : http://github.com/BorderCloud/LinkedWiki
+ *
+ *
+ * This work is licensed under the Creative Commons
+ * Attribution-NonCommercial-ShareAlike 3.0
+ * Unported License. To view a copy of this license,
+ * visit http://creativecommons.org/licenses/by-nc-sa/3.0/
+ * or send a letter to Creative Commons,
+ * 171 Second Street, Suite 300, San Francisco,
+ * California, 94105, USA.
+ */
+if (!defined('MEDIAWIKI'))
+    die();
+
+require_once(__DIR__ . "/../test/TestCoverage.php");
+
+class SparqlParser
+{
+
+    public static function pageiri(&$parser)
+    {
+        $resolver = Title::makeTitle(NS_SPECIAL, 'URIResolver');
+        $resolverurl = $resolver->getFullURL() . '/';
+        return SparqlTools::decodeURItoIRI($resolverurl) . $parser->getTitle()->getPrefixedDBkey();
+    }
+
+    public static function render($parser)
+    {
+        global $wgOut, $wgLinkedWikiConfigDefaultEndpoint;
+        $result = null;
+
+        $wgOut->addModules('ext.LinkedWiki.table2CSV');
+
+        //TestCoverage::start();
+        $args = func_get_args(); // $parser, $param1 = '', $param2 = ''
+        $countArgs = count($args);
+        $query = isset($args[1]) ? urldecode($args[1]) :"";
+        $vars = array();
+        for ($i = 2; $i < $countArgs; $i++) {
+            if (preg_match_all('#^([^= ]+) *= *(.*)$#i', $args[$i], $match)) {
+                $vars[$match[1][0]] = $match[2][0];
+            }
+        }
+
+        if ($query != "") {
+
+            $query = ToolsParser::parserQuery($query, $parser);
+
+            // which endpoint?
+            $endpoint = isset($vars["endpoint"]) ? $vars["endpoint"] :$wgLinkedWikiConfigDefaultEndpoint;
+            $classHeaders = isset($vars["classHeaders"]) ? $vars["classHeaders"] :'';
+            $headers = isset($vars["headers"]) ? $vars["headers"] :'';
+            $templates = isset($vars["templates"]) ? $vars["templates"] :'';
+            $debug = isset($vars["debug"]) ? $vars["debug"] :null;
+            $cache = isset($vars["cache"]) ? $vars["cache"] :"yes";
+            $templateBare = isset($vars["templateBare"]) ? $vars["templateBare"] :'';
+            $footer = isset($vars["footer"]) ? $vars["footer"] :'';
+
+
+            if ($cache == "no") {
+                $parser->disableCache();
+            }
+
+            if ($templateBare == "tableCell") {
+                $result = SparqlParser::tableCell($query, $endpoint, $debug);
+            } else {
+                if ($templates != "") {
+                    $result = SparqlParser::simpleHTMLWithTemplate($query, $endpoint, $classHeaders, $headers, $templates, $footer, $debug);
+                } else {
+                    $result = SparqlParser::simpleHTML($query, $endpoint, $classHeaders, $headers, $footer, $debug);
+                }
+            }
+
+        } else {
+            $parser->disableCache();
+            $result = "'''Error #sparql : Incorrect argument (usage : #sparql: SELECT * WHERE {?a ?b ?c .} )'''";
+        }
+
+        //TestCoverage::stop();
+        return $result;
+    }
+
+    public static function simpleHTMLWithTemplate(
+        $querySparqlWiki,
+        $endpoint,
+        $classHeaders = '',
+        $headers = '',
+        $templates = '',
+        $footer = '',
+        $debug = null)
+    {
+        global $wgLinkedWikiConfigProxyHost, $wgLinkedWikiConfigProxyProxy;
+        $specialC = array("&#39;");
+        $replaceC = array("'");
+        $querySparql = str_replace($specialC, $replaceC, $querySparqlWiki);
+
+        $sp = new Endpoint($endpoint, true, false, $wgLinkedWikiConfigProxyHost, $wgLinkedWikiConfigProxyProxy);
+        $rs = $sp->query($querySparqlWiki);
+        $errs = $sp->getErrors();
+        if ($errs) {
+            $strerr = "";
+            foreach ($errs as $err) {
+                $strerr .= "'''Error #sparql :" . $err . "'''<br/>";
+            }
+            return $strerr;
+        }
+        $variables = $rs['result']['variables'];
+        $TableFormatTemplates = explode(",", $templates);
+
+        $lignegrise = false;
+        $str = "{| class=\"wikitable sortable\" \n";
+        if ($headers != '') {
+            $TableTitleHeaders = explode(",", $headers);
+            $TableClassHeaders = explode(",", $classHeaders);
+            for ($i = 0; $i < count($TableClassHeaders); $i++) {
+                if (!isset($TableClassHeaders[$i]) || $TableClassHeaders[$i] == "")
+                    $classStr = "";
+                else
+                    $classStr = $TableClassHeaders[$i] . "|";
+                $TableTitleHeaders[$i] = $classStr . $TableTitleHeaders[$i];
+            }
+
+            $str .= "|- \n";
+            $str .= "!" . implode("!!", $TableTitleHeaders);
+            $str .= "\n";
+        }
+
+        $arrayParameters = array();
+        foreach ($rs['result']['rows'] as $row) {
+            $str .= "|- ";
+            if ($lignegrise)
+                $str .= "bgcolor=\"#f5f5f5\"";
+            $lignegrise = !$lignegrise;
+            $str .= "\n";
+            $separateur = "|";
+            unset($arrayParameters);
+            foreach ($variables as $variable) {
+                // START ADD BY DOUG to support optional variables in query
+                if (!isset($row[$variable])) {
+                    continue;
+                }
+                //END ADD BY DOUG
+                if ($row[$variable . " type"] == "uri") {
+                    $arrayParameters[] = $variable . " = " . SparqlParser::uri2Link($row[$variable], true);
+                } else {
+                    if (isset($variable)) {
+                        $arrayParameters[] = $variable . " = " . $row[$variable];
+                    }
+                }
+            }
+            foreach ($TableFormatTemplates as $key => $TableFormatTemplate) {
+                if (empty($TableFormatTemplate)) {
+                    $str .= $separateur . $row[$variables[$key]];
+                } else {
+                    $str .= $separateur . "{{" . $TableFormatTemplate . "|" . implode("|", $arrayParameters) . "}}";
+                }
+                $separateur = "||";
+            }
+            $str .= "\n";
+        }
+
+        if ($footer != "NO") {
+            $str .= "|- style=\"font-size:80%\" align=\"right\"\n";
+            $str .= "| colspan=\"" . count($TableFormatTemplates) . "\"|" . SparqlParser::footer($rs['query_time'], $querySparqlWiki, $endpoint, $classHeaders, $headers) . "\n";
+        }
+
+        $str .= "|}\n";
+
+        if ($debug != null && $debug == "YES") {
+            $str .= "INPUT WIKI : " . $querySparqlWiki . "\n";
+            $str .= "Query : " . $querySparql . "\n";
+            $str .= print_r($arrayParameters, true);
+            $str .= print_r($rs, true);
+            return array("<pre>" . $str . "</pre>", 'noparse' => true, 'isHTML' => true);
+        }
+
+        return array($str, 'noparse' => false, 'isHTML' => false);
+    }
+
+    public static function simpleHTML($querySparqlWiki, $endpoint, $classHeaders = '', $headers = '', $footer = '', $debug = null)
+    {
+        global $wgLinkedWikiConfigProxyHost, $wgLinkedWikiConfigProxyProxy;
+        $specialC = array("&#39;");
+        $replaceC = array("'");
+        $querySparql = str_replace($specialC, $replaceC, $querySparqlWiki);
+
+        $sp = new Endpoint($endpoint, true, false, $wgLinkedWikiConfigProxyHost, $wgLinkedWikiConfigProxyProxy);
+        $rs = $sp->query($querySparqlWiki);
+        $errs = $sp->getErrors();
+        if ($errs) {
+            $strerr = "";
+            foreach ($errs as $err) {
+                $strerr .= "'''Error #sparql :" . $err . "'''<br/>";
+            }
+            return $strerr;
+        }
+
+        $lignegrise = false;
+        $variables = $rs['result']['variables'];
+        $str = "<table class='wikitable sortable'>\n";
+        if ($headers != '') {
+            $TableTitleHeaders = explode(",", $headers);
+            $TableClassHeaders = explode(",", $classHeaders);
+            for ($i = 0; $i < count($TableTitleHeaders); $i++) {
+                if (!isset($TableClassHeaders[$i]) || $TableClassHeaders[$i] == "") {
+                    $classStr = "";
+                } else {
+                    $classStr = " class=\"" . $TableClassHeaders[$i] . "\"";
+                }
+                $TableTitleHeaders[$i] = "<th" . $classStr . ">" . $TableTitleHeaders[$i] . "</th>";
+            }
+            $str .= "<tr>";
+            $str .= implode("\n", $TableTitleHeaders);
+            $str .= "</tr>\n";
+        } else {
+            $TableClassHeaders = explode(",", $classHeaders);
+            for ($i = 0; $i < count($variables); $i++) {
+                if (!isset($TableClassHeaders[$i]) || $TableClassHeaders[$i] == "")
+                    $classStr = "";
+                else
+                    $classStr = " class=\"" . $TableClassHeaders[$i] . "\"";
+                $TableTitleHeaders[$i] = "<th" . $classStr . ">" . $variables[$i] . "</th>";
+            }
+
+            $str .= "<tr>\n";
+            $str .= implode("\n", $TableTitleHeaders);
+            $str .= "</tr>\n";
+        }
+
+
+        foreach ($rs['result']['rows'] as $row) {
+
+            $str .= "<tr";
+            if ($lignegrise)
+                $str .= " bgcolor=\"#f5f5f5\" ";
+            $str .= ">\n";
+            $lignegrise = !$lignegrise;
+
+
+            foreach ($variables as $variable) {
+                $str .= "<td>";
+
+                if ($row[$variable . " type"] == "uri") {
+                    $str .= "<a href='" . $row[$variable] . "'>" . $row[$variable] . "</a>";
+                } else {
+                    $str .= $row[$variable];
+                }
+                $str .= "</td>\n";
+            }
+            $str .= "</tr>\n";
+        }
+
+        if ($footer != "NO" && $footer != "no") {
+            $str .= "<tr style=\"font-size:80%\" align=\"right\">\n";
+            $str .= "<td colspan=\"" . count($variables) . "\">" . SparqlParser::footerHTML($rs['query_time'], $querySparqlWiki, $endpoint, $classHeaders, $headers) . "</td>\n";
+            $str .= "</tr>\n";
+        }
+
+        $str .= "</table>\n";
+
+        if ($debug != null && ($debug == "YES" || $debug == "yes" || $debug == "1")) {
+            $str .= "INPUT WIKI: \n" . $querySparqlWiki . "\n";
+            $str .= "QUERY : " . $querySparql . "\n";
+            $str .= print_r($rs, true);
+            return array("<pre>" . htmlspecialchars($str) . "</pre>", 'noparse' => true, 'isHTML' => false);
+        }
+
+        return array($str, 'noparse' => false, 'isHTML' => true);
+    }
+
+    public static function tableCell($querySparqlWiki, $endpoint, $debug = null)
+    {
+        global $wgLinkedWikiConfigProxyHost, $wgLinkedWikiConfigProxyProxy;
+        $specialC = array("&#39;");
+        $replaceC = array("'");
+        $querySparql = str_replace($specialC, $replaceC, $querySparqlWiki);
+
+        $sp = new Endpoint($endpoint, true, false, $wgLinkedWikiConfigProxyHost, $wgLinkedWikiConfigProxyProxy);
+        $rs = $sp->query($querySparqlWiki);
+        $errs = $sp->getErrors();
+        if ($errs) {
+            $strerr = "";
+            foreach ($errs as $err) {
+                $strerr .= "'''Error #sparql :" . $err . "'''<br/>";
+            }
+            return $strerr;
+        }
+
+        $variables = $rs['result']['variables'];
+        $str = "";
+        foreach ($rs['result']['rows'] as $row) {
+            $str .= "\n";
+            $separateur = "| ";
+            foreach ($variables as $variable) {
+                // START ADD BY DOUG to support optional variables in query
+                if (!isset($row[$variable])) {
+                    continue;
+                }
+                //END ADD BY DOUG
+                if ($row[$variable . " type"] == "uri") {
+                    $str .= $separateur . SparqlParser::uri2Link($row[$variable]);
+                } else {
+                    $str .= $separateur . $row[$variable];
+                }
+                $separateur = " || ";
+            }
+            $str .= "\n|- \n";
+        }
+
+
+        if ($debug != null && ($debug == "YES" || $debug == "yes" || $debug == "1")) {
+            $str .= "INPUT WIKI: \n" . $querySparqlWiki . "\n";
+            $str .= "QUERY : " . $querySparql . "\n";
+            $str .= print_r($rs, true);
+            return array("<pre>" . htmlspecialchars($str) . "</pre>", 'noparse' => true, 'isHTML' => false);
+        }
+
+        return array($str, 'noparse' => false, 'isHTML' => false);
+    }
+
+    public static function footer($duration, $querySparqlWiki, $endpoint, $classHeaders = '', $headers = '')
+    {
+        /** @noinspection PhpUndefinedFunctionInspection */
+        $today = date(wfMessage('linkedwiki-date')->text());
+        return $today . " -- [{{fullurl:{{FULLPAGENAME}}|action=purge}} " . wfMessage('linkedwiki-refresh')->text() . "] -- " .
+        wfMessage('linkedwiki-duration')->text() . " :" .
+        round($duration, 3) . "s";
+        //"Version : [{{canonicalurl:Special:Specialexportcsv}}?query={{urlencode:$querySparqlWiki}}&$endpoint={{urlencode:$querySparqlWiki}}&classHeaders={{urlencode:$querySparqlWiki}}&headers={{urlencode:$querySparqlWiki}} CSV] ";
+    }
+
+    public static function footerHTML($duration, $querySparqlWiki, $endpoint, $classHeaders = '', $headers = '')
+    {
+        global $wgRequest;
+        $today = date(wfMessage('linkedwiki-date')->text());
+
+        $subject = $wgRequest->getRequestURL();
+        $url = "";
+        $pattern = '/\?.*(title=[^&]*).*$/';
+        if (preg_match($pattern, $subject) == 1) {
+            $url = preg_replace($pattern, "?\${1}&action=purge", $subject);
+        } else {
+            $url = $subject . "?action=purge";
+        }
+
+
+        //$url = preg_replace( '/(\?[^\?]*$)/i', "",$wgRequest->getRequestURL()) . "?action=purge";
+        //$url = $wgRequest->getRequestURL() . "?action=purge";
+        return $today . " -- <a href=\"" . $url . "\">" . wfMessage('linkedwiki-refresh')->text() . "</a> -- " .
+        wfMessage('linkedwiki-duration')->text() . " :" .
+        round($duration, 3) . "s -- <a class=\"csv\" style=\"cursor: pointer;\" >CSV</a>";
+    }
+
+    public static function uri2Link($uri, $nowiki = false)
+    {
+        //TODO : $title ??? CLEAN ?
+        global $wgServer;
+        $result = "";
+        //$fromPatternThisWiki = "#^". str_replace( '.', '\.', $wgServer).".*:URIResolver/(.*)$#i";
+        $fromPatternThisWiki = "#^" . str_replace('.', '\.', $wgServer) . ".*:URIResolver/(?:(.*):(.*)|(.*))$#i";
+        $titleObj = null;
+        $title = "";
+        $forCategory = "";
+        $isKnow = true;
+        if (preg_match_all($fromPatternThisWiki, $uri, $match)) {
+            $uri = SMWExporter::decodeURI($uri);
+            $uri = str_replace("_", "%20", $uri);
+            $uri = urldecode($uri);
+            preg_match_all($fromPatternThisWiki, $uri, $match);
+            if ($match[1][0] == '') { //no namespace
+                $titleObj = Title::newFromText($match[3][0]);
+                $title = $match[3][0];
+            } else {
+                global $wgContLang;
+                $ns = $wgContLang->getNsIndex($match[1][0]);
+                if (!$ns)
+                    $isKnow = false;
+                else {
+                    $titleObj = Title::newFromText($match[2][0], $ns);
+                    $title = $match[2][0];
+                    if ($ns == NS_CATEGORY) {
+                        $forCategory = ":";
+                    }
+                }
+            }
+        } else {
+            $isKnow = false;
+        }
+
+        if ($isKnow) {
+            if ($nowiki) {
+                if ($titleObj != null)
+                    $result = $titleObj->getText();
+                else
+                    $result = $title;
+            } else {
+                if ($titleObj != null)
+                    $result = "[[" . $forCategory . $titleObj->getPrefixedDBkey() . "|" . $titleObj->getText() . "]]";
+                else
+                    $result = "[[" . $forCategory . $title . "]]";
+            }
+        } else {
+            $result = str_replace("=", "{{equal}}", $uri);
+        }
+        return $result;
+    }
+
+}

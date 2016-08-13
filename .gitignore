@@ -2,3 +2,10 @@
 *~
 *.kate-swp
 .*.swp
+
+composer.lock
+/vendor/bordercloud/sparql/doc/
+/vendor/bordercloud/sparql/example/
+/vendor/composer/
+/vendor/autoload.php
+

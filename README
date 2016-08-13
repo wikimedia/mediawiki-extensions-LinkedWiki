@@ -37,6 +37,11 @@ See : http://www.mediawiki.org/wiki/Extension:LinkedWiki
 
 == Release-Notes ==
 
+* v3.0.0 Insert new special page for Wikidata
+        - clean and refactor the code
+        - Upgrade loading / registration of LinkedWiki extension
+        - Insert test for selenium IDE (and delete the old tests)
+
 * v2.1.1 Last version 2 before the version v3
         - Fix bug with Wikidata
         - Update the lib SPARQL 1.2.1

@@ -28,7 +28,6 @@ class SpecialSparqlFlintEditor extends SpecialPage {
 
 	public function __construct() {
  		parent::__construct( 'linkedwiki-specialsparqlflinteditor' );
-        /** @noinspection PhpUndefinedFunctionInspection */
 	}
 
 	public function execute($par = null) {
@@ -36,9 +35,5 @@ class SpecialSparqlFlintEditor extends SpecialPage {
 		$wgOut->addModules('ext.LinkedWiki.flint');  
 		$wgOut->addHTML("<div id=\"flint-test\">");
 		$this->setHeaders();
-	}
-
-	protected function getGroupName() {
-		return 'pagetools';
 	}
 }
