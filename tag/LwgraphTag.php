@@ -21,10 +21,8 @@ if (!defined('MEDIAWIKI'))
 
 class LwgraphTag
 {
-
     public static function render($input, array $args, Parser $parser, PPFrame $frame)
     {
-        //global $wgOut;
         $html = "";
         $width = isset($args["width"]) ? $args["width"] :"100%";
         $height = isset($args["height"]) ? $args["height"] :"150px";
@@ -41,10 +39,6 @@ class LwgraphTag
         }
 
         if (isset($args["type"]) && $args["type"] == "flow") {
-            // I put this addModules in efSparqlParserFunction_Setup
-            //$wgOut->addModules('ext.LinkedWiki.flowchart');
-
-
             preg_match_all("/\[\[([^\]\|]*)(?:\|[^\]]*)?\]\]/U", $input, $out);
             $arrayTitle = array_unique($out[1]);
 

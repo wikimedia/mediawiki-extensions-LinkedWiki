@@ -1,12 +1,12 @@
 == About ==
 
-This extension semantic mediawiki, LinkedWiki, can print 
-a simple query sparql in a page mediawiki with a remote endpoint 
-like the service BorderCloud.com or local endpoint like with 4store.
-You can also build (and share) a widget mediawiki 
-and print the result of your query in your widget.
+LinkedWiki is a Mediawiki extension.
+* In your wiki, you can test your Sparql Queries via the special pages.
+* In a wiki page, you can insert the result of a query sparql.
+* In a module/infobox (via Lua), you can reuse your RDF data.
+* You can also build a Mediawiki widget with your data.
 
- See also : http://www.mediawiki.org/wiki/Extension:LinkedWiki
+See the doc : http://www.mediawiki.org/wiki/Extension:LinkedWiki
 
 == license ==
 
@@ -27,9 +27,13 @@ karima.rafes@bordercloud.com.
 
 == Installation ==
 
-Put this line in your Localsettings.php :
+Put this line in your Localsettings.php for the parser "sparql" and the special pages :
 
-require_once( "{$IP}/extensions/LinkedWiki/LinkedWiki.php" );
+    wfLoadExtension( 'LinkedWiki' );
+
+Optional extensions :
+* "Scribunto" in order to use the Lua class of Linkedwiki
+* "Widgets"  in order to use the parser WSparql with a Mediawiki widget
 
 == Tutorial and download ==
 
@@ -37,12 +41,13 @@ See : http://www.mediawiki.org/wiki/Extension:LinkedWiki
 
 == Release-Notes ==
 
-* v3.0.0 Insert new special page for Wikidata
-        - clean and refactor the code
+* v3.0.0 Insert new special page for Wikidata by Karima Rafes <karima.rafes@bordercloud.com>
+        - Refactoring/cleaning the code
         - Upgrade loading / registration of LinkedWiki extension
-        - Insert test for selenium IDE (and delete the old tests)
+        - Insert tests for selenium IDE (and delete the old tests)
+        - Add an experimental lua Class
 
-* v2.1.1 Last version 2 before the version v3
+* v2.1.1 Last version 2 before the version v3 by Karima Rafes <karima.rafes@bordercloud.com>
         - Fix bug with Wikidata
         - Update the lib SPARQL 1.2.1
         - Fix bug with OPTIONAL
@@ -56,25 +61,4 @@ See : http://www.mediawiki.org/wiki/Extension:LinkedWiki
 	- simplify client SPARQL for MediaWiki (with or without SMW) 
 	- Remove ARC2 and replace with the SPARQL (simple)
 	- Add parameter templateBare if YES : print only cells
-	- Add parameter footer if NO : hide footer	
-
-* V1.0.1.2 version Extension LinkedWiki by Karima Rafes <karima.rafes@bordercloud.com>
-	- Update the lib 4store-php 0.4.2.0
-
-* V1.0.1.1 version Extension LinkedWiki by Karima Rafes <karima.rafes@bordercloud.com>
-	- Update the lib bordercloud-php 1.2.1.2
-	- Update the lib 4store-php 0.4.1.0
-
-* V1.0.0.0 version Extension LinkedWiki by Karima Rafes <karima.rafes@bordercloud.com>
-	- Add the connector SMW for BorderCloud with the lib http://github.com/BorderCloud/bordercloud-php
-	- Add tag lang for the wiki farm
-	- Add replace old lib by the last of 4store-php http://github.com/BorderCloud/4store-php
-
-* V0.1.0.0 version Extension LinkedWiki by Karima Rafes <karima.rafes@bordercloud.com>
-	- Add the connector SMW for 4Store with the lib http://github.com/BorderCloud/4store-php
-	- Add special page : Special:SparqlEndpoint
-	- Add parser sparql : print a sparqlresult in an array of wikipage
-	- Add parser wsparql : print a widget with in the parameters the sparqlresult
-
-== Example ==
-You can share your example with SPARQL
+	- Add parameter footer if NO : hide footer

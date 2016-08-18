@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://wiki.serverdev-mediawiki-v1/" />
+<title>special_config_T1</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">special_config_T1</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/index.php/Main_Page</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Special pages</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=LinkedWiki configuration</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='mw-content-text']/table/tbody/tr[3]/td[2]</td>
+	<td>Enable</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='mw-content-text']/table/tbody/tr[6]/td[2]</td>
+	<td>exact:http://www.example.org/sparql</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='mw-content-text']/table/tbody/tr[9]/td[2]</td>
+	<td>see file: extension.json</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='mw-content-text']/table/tbody/tr[10]/td[2]</td>
+	<td>see file: extension.json</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='mw-content-text']/table/tbody/tr[12]/td[2]</td>
+	<td>POST</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='mw-content-text']/table/tbody/tr[13]/td[2]</td>
+	<td>POST</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='mw-content-text']/table/tbody/tr[14]/td[2]</td>
+	<td>query</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='mw-content-text']/table/tbody/tr[15]/td[2]</td>
+	<td>update</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='mw-content-text']/table/tbody/tr[16]/td[2]</td>
+	<td>SimpleStorageMethod</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='mw-content-text']/table/tbody/tr[18]/td[2]/pre</td>
+	<td>INSERT DATA<br /> {<br /> ?subject ?property ?value .<br /> }</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='mw-content-text']/table/tbody/tr[19]/td[2]/pre</td>
+	<td>SELECT DISTINCT ?value<br />WHERE<br /> {<br /> ?subject ?property ?value .<br /> }</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='mw-content-text']/table/tbody/tr[20]/td[2]/pre</td>
+	<td>SELECT DISTINCT ?value<br />WHERE<br /> {<br /> ?subject ?property ?value .<br /> FILTER langMatches( lang(?value), ?lang )<br /> }</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='mw-content-text']/table/tbody/tr[21]/td[2]/pre</td>
+	<td>SELECT DISTINCT ?value<br />WHERE<br /> {<br /> ?subject ?property ?value .<br /> FILTER ( lang(?value) = &quot;&quot; )<br /> }</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='mw-content-text']/table/tbody/tr[22]/td[2]</td>
+	<td>en</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='mw-content-text']/h3[2]</td>
+	<td>Configuration by default: http://www.wikidata.org</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='mw-content-text']/table[2]/tbody/tr[6]/td[2]</td>
+	<td>exact:https://query.wikidata.org/sparql</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='mw-content-text']/table[2]/tbody/tr[12]/td[2]</td>
+	<td>GET</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='mw-content-text']/table[2]/tbody/tr[16]/td[2]</td>
+	<td>WikidataStorageMethod</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='mw-content-text']/table/tbody/tr[2]/td[2]</td>
+	<td>Disable</td>
+</tr>
+</tbody></table>
+</body>
+</html>

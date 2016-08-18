@@ -16,22 +16,53 @@
  * 171 Second Street, Suite 300, San Francisco,
  * California, 94105, USA.
  */
-if (!defined('MEDIAWIKI'))
-    die();
+if (!defined('MEDIAWIKI')) {
+    echo "This file is not a valid entry point.";
+    exit(1);
+}
 
 class ToolsParser
 {
     public static function parserQuery($query,$parser) {
         $res = $query;
-        //TODO:
-        // 	if (preg_match("/<PAGEIRI>/i",$res)) {
-        // 			$uri  = "<".fSparqlParserFunction_pageiri($parser).">";
-        // 		   $res  = str_replace("<PAGEIRI>",$uri , $res);
-        // 	}
-        // 	if (preg_match("/<WIKIGRAPH>/i",$res)) {
-        // 			$uri  = "<".$wgLinkedWikiGraphWiki.">";
-        // 		   $res  = str_replace("<WIKIGRAPH>",$uri , $res);
-        // 	}
+        if (preg_match("/<PAGEIRI>/i",$res)) {
+            $uri  = "<".ToolsParser::pageIri($parser).">";
+            $res  = str_replace("<PAGEIRI>",$uri , $res);
+        }
         return $res;
+    }
+
+    public static function  pageIri(&$parser) {
+        //$resolverurl = $parser->getTitle()->getFullURL();
+        $resolverurl = $parser->getTitle()->getSubjectPage()->getFullURL();
+        return $resolverurl;
+    }
+
+    public static function  newEndpoint($config,$endpoint) {
+       // GLOBAL $wgLinkedWikiAccessEndpoint,$wgLinkedWikiConfigDefault;
+        $errorMessage = null;
+        $objConfig = null;
+
+        $errorMessage = "" ;
+
+        try {
+            if(! EMPTY($endpoint)){
+                $objConfig = new LinkedWikiConfig();
+                $objConfig->setEndpoint($endpoint);
+                $objConfig->setEndpointQueryOnly($endpoint);
+            }elseif(! EMPTY($config)){
+                $objConfig = new LinkedWikiConfig($config);
+            }else{
+                $objConfig = new LinkedWikiConfig();
+            }
+        } catch (Exception $e) {
+            $errorMessage =  $e->getMessage();
+            return array('endpoint'=> $endpoint, 'errorMessage' => $errorMessage);
+        }
+
+        $objConfig->setReadOnly(true);
+        $endpoint =$objConfig->getInstanceEndpoint();
+
+        return array('endpoint'=> $endpoint, 'errorMessage' => $errorMessage);
     }
 }

@@ -31,7 +31,7 @@ class SpecialSparqlFlintEditor extends SpecialPage {
 	}
 
 	public function execute($par = null) {
-		global $wgOut,$wgScriptPath;
+		global $wgOut;
 		$wgOut->addModules('ext.LinkedWiki.flint');  
 		$wgOut->addHTML("<div id=\"flint-test\">");
 		$this->setHeaders();

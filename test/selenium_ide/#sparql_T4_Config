@@ -4,37 +4,52 @@
 <head profile="http://selenium-ide.openqa.org/profiles/test-case">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="selenium.base" href="http://wiki.serverdev-mediawiki-v1/" />
-<title>special_sparql_T1</title>
+<title>specialpages_SparqlParser_1</title>
 </head>
 <body>
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
-<tr><td rowspan="1" colspan="3">special_sparql_T1</td></tr>
+<tr><td rowspan="1" colspan="3">specialpages_SparqlParser_1</td></tr>
 </thead><tbody>
 <tr>
+	<td>store</td>
+	<td>javascript{&quot;TestPage&quot;+Math.random()}</td>
+	<td>Title</td>
+</tr>
+<tr>
 	<td>open</td>
-	<td>/index.php/Special:SparqlQuery</td>
+	<td>/index.php/Main_Page</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=searchInput</td>
+	<td>${Title}</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=searchButton</td>
 	<td></td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>css=input[type=&quot;submit&quot;]</td>
+	<td>link=${Title}</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=wpTextbox1</td>
+	<td><br/>{{#sparql:select * where { <PAGEIRI> ?y ?z . }  LIMIT 5 | config = http://www.wikidata.org |debug=1}}<br /></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=wpSave</td>
 	<td></td>
 </tr>
 <tr>
 	<td>verifyText</td>
-	<td>id=config</td>
-	<td>*http://www.wikidata.org*</td>
-</tr>
-<tr>
-	<td>verifyText</td>
-	<td>//div[@id='mw-content-text']/table/tbody/tr[16]/td</td>
-	<td>*Duration of query*</td>
-</tr>
-<tr>
-	<td>verifyText</td>
 	<td>css=pre</td>
-	<td>{{#sparql:<br />select * where <br /> { ?x ?y ?z . } <br />LIMIT 15<br />}}</td>
+	<td>*where { &lt;http://*</td>
 </tr>
 </tbody></table>
 </body>

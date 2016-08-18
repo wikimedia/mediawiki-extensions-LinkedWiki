@@ -19,26 +19,19 @@
 if (!defined('MEDIAWIKI'))
     die();
 
-require_once(__DIR__ . "/../test/TestCoverage.php");
-
 class SparqlParser
 {
-
-    public static function pageiri(&$parser)
-    {
-        $resolver = Title::makeTitle(NS_SPECIAL, 'URIResolver');
-        $resolverurl = $resolver->getFullURL() . '/';
-        return SparqlTools::decodeURItoIRI($resolverurl) . $parser->getTitle()->getPrefixedDBkey();
-    }
-
     public static function render($parser)
     {
-        global $wgOut, $wgLinkedWikiConfigDefaultEndpoint;
+        global $wgOut;
+
+        $configFactory = ConfigFactory::getDefaultInstance()->makeConfig('ext-conf-linkedwiki');
+        $configDefault = $configFactory->get("endpointDefault");
+
         $result = null;
 
         $wgOut->addModules('ext.LinkedWiki.table2CSV');
 
-        //TestCoverage::start();
         $args = func_get_args(); // $parser, $param1 = '', $param2 = ''
         $countArgs = count($args);
         $query = isset($args[1]) ? urldecode($args[1]) :"";
@@ -53,8 +46,8 @@ class SparqlParser
 
             $query = ToolsParser::parserQuery($query, $parser);
 
-            // which endpoint?
-            $endpoint = isset($vars["endpoint"]) ? $vars["endpoint"] :$wgLinkedWikiConfigDefaultEndpoint;
+            $config = isset($vars["config"]) ? $vars["config"] :$configDefault;
+            $endpoint = isset($vars["endpoint"]) ? $vars["endpoint"] :null;
             $classHeaders = isset($vars["classHeaders"]) ? $vars["classHeaders"] :'';
             $headers = isset($vars["headers"]) ? $vars["headers"] :'';
             $templates = isset($vars["templates"]) ? $vars["templates"] :'';
@@ -63,45 +56,47 @@ class SparqlParser
             $templateBare = isset($vars["templateBare"]) ? $vars["templateBare"] :'';
             $footer = isset($vars["footer"]) ? $vars["footer"] :'';
 
-
             if ($cache == "no") {
                 $parser->disableCache();
             }
-
             if ($templateBare == "tableCell") {
-                $result = SparqlParser::tableCell($query, $endpoint, $debug);
+                return SparqlParser::tableCell($query, $config, $endpoint, $debug);
             } else {
                 if ($templates != "") {
-                    $result = SparqlParser::simpleHTMLWithTemplate($query, $endpoint, $classHeaders, $headers, $templates, $footer, $debug);
+                    return SparqlParser::simpleHTMLWithTemplate($query, $config, $endpoint,
+                        $classHeaders, $headers, $templates, $footer, $debug);
                 } else {
-                    $result = SparqlParser::simpleHTML($query, $endpoint, $classHeaders, $headers, $footer, $debug);
+                    return SparqlParser::simpleHTML($query, $config, $endpoint,
+                        $classHeaders, $headers, $footer, $debug);
                 }
             }
-
         } else {
             $parser->disableCache();
             $result = "'''Error #sparql : Incorrect argument (usage : #sparql: SELECT * WHERE {?a ?b ?c .} )'''";
         }
 
-        //TestCoverage::stop();
         return $result;
     }
 
     public static function simpleHTMLWithTemplate(
         $querySparqlWiki,
-        $endpoint,
+        $config, $endpoint,
         $classHeaders = '',
         $headers = '',
         $templates = '',
         $footer = '',
         $debug = null)
     {
-        global $wgLinkedWikiConfigProxyHost, $wgLinkedWikiConfigProxyProxy;
         $specialC = array("&#39;");
         $replaceC = array("'");
         $querySparql = str_replace($specialC, $replaceC, $querySparqlWiki);
 
-        $sp = new Endpoint($endpoint, true, false, $wgLinkedWikiConfigProxyHost, $wgLinkedWikiConfigProxyProxy);
+        $arrEndpoint = ToolsParser::newEndpoint($config, $endpoint);
+        if ($arrEndpoint["endpoint"] == null) {
+            return array("<pre>" . $arrEndpoint["errorMessage"] . "</pre>", 'noparse' => true, 'isHTML' => false);
+        }
+        $sp = $arrEndpoint["endpoint"];
+
         $rs = $sp->query($querySparqlWiki);
         $errs = $sp->getErrors();
         if ($errs) {
@@ -168,7 +163,7 @@ class SparqlParser
 
         if ($footer != "NO") {
             $str .= "|- style=\"font-size:80%\" align=\"right\"\n";
-            $str .= "| colspan=\"" . count($TableFormatTemplates) . "\"|" . SparqlParser::footer($rs['query_time'], $querySparqlWiki, $endpoint, $classHeaders, $headers) . "\n";
+            $str .= "| colspan=\"" . count($TableFormatTemplates) . "\"|" . SparqlParser::footer($rs['query_time'], $querySparqlWiki, $config, $endpoint, $classHeaders, $headers) . "\n";
         }
 
         $str .= "|}\n";
@@ -180,18 +175,27 @@ class SparqlParser
             $str .= print_r($rs, true);
             return array("<pre>" . $str . "</pre>", 'noparse' => true, 'isHTML' => true);
         }
-
         return array($str, 'noparse' => false, 'isHTML' => false);
     }
 
-    public static function simpleHTML($querySparqlWiki, $endpoint, $classHeaders = '', $headers = '', $footer = '', $debug = null)
+    public static function simpleHTML(
+        $querySparqlWiki,
+        $config, $endpoint,
+        $classHeaders = '',
+        $headers = '',
+        $footer = '',
+        $debug = null)
     {
-        global $wgLinkedWikiConfigProxyHost, $wgLinkedWikiConfigProxyProxy;
         $specialC = array("&#39;");
         $replaceC = array("'");
         $querySparql = str_replace($specialC, $replaceC, $querySparqlWiki);
 
-        $sp = new Endpoint($endpoint, true, false, $wgLinkedWikiConfigProxyHost, $wgLinkedWikiConfigProxyProxy);
+        $arrEndpoint = ToolsParser::newEndpoint($config, $endpoint);
+        if ($arrEndpoint["endpoint"] == null) {
+            return array("<pre>" . $arrEndpoint["errorMessage"] . "</pre>", 'noparse' => true, 'isHTML' => false);
+        }
+        $sp = $arrEndpoint["endpoint"];
+
         $rs = $sp->query($querySparqlWiki);
         $errs = $sp->getErrors();
         if ($errs) {
@@ -234,7 +238,6 @@ class SparqlParser
             $str .= "</tr>\n";
         }
 
-
         foreach ($rs['result']['rows'] as $row) {
 
             $str .= "<tr";
@@ -259,7 +262,7 @@ class SparqlParser
 
         if ($footer != "NO" && $footer != "no") {
             $str .= "<tr style=\"font-size:80%\" align=\"right\">\n";
-            $str .= "<td colspan=\"" . count($variables) . "\">" . SparqlParser::footerHTML($rs['query_time'], $querySparqlWiki, $endpoint, $classHeaders, $headers) . "</td>\n";
+            $str .= "<td colspan=\"" . count($variables) . "\">" . SparqlParser::footerHTML($rs['query_time'], $querySparqlWiki, $config, $endpoint, $classHeaders, $headers) . "</td>\n";
             $str .= "</tr>\n";
         }
 
@@ -275,14 +278,17 @@ class SparqlParser
         return array($str, 'noparse' => false, 'isHTML' => true);
     }
 
-    public static function tableCell($querySparqlWiki, $endpoint, $debug = null)
+    public static function tableCell($querySparqlWiki, $config, $endpoint, $debug = null)
     {
-        global $wgLinkedWikiConfigProxyHost, $wgLinkedWikiConfigProxyProxy;
         $specialC = array("&#39;");
         $replaceC = array("'");
         $querySparql = str_replace($specialC, $replaceC, $querySparqlWiki);
 
-        $sp = new Endpoint($endpoint, true, false, $wgLinkedWikiConfigProxyHost, $wgLinkedWikiConfigProxyProxy);
+        $arrEndpoint = ToolsParser::newEndpoint($config, $endpoint);
+        if ($arrEndpoint["endpoint"] == null) {
+            return array("<pre>" . $arrEndpoint["errorMessage"] . "</pre>", 'noparse' => true, 'isHTML' => false);
+        }
+        $sp = $arrEndpoint["endpoint"];
         $rs = $sp->query($querySparqlWiki);
         $errs = $sp->getErrors();
         if ($errs) {
@@ -314,7 +320,6 @@ class SparqlParser
             $str .= "\n|- \n";
         }
 
-
         if ($debug != null && ($debug == "YES" || $debug == "yes" || $debug == "1")) {
             $str .= "INPUT WIKI: \n" . $querySparqlWiki . "\n";
             $str .= "QUERY : " . $querySparql . "\n";
@@ -325,17 +330,27 @@ class SparqlParser
         return array($str, 'noparse' => false, 'isHTML' => false);
     }
 
-    public static function footer($duration, $querySparqlWiki, $endpoint, $classHeaders = '', $headers = '')
+    public static function footer(
+        $duration,
+        $querySparqlWiki,
+        $config,
+        $endpoint,
+        $classHeaders = '',
+        $headers = '')
     {
-        /** @noinspection PhpUndefinedFunctionInspection */
         $today = date(wfMessage('linkedwiki-date')->text());
         return $today . " -- [{{fullurl:{{FULLPAGENAME}}|action=purge}} " . wfMessage('linkedwiki-refresh')->text() . "] -- " .
         wfMessage('linkedwiki-duration')->text() . " :" .
         round($duration, 3) . "s";
-        //"Version : [{{canonicalurl:Special:Specialexportcsv}}?query={{urlencode:$querySparqlWiki}}&$endpoint={{urlencode:$querySparqlWiki}}&classHeaders={{urlencode:$querySparqlWiki}}&headers={{urlencode:$querySparqlWiki}} CSV] ";
     }
 
-    public static function footerHTML($duration, $querySparqlWiki, $endpoint, $classHeaders = '', $headers = '')
+    public static function footerHTML(
+        $duration,
+        $querySparqlWiki,
+        $config,
+        $endpoint,
+        $classHeaders = '',
+        $headers = '')
     {
         global $wgRequest;
         $today = date(wfMessage('linkedwiki-date')->text());
@@ -349,9 +364,6 @@ class SparqlParser
             $url = $subject . "?action=purge";
         }
 
-
-        //$url = preg_replace( '/(\?[^\?]*$)/i', "",$wgRequest->getRequestURL()) . "?action=purge";
-        //$url = $wgRequest->getRequestURL() . "?action=purge";
         return $today . " -- <a href=\"" . $url . "\">" . wfMessage('linkedwiki-refresh')->text() . "</a> -- " .
         wfMessage('linkedwiki-duration')->text() . " :" .
         round($duration, 3) . "s -- <a class=\"csv\" style=\"cursor: pointer;\" >CSV</a>";
@@ -361,53 +373,7 @@ class SparqlParser
     {
         //TODO : $title ??? CLEAN ?
         global $wgServer;
-        $result = "";
-        //$fromPatternThisWiki = "#^". str_replace( '.', '\.', $wgServer).".*:URIResolver/(.*)$#i";
-        $fromPatternThisWiki = "#^" . str_replace('.', '\.', $wgServer) . ".*:URIResolver/(?:(.*):(.*)|(.*))$#i";
-        $titleObj = null;
-        $title = "";
-        $forCategory = "";
-        $isKnow = true;
-        if (preg_match_all($fromPatternThisWiki, $uri, $match)) {
-            $uri = SMWExporter::decodeURI($uri);
-            $uri = str_replace("_", "%20", $uri);
-            $uri = urldecode($uri);
-            preg_match_all($fromPatternThisWiki, $uri, $match);
-            if ($match[1][0] == '') { //no namespace
-                $titleObj = Title::newFromText($match[3][0]);
-                $title = $match[3][0];
-            } else {
-                global $wgContLang;
-                $ns = $wgContLang->getNsIndex($match[1][0]);
-                if (!$ns)
-                    $isKnow = false;
-                else {
-                    $titleObj = Title::newFromText($match[2][0], $ns);
-                    $title = $match[2][0];
-                    if ($ns == NS_CATEGORY) {
-                        $forCategory = ":";
-                    }
-                }
-            }
-        } else {
-            $isKnow = false;
-        }
-
-        if ($isKnow) {
-            if ($nowiki) {
-                if ($titleObj != null)
-                    $result = $titleObj->getText();
-                else
-                    $result = $title;
-            } else {
-                if ($titleObj != null)
-                    $result = "[[" . $forCategory . $titleObj->getPrefixedDBkey() . "|" . $titleObj->getText() . "]]";
-                else
-                    $result = "[[" . $forCategory . $title . "]]";
-            }
-        } else {
-            $result = str_replace("=", "{{equal}}", $uri);
-        }
+        $result = str_replace("=", "{{equal}}", $uri);
         return $result;
     }
 

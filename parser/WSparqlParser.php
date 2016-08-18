@@ -24,7 +24,9 @@ class WSparqlParser
 
     public static function render($parser)
     {
-        global $wgLinkedWikiConfigDefaultEndpoint;
+        $configFactory = ConfigFactory::getDefaultInstance()->makeConfig( 'ext-conf-linkedwiki' );
+        $configDefault = $configFactory->get("endpointDefault");
+
         $parser->disableCache(); //TODO OPTIMIZE
 
         $args = func_get_args(); // $parser, $param1 = '', $param2 = ''
@@ -32,7 +34,8 @@ class WSparqlParser
         $query = "";
         $debug = null;
         $cache = "yes";
-        $endpoint = $wgLinkedWikiConfigDefaultEndpoint;
+        $config= $configDefault;
+        $endpoint = null;
         $namewidget = isset($args[1]) ? $args[1] :"";
         $vars = array();
         for ($i = 2; $i < $countArgs; $i++) {
@@ -44,6 +47,8 @@ class WSparqlParser
                     $debug = $match[2][0];
                 } elseif ($match[1][0] == "endpoint") {
                     $endpoint = $match[2][0];
+                }elseif($match[1][0] == "config"){
+                    $config = $match[2][0];
                 } elseif ($match[1][0] == "cache") {
                     $cache = $match[2][0];
                 } else {
@@ -62,18 +67,21 @@ class WSparqlParser
 
             $query = ToolsParser::parserQuery($query, $parser);
 
-            return WSparqlParser::widget($namewidget, $query, $endpoint, $debug, $vars);
+            return WSparqlParser::widget($namewidget, $query, $config,$endpoint, $debug, $vars);
         } else {
             $parser->disableCache();
             return "'''Error #sparql : Argument incorrect (usage : #wsparql:namewidget|query=SELECT * WHERE {?a ?b ?c .} )'''";
         }
     }
 
-    public static function widget($namewidget, $querySparqlWiki, $endpoint, $debug, $vars)
+    public static function widget($namewidget, $querySparqlWiki, $config,$endpoint, $debug, $vars)
     {
-        global $wgLinkedWikiConfigProxyHost, $wgLinkedWikiConfigProxyProxy;
+        $arrEndpoint = ToolsParser::newEndpoint($config,$endpoint);
+        if($arrEndpoint["endpoint"] == null){
+            return  array("<pre>".$arrEndpoint["errorMessage"]."</pre>",'noparse' => true, 'isHTML' => false);
+        }
+        $sp = $arrEndpoint["endpoint"];
 
-        $sp = new Endpoint($endpoint, true, false, $wgLinkedWikiConfigProxyHost, $wgLinkedWikiConfigProxyProxy);
         $rs = $sp->query($querySparqlWiki);
         $errs = $sp->getErrors();
         if ($errs) {

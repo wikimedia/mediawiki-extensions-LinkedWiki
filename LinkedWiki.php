@@ -23,23 +23,13 @@ if (!defined('MEDIAWIKI')) {
 
 class LinkedWiki
 {
-
-    public static function onExtensionLoad()
+    public static function makeConfig()
     {
-        global $wgLinkedWikiConfigDefaultEndpoint,
-               $wgLinkedWikiConfigProxyHost,
-               $wgLinkedWikiConfigProxyPort;
-
-        //Default Config
-        #$wgLinkedWikiConfigDefaultEndpoint = "http://dbpedia.org/sparql";
-        $wgLinkedWikiConfigDefaultEndpoint = "https://query.wikidata.org/sparql";
-        $wgLinkedWikiConfigProxyHost = null; //example : "http://proxy.XXXXX.com"
-        $wgLinkedWikiConfigProxyPort = null; //example 888
+        return new GlobalVarConfig( 'ext-conf-linkedwiki' );
     }
 
     public static function parserFirstCallInit(&$parser)
     {
-        //I can't put these lines in efLwgraphRender... bug ?
         global $wgOut;
         $wgOut->addModules('ext.LinkedWiki.table2CSV');
         $wgOut->addModules('ext.LinkedWiki.flowchart');
@@ -62,4 +52,12 @@ class LinkedWiki
         return true;
     }
 
+    public static function scribuntoExternalLibraries( $engine, array &$extraLibraries ) {
+        if ( $engine !== 'lua' ) {
+            return true;
+        }
+        //Lua extension Doc :  https://www.mediawiki.org/wiki/Extension:Scribunto/Example_extension
+        $extraLibraries['linkedwiki'] = 'Scribunto_LuaLinkedWikiLibrary';
+        return true;
+    }
 }

@@ -8,23 +8,63 @@
 <body>
 <table id="suiteTable" cellpadding="1" cellspacing="1" border="1" class="selenium"><tbody>
 <tr><td><b>Test Suite</b></td></tr>
-<tr><td><a href="#sparql_T1">#sparql_T1</a></td></tr>
-<tr><td><a href="#sparql_T2">#sparql_T2</a></td></tr>
-<tr><td><a href="#sparql_T4">#sparql_T4</a></td></tr>
-<tr><td><a href="#sparql_T5">#sparql_T5</a></td></tr>
-<tr><td><a href="#sparql_T6">#sparql_T6</a></td></tr>
-<tr><td><a href="#sparql_T7">#sparql_T7</a></td></tr>
-<tr><td><a href="#sparql_T8">#sparql_T8</a></td></tr>
-<tr><td><a href="#sparql_T10">#sparql_T10</a></td></tr>
-<tr><td><a href="#sparql_T11">#sparql_T11</a></td></tr>
-<tr><td><a href="#sparql_T12">#sparql_T12</a></td></tr>
 
-<tr><td><a href="#wsparql_T1">#wsparql_T1</a></td></tr>
+<tr><td><a href="special_config_T1">special_config_T1</a></td></tr>
+
+<tr><td><a href="#sparql_T1_Default">#sparql_T1_Default</a></td></tr>
+<tr><td><a href="#sparql_T1_Config">#sparql_T1_Config</a></td></tr>
+<tr><td><a href="#sparql_T1_Endpoint">#sparql_T1_Endpoint</a></td></tr>
+
+<tr><td><a href="#sparql_T2_Config">#sparql_T2_Config</a></td></tr>
+
+<tr><td><a href="#sparql_T4_Default">#sparql_T4_Default</a></td></tr>
+<tr><td><a href="#sparql_T4_Config">#sparql_T4_Config</a></td></tr>
+<tr><td><a href="#sparql_T4_Endpoint">#sparql_T4_Endpoint</a></td></tr>
+
+<tr><td><a href="#sparql_T5_Default">#sparql_T5_Default</a></td></tr>
+<tr><td><a href="#sparql_T5_Config">#sparql_T5_Config</a></td></tr>
+<tr><td><a href="#sparql_T5_Endpoint">#sparql_T5_Endpoint</a></td></tr>
+
+<tr><td><a href="#sparql_T6_Default">#sparql_T6_Default</a></td></tr>
+<tr><td><a href="#sparql_T6_Config">#sparql_T6_Config</a></td></tr>
+<tr><td><a href="#sparql_T6_Endpoint">#sparql_T6_Endpoint</a></td></tr>
+
+<tr><td><a href="#sparql_T7_Default">#sparql_T7_Default</a></td></tr>
+<tr><td><a href="#sparql_T7_Config">#sparql_T7_Config</a></td></tr>
+<tr><td><a href="#sparql_T7_Endpoint">#sparql_T7_Endpoint</a></td></tr>
+
+<tr><td><a href="#sparql_T8_Default">#sparql_T8_Default</a></td></tr>
+<tr><td><a href="#sparql_T8_Config">#sparql_T8_Config</a></td></tr>
+<tr><td><a href="#sparql_T8_Endpoint">#sparql_T8_Endpoint</a></td></tr>
+
+<tr><td><a href="#sparql_T10_Default">#sparql_T10_Default</a></td></tr>
+<tr><td><a href="#sparql_T10_Config">#sparql_T10_Config</a></td></tr>
+<tr><td><a href="#sparql_T10_Endpoint">#sparql_T10_Endpoint</a></td></tr>
+
+<tr><td><a href="#sparql_T11_Default">#sparql_T11_Default</a></td></tr>
+<tr><td><a href="#sparql_T11_Config">#sparql_T11_Config</a></td></tr>
+<tr><td><a href="#sparql_T11_Endpoint">#sparql_T11_Endpoint</a></td></tr>
+
+<tr><td><a href="#sparql_T12_Default">#sparql_T12_Default</a></td></tr>
+<tr><td><a href="#sparql_T12_Config">#sparql_T12_Config</a></td></tr>
+<tr><td><a href="#sparql_T12_Endpoint">#sparql_T12_Endpoint</a></td></tr>
+
+<tr><td><a href="#wsparql_T1_Default">#wsparql_T1_Default</a></td></tr>
+<tr><td><a href="#wsparql_T1_Config">#wsparql_T1_Config</a></td></tr>
+<tr><td><a href="#wsparql_T1_Endpoint">#wsparql_T1_Endpoint</a></td></tr>
 
 <tr><td><a href="special_Flint_T1">special_Flint_T1</a></td></tr>
+
 <tr><td><a href="special_sparql_T1">special_sparql_T1</a></td></tr>
+<tr><td><a href="special_sparql_T2">special_sparql_T2</a></td></tr>
+<tr><td><a href="special_sparql_T3">special_sparql_T3</a></td></tr>
 
 <tr><td><a href="tag_Lwgraph_T1">tag_Lwgraph_T1</a></td></tr>
+
+<tr><td><a href="lua_core">lua_core</a></td></tr>
+<tr><td><a href="lua_instance">lua_instance</a></td></tr>
+<tr><td><a href="lua_function">lua_function</a></td></tr>
+
 </tbody></table>
 </body>
 </html>

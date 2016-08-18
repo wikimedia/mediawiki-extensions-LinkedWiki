@@ -39,7 +39,7 @@
 <tr>
 	<td>type</td>
 	<td>id=wpTextbox1</td>
-	<td><br/>{{#sparql:select * where { <PAGEIRI> ?y ?z . }  LIMIT 5 | endpoint = https://query.wikidata.org/sparql  }}<br /></td>
+	<td><br />{{#sparql:select * where { ?x ?y ?z . } LIMIT 5  |footer=NO }}<br /></td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
@@ -47,8 +47,8 @@
 	<td></td>
 </tr>
 <tr>
-	<td>verifyText</td>
-	<td>//div[@id='mw-content-text']/table/tbody/tr[16]/td</td>
+	<td>verifyTextNotPresent</td>
+	<td>id=bodyContent</td>
 	<td>*Duration of query*</td>
 </tr>
 </tbody></table>
