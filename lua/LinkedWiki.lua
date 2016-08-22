@@ -251,7 +251,7 @@ function linkedwiki.new(subject,config,tagLang,debug)
         linkedwiki.setSubject(self:getSubject())
         linkedwiki.setConfig(self:getConfig())
         linkedwiki.setLang(self:getLang())
-        linkedwiki.isDebug(self:isDebug())
+        linkedwiki.setDebug(self:isDebug())
     end
 
     function Linkedwiki:getValue(iriProperty)
@@ -575,7 +575,7 @@ function linkedwiki.new(subject,config,tagLang,debug)
         return tostring(div)
     end
 
-    function Linkedwiki:printDateInWiki(format, valueInWiki, valueInDB)
+    function Linkedwiki:printDateInWiki(valueInWiki, valueInDB,format)
         local div = mw.html.create('div')
 
         if not linkedwiki.isEmpty(valueInWiki) then
@@ -661,6 +661,10 @@ function linkedwiki.new(subject,config,tagLang,debug)
 
     function Linkedwiki:checkImage(property, valueInWiki, width, height)
         return self:printImageInWiki(valueInWiki, self:getValue(property), width, height)
+    end
+
+    function Linkedwiki:checkDate(property, valueInWiki, format)
+        return self:printDateInWiki(valueInWiki, self:getValue(property),format)
     end
 
     function Linkedwiki:checkTitle(property, labelInWiki, tagLang)

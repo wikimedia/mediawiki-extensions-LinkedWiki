@@ -93,7 +93,7 @@ class Scribunto_LuaLinkedWikiLibrary extends Scribunto_LuaLibraryBase
     {
         if(EMPTY($this->objConfig) ){
             $this->objConfig = new LinkedWikiConfig($urlConfig);
-        }elseif( $this->objConfig->getConfigEndpoint !== $urlConfig){
+        }elseif( $this->objConfig->getConfigEndpoint() !== $urlConfig){
             $this->objConfig->setConfigEndpoint($urlConfig);
         }
     }
@@ -143,7 +143,7 @@ class Scribunto_LuaLinkedWikiLibrary extends Scribunto_LuaLibraryBase
     {
         $langTrim = trim($tagLang);
         $this->checkType('setLang', 1, $langTrim, 'string');
-        if(EMPTY($this->objConfig) && $this->objConfig->getConfigEndpoint != $langTrim){
+        if(EMPTY($this->objConfig) && $this->objConfig->getLang() != $langTrim){
             $this->getInstanceConfig()->setLang($langTrim);
         }
     }
