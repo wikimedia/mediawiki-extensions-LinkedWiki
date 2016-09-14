@@ -39,6 +39,9 @@
     ],
     "ScribuntoExternalLibraries": [
       "LinkedWiki::scribuntoExternalLibraries"
+    ],
+    "RawPageViewBeforeOutput": [
+      "LinkedWiki::RawPageSource"
     ]
   },
   "MessagesDirs": {
@@ -147,7 +150,7 @@
         "lang": "en"
       },
       "http://database-test": {
-        "debug": true,
+        "debug": false,
         "isReadOnly": false,
         "typeRDFDatabase": "virtuoso",
         "endpoint": "",

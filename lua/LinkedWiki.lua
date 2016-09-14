@@ -100,6 +100,10 @@ function linkedwiki.removeSubject(iriSubject)
     return php.removeSubject(iriSubject)
 end
 
+function linkedwiki.loadData(titles)
+    return php.loadData(titles)
+end
+
 local currentFullPageName
 function linkedwiki.getCurrentTitle()
     local currentFullPageName
@@ -284,6 +288,11 @@ function linkedwiki.new(subject,config,tagLang,debug)
     function Linkedwiki:removeSubject()
         self:initConfig()
         return linkedwiki.removeSubject()
+    end
+
+    function Linkedwiki:loadData(titles)
+        self:initConfig()
+        return linkedwiki.loadData(titles)
     end
 
     function Linkedwiki:printItemInWiki(valueInWiki, valueInDB, tagLang)

@@ -403,6 +403,10 @@ class LinkedWikiConfig
         return $this->storageMethod->getQueryDeleteSubject();
     }
 
+    public function getQueryLoadData($url)
+    {
+        return $this->storageMethod->getQueryLoadData($url);
+    }
 
     public function setSubject($iriSubject)
     {

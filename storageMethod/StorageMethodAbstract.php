@@ -25,5 +25,5 @@ abstract class StorageMethodAbstract
     abstract public function getQueryReadValue();
     abstract public function getQueryInsertValue();
     abstract public function getQueryDeleteSubject();
-
+    abstract public function getQueryLoadData($url);
 }

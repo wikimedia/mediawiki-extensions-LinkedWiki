@@ -98,4 +98,11 @@ WHERE
     }
 EOT;
     }
+
+    public function getQueryLoadData($url)
+    {
+        return <<<EOT
+LOAD <$url> INTO GRAPH <$this->graphNamed>
+EOT;
+    }
 }

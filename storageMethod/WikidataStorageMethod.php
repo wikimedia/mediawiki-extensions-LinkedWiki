@@ -57,22 +57,17 @@ EOT;
 
     public function getQueryInsertValue()
     {
-        return <<<EOT
-INSERT DATA
-        {
-            ?subject ?property ?value .
-        }
-EOT;
+        return "";
     }
 
     public function getQueryDeleteSubject()
     {
-        return <<<EOT
-DELETE
-        { ?subject ?property ?value . }
-WHERE
-        { ?subject ?property ?value . }
-EOT;
+        return "";
+    }
+
+    public function getQueryLoadData($url)
+    {
+        return "";
     }
 
 }

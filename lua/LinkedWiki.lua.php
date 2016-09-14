@@ -58,6 +58,7 @@ class Scribunto_LuaLinkedWikiLibrary extends Scribunto_LuaLibraryBase
             'addPropertyWithIri' => array($this, 'addPropertyWithIri'),
             'addPropertyWithLitteral' => array($this, 'addPropertyWithLitteral'),
             'removeSubject' => array($this, 'removeSubject'),
+            'loadData' => array($this, 'loadData'),
         );
         return $this->getEngine()->registerInterface(
             __DIR__ . '/LinkedWiki.lua', $lib, array()
@@ -361,7 +362,6 @@ class Scribunto_LuaLinkedWikiLibrary extends Scribunto_LuaLibraryBase
         return array($response);
     }
 
-
     public function removeSubject($iriSubject = null)
     {
         if ($iriSubject === null && $this->subject ===null) {
@@ -389,6 +389,29 @@ class Scribunto_LuaLinkedWikiLibrary extends Scribunto_LuaLibraryBase
             return array("ERROR : " . $message);
         }
 
+        return array($response);
+    }
+
+    public function loadData($titles)
+    {
+        $listTitle = explode (",",$titles);
+        $q = "";
+        foreach ($listTitle as $title){
+            $titleObject = Title::newFromText( trim($title) );
+            if ( $titleObject->exists() ) {
+                $q .=
+                    $this->getInstanceConfig()->getQueryLoadData($titleObject->getFullURL()."?action=raw&includeOnlyTag=source") .' ; ';
+            }
+        }
+
+        $this->setLastQuery($q);//for debug
+        $endpoint = $this->getInstanceEndpoint();
+        $response = $endpoint->query($q, 'raw');
+        $err = $endpoint->getErrors();
+        if ($err) {
+            $message = $this->getInstanceConfig()->isDebug() ? $response . print_r($err, true) :"ERROR SPARQL (see details in mode debug)";
+            return array("ERROR : " . $message);
+        }
         return array($response);
     }
 }
