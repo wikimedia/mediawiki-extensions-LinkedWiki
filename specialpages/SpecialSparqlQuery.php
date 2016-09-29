@@ -103,13 +103,13 @@ class SpecialSparqlQuery extends SpecialPage
 //        return 'pagetools';
 //    }
 
-    protected function printSelectConfig($config)
+    protected function printSelectConfig($configIri)
     {
         //global $wgLinkedWikiConfigDefault,$wgLinkedWikiAccessEndpoint;
         $html = "";
         // In PHP, whenever you want your config object
         $config = ConfigFactory::getDefaultInstance()->makeConfig('ext-conf-linkedwiki');
-        $configDefault = $config->get("endpointDefault");
+        
         $configs = $config->get("endpoint");
 
         $html .= "<select id='config' name='config' onchange='eventChangeSelectConfig()'>";
@@ -120,7 +120,7 @@ class SpecialSparqlQuery extends SpecialPage
             }
 
             $html .= '<option value="' . $key . '" ';
-            if ($key === $configDefault) {
+            if ($key === $configIri) {
                 $html .= "selected='selected'";
             }
             $html .= ">";
