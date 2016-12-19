@@ -2,10 +2,10 @@
   "name": "LinkedWiki",
   "version": "3.0.0 Alpha",
   "author": [
-    "[http://www.mediawiki.org/wiki/User:Karima_Rafes Karima Rafes]"
+    "[https://www.mediawiki.org/wiki/User:Karima_Rafes Karima Rafes]"
   ],
-  "url": "http://www.mediawiki.org/wiki/Extension:LinkedWiki",
-  "descriptionmsg": "See the Linked Data in your Wiki.",
+  "url": "https://www.mediawiki.org/wiki/Extension:LinkedWiki",
+  "description": "See the Linked Data in your Wiki.",
   "license-name": "CC-BY-NC-SA-3.0",
   "type": "datavalues",
   "AutoloadClasses": {
