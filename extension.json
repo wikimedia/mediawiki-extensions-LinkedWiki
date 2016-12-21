@@ -6,7 +6,7 @@
   ],
   "url": "http://www.mediawiki.org/wiki/Extension:LinkedWiki",
   "descriptionmsg": "See the Linked Data in your Wiki.",
-  "license-name": "CC BY-NC-SA-3.0",
+  "license-name": "CC-BY-NC-SA-3.0",
   "type": "datavalues",
   "AutoloadClasses": {
     "Endpoint": "vendor/bordercloud/sparql/Endpoint.php",
@@ -66,16 +66,19 @@
   },
   "ResourceModules": {
     "ext.LinkedWiki.table2CSV": {
+      "group": "ext.LinkedWiki",
       "scripts": [
         "js/table2CSV.js"
       ]
     },
     "ext.LinkedWiki.lwgraph": {
+      "group": "ext.LinkedWiki",
       "scripts": [
         "js/lwgraph.js"
       ]
     },
     "ext.LinkedWiki.flowchart": {
+      "group": "ext.LinkedWiki",
       "scripts": [
         "js/flowchart.js"
       ],
@@ -84,6 +87,7 @@
       ]
     },
     "ext.LinkedWiki.flint": {
+      "group": "ext.LinkedWiki",
       "scripts": [
         "js/FlintSparqlEditor/sparql/lib/codemirror.js",
         "js/FlintSparqlEditor/sparql/lib/jquery-migrate-1.0.0.js",
@@ -102,8 +106,7 @@
   },
   "ResourceFileModulePaths": {
     "localBasePath": "",
-    "remoteExtPath": "LinkedWiki",
-    "group": "ext.LinkedWiki"
+    "remoteExtPath": "LinkedWiki"
   },
   "SpecialPages": {
     "linkedwiki-specialsparqlquery": "SpecialSparqlQuery",
