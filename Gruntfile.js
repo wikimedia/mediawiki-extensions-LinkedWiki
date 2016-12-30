@@ -6,6 +6,7 @@ module.exports = function ( grunt ) {
 	grunt.initConfig( {
 		/* banana: {
 			linkedwiki: 'i18n/',
+			linkedwikiconfig: 'i18n/',
 			sparqlflinteditor: 'i18n/',
 			sparqlquery: 'i18n/'
 		}, */
