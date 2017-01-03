@@ -48,6 +48,9 @@
     "LinkedWiki": [
       "i18n/linkedwiki"
     ],
+    "LinkedWikiConfig": [
+      "i18n/linkedwikiconfig"
+    ],
     "linkedwiki-specialsparqlquery": [
       "i18n/sparqlquery"
     ],
