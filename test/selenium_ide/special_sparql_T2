@@ -19,7 +19,7 @@
 <tr>
 	<td>select</td>
 	<td>id=config</td>
-	<td>label=http://database-test</td>
+	<td>label=http://database-test/data</td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
@@ -34,7 +34,7 @@
 <tr>
 	<td>verifyText</td>
 	<td>css=pre</td>
-	<td>{{#sparql:<br />select * where <br /> { ?x ?y ?z . } <br />LIMIT 15<br />|config=http://database-test<br />}}</td>
+	<td>{{#sparql:<br />select * where <br /> { ?x ?y ?z . } <br />LIMIT 15<br />|config=http://database-test/data<br />}}</td>
 </tr>
 </tbody></table>
 </body>

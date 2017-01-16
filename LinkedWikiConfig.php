@@ -668,6 +668,15 @@ class LinkedWikiConfig
 
             $html .= "<tr>";
             $html .= "<td>";
+            $html .= "getQueryLoadData";
+            $html .= "</td>";
+            $html .= "<td><pre>";
+            $html .= htmlentities($method->getQueryLoadData('http://example.org/file.ttl'));
+            $html .= "</pre></td>";
+            $html .= "</tr>";
+
+            $html .= "<tr>";
+            $html .= "<td>";
             $html .= "lang";
             $html .= "</td>";
             $html .= "<td>";

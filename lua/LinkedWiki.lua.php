@@ -400,7 +400,7 @@ class Scribunto_LuaLinkedWikiLibrary extends Scribunto_LuaLibraryBase
             $titleObject = Title::newFromText( trim($title) );
             if ( $titleObject->exists() ) {
                 $q .=
-                    $this->getInstanceConfig()->getQueryLoadData($titleObject->getFullURL()."?action=raw&includeOnlyTag=source") .' ; ';
+                    $this->getInstanceConfig()->getQueryLoadData($titleObject->getFullURL()."?action=raw&export=rdf") .' ; ';
             }
         }
 

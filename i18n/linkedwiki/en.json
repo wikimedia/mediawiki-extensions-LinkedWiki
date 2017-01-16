@@ -5,5 +5,7 @@
 	"linkedwiki-test": "test",
 	"linkedwiki-date": "H:i:s m/d/Y",
 	"linkedwiki-refresh": "Refresh",
-	"linkedwiki-duration": "Duration of query"
+	"linkedwiki-duration": "Duration of query",
+
+	"specialpages-group-linkedwiki_group": "SPARQL and RDF tools"
 }

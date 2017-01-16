@@ -26,6 +26,9 @@ class SpecialSparqlQuery extends SpecialPage
     {
         parent::__construct('linkedwiki-specialsparqlquery');
     }
+    public function getGroupName() {
+        return 'linkedwiki_group';
+    }
 
     public function execute($par = null)
     {
@@ -98,10 +101,6 @@ class SpecialSparqlQuery extends SpecialPage
         $this->setHeaders();
 
     }
-
-//    protected function getGroupName() {
-//        return 'pagetools';
-//    }
 
     protected function printSelectConfig($configIri)
     {

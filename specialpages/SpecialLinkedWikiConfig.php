@@ -32,6 +32,9 @@ class SpecialLinkedWikiConfig extends SpecialPage
         /** @noinspection PhpUndefinedFunctionInspection */
         //wfLoadExtensionMessages('specialsparqlquery');
     }
+    function getGroupName() {
+        return 'linkedwiki_group';
+    }
 
     public function execute($par = null)
     {

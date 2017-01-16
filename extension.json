@@ -8,6 +8,49 @@
   "description": "See the Linked Data in your Wiki.",
   "license-name": "CC-BY-NC-SA-3.0",
   "type": "datavalues",
+  "namespaces": [
+    {
+      "id": 10000,
+      "constant": "NS_DATA",
+      "name": "Data",
+      "protection": "data-edit"
+    },
+    {
+      "id": 10001,
+      "constant": "NS_SCHEMA",
+      "name": "Schema",
+      "protection": "data-edit"
+    },
+    {
+      "id": 10002,
+      "constant": "NS_TYPE",
+      "name": "Type",
+      "protection": "data-edit"
+    },
+    {
+      "id": 10003,
+      "constant": "NS_PROPERTY",
+      "name": "Property",
+      "protection": "data-edit"
+    },
+    {
+      "id": 10004,
+      "constant": "NS_DATATYPE",
+      "name": "Datatype",
+      "protection": "data-edit"
+    }
+  ],
+  "AvailableRights": [
+    "data-edit"
+  ],
+  "GroupPermissions": {
+    "sysop": {
+      "data-edit" : true
+    },
+    "data": {
+      "data-edit" : true
+    }
+  },
   "AutoloadClasses": {
     "Endpoint": "vendor/bordercloud/sparql/Endpoint.php",
     "LinkedWikiConfig": "LinkedWikiConfig.php",
@@ -16,11 +59,15 @@
     "SpecialSparqlQuery": "specialpages/SpecialSparqlQuery.php",
     "SpecialSparqlFlintEditor": "specialpages/SpecialSparqlFlintEditor.php",
     "SpecialLinkedWikiConfig": "specialpages/SpecialLinkedWikiConfig.php",
+    "SpecialRDFUnit": "specialpages/SpecialRDFUnit.php",
+    "SpecialRDFSave": "specialpages/SpecialRDFSave.php",
 
     "SparqlParser": "parser/SparqlParser.php",
     "WSparqlParser": "parser/WSparqlParser.php",
     "ToolsParser": "parser/ToolsParser.php",
     "LwgraphTag": "tag/LwgraphTag.php",
+
+    "RDFTag": "tag/RDFTag.php",
 
     "Scribunto_LuaLinkedWikiLibrary": "lua/LinkedWiki.lua.php",
 
@@ -28,7 +75,7 @@
     "StorageInGraphMethod": "storageMethod/StorageInGraphMethod.php",
     "SimpleStorageMethod": "storageMethod/SimpleStorageMethod.php",
     "WikidataStorageMethod": "storageMethod/WikidataStorageMethod.php",
-    "DatabaseExampleMethod": "storageMethod/DatabaseExampleMethod.php"
+    "DatabaseTestDataMethod": "storageMethod/DatabaseTestDataMethod.php"
   },
   "Hooks": {
     "ParserFirstCallInit": [
@@ -41,8 +88,12 @@
       "LinkedWiki::scribuntoExternalLibraries"
     ],
     "RawPageViewBeforeOutput": [
-      "LinkedWiki::RawPageSource"
+      "RDFTag::RawRDFSource"
+    ],
+    "EditFilterMergedContent": [
+      "RDFTag::onEditFilterMergedContent"
     ]
+
   },
   "MessagesDirs": {
     "LinkedWiki": [
@@ -56,6 +107,12 @@
     ],
     "linkedwiki-specialsparqlflinteditor": [
       "i18n/sparqlflinteditor"
+    ],
+    "linkedwiki-specialrdfunit": [
+      "i18n/rdfunit"
+    ],
+    "linkedwiki-specialrdfsave": [
+      "i18n/rdfsave"
     ]
   },
   "ExtensionMessagesFiles": {
@@ -65,7 +122,10 @@
     "linkedwiki-specialsparqlflinteditor": "specialpages/SpecialSparqlFlintEditor.i18n.php",
     "linkedwiki-specialsparqlflinteditor-alias": "specialpages/SpecialSparqlFlintEditor.alias.php",
     "linkedwiki-specialLinkewikiconfig": "specialpages/SpecialLinkedWikiConfig.i18n.php",
-    "linkedwiki-specialLinkewikiconfig-alias": "specialpages/SpecialLinkedWikiConfig.alias.php"
+    "linkedwiki-specialLinkewikiconfig-alias": "specialpages/SpecialLinkedWikiConfig.alias.php",
+    "linkedwiki-specialrdfunit": "specialpages/SpecialRDFUnit.i18n.php",
+    "linkedwiki-specialrdfunit-alias": "specialpages/SpecialRDFUnit.alias.php",
+    "linkedwiki-specialrdfsave-alias": "specialpages/SpecialRDFSave.alias.php"
   },
   "ResourceModules": {
     "ext.LinkedWiki.table2CSV": {
@@ -114,7 +174,9 @@
   "SpecialPages": {
     "linkedwiki-specialsparqlquery": "SpecialSparqlQuery",
     "linkedwiki-specialsparqlflinteditor": "SpecialSparqlFlintEditor",
-    "linkedwiki-speciallinkedwikiconfig": "SpecialLinkedWikiConfig"
+    "linkedwiki-speciallinkedwikiconfig": "SpecialLinkedWikiConfig",
+    "linkedwiki-specialrdfunit": "SpecialRDFUnit",
+    "linkedwiki-specialrdfsave": "SpecialRDFSave"
   },
   "manifest_version": 1,
   "requires": {
@@ -155,23 +217,32 @@
         "storageMethodClass": "WikidataStorageMethod",
         "lang": "en"
       },
-      "http://database-test": {
+      "http://database-test/data": {
         "debug": false,
         "isReadOnly": false,
         "typeRDFDatabase": "virtuoso",
         "endpoint": "",
-        "endpointQueryOnly": "http://database-test:8890/sparql-auth/",
+        "endpointQueryOnly": "http://database-test:8890/sparql/",
         "endpointUpdateOnly": "http://database-test:8890/sparql-auth/",
         "login": "dba",
         "password": "dba",
         "HTTPMethodForQuery": "POST",
         "HTTPMethodForUpdate": "POST",
         "lang": "en",
-        "storageMethodClass": "DatabaseExampleMethod",
+        "storageMethodClass": "DatabaseTestDataMethod",
         "nameParameterQuery": "query",
         "nameParameterUpdate": "update"
+      },
+      "http://database-test2": {
+        "isReadOnly": true,
+        "typeRDFDatabase": "fuseki",
+        "endpoint": "http://172.17.0.2/test/sparql",
+        "HTTPMethodForQuery": "GET"
       }
-    }
+    },
+
+    "endpointSaveDataOfWiki": "http://database-test/data",
+    "checkRDFPage" : false
   }
 }
 

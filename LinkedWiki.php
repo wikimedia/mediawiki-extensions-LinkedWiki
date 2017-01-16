@@ -37,6 +37,8 @@ class LinkedWiki
         $parser->setHook('lwgraph', 'LwgraphTag::render');
         $parser->setFunctionHook('sparql', 'SparqlParser::render');
         $parser->setFunctionHook('wsparql', 'WSparqlParser::render');
+
+        $parser->setHook('rdf', 'RDFTag::render');
         return true;
     }
 
@@ -61,28 +63,4 @@ class LinkedWiki
         return true;
     }
 
-    public static function RawPageSource(  &$rawAction, &$text) {
-        if($rawAction != '' && isset($_REQUEST["includeOnlyTag"])){
-            $tag = $_REQUEST["includeOnlyTag"];
-            preg_match_all(
-                '#<'.$tag.'.*?>(.*?)</'.$tag.'>#is',
-                $text,
-                $matches
-            );
-            $text = "";
-            $textTemp = "";
-            foreach($matches[1] as $source){
-                $textTemp.= $source;
-            }
-            $parameters = array("?subject","?type","?property");
-            $url = "<".$rawAction->getTitle()->getFullURL().">";
-            $values = array($url,$url,$url);
-            $text = str_replace($parameters,
-                                 $values,
-                                 $textTemp);
-            /*
-            $text.= print_r($rawAction,true);*/
-        }
-        return true;
-    }
 }

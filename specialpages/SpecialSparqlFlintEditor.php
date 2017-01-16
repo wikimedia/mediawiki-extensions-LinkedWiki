@@ -29,6 +29,9 @@ class SpecialSparqlFlintEditor extends SpecialPage {
 	public function __construct() {
  		parent::__construct( 'linkedwiki-specialsparqlflinteditor' );
 	}
+    public function getGroupName() {
+        return 'linkedwiki_group';
+    }
 
 	public function execute($par = null) {
 		global $wgOut;
