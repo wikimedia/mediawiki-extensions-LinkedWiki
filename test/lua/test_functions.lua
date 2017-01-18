@@ -94,6 +94,7 @@ function p.tests(f)
 
     local xsd = 'http://www.w3.org/2001/XMLSchema#'
     local rdfs = 'http://www.w3.org/2000/01/rdf-schema#'
+    local wdt = 'http://www.wikidata.org/prop/direct/'
 
     local pr = 'http://database-test/TestFunction:'
 
@@ -400,6 +401,7 @@ local objTest = linkedwiki.new(subject,config)
     html = html .."RESULT BEGIN : "..'\n' ..result ..'\n'.."END" ..'\n'
     html = html .."RESULT : " .. p.checkString(result,'<div class="linkedwiki_value_equal"><span class="plainlinks">[http://wiki.serverdev-mediawiki-v1/index.php/User:Firstname_Surename1 Firstname Surename1]</span>, <span class="plainlinks">[http://wiki.serverdev-mediawiki-v1/index.php/User:Firstname_Surename2 Firstname Surename2]</span><sub><span class="plainlinks" style="font-size: large;">[mailto:Firstname_Surename2@example.com &#9993;]</span></sub><sub><span class="plainlinks" style="font-size: large;">[mailto:Firstname_Surename2Bis@example.com &#9993;]</span></sub></div>') ..'\n'
 
+
     html = html .."----------------------------------------------------------------------------" ..'\n'
 
     html = html .."TEST : checkItem" ..'\n'
@@ -482,48 +484,79 @@ local objTest = linkedwiki.new(subject,config)
 
     result = objTest:printDateInWiki("2004-12-07", "2004-12-06",dateFormat)
     html = html .."RESULT BEGIN : "..'\n' ..result ..'\n'.."END" ..'\n'
-    html = html .."RESULT : " .. p.checkString(result,'<div class="linkedwiki_new_value linkedwiki_tooltip" data-toggle="tooltip" data-placement="bottom" title="Currently in DB : 2004-12-06">07 Dec 2004</div>') ..'\n'
+    html = html .."RESULT : " .. p.checkString(result,'<div class="linkedwiki_new_value linkedwiki_tooltip" data-toggle="tooltip" data-placement="bottom" title="Currently in DB : 06 Dec 2004">07 Dec 2004</div>') ..'\n'
 
     html = html .."----------------------------------------------------------------------------" ..'\n'
     html = html .."TEST : checkDate" ..'\n'
 
     dateFormat = "d M Y"
-    pT = 'http://example.com/deces'
+    local pTDate = 'http://example.com/date'
+    local pTDateTime = 'http://example.com/dateTime'
 
     valueInWiki = ""
     --0 in DB
-    result = objTest:checkDate(pT,valueInWiki, dateFormat)
+    result = objTest:checkDate(pTDate,valueInWiki, dateFormat)
     html = html .."RESULT BEGIN : "..'\n' ..result ..'\n'.."END" ..'\n'
     html = html .."RESULT : " .. p.checkString(result,'') ..'\n'
 
     valueInWiki = "2004-12-06"
     --0 in DB
-    result = objTest:checkDate(pT,valueInWiki, dateFormat)
+    result = objTest:checkDate(pTDate,valueInWiki, dateFormat)
+    html = html .."BEGIN : "..'\n' ..valueInWiki ..'\n'.."END" ..'\n'
     html = html .."RESULT BEGIN : "..'\n' ..result ..'\n'.."END" ..'\n'
-
-    html = html .."RESULT : " .. p.checkString(result,'<div class="linkedwiki_new_value">06 Dec 2004</div>') ..'\n'
+    html = html .."RESULT : " .. p.checkString(result,'<div>06 Dec 2004</div>') ..'\n'
 
     valueInWiki =  ""
     --"2004-12-06" in DB
     -- current - pT ->  "2004-12-06"
-    mw.log(objTest:addProperty(pT,"2004-12-06",xsd..'date'))
-    result = objTest:checkDate(pT,valueInWiki, dateFormat)
+    mw.log(objTest:addProperty(pTDate,"2004-12-06",xsd..'date'))
+    result = objTest:checkDate(pTDate,valueInWiki, dateFormat)
     html = html .."RESULT BEGIN : "..'\n' ..result ..'\n'.."END" ..'\n'
     html = html .."RESULT : " .. p.checkString(result,'<div>06 Dec 2004</div>') ..'\n'
 
     valueInWiki =  "2004-12-06"
     --"2004-12-06" in DB
-    result = objTest:checkDate(pT,valueInWiki, dateFormat)
-    html = html .."RESULT BEGIN : "..'\n' ..result ..'\n'.."END" ..'\n'
-
+    result = objTest:checkDate(pTDate,valueInWiki, dateFormat)
+    html = html .."RESULT BEGIN11 : "..'\n' ..result ..'\n'.."END" ..'\n'
     html = html .."RESULT : " .. p.checkString(result,'<div class="linkedwiki_value_equal">06 Dec 2004</div>') ..'\n'
+
+    --"2004-12-06" in DB
+    -- current - pT ->  "2004-12-06"
+    mw.log(objTest:addProperty(pTDateTime,"2004-12-06T00:00:00Z",xsd..'dateTime'))
+    result = objTest:checkDate(pTDateTime,valueInWiki, dateFormat)
+    html = html .."RESULT BEGIN : "..'\n' ..result ..'\n'.."END" ..'\n'
+    html = html .."RESULT : " .. p.checkString(result,'<div class="linkedwiki_value_equal">06 Dec 2004</div>') ..'\n'
+
+    valueInWiki =  ""
+    --"2004-12-06T00:00:00Z" in DB
+    result = objTest:checkDate(pTDateTime,valueInWiki, dateFormat)
+    html = html .."RESULT BEGIN : "..'\n' ..result ..'\n'.."END" ..'\n'
+    html = html .."RESULT : " .. p.checkString(result,'<div>06 Dec 2004</div>') ..'\n'
 
     valueInWiki =  "2004-12-07"
     --"2004-12-06" in DB
-    result = objTest:checkDate(pT,valueInWiki, dateFormat)
+    result = objTest:checkDate(pTDate,valueInWiki, dateFormat)
     html = html .."RESULT BEGIN : "..'\n' ..result ..'\n'.."END" ..'\n'
 
-    html = html .."RESULT : " .. p.checkString(result,'<div class="linkedwiki_new_value linkedwiki_tooltip" data-toggle="tooltip" data-placement="bottom" title="Currently in DB : 2004-12-06">07 Dec 2004</div>') ..'\n'
+    html = html .."RESULT : " .. p.checkString(result,'<div class="linkedwiki_new_value linkedwiki_tooltip" data-toggle="tooltip" data-placement="bottom" title="Currently in DB : 06 Dec 2004">07 Dec 2004</div>') ..'\n'
+
+    local idConfigWikidata ='http://www.wikidata.org'
+    local taglang ='fr'
+    iriWikidata = wd .. "Q132845"
+    objWikidata = linkedwiki.new(iriWikidata,idConfigWikidata,taglang)
+    result = objWikidata:checkDate(wdt.."P569","1100-1-1",dateFormat)
+    html = html .."RESULT BEGIN : "..'\n' ..result ..'\n'.."END" ..'\n'
+    html = html .."RESULT : " .. p.checkString(result,'<div class="linkedwiki_new_value linkedwiki_tooltip" data-toggle="tooltip" data-placement="bottom" title="Currently in DB : not a date">01 Jan 1100</div>') ..'\n'
+
+    objWikidata = linkedwiki.new(iriWikidata,idConfigWikidata,taglang)
+    result = objWikidata:checkDate(wdt.."P569","",dateFormat)
+    html = html .."RESULT BEGIN : "..'\n' ..result ..'\n'.."END" ..'\n'
+    html = html .."RESULT : " .. p.checkString(result,'<div><strong class="error">Error: Invalid time.</strong></div>') ..'\n'
+
+    objWikidata = linkedwiki.new(iriWikidata,idConfigWikidata,taglang)
+    result = objWikidata:checkDate(wdt.."P569","Truc",dateFormat)
+    html = html .."RESULT BEGIN : "..'\n' ..result ..'\n'.."END" ..'\n'
+    html = html .."RESULT : " .. p.checkString(result,'<div>Error is not a date (0000-00-00) : Truc</div>') ..'\n'
 
 --    mw.log(linkedwiki.getLastQuery())
     mw.log(objTest:removeSubject())

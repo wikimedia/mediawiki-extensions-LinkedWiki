@@ -21,6 +21,31 @@ function linkedwiki.info()
     return tostring(wikitext)
 end
 
+function linkedwiki.timeStamp(dateStringArg)
+    local patternDateTime = '^(%d%d%d%d)-(%d?%d)-(%d?%d)T(%d?%d):(%d?%d):(%d?%d)(.-)$';
+    local patternDate = '^(%d%d%d%d)-(%d?%d)-(%d?%d)$';
+    local returnTime = 0
+    if  string.find(dateStringArg, patternDateTime) then
+        mw.log("dateCoucou")
+        local inYear, inMonth, inDay, inHour, inMinute, inSecond, inZone =
+        string.match(dateStringArg,patternDateTime)
+        local zHours, zMinutes = string.match(inZone, '^(.-):(%d%d)$')
+
+        returnTime = os.time({year=inYear, month=inMonth, day=inDay, hour=inHour, min=inMinute, sec=inSecond, isdst=false})
+
+        if zHours then
+            returnTime = returnTime - ((tonumber(zHours)*3600) + (tonumber(zMinutes)*60))
+        end
+    elseif string.find(dateStringArg, patternDate) then
+        local inDateYear, inDateMonth, inDateDay =
+        string.match(dateStringArg, patternDate)
+        returnTime = os.time({year=inDateYear, month=inDateMonth, day=inDateDay, hour=0, min=0, sec=0, isdst=false})
+    else
+        return nil
+    end
+    return returnTime
+end
+
 --[[
     setConfig can replace setEndpoint and setGraph.
 ]]
@@ -590,18 +615,30 @@ function linkedwiki.new(subject,config,tagLang,debug)
         local div = mw.html.create('div')
 
         if not linkedwiki.isEmpty(valueInWiki) then
-            div:wikitext(mw.getCurrentFrame():preprocess('{{#time:' .. format .. '|' .. valueInWiki .. '}}'))
-
-            if valueInWiki == valueInDB then
-                div:addClass("linkedwiki_value_equal")
+            local timeStampInWiki = linkedwiki.timeStamp(valueInWiki)
+            if linkedwiki.isEmpty(timeStampInWiki) then
+                div:wikitext('Error is not a date (0000-00-00) : ' .. valueInWiki)
             else
-                self.databaseIsUpdate = false
-                div:addClass("linkedwiki_new_value")
+                div:wikitext(mw.getCurrentFrame():preprocess('{{#time:' .. format .. '|' .. valueInWiki .. '}}'))
                 if not linkedwiki.isEmpty(valueInDB) then
-                    div:addClass("linkedwiki_tooltip")
-                    div:attr("data-toggle", "tooltip")
-                    div:attr("data-placement", "bottom")
-                    div:attr("title", "Currently in DB : " .. valueInDB)
+                    local timeStampInDB = linkedwiki.timeStamp(valueInDB)
+                    if linkedwiki.timeStamp(valueInWiki) == timeStampInDB then
+                        div:addClass("linkedwiki_value_equal")
+                    else
+                        self.databaseIsUpdate = false
+                        div:addClass("linkedwiki_new_value")
+                        if not linkedwiki.isEmpty(valueInDB) then
+                            div:addClass("linkedwiki_tooltip")
+                            div:attr("data-toggle", "tooltip")
+                            div:attr("data-placement", "bottom")
+                            if linkedwiki.isEmpty(timeStampInDB) then
+                                div:attr("title", "Currently in DB : not a date")
+                            else
+                                div:attr("title", "Currently in DB : " ..
+                                    mw.getCurrentFrame():preprocess('{{#time:' .. format .. '|' .. valueInDB .. '}}'))
+                            end
+                        end
+                    end
                 end
             end
         elseif not linkedwiki.isEmpty(valueInDB) then

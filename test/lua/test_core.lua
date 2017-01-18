@@ -17,7 +17,16 @@
 --[[
 -- Debug console
 
-mw.log(p.tests() )
+frame = mw.getCurrentFrame() -- Get a frame object
+newFrame = frame:newChild{ -- Get one with args
+	title = 'test' ,
+ args = {
+ iri = 'http://daap.eu/wiki/Lip(Sys)2/RamanEvolution_Spectrometer'
+    }
+}
+
+mw.log(p.tests(newFrame) )
+
 ]]
 
 local p = {}
@@ -65,7 +74,7 @@ function p.tests(f)
 
     local linkedwiki = require 'linkedwiki'
     local endpoint = 'http://database-test:8890/sparql'
-    local config = 'http://database-test'
+    local config = 'http://database-test/data'
 
 
     local xsd = 'http://www.w3.org/2001/XMLSchema#'
@@ -74,15 +83,14 @@ function p.tests(f)
 
     local html = '== TESTS =='.. '\n'
 
-    linkedwiki.setDebug(true)
-
+    --linkedwiki.setDebug(true)
+    local subject = f.args.iri or linkedwiki.getCurrentIRI();
     html = html .."TEST : linkedwiki.getCurrentIRI()" .. '\n'
-    html = html .."RESULT : " .. linkedwiki.getCurrentIRI() .. '\n'
+    html = html .."RESULT : " .. subject .. '\n'
 
     linkedwiki.setConfig(config)
 
     local subject = linkedwiki.getCurrentIRI();
-
 
     html = html .."----------------------------------------------------------------------------" ..'\n'
     html = html .."TEST : linkedwiki.explode" ..'\n'
@@ -96,6 +104,35 @@ function p.tests(f)
     html = html .."RESULT : 0==" ..table.getn(arrTestExplode1).. ' \n'
     html = html .."RESULT : 1==" ..table.getn(arrTestExplode2).. ' \n'
     html = html .."RESULT : 2==" ..table.getn(arrTestExplode3).. ' \n'
+
+
+    html = html .."----------------------------------------------------------------------------" ..'\n'
+    html = html .."TEST : linkedwiki.timeStamp" ..'\n'
+
+    local dateStringArg1 = "1971-01-01"
+    local dateStringArg2 = "0"
+    html = html .."CHECK : timestamp(" ..dateStringArg1.. ')= '..dateStringArg2..'\n'
+    html = html ..linkedwiki.timeStamp(dateStringArg1).. ' \n'
+    html = html .."RESULT : " ..p.checkNumber(linkedwiki.timeStamp(dateStringArg1), dateStringArg2).. ' \n'
+
+    local dateStringArg1 = "1972-01-01"
+    local dateStringArg2 = "0"
+    html = html .."CHECK : timestamp(" ..dateStringArg1.. ')= '..dateStringArg2..'\n'
+    html = html ..linkedwiki.timeStamp(dateStringArg1).. ' \n'
+    html = html .."RESULT : " ..p.checkNumber(linkedwiki.timeStamp(dateStringArg1), dateStringArg2).. ' \n'
+
+
+    local dateStringArg1 = "1970-01-11T01:10:00+02:00"
+    local dateStringArg2 = "0"
+    html = html .."CHECK : timestamp(" ..dateStringArg1.. ')= '..dateStringArg2..'\n'
+    html = html ..linkedwiki.timeStamp(dateStringArg1).. ' \n'
+    html = html .."RESULT : " ..p.checkNumber(linkedwiki.timeStamp(dateStringArg1), dateStringArg2).. ' \n'
+
+
+    local dateStringArg1 = "1970-01-01"
+    local dateStringArg2 = "1970-01-01T00:00:00Z"
+    html = html .."CHECK : " ..dateStringArg1.. '=='..dateStringArg2..'\n'
+    html = html .."RESULT : " ..p.checkNumber(linkedwiki.timeStamp(dateStringArg1), linkedwiki.timeStamp(dateStringArg2)).. ' \n'
 
     html = html .."----------------------------------------------------------------------------" ..'\n'
     html = html .."TEST : getValue & addPropertyWithIri without default subject" ..'\n'
