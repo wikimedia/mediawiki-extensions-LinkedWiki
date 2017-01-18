@@ -325,7 +325,7 @@ function linkedwiki.new(subject,config,tagLang,debug)
                 cleanId = string.match(iri, "(Q.*)")
                 --mw.log(iri)
                 text = ""
-                text = '<span class="plainlinks">['
+                text = '<span class="plainlinks">'
                         .. '[https://www.wikidata.org/wiki/Special:GoToLinkedPage/'.. self:getLang(tagLang)
                         ..'wiki/' ..cleanId
                         ..' '
@@ -349,7 +349,7 @@ function linkedwiki.new(subject,config,tagLang,debug)
                 iriInWikidata = "http://www.wikidata.org/entity/" .. cleanId
                 wikidata = linkedwiki.new(iriInWikidata,"http://www.wikidata.org",self:getLang(tagLang))
                 cleanTitle = wikidata:getString("http://www.w3.org/2000/01/rdf-schema#label", self:getLang(tagLang))
-                text = '<span class="plainlinks">['
+                text = '<span class="plainlinks">'
                         .. '[https://www.wikidata.org/wiki/Special:GoToLinkedPage/'.. self:getLang(tagLang)
                         ..'wiki/' ..cleanId
                         ..' '
@@ -580,6 +580,8 @@ function linkedwiki.new(subject,config,tagLang,debug)
         elseif not linkedwiki.isEmpty(valueInDB) then
             img:attr("src", valueInDB)
             div:node(img)
+        else -- Empty
+            return ''
         end
         return tostring(div)
     end
@@ -604,6 +606,8 @@ function linkedwiki.new(subject,config,tagLang,debug)
             end
         elseif not linkedwiki.isEmpty(valueInDB) then
             div:wikitext(mw.getCurrentFrame():preprocess('{{#time:' .. format .. '|' .. valueInDB .. '}}'))
+        else -- Empty
+            return ''
         end
         return tostring(div)
     end
@@ -628,6 +632,8 @@ function linkedwiki.new(subject,config,tagLang,debug)
             end
         elseif not linkedwiki.isEmpty(valueInDB) then
             div:wikitext('[' .. valueInDB .. ' ' .. label .. ']')
+        else -- Empty
+            return ''
         end
         return tostring(div)
     end
@@ -652,6 +658,8 @@ function linkedwiki.new(subject,config,tagLang,debug)
             end
         elseif not linkedwiki.isEmpty(valueInDB) then
             div:wikitext('<span class="plainlinks">[' .. link .. ' ' .. valueInDB .. ']</span>')
+        else -- Empty
+            return ''
         end
         return tostring(div)
     end
