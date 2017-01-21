@@ -91,7 +91,9 @@ class RDFTag
         $shaclSchemasArray = array();
         $shaclSchemasArrayIri = array();
         //str_replace($wikiPage->getTitle()->getBaseText()
-        $filename = '/tmp/'.str_replace(".","",$context->getTitle()->getDBKey()).'.ttl';
+
+        $badChar = array(".","/"," ");
+        $filename = '/tmp/'.str_replace($badChar,"",$context->getTitle()->getDBKey()).'.ttl';
         $commandRDFUnit = "rapper -i turtle \"".$filename."\"  " ;
         //check RDF
         $turtle = RDFTag::convertWikiCode2Turtle($content->getWikitextForTransclusion(),$fullURL );
