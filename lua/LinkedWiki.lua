@@ -178,7 +178,7 @@ function linkedwiki.buildDiv(countInWiki,tabHtmlInWiki,countInDB,tabHtmlInDB,tab
         html = html .. linkedwiki.concatWithComma(tabHtmlInWiki)
         div:addClass("linkedwiki_new_value")
         if countInDB > 0  then
-            html = html .. linkedwiki.concatWithComma(tabHtmlInDB)
+            html = html .. ", " .. linkedwiki.concatWithComma(tabHtmlInDB)
             div:addClass("linkedwiki_tooltip")
             div:attr("data-toggle", "tooltip")
             div:attr("data-placement", "bottom")
@@ -339,6 +339,7 @@ function linkedwiki.new(subject,config,tagLang,debug)
         local countInWiki = 0
         local cleanId =""
         local cleanTitle =""
+        local idInWiki=""
 
         if not linkedwiki.isEmpty(valueInDB) then
             listIri = linkedwiki.explode(";", valueInDB)
@@ -351,11 +352,11 @@ function linkedwiki.new(subject,config,tagLang,debug)
                 --mw.log(iri)
                 text = ""
                 text = '<span class="plainlinks">'
-                        .. '[https://www.wikidata.org/wiki/Special:GoToLinkedPage/'.. self:getLang(tagLang)
-                        ..'wiki/' ..cleanId
-                        ..' '
-                        ..  titleInDB
-                        .. ']</span>'
+                            .. '[https://www.wikidata.org/wiki/Special:GoToLinkedPage/'.. self:getLang(tagLang)
+                            ..'wiki/' ..cleanId
+                            ..' '
+                            ..  titleInDB
+                            .. ']</span>'
                 text = text.. '<span class="plainlinks"><small>([' .. iri .. ' '..cleanId..'])</small></span>'
 
                 tabIriInDB[iri]= true
@@ -370,17 +371,26 @@ function linkedwiki.new(subject,config,tagLang,debug)
             local wikidata
             local iriInWikidata
             for i, id in ipairs(listValue) do
-                cleanId = mw.text.trim( id )
-                iriInWikidata = "http://www.wikidata.org/entity/" .. cleanId
-                wikidata = linkedwiki.new(iriInWikidata,"http://www.wikidata.org",self:getLang(tagLang))
-                cleanTitle = wikidata:getString("http://www.w3.org/2000/01/rdf-schema#label", self:getLang(tagLang))
-                text = '<span class="plainlinks">'
-                        .. '[https://www.wikidata.org/wiki/Special:GoToLinkedPage/'.. self:getLang(tagLang)
-                        ..'wiki/' ..cleanId
-                        ..' '
-                        ..  cleanTitle
-                        .. ']</span>'
-                text = text.. '<span class="plainlinks"><small>([' .. iriInWikidata .. ' '..cleanId..'])</small></span>'
+                idInWiki = mw.text.trim( id )
+                cleanId = string.match(idInWiki, "(Q.*)")
+                text = ""
+                --mw.log(iri)
+                if not linkedwiki.isEmpty(cleanId) then
+                    iriInWikidata = "http://www.wikidata.org/entity/" .. cleanId
+                    wikidata = linkedwiki.new(iriInWikidata,"http://www.wikidata.org",self:getLang(tagLang))
+                    cleanTitle = wikidata:getString("http://www.w3.org/2000/01/rdf-schema#label", self:getLang(tagLang))
+                    text = '<span class="plainlinks">'
+                            .. '[https://www.wikidata.org/wiki/Special:GoToLinkedPage/'.. self:getLang(tagLang)
+                            ..'wiki/' ..cleanId
+                            ..' '
+                            ..  cleanTitle
+                            .. ']</span>'
+                    text = text.. '<span class="plainlinks"><small>([' .. iriInWikidata .. ' '..cleanId..'])</small></span>'
+                else -- it is not a ID
+                    cleanTitle = idInWiki
+                    iriInWikidata = idInWiki
+                    text = idInWiki
+                end
 
                 if not tabIriInDB[iriInWikidata] then
                     tabHtmlInWiki[iriInWikidata]= text
