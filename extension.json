@@ -10,34 +10,51 @@
   "type": "datavalues",
   "namespaces": [
     {
+      "@doc": "NamespaceRelations with NS_MAIN",
       "id": 10000,
       "constant": "NS_DATA",
       "name": "Data",
       "protection": "data-edit"
     },
     {
-      "id": 10001,
+      "@doc": "NamespaceRelations with NS_USER",
+      "id": 10002,
+      "constant": "NS_USER_DATA",
+      "name": "UserData",
+      "protection": "data-edit"
+    },
+    {
+      "id": 10010,
       "constant": "NS_SCHEMA",
       "name": "Schema",
       "protection": "data-edit"
     },
     {
-      "id": 10002,
-      "constant": "NS_TYPE",
-      "name": "Type",
-      "protection": "data-edit"
+      "id": 10011,
+      "constant": "NS_SCHEMA_TALK",
+      "name": "Schema_talk"
     },
     {
-      "id": 10003,
+      "id": 10020,
       "constant": "NS_PROPERTY",
       "name": "Property",
       "protection": "data-edit"
     },
     {
-      "id": 10004,
+      "id": 10021,
+      "constant": "NS_PROPERTY_TALK",
+      "name": "Property_talk"
+    },
+    {
+      "id": 10030,
       "constant": "NS_DATATYPE",
       "name": "Datatype",
       "protection": "data-edit"
+    },
+    {
+      "id": 10031,
+      "constant": "NS_DATATYPE_TALK",
+      "name": "Datatype_talk"
     }
   ],
   "AvailableRights": [

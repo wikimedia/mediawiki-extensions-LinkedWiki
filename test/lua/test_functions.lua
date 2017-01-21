@@ -339,6 +339,12 @@ local objTest = linkedwiki.new(subject,config)
     html = html .."RESULT BEGIN : "..'\n' ..result ..'\n'.."END" ..'\n'
     html = html .."RESULT : " .. p.checkString(result,'') ..'\n'
 
+    valueInWiki = "User1"
+    --0 in DB
+    result = objTest:checkUser(pT,valueInWiki)
+    html = html .."RESULT BEGIN : "..'\n' ..result ..'\n'.."END" ..'\n'
+    html = html .."RESULT : " .. p.checkString(result,'<div class="linkedwiki_new_value">[[User:User1|User1]]/div>') ..'\n'
+
     valueInWiki = "User1;User2"
     --0 in DB
     result = objTest:checkUser(pT,valueInWiki)
