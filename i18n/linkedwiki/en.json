@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": []
 	},
+	"linkedwiki-desc": "See the linked data in a wiki",
 	"linkedwiki-test": "test",
 	"linkedwiki-date": "H:i:s m/d/Y",
 	"linkedwiki-refresh": "Refresh",
