@@ -21,10 +21,5 @@ $specialPageAliases = array();
 
 /** English */
 $specialPageAliases['en'] = array(
-	'linkedwiki-specialrdfunit' => array('RDFUnit', 'RDF test cases'),
-);
-
-/** Français */
-$specialPageAliases['fr'] = array(
-	'linkedwiki-specialrdfunit' => array( 'RDFUnit', 'Tests unitaires RDF'),
+	'linkedwiki-specialrdfsave' => array( 'RDFSave' ),
 );
