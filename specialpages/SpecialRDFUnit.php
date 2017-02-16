@@ -256,8 +256,9 @@ class SpecialRDFUnit extends SpecialPage
 					"pass" => $configSaveData->getInstanceEndpoint()->getPassword()
 				));
 		}
-        $category = Title::newFromText(wfMessage( 'linkedwiki-category-rdf-schema' )->parse() )->getDBKey(); //"RDF_schema";
-         
+
+        $category = Title::newFromText(wfMessage( 'linkedwiki-category-rdf-schema' )->inContentLanguage()->parse() )->getDBKey(); //"RDF_schema";
+
         $wgOut->addHTML("<a href='?refresh=true' class=\"mw-htmlform-submit mw-ui-button mw-ui-primary mw-ui-progressive\">Refresh test cases</a>");
 
         $wgOut->addWikiText("== RDF schemas in the Wiki ==");
@@ -276,7 +277,7 @@ INNER JOIN text t ON r.rev_text_id = t.old_id
 INNER JOIN categorylinks c ON c.cl_from = p.page_id 
 INNER JOIN searchindex s ON s.si_page = p.page_id 
  WHERE c.cl_to='".$category."' ORDER BY p.page_title ASC";
-//echo  $sql;        
+//echo  $sql;
 	$res = $dbr->query($sql, __METHOD__);
 
         $schemas = array();
@@ -286,7 +287,7 @@ INNER JOIN searchindex s ON s.si_page = p.page_id
             $schemas[] = $row;
             $schemasStr[] = '"'.Title::newFromID( $row->pid )->getFullURL().'?action=raw&export=rdf"';
             // $wgOut->addWikiText("* [[".$row->title."]] ");
-             $wgOut->addWikiText("* ".$row->pid." - [".Title::newFromID( $row->pid )->getFullURL()." ".$row->title."] ");
+             $wgOut->addWikiText("* [".Title::newFromID( $row->pid )->getFullURL()." ".$row->title."] ");
         }
 
         //return $list;
