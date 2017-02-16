@@ -33,7 +33,7 @@ class Curl
 	 * @param boolean debug
 	 * @access public
 	 */
-	function Curl($debug = false)
+	function __construct($debug = false)
 	{
 		$this->debug = $debug;
 
