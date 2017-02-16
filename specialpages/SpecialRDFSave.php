@@ -83,7 +83,7 @@ RDF data in the database</a>");
     {
         global $wgOut;
 
-        $category = "RDF_page";
+        $category = Title::newFromText(wfMessage( 'linkedwiki-category-rdf-page' )->inContentLanguage()->parse() )->getDBKey();//"RDF_page";
 
         $dbr =wfGetDB(DB_SLAVE);
         $sql = "SELECT  p.page_id AS pid, p.page_title AS title, t.old_text as text FROM page p 
