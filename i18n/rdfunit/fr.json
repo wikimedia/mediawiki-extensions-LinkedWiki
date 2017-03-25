@@ -1,8 +1,8 @@
 {
-    "@metadata": {
-        "authors": []
-    },
-    "linkedwiki-specialrdfunit": "Tests unitaires RDF",
-    "linkedwiki-category-rdf-page": "Page RDF",
-    "linkedwiki-category-rdf-schema": "Schema RDF"
+	"@metadata": {
+		"authors": []
+	},
+	"linkedwiki-specialrdfunit": "Tests unitaires RDF",
+	"linkedwiki-category-rdf-page": "Page RDF",
+	"linkedwiki-category-rdf-schema": "Schema RDF"
 }

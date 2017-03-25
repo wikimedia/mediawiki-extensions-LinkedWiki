@@ -1,11 +1,11 @@
 {
-    "@metadata": {
-        "authors": []
-    },
-    "linkedwiki-test": "test",
-    "linkedwiki-date": "H:i:s d/m/Y",
-    "linkedwiki-refresh": "Rafraîchir",
-    "linkedwiki-duration": "Durée du calcul",
+	"@metadata": {
+		"authors": []
+	},
+	"linkedwiki-test": "test",
+	"linkedwiki-date": "H:i:s d/m/Y",
+	"linkedwiki-refresh": "Rafraîchir",
+	"linkedwiki-duration": "Durée du calcul",
 
-    "specialpages-group-linkedwiki_group": "Outils pour SPARQL et RDF"
+	"specialpages-group-linkedwiki_group": "Outils pour SPARQL et RDF"
 }
