@@ -3,6 +3,7 @@
 *.kate-swp
 .*.swp
 
+/node_modules
 composer.lock
 /vendor/bordercloud/sparql/doc/
 /vendor/bordercloud/sparql/example/

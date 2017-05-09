@@ -11,5 +11,14 @@
 			"name": "Karima Rafes",
 			"email": "karima.rafes@gmail.com"
 		}
-	]
+	],
+	"require-dev": {
+		"jakub-onderka/php-parallel-lint": "0.9.2",
+		"jakub-onderka/php-console-highlighter": "0.3.2"
+	},
+	"scripts": {
+		"test": [
+			"parallel-lint . --exclude vendor"
+		]
+	}
 }
