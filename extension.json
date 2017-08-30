@@ -241,10 +241,10 @@
 				"endpointWrite": "",
 				"login": "",
 				"password": "",
-				"HTTPMethodForQuery": "POST",
+				"HTTPMethodForRead": "POST",
 				"HTTPMethodForWrite": "POST",
-				"nameParameterQuery": "query",
-				"nameParameterUpdate": "update",
+				"nameParameterRead": "query",
+				"nameParameterWrite": "update",
 				"lang": "en",
 				"storageMethodClass": "SimpleStorageMethod"
 			},
@@ -269,8 +269,8 @@
 				"HTTPMethodForWrite": "POST",
 				"lang": "en",
 				"storageMethodClass": "DatabaseTestDataMethod",
-				"nameParameterQuery": "query",
-				"nameParameterUpdate": "update"
+				"nameParameterRead": "query",
+				"nameParameterWrite": "update"
 			},
 			"http://database-test2": {
 				"isReadOnly": true,
