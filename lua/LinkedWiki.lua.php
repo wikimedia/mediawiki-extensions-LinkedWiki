@@ -128,10 +128,10 @@ class Scribunto_LuaLinkedWikiLibrary extends Scribunto_LuaLibraryBase
     {
         $this->checkType('setEndpoint', 1, $urlEndpoint, 'string');
         $errorMessage = null;
-        $keyConfigByDefault = "http://www.example.org"; //default config 
+        $keyConfigByDefault = "http://www.example.org"; //default config
         $this->objConfig = new LinkedWikiConfig($keyConfigByDefault);
-        $this->objConfig->setEndpoint($urlEndpoint);
-        $this->objConfig->setEndpointQueryOnly($urlEndpoint);
+        //$this->objConfig->setEndpoint($urlEndpoint);
+        $this->objConfig->setEndpointRead($urlEndpoint);
     }
 
     public function setSubject($iriSubject)
@@ -224,7 +224,7 @@ class Scribunto_LuaLinkedWikiLibrary extends Scribunto_LuaLibraryBase
         }
         $this->checkType('getValue', 1, $iriProperty, 'string');
         $this->checkTypeOptional('getValue', 2, $iriSubject, 'string', $this->subject);
-        //$this->checkType( 'getValue', 2, $iriSubject, 'string', $this->subject  );        
+        //$this->checkType( 'getValue', 2, $iriSubject, 'string', $this->subject  );
 
         $subject = ($iriSubject === null) ? "<" . $this->subject . ">" :"<" . trim($iriSubject) . ">";
         $property = "<" . trim($iriProperty) . ">";
@@ -272,7 +272,7 @@ class Scribunto_LuaLinkedWikiLibrary extends Scribunto_LuaLibraryBase
         $this->checkType('addPropertyWithIri', 1, $iriProperty, 'string');
         $this->checkType('addPropertyWithIri', 2, $iriValue, 'string');
         $this->checkTypeOptional('addPropertyWithIri', 3, $iriSubject, 'string', $this->subject);
-        //$this->checkType( 'getValue', 2, $iriSubject, 'string', $this->subject  );        
+        //$this->checkType( 'getValue', 2, $iriSubject, 'string', $this->subject  );
 
         $subject = ($iriSubject === null) ? "<" . $this->subject . ">" :"<" . trim($iriSubject) . ">";
         $property = "<" . trim($iriProperty) . ">";
@@ -315,7 +315,7 @@ class Scribunto_LuaLinkedWikiLibrary extends Scribunto_LuaLibraryBase
         // $this->checkType( 'addPropertyWithLitteral', 3, $type, 'string',null );
         // $this->checkTypeOptional( 'addPropertyWithLitteral', 4, $tagLang, 'string' ,$this->getInstanceConfig()->getLang() );
         //$this->checkTypeOptional( 'addPropertyWithLitteral', 5, $iriSubject, 'string',$this->subject  );
-        //$this->checkType( 'getValue', 2, $iriSubject, 'string', $this->subject  );        
+        //$this->checkType( 'getValue', 2, $iriSubject, 'string', $this->subject  );
 
         $subject = ($iriSubject === null) ? "<" . $this->subject . ">" :"<" . trim($iriSubject) . ">";
         $property = "<" . trim($iriProperty) . ">";

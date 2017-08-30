@@ -39,16 +39,16 @@
 <tr>
 	<td>type</td>
 	<td>id=wpTextbox1</td>
-	<td><br />{{#sparql:select * where { ?x ?y ?z . } LIMIT 5  |headers=Name1 |templates= Test2 }}<br /></td>
+	<td><br />{{#sparql:select * where { ?x ?y ?z . } LIMIT 5 |headers=Name1 |templates= Test2 }}<br /></td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>id=wpSave</td>
+	<td>name=wpSave</td>
 	<td></td>
 </tr>
 <tr>
 	<td>verifyText</td>
-	<td>css=th.headerSort</td>
+	<td>css=th</td>
 	<td>Name1</td>
 </tr>
 <tr>

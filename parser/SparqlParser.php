@@ -56,18 +56,36 @@ class SparqlParser
             $templateBare = isset($vars["templateBare"]) ? $vars["templateBare"] :'';
             $footer = isset($vars["footer"]) ? $vars["footer"] :'';
 
-            if ($cache == "no") {
-                $parser->disableCache();
-            }
-            if ($templateBare == "tableCell") {
-                return SparqlParser::tableCell($query, $config, $endpoint, $debug);
-            } else {
-                if ($templates != "") {
-                    return SparqlParser::simpleHTMLWithTemplate($query, $config, $endpoint,
-                        $classHeaders, $headers, $templates, $footer, $debug);
+            $chart = isset($vars["chart"]) ? $vars["chart"] : '';
+            $options = isset($vars["options"]) ? $vars["options"] : '';
+            $log = isset($vars["log"]) ? $vars["log"] : '';
+
+
+            if(!EMPTY($chart)){
+                // renderer with sgvizler2
+                return SparqlParser::sgvizler2Container(
+                    $query,
+                    $config,
+                    $endpoint,
+                    $chart,
+                    $options,
+                    $log,
+                    $debug);
+            }else{
+                // renderer with php
+                if ($cache == "no") {
+                    $parser->disableCache();
+                }
+                if ($templateBare == "tableCell") {
+                   return SparqlParser::tableCell($query, $config, $endpoint, $debug);
                 } else {
-                    return SparqlParser::simpleHTML($query, $config, $endpoint,
-                        $classHeaders, $headers, $footer, $debug);
+                    if ($templates != "") {
+                        return SparqlParser::simpleHTMLWithTemplate($query, $config, $endpoint,
+                            $classHeaders, $headers, $templates, $footer, $debug);
+                    } else {
+                        return SparqlParser::simpleHTML($query, $config, $endpoint,
+                            $classHeaders, $headers, $footer, $debug);
+                    }
                 }
             }
         } else {
@@ -78,9 +96,77 @@ class SparqlParser
         return $result;
     }
 
+    public static function sgvizler2Container(
+        $querySparqlWiki,
+        $config,
+        $endpoint,
+        $chart,
+        $options = '',
+        $log = '',
+        $debug = null)
+    {
+        global $wgOut ;
+        $str = "";
+
+        $methodSg = "";
+        $parameterSg = "";
+        $endpointSg = "";
+        $logSg = $log;
+
+//        $specialC = array("&#39;","&nbsp;");
+//        $replaceC = array("'", " ");
+//        $querySparql = str_replace($specialC, $replaceC, $querySparqlWiki);
+
+        if(EMPTY($config) && EMPTY($endpoint)){
+            return array("<pre>Where is the Endpoint or the configuration ?</pre>", 'noparse' => true, 'isHTML' =>
+                false);
+
+        }else if (!EMPTY($config)){
+            $configuration = ConfigFactory::getDefaultInstance()->makeConfig('ext-conf-linkedwiki');
+            $configs = $configuration->get("endpoint");
+            $configEndpoint = isset($configs[$config])? $configs[$config] : null;
+            if(!EMPTY($configEndpoint)){
+                $endpointSg = $configEndpoint["endpointRead"];
+                $methodSg = $configEndpoint["HTTPMethodForRead"];
+                $parameterSg = $configEndpoint["nameParameterRead"];
+            }
+        }else{
+            $endpointSg = $endpoint;
+        }
+
+        if($debug){
+            $logSg = 2;
+        }
+
+        //echo $querySparql;
+        $uniqId = "ID". uniqid();
+        $str = "<div id='".$uniqId."' " ;
+        $str .="data-sgvizler-query='" .  htmlentities($querySparqlWiki, ENT_QUOTES, "UTF-8") . "' \n" .
+        "data-sgvizler-endpoint=\"" . $endpointSg . "\" \n" .
+        "data-sgvizler-chart=\"" . $chart . "\" \n" ;
+
+        if(!EMPTY($options)){
+            $str .= "data-sgvizler-chart-options=\"" . $options . "\" \n";
+        }
+        if(!EMPTY($logSg)){
+            $str .= "data-sgvizler-log=\"" . $logSg . "\" \n";
+        }
+        if(!EMPTY($methodSg) && ($methodSg == "GET" || $methodSg == "POST") ){
+            $str .= "data-sgvizler-method=\"" .  $methodSg . "\" \n";
+        }
+        if(!EMPTY($parameterSg) && $parameterSg != "query" ){
+            $str .= "data-sgvizler-endpoint-query-parameter=\"" . $parameterSg . "\" \n";
+        }
+        $str .=  "></div>";
+        //echo $str;
+
+        return array($str, 'isChildObj' => true);
+    }
+
     public static function simpleHTMLWithTemplate(
         $querySparqlWiki,
-        $config, $endpoint,
+        $config,
+        $endpoint,
         $classHeaders = '',
         $headers = '',
         $templates = '',
@@ -161,14 +247,14 @@ class SparqlParser
             $str .= "\n";
         }
 
-        if ($footer != "NO") {
+        if ($footer != "NO"  && $footer != "no") {
             $str .= "|- style=\"font-size:80%\" align=\"right\"\n";
             $str .= "| colspan=\"" . count($TableFormatTemplates) . "\"|" . SparqlParser::footer($rs['query_time'], $querySparqlWiki, $config, $endpoint, $classHeaders, $headers) . "\n";
         }
 
         $str .= "|}\n";
 
-        if ($debug != null && $debug == "YES") {
+        if ($debug != null && ($debug == "YES" || $debug == "yes")) {
             $str .= "INPUT WIKI : " . $querySparqlWiki . "\n";
             $str .= "Query : " . $querySparql . "\n";
             $str .= print_r($arrayParameters, true);

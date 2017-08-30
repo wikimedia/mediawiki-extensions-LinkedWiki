@@ -1,6 +1,6 @@
 {
 	"name": "LinkedWiki",
-	"version": "3.0.0 Alpha",
+	"version": "3.1.0 Beta",
 	"author": [
 		"[https://www.mediawiki.org/wiki/User:Karima_Rafes Karima Rafes]"
 	],
@@ -35,17 +35,6 @@
 			"name": "Schema_talk"
 		},
 		{
-			"id": 10020,
-			"constant": "NS_PROPERTY",
-			"name": "Property",
-			"protection": "data-edit"
-		},
-		{
-			"id": 10021,
-			"constant": "NS_PROPERTY_TALK",
-			"name": "Property_talk"
-		},
-		{
 			"id": 10030,
 			"constant": "NS_DATATYPE",
 			"name": "Datatype",
@@ -69,7 +58,6 @@
 		}
 	},
 	"AutoloadClasses": {
-		"Endpoint": "vendor/bordercloud/sparql/Endpoint.php",
 		"LinkedWikiConfig": "LinkedWikiConfig.php",
 		"LinkedWiki": "LinkedWiki.php",
 
@@ -182,6 +170,42 @@
 				"js/FlintSparqlEditor/sparql/css/sparqlcolors.css",
 				"js/FlintSparqlEditor/sparql/css/docs.css"
 			]
+		},
+		"ext.LinkedWiki.sgvizler2": {
+			"scripts": [
+				"node_modules/sgvizler2/build/browser/sgvizler2.min.js"
+			]
+		},
+		"ext.LinkedWiki.bootstrap": {
+			"scripts": [
+				"node_modules/tether/dist/js/tether.min.js",
+				"node_modules/bootstrap/dist/js/bootstrap.min.js",
+				"js/bootstrap-select/js/bootstrap-select.js"
+			],
+			"styles": [
+				"node_modules/bootstrap/dist/css/bootstrap.min.css",
+				"node_modules/font-awesome/css/font-awesome.min.css",
+				"js/bootstrap-select/css/bootstrap-select.min.css"
+			]
+		},
+		"ext.LinkedWiki.SpecialSparqlQuery": {
+			"scripts": [
+				"keys.js",
+				"js/SparqlEditor/form.js"
+			],
+			"dependencies": [
+				"ext.LinkedWiki.bootstrap",
+				"ext.LinkedWiki.sgvizler2"
+			]
+		},
+		"ext.LinkedWiki.SparqlParser": {
+			"scripts": [
+				"keys.js",
+				"js/lwsgvizler2.js"
+			],
+			"dependencies": [
+				"ext.LinkedWiki.sgvizler2"
+			]
 		}
 	},
 	"ResourceFileModulePaths": {
@@ -213,13 +237,12 @@
 				"debug": false,
 				"proxyHost": "",
 				"proxyPort": 0,
-				"endpoint": "http://www.example.org/sparql",
-				"endpointQueryOnly": "",
-				"endpointUpdateOnly": "",
+				"endpointRead": "http://www.example.org/sparql",
+				"endpointWrite": "",
 				"login": "",
 				"password": "",
 				"HTTPMethodForQuery": "POST",
-				"HTTPMethodForUpdate": "POST",
+				"HTTPMethodForWrite": "POST",
 				"nameParameterQuery": "query",
 				"nameParameterUpdate": "update",
 				"lang": "en",
@@ -228,9 +251,9 @@
 			"http://www.wikidata.org": {
 				"debug": false,
 				"isReadOnly": true,
-				"endpoint": "https://query.wikidata.org/sparql",
+				"endpointRead": "https://query.wikidata.org/sparql",
 				"typeRDFDatabase": "blazegraph",
-				"HTTPMethodForQuery": "GET",
+				"HTTPMethodForRead": "GET",
 				"storageMethodClass": "WikidataStorageMethod",
 				"lang": "en"
 			},
@@ -238,13 +261,12 @@
 				"debug": false,
 				"isReadOnly": false,
 				"typeRDFDatabase": "virtuoso",
-				"endpoint": "",
-				"endpointQueryOnly": "http://database-test:8890/sparql/",
-				"endpointUpdateOnly": "http://database-test:8890/sparql-auth/",
+				"endpointRead": "http://database-test:8890/sparql/",
+				"endpointWrite": "http://database-test:8890/sparql-auth/",
 				"login": "dba",
 				"password": "dba",
-				"HTTPMethodForQuery": "POST",
-				"HTTPMethodForUpdate": "POST",
+				"HTTPMethodForRead": "POST",
+				"HTTPMethodForWrite": "POST",
 				"lang": "en",
 				"storageMethodClass": "DatabaseTestDataMethod",
 				"nameParameterQuery": "query",
@@ -253,14 +275,13 @@
 			"http://database-test2": {
 				"isReadOnly": true,
 				"typeRDFDatabase": "fuseki",
-				"endpoint": "http://172.17.0.2/test/sparql",
-				"HTTPMethodForQuery": "GET"
+				"endpointRead": "http://172.17.0.2/test/sparql",
+				"HTTPMethodForRead": "GET"
 			}
 		},
 
 		"endpointSaveDataOfWiki": "http://database-test/data",
 		"checkRDFPage" : false
-	}
+	},
+	"load_composer_autoloader": true
 }
-
-

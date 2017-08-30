@@ -32,7 +32,9 @@ class SpecialSparqlQuery extends SpecialPage
 
     public function execute($par = null)
     {
+        //https://www.mediawiki.org/wiki/OOjs_UI/Using_OOjs_UI_in_MediaWiki
         global $wgOut, $wgScriptPath;
+
 
         $configFactory = ConfigFactory::getDefaultInstance()->makeConfig('ext-conf-linkedwiki');
         $querySparqlInSpecialPage = $configFactory->get("querySparqlInSpecialPage");
@@ -42,6 +44,7 @@ class SpecialSparqlQuery extends SpecialPage
         $endpoint = isset($_REQUEST["endpoint"]) ? trim($_REQUEST["endpoint"]) :'';
         $config = isset($_REQUEST["config"]) ? trim($_REQUEST["config"]) :"";
         $idConfig = !EMPTY($config) && $_REQUEST["config"] != "Other" ? $config :"";
+        $radioCache = isset($_REQUEST["radio"]) ? trim($_REQUEST["radio"]) :'sgvizler2';
 
 //         $wgOut->addHTML( isset($_REQUEST["query"])?stripslashes($_REQUEST["query"]):"Vide");
 //         $wgOut->addHTML(print_r($_REQUEST,true));
@@ -50,34 +53,147 @@ class SpecialSparqlQuery extends SpecialPage
 //         $wgOut->addHTML(print_r($config,true));
 //         $wgOut->addHTML(print_r($output,true));
 
+        // Module by name
+        //mw.loader.load( 'jquery' );
+
+        $wgOut->addModules('ext.LinkedWiki.SpecialSparqlQuery');
+        //test
+        //$wgOut->addHTML(file_get_contents(__dir__ . "/../js/SparqlEditor/form.html"));
+
+        /////////////////////////////
         $wgOut->addWikiText(wfMessage('linkedwiki-specialsparqlquery_mainpage')->text());
         //$wgOut->addHTML("<pre>" . htmlentities($this->prefix(), ENT_QUOTES, 'UTF-8') . "</pre>");
-        $wgOut->addHTML("<form method='post' name='formQuery'>");
+        $wgOut->addHTML("<form method='post' name='formQuery' id='formSparqlQuery'>");
 
-        $wgOut->addHTML("Choose a configuration :" . $this->printSelectConfig($config));
 
-        $wgOut->addHTML("<br/><div id='fieldEndpoint' ");
+        $wgOut->addHTML("<div class=\"form-group row\">
+            <label for=\"endpoint\" class=\"col-2 col-form-label\">".wfMessage('linkedwiki-specialsparqlquery_chooseaconfiguration')->text()."</label>
+            <div class=\"col-10\">");
+        $wgOut->addHTML($this->printSelectConfig($config));
+        $wgOut->addHTML("</div>
+        </div>");
+
+        $wgOut->addHTML("<div class=\"form-group row\" id='fieldEndpoint' ");
+
         if (EMPTY($endpoint))
             $wgOut->addHTML("style='display: none;'");
-        $wgOut->addHTML(">");
-        $wgOut->addHTML(wfMessage('linkedwiki-specialsparqlquery_endpointsparql')->text() . " : <input type='text' id='endpoint' name='endpoint' size='50' value='" . $endpoint . " '></div>");
-        $wgOut->addHTML("<textarea name='query' cols='25' rows='15'>");
+
+        $wgOut->addHTML(">
+            <label for=\"endpointOther\" class=\"col-2 col-form-label\">");
+        $wgOut->addHTML(wfMessage('linkedwiki-specialsparqlquery_endpointsparql')->text() . "</label>
+            <div class=\"col-10\">
+                <input class=\"form-control\" type=\"url\" value=\"https://query.wikidata.org/sparql\" id=\"endpointOther\"/>
+            </div>
+        </div>");
+
+        $wgOut->addHTML("
+        <div class=\"form-group row\">
+            <label for=\"query\" class=\"col-2 col-form-label\">Query</label>
+            <div class=\"col-10\">
+        <textarea class=\"form-control\" id=\"query\" name='query'  rows=\"8\"  lang=\"sparql\">");
+
         $strQuery = $query != "" ? $query :$querySparqlInSpecialPage;
         $wgOut->addHTML($strQuery);
-        $wgOut->addHTML("</textarea>");
-        $wgOut->addHTML("<br/>");
-        $wgOut->addHTML("<script language='javascript' type='text/javascript' src='" . $wgScriptPath . "/extensions/LinkedWiki/js/bordercloud.js'></script>");
-        $wgOut->addHTML("<input type='submit' value='" . wfMessage('linkedwiki-specialsparqlquery_sendquery')->text() . "'   />");
 
-        $wgOut->addHTML(" </form>");
+        $wgOut->addHTML("</textarea>
+            </div>
+        </div>
+        ");
+
+        $checkedPhp = $radioCache == "php" ? "checked" : "";
+        $checkedSgvizler= $radioCache == "sgvizler2" ? "checked" : "";
+        $wgOut->addHTML("<div class=\"form-group row\">
+            <label for=\"endpoint\" class=\"col-2 col-form-label\"></label>
+            <div class=\"col-10\">
+                <label class=\"custom-control custom-radio\">
+                    <input id=\"radio1\" type=\"radio\"  name=\"radio\" 
+                    aria-label=\"Charts of Sgvizler2 (wihtout cache and only for public data)\"
+                           class=\"custom-control-input\"
+                           value='sgvizler2' ". $checkedSgvizler .">
+                    <span class=\"custom-control-indicator\"></span>
+                    <span class=\"custom-control-description\">Javascript charts of 
+                        <a href=\"https://bordercloud.github.io/sgvizler2\">Svizgler2</a> (wihtout cache and only for public data)</span>
+                </label>
+                <label class=\"custom-control custom-radio\">
+                    <input id=\"radio2\" type=\"radio\" name=\"radio\" aria-label=\"With cache, table only (PHP)\"
+                           class=\"custom-control-input\"
+                           value='php' ". $checkedPhp .">
+                    <span class=\"custom-control-indicator\"></span>
+                    <span class=\"custom-control-description\">Table only with cache and for public data</span>
+                </label>
+            </div>
+        </div>
+        <div id=\"sgvizlerInputsForm\" ");
+
+        if ($checkedPhp == "php")
+            $wgOut->addHTML("style='display: none;'");
+
+        $wgOut->addHTML(">
+            <div class=\"form-group row\">
+                <label for=\"options\" class=\"col-2 col-form-label\">Options</label>
+                <div class=\"col-10\">
+                    <input class=\"form-control\" type=\"input\" id=\"options\" value='width=100%!height=500px'>
+                </div>
+            </div>
+            <div class=\"form-group row\">
+                <label for=\"logsLevel\" class=\"col-2 col-form-label\">Logs level</label>
+                <div class=\"col-10\">
+                    <select class=\"custom-select\" id=\"logsLevel\">
+                        <option value=\"0\">0</option>
+                        <option value=\"1\">1</option>
+                        <option value=\"2\" selected>2</option>
+                    </select>
+                </div>
+            </div>
+            <div class=\"form-group row\">
+                <label for=\"logsLevel\" class=\"col-2 col-form-label\">Charts</label>
+                <div class=\"col-10\">
+                    <select class=\"selectpicker selectchart\" id=\"chart\"></select>
+                    <button id=\"seeDoc\" type=\"button\" class=\"btn btn-secondary secondary\">See the doc</button>
+                </div>
+            </div>
+        </div>");
+
+        $wgOut->addHTML("
+        <div style=\"height: 50px;\">
+            <div class=\"pull-right\" >
+                <button id=\"execQuery\" type=\"button\" class=\"btn btn-primary\">" . wfMessage('linkedwiki-specialsparqlquery_sendquery')->text() . "</button>
+            </div>
+        </div>");
+
+//        $wgOut->addHTML(wfMessage('linkedwiki-specialsparqlquery_endpointsparql')->text() . " : <input class=\"form-control\" type=\"url\" value=\"https://query.wikidata.org/sparql\" id='endpoint' name='endpoint' size='50' value='" . $endpoint . " '></div>");
+//        $wgOut->addHTML("<textarea name='query' cols='25' rows='15'>");
+//        $wgOut->addHTML("</textarea>");
+//        $wgOut->addHTML("<br/>");
+//        $wgOut->addHTML("<script language='javascript' type='text/javascript' src='" . $wgScriptPath . "/extensions/LinkedWiki/js/bordercloud.js'></script>");
+//        $wgOut->addHTML("<input type='submit' value='" . wfMessage('linkedwiki-specialsparqlquery_sendquery')->text() . "'   />");
+
+
+        $wgOut->addHTML(" </form>
+ <ul class=\"nav nav-tabs\" role=\"tablist\" id='tabSparqlQuery'>
+    <li class=\"nav-item\">
+        <a class=\"nav-link active\" data-toggle=\"tab\" href=\"#resultTab\" role=\"tab\">Result</a>
+    </li>
+    <li class=\"nav-item\">
+        <a class=\"nav-link\" data-toggle=\"tab\" href=\"#htmlTab\" role=\"tab\">" . wfMessage('linkedwiki-specialsparqlquery_usethisquery')->text() . "</a>
+    </li>
+</ul>
+ <div class=\"tab-content\">
+    <div class=\"tab-pane active\" id=\"resultTab\" role=\"tabpanel\">
+        <div id=\"example\" style=\"padding: 25px;\"><div id=\"result\">");
+
         if (!EMPTY($query)) {
             $arr = SparqlParser::simpleHTML($query, $idConfig, $endpoint, '', '', null);
             $wgOut->addHTML($arr[0]);
+        }
+        $wgOut->addHTML("</div></div>
+    </div>
+    <div class=\"tab-pane\" id=\"htmlTab\" role=\"tabpanel\">
+        <div class=\"bg-faded\" style=\"padding: 25px;\">");
+        $wgOut->addWikiText(wfMessage('linkedwiki-specialsparqlquery_usethisquery_tutorial')->text());
 
-            $wgOut->addWikiText("==" . wfMessage('linkedwiki-specialsparqlquery_usethisquery')->text() . "==");
-            $wgOut->addWikiText(wfMessage('linkedwiki-specialsparqlquery_usethisquery_tutorial')->text());
-
-
+        $wgOut->addHTML("<pre lang=\"html\" id=\"consoleWiki\">");
+        if (!EMPTY($query)) {
             $template = "{{#sparql:\n" . htmlentities($query, ENT_QUOTES, 'UTF-8');
             $errorMessage = "";
             if ($config == "other" && !EMPTY($endpoint)) {
@@ -92,14 +208,16 @@ class SpecialSparqlQuery extends SpecialPage
             }
             $template .= "\n}}";
             if (EMPTY($errorMessage)) {
-                $wgOut->addHTML("<pre>" . $template . "</pre>");
+                $wgOut->addHTML($template);
             } else {
-                $wgOut->addHTML("<pre>" . $errorMessage . "</pre>");
+                $wgOut->addHTML($errorMessage);
             }
         }
+        $wgOut->addHTML("</pre></div>
+    </div>
+</div>");
 
         $this->setHeaders();
-
     }
 
     protected function printSelectConfig($configIri)
@@ -108,10 +226,10 @@ class SpecialSparqlQuery extends SpecialPage
         $html = "";
         // In PHP, whenever you want your config object
         $config = ConfigFactory::getDefaultInstance()->makeConfig('ext-conf-linkedwiki');
-        
+
         $configs = $config->get("endpoint");
 
-        $html .= "<select id='config' name='config' onchange='eventChangeSelectConfig()'>";
+        $html .= "<select id='config' name='config'  class=\"form-control\">";
         foreach ($configs as $key => $value) {
 
             if ($key === "http://www.example.org") {
@@ -120,33 +238,32 @@ class SpecialSparqlQuery extends SpecialPage
 
             $html .= '<option value="' . $key . '" ';
             if ($key === $configIri) {
-                $html .= "selected='selected'";
+                $html .= "selected='selected' ";
             }
+            if (isset($value["login"])){
+                $html .= "credential='true' ";
+            }else{
+                $html .= "credential='false' ";
+                if (isset($value["endpointRead"])){
+                    $html .= "endpoint='" . $value["endpointRead"] . "' ";
+                }
+
+                if (isset($value["HTTPMethodForRead"])){
+                    $html .= "method='" . $value["HTTPMethodForRead"] . "' ";
+                }
+
+                if (isset($value["nameParameterRead"])){
+                    $html .= "parameter='" . $value["nameParameterRead"] . "' ";
+                }
+            }
+            //print_r($value);
             $html .= ">";
             $html .= $key;
             $html .= "</option>";
+            //print_r($html);
         }
         $html .= '<option value="other" >Other</option>';
         $html .= "</select>";
-
-
-        $html .= <<<EOF
-<script type="text/javascript">
-function eventChangeSelectConfig() {
-    var selectConfig = document.getElementById('config');
-    var divFieldEndpoint = document.getElementById('fieldEndpoint');
-    var inputFieldEndpoint = document.getElementById('endpoint');
-    var value = selectConfig.options[selectConfig.selectedIndex].value;
-    if(value != "other"){
-        inputFieldEndpoint.value = "";
-        divFieldEndpoint.style.display = "none";
-    }else{
-        divFieldEndpoint.style.display = "initial";
-    }
-}
-</script>
-EOF;
-
         return $html;
     }
 }

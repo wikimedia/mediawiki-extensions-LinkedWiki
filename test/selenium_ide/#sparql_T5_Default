@@ -39,26 +39,26 @@
 <tr>
 	<td>type</td>
 	<td>id=wpTextbox1</td>
-	<td><br />{{#sparql:select * where { ?x ?y ?z . } LIMIT 5  |headers=name1,name2,name3}}<br /></td>
+	<td><br />{{#sparql:select * where { ?x ?y ?z . } LIMIT 5 |headers=name1,name2,name3}}<br /></td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>id=wpSave</td>
+	<td>name=wpSave</td>
 	<td></td>
 </tr>
 <tr>
 	<td>verifyText</td>
-	<td>//div[@id='mw-content-text']/table/thead/tr/th[1]</td>
+	<td>//div[@id='mw-content-text']/table/tbody/tr/th[1]</td>
 	<td>name1</td>
 </tr>
 <tr>
 	<td>verifyText</td>
-	<td>//div[@id='mw-content-text']/table/thead/tr/th[2]</td>
+	<td>//div[@id='mw-content-text']/table/tbody/tr/th[2]</td>
 	<td>name2</td>
 </tr>
 <tr>
 	<td>verifyText</td>
-	<td>//div[@id='mw-content-text']/table/thead/tr/th[3]</td>
+	<td>//div[@id='mw-content-text']/table/tbody/tr/th[3]</td>
 	<td>name3</td>
 </tr>
 </tbody></table>

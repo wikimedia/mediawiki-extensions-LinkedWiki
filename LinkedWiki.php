@@ -34,6 +34,8 @@ class LinkedWiki
         $wgOut->addModules('ext.LinkedWiki.table2CSV');
         $wgOut->addModules('ext.LinkedWiki.flowchart');
 
+        $wgOut->addModules('ext.LinkedWiki.SparqlParser');
+
         $parser->setHook('lwgraph', 'LwgraphTag::render');
         $parser->setFunctionHook('sparql', 'SparqlParser::render');
         $parser->setFunctionHook('wsparql', 'WSparqlParser::render');
@@ -62,5 +64,4 @@ class LinkedWiki
         $extraLibraries['linkedwiki'] = 'Scribunto_LuaLinkedWikiLibrary';
         return true;
     }
-
 }

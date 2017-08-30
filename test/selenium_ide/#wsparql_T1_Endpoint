@@ -43,7 +43,7 @@
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>id=wpSave</td>
+	<td>name=wpSave</td>
 	<td></td>
 </tr>
 <tr>

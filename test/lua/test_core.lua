@@ -110,20 +110,20 @@ function p.tests(f)
     html = html .."TEST : linkedwiki.timeStamp" ..'\n'
 
     local dateStringArg1 = "1971-01-01"
-    local dateStringArg2 = "0"
+    local dateStringArg2 = "31536000"
     html = html .."CHECK : timestamp(" ..dateStringArg1.. ')= '..dateStringArg2..'\n'
     html = html ..linkedwiki.timeStamp(dateStringArg1).. ' \n'
     html = html .."RESULT : " ..p.checkNumber(linkedwiki.timeStamp(dateStringArg1), dateStringArg2).. ' \n'
 
     local dateStringArg1 = "1972-01-01"
-    local dateStringArg2 = "0"
+    local dateStringArg2 = "63072000"
     html = html .."CHECK : timestamp(" ..dateStringArg1.. ')= '..dateStringArg2..'\n'
     html = html ..linkedwiki.timeStamp(dateStringArg1).. ' \n'
     html = html .."RESULT : " ..p.checkNumber(linkedwiki.timeStamp(dateStringArg1), dateStringArg2).. ' \n'
 
 
     local dateStringArg1 = "1970-01-11T01:10:00+02:00"
-    local dateStringArg2 = "0"
+    local dateStringArg2 = "861000"
     html = html .."CHECK : timestamp(" ..dateStringArg1.. ')= '..dateStringArg2..'\n'
     html = html ..linkedwiki.timeStamp(dateStringArg1).. ' \n'
     html = html .."RESULT : " ..p.checkNumber(linkedwiki.timeStamp(dateStringArg1), dateStringArg2).. ' \n'

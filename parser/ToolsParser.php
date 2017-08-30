@@ -48,8 +48,8 @@ class ToolsParser
         try {
             if(! EMPTY($endpoint)){
                 $objConfig = new LinkedWikiConfig();
-                $objConfig->setEndpoint($endpoint);
-                $objConfig->setEndpointQueryOnly($endpoint);
+                //$objConfig->setEndpoint($endpoint);
+                $objConfig->setEndpointRead($endpoint);
             }elseif(! EMPTY($config)){
                 $objConfig = new LinkedWikiConfig($config);
             }else{

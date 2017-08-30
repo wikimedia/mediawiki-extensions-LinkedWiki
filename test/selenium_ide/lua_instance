@@ -28,7 +28,7 @@
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>id=wpSave</td>
+	<td>name=wpSave</td>
 	<td></td>
 </tr>
 <tr>
@@ -43,7 +43,7 @@
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>id=wpSave</td>
+	<td>name=wpSave</td>
 	<td></td>
 </tr>
 <tr>
@@ -53,7 +53,7 @@
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>css=input.mw-htmlform-submit</td>
+	<td>css=button.oo-ui-inputWidget-input.oo-ui-buttonElement-button</td>
 	<td></td>
 </tr>
 <tr>

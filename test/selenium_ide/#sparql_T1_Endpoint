@@ -43,12 +43,12 @@
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>id=wpSave</td>
+	<td>name=wpSave</td>
 	<td></td>
 </tr>
 <tr>
 	<td>verifyText</td>
-	<td>//div[@id='mw-content-text']/table/tbody/tr[6]/td</td>
+	<td>//div[@id='mw-content-text']/table/tbody/tr[7]/td</td>
 	<td>*Duration of query*</td>
 </tr>
 </tbody></table>

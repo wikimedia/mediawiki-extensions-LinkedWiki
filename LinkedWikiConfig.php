@@ -1,9 +1,9 @@
 <?php
 /**
- * @copyright (c) 2016 Bourdercloud.com
+ * @copyright (c) 2017 Bourdercloud.com
  * @author Karima Rafes <karima.rafes@bordercloud.com>
  * @link http://www.mediawiki.org/wiki/Extension:LinkedWiki
- * @license CC-by-nc-sa V3.0
+ * @license CC-by-nc-sa V4.0
  *
  *  Last version : http://github.com/BorderCloud/LinkedWiki
  *
@@ -20,6 +20,8 @@ if (!defined('MEDIAWIKI')) {
     echo "This file is not a valid entry point.";
     exit(1);
 }
+
+use BorderCloud\SPARQL\SparqlClient;
 
 class LinkedWikiConfig
 {
@@ -60,16 +62,16 @@ class LinkedWikiConfig
     private $debug = FALSE;
     private $isReadOnly = TRUE;
     //private $graphNamed = "";
-    private $endpoint = "";
-    private $endpointQueryOnly = "";
-    private $endpointUpdateOnly = "";
+//    private $endpoint = "";
+    private $endpointRead = "";
+    private $endpointUpdate = "";
     private $login = "";
     private $password = "";
     private $typeRDFDatabase = "virtuoso";
-    private $HTTPMethodForQuery = "POST";
-    private $HTTPMethodForUpdate = "POST";
-    private $nameParameterQuery = "query";
-    private $nameParameterUpdate = "update";
+    private $HTTPMethodForRead = "POST";
+    private $HTTPMethodForWrite = "POST";
+    private $nameParameterRead = "query";
+    private $nameParameterWrite = "update";
 
     private $storageMethod = null;
 
@@ -79,15 +81,15 @@ class LinkedWikiConfig
 
     //region private functions
 
-    private function setEndpointUpdateOnly($endpointUpdateOnly)
+    private function setEndpointWrite($endpointWrite)
     {
-        $this->endpointUpdateOnly = $endpointUpdateOnly;
+        $this->endpointWrite = $endpointWrite;
         $this->resetInstanceEndpoint();
     }
 
-    private function getEndpointUpdateOnly()
+    private function getEndpointWrite()
     {
-        return $this->endpointUpdateOnly;
+        return $this->endpointWrite;
     }
 
     private function setLogin($login)
@@ -168,30 +170,38 @@ class LinkedWikiConfig
     private function newInstanceEndpoint()
     {
         $objEndpoint = null;
-        $objEndpoint = new Endpoint($this->endpoint,
-            $this->isReadOnly, //readonly
-            $this->debug,
-            $this->proxyHost,
-            $this->proxyPort);
-        if (!EMPTY($this->endpointQueryOnly)) {
-            $objEndpoint->setEndpointQuery($this->endpointQueryOnly);
+        $objEndpoint = new SparqlClient($this->debug);
+        $objEndpoint->setEndpointRead($this->endpointRead);
+
+//        $objEndpoint->setNameParameterQueryRead($nameParameterQuery);
+//        $objEndpoint->setNameParameterQueryWrite($nameParameterWrite);
+
+        if (!EMPTY($this->proxyHost)) {
+            $objEndpoint->setproxyHost($this->proxyHost);
         }
-        if (!EMPTY($this->HTTPMethodForQuery)) {
-            $objEndpoint->setMethodHTTPRead($this->HTTPMethodForQuery);
+        if (!EMPTY($this->proxyPort)) {
+            $objEndpoint->setproxyPort($this->proxyPort);
         }
-        if (!EMPTY($this->nameParameterQuery)) {
-            $objEndpoint->setNameParameterQueryRead($this->nameParameterQuery);
+        if (!EMPTY($this->endpointRead)) {
+            $objEndpoint->setEndpointRead($this->endpointRead);
+        }
+        if (!EMPTY($this->HTTPMethodForRead)) {
+            $objEndpoint->setMethodHTTPRead($this->HTTPMethodForRead);
+        }
+        if (!EMPTY($this->nameParameterRead)) {
+            $objEndpoint->setNameParameterQueryRead($this->nameParameterRead);
         }
         if (!$this->isReadOnly) {
-
-            if (!EMPTY($this->endpointUpdateOnly)) {
-                $objEndpoint->setEndpointUpdate($this->endpointUpdateOnly);
+            if (!EMPTY($this->endpointWrite)) {
+                $objEndpoint->setEndpointWrite($this->endpointWrite);
+            }else{
+                $objEndpoint->setEndpointWrite($this->endpoint);
             }
-            if (!EMPTY($this->HTTPMethodForQuery)) {
-                $objEndpoint->setMethodHTTPWrite($this->HTTPMethodForQuery);
+            if (!EMPTY($this->HTTPMethodForRead)) {
+                $objEndpoint->setMethodHTTPWrite($this->HTTPMethodForRead);
             }
-            if (!EMPTY($this->nameParameterUpdate)) {
-                $objEndpoint->setNameParameterQueryWrite($this->nameParameterUpdate);
+            if (!EMPTY($this->nameParameterWrite)) {
+                $objEndpoint->setNameParameterQueryWrite($this->nameParameterWrite);
             }
         }
         if (!EMPTY($this->login)) {
@@ -203,51 +213,51 @@ class LinkedWikiConfig
         return $objEndpoint;
     }
 
-    private function setNameParameterUpdate($nameParameterUpdate)
+    private function setNameParameterWrite($nameParameterWrite)
     {
-        $this->nameParameterUpdate = $nameParameterUpdate;
+        $this->nameParameterWrite = $nameParameterWrite;
         $this->resetInstanceEndpoint();
     }
 
-    private function getNameParameterUpdate()
+    private function getNameParameterWrite()
     {
-        return $this->nameParameterUpdate;
+        return $this->nameParameterWrite;
     }
 
-    private function setMethodForUpdate($HTTPMethodForUpdate)
+    private function setMethodForWrite($HTTPMethodForWrite)
     {
-        $this->HTTPMethodForUpdate = $HTTPMethodForUpdate;
+        $this->HTTPMethodForWrite = $HTTPMethodForWrite;
         $this->resetInstanceEndpoint();
     }
 
-    private function getMethodForUpdate()
+    private function getMethodForWrite()
     {
-        return $this->HTTPMethodForUpdate;
+        return $this->HTTPMethodForWrite;
     }
     //endregion
 
     //region public functions
 
-    public function setEndpoint($urlEndpoint)
+//    public function setEndpoint($urlEndpoint)
+//    {
+//        $this->endpoint = $urlEndpoint;
+//        $this->resetInstanceEndpoint();
+//    }
+//
+//    public function getEndpoint()
+//    {
+//        return $this->endpoint;
+//    }
+
+    public function setEndpointRead($endpointRead)
     {
-        $this->endpoint = $urlEndpoint;
+        $this->endpointRead = $endpointRead;
         $this->resetInstanceEndpoint();
     }
 
-    public function getEndpoint()
+    public function getEndpointRead()
     {
-        return $this->endpoint;
-    }
-
-    public function setEndpointQueryOnly($endpointQueryOnly)
-    {
-        $this->endpointQueryOnly = $endpointQueryOnly;
-        $this->resetInstanceEndpoint();
-    }
-
-    public function getEndpointQueryOnly()
-    {
-        return $this->endpointQueryOnly;
+        return $this->endpointRead;
     }
 
 
@@ -327,14 +337,14 @@ class LinkedWikiConfig
         if (isset($this->configEndpoint["lang"]))
             $this->setLang($this->configEndpoint["lang"]);
 
-        if (isset($this->configEndpoint["endpoint"]))
-            $this->setEndpoint($this->configEndpoint["endpoint"]);
+//        if (isset($this->configEndpoint["endpoint"]))
+//            $this->setEndpoint($this->configEndpoint["endpoint"]);
 
-        if (isset($this->configEndpoint["endpointQueryOnly"]))
-            $this->setEndpointQueryOnly($this->configEndpoint["endpointQueryOnly"]);
+        if (isset($this->configEndpoint["endpointRead"]))
+            $this->setEndpointRead($this->configEndpoint["endpointRead"]);
 
-        if (isset($this->configEndpoint["endpointUpdateOnly"]))
-            $this->setEndpointUpdateOnly($this->configEndpoint["endpointUpdateOnly"]);
+        if (isset($this->configEndpoint["endpointWrite"]))
+            $this->setEndpointWrite($this->configEndpoint["endpointWrite"]);
 
         if (isset($this->configEndpoint["login"]))
             $this->setLogin($this->configEndpoint["login"]);
@@ -345,17 +355,17 @@ class LinkedWikiConfig
         if (isset($this->configEndpoint["typeRDFDatabase"]))
             $this->setTypeRDFDatabase($this->configEndpoint["typeRDFDatabase"]);
 
-        if (isset($this->configEndpoint["HTTPMethodForQuery"]))
-            $this->setMethodForQuery($this->configEndpoint["HTTPMethodForQuery"]);
+        if (isset($this->configEndpoint["HTTPMethodForRead"]))
+            $this->setMethodForRead($this->configEndpoint["HTTPMethodForRead"]);
 
-        if (isset($this->configEndpoint["HTTPMethodForUpdate"]))
-            $this->setMethodForUpdate($this->configEndpoint["HTTPMethodForUpdate"]);
+        if (isset($this->configEndpoint["HTTPMethodForWrite"]))
+            $this->setMethodForWrite($this->configEndpoint["HTTPMethodForWrite"]);
 
-        if (isset($this->configEndpoint["nameParameterQuery"]))
-            $this->setNameParameterQuery($this->configEndpoint["nameParameterQuery"]);
+        if (isset($this->configEndpoint["nameParameterRead"]))
+            $this->setNameParameterRead($this->configEndpoint["nameParameterRead"]);
 
-        if (isset($this->configEndpoint["nameParameterUpdate"]))
-            $this->setNameParameterUpdate($this->configEndpoint["nameParameterUpdate"]);
+        if (isset($this->configEndpoint["nameParameterWrite"]))
+            $this->setNameParameterWrite($this->configEndpoint["nameParameterWrite"]);
 
         $this->resetInstanceEndpoint();
     }
@@ -423,26 +433,26 @@ class LinkedWikiConfig
         return $this->lang;
     }
 
-    public function setNameParameterQuery($nameParameterQuery)
+    public function setNameParameterRead($nameParameterRead)
     {
-        $this->nameParameterQuery = $nameParameterQuery;
+        $this->nameParameterRead = $nameParameterRead;
         $this->resetInstanceEndpoint();
     }
 
-    public function getNameParameterQuery()
+    public function getNameParameterRead()
     {
-        return $this->nameParameterQuery;
+        return $this->nameParameterRead;
     }
 
-    public function setMethodForQuery($HTTPMethodForQuery)
+    public function setMethodForRead($HTTPMethodForRead)
     {
-        $this->HTTPMethodForQuery = $HTTPMethodForQuery;
+        $this->HTTPMethodForRead = $HTTPMethodForRead;
         $this->resetInstanceEndpoint();
     }
 
-    public function getMethodForQuery()
+    public function getMethodForRead()
     {
-        return $this->HTTPMethodForQuery;
+        return $this->HTTPMethodForRead;
     }
     //endregion
 
@@ -521,30 +531,30 @@ class LinkedWikiConfig
             $html .= "</td>";
             $html .= "</tr>";
 
+//            $html .= "<tr>";
+//            $html .= "<td>";
+//            $html .= "endpoint";
+//            $html .= "</td>";
+//            $html .= "<td>";
+//            $html .= $objConfig->getEndpoint();
+//            $html .= "</td>";
+//            $html .= "</tr>";
+
             $html .= "<tr>";
             $html .= "<td>";
-            $html .= "endpoint";
+            $html .= "endpointRead";
             $html .= "</td>";
             $html .= "<td>";
-            $html .= $objConfig->getEndpoint();
+            $html .= $objConfig->getEndpointRead();
             $html .= "</td>";
             $html .= "</tr>";
 
             $html .= "<tr>";
             $html .= "<td>";
-            $html .= "endpointQueryOnly";
+            $html .= "endpointWrite";
             $html .= "</td>";
             $html .= "<td>";
-            $html .= $objConfig->getEndpointQueryOnly();
-            $html .= "</td>";
-            $html .= "</tr>";
-
-            $html .= "<tr>";
-            $html .= "<td>";
-            $html .= "endpointUpdateOnly";
-            $html .= "</td>";
-            $html .= "<td>";
-            $html .= $objConfig->getEndpointUpdateOnly();
+            $html .= $objConfig->getEndpointWrite();
             $html .= "</td>";
             $html .= "</tr>";
 
@@ -577,37 +587,37 @@ class LinkedWikiConfig
 
             $html .= "<tr>";
             $html .= "<td>";
-            $html .= "HTTPMethodForQuery";
+            $html .= "HTTPMethodForRead";
             $html .= "</td>";
             $html .= "<td>";
-            $html .= $objConfig->getMethodForQuery();
-            $html .= "</td>";
-            $html .= "</tr>";
-
-            $html .= "<tr>";
-            $html .= "<td>";
-            $html .= "HTTPMethodForUpdate";
-            $html .= "</td>";
-            $html .= "<td>";
-            $html .= $objConfig->getMethodForUpdate();
+            $html .= $objConfig->getMethodForRead();
             $html .= "</td>";
             $html .= "</tr>";
 
             $html .= "<tr>";
             $html .= "<td>";
-            $html .= "nameParameterQuery";
+            $html .= "HTTPMethodForWrite";
             $html .= "</td>";
             $html .= "<td>";
-            $html .= $objConfig->getNameParameterQuery();
+            $html .= $objConfig->getMethodForWrite();
             $html .= "</td>";
             $html .= "</tr>";
 
             $html .= "<tr>";
             $html .= "<td>";
-            $html .= "nameParameterUpdate";
+            $html .= "nameParameterRead";
             $html .= "</td>";
             $html .= "<td>";
-            $html .= $objConfig->getNameParameterUpdate();
+            $html .= $objConfig->getNameParameterRead();
+            $html .= "</td>";
+            $html .= "</tr>";
+
+            $html .= "<tr>";
+            $html .= "<td>";
+            $html .= "nameParameterWrite";
+            $html .= "</td>";
+            $html .= "<td>";
+            $html .= $objConfig->getNameParameterWrite();
             $html .= "</td>";
             $html .= "</tr>";
 
@@ -793,18 +803,18 @@ class LinkedWikiConfig
         $html = "\n<pre>";
          foreach($rows["result"]["variables"] as $variable){
             $html .= sprintf("%-60.60s",$variable);
-            $html .= ' | ';                
+            $html .= ' | ';
          }
          $html .= "\n";
 
          foreach ($rows["result"]["rows"] as $row){
             foreach($rows["result"]["variables"] as $variable){
                 $html .= sprintf("%-60.60s",$row[$variable]);
-                $html .= ' | ';                
+                $html .= ' | ';
             }
          $html .="\n";
         }
-         
+
         $html .= "</pre>";
         return $html;
     }*/

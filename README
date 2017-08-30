@@ -10,20 +10,20 @@ See the doc : http://www.mediawiki.org/wiki/Extension:LinkedWiki
 
 == license ==
 
- Copyright (c) 2016 Bourdercloud.com
+ Copyright (c) 2017 Bourdercloud.com
 
-	This work is licensed under the Creative Commons 
-	Attribution-NonCommercial-ShareAlike 3.0 
-	Unported License. To view a copy of this license, 
-	visit http://creativecommons.org/licenses/by-nc-sa/3.0/ 
+	This work is licensed under the Creative Commons
+	Attribution-NonCommercial-ShareAlike 3.0
+	Unported License. To view a copy of this license,
+	visit http://creativecommons.org/licenses/by-nc-sa/3.0/
 	or send a letter to Creative Commons,
-	171 Second Street, Suite 300, San Francisco, 
+	171 Second Street, Suite 300, San Francisco,
 	California, 94105, USA.
-	
+
 == Contact ==
 
 If you have remarks, questions, or suggestions, please send them to
-karima.rafes@bordercloud.com. 
+karima.rafes@bordercloud.com.
 
 == Installation ==
 
@@ -40,6 +40,12 @@ Optional extensions :
 See : http://www.mediawiki.org/wiki/Extension:LinkedWiki
 
 == Release-Notes ==
+
+* v3.1.0 Use Sgvizler2, javascript wrapper for easy visualisation of SPARQL result sets. ( T143364 )
+        - Update lib bordercloud/sparql
+        - Update composer.json
+        - Fix T165670 "footer = no" is respected when "templates
+        - Fix T143360 Improve the SPARQL editor of the special page
 
 * v3.0.0 Insert new special page for Wikidata by Karima Rafes <karima.rafes@bordercloud.com>
         - Refactoring/cleaning the code
@@ -58,7 +64,7 @@ See : http://www.mediawiki.org/wiki/Extension:LinkedWiki
 	- Fix bug with template
 
 * V2.0.0 Alpha 1 version Extension LinkedWiki by Karima Rafes <karima.rafes@bordercloud.com>
-	- simplify client SPARQL for MediaWiki (with or without SMW) 
+	- simplify client SPARQL for MediaWiki (with or without SMW)
 	- Remove ARC2 and replace with the SPARQL (simple)
 	- Add parameter templateBare if YES : print only cells
 	- Add parameter footer if NO : hide footer
