@@ -127,8 +127,8 @@ class SparqlParser
             $configEndpoint = isset($configs[$config])? $configs[$config] : null;
             if(!EMPTY($configEndpoint)){
                 $endpointSg = $configEndpoint["endpointRead"];
-                $methodSg = $configEndpoint["HTTPMethodForRead"];
-                $parameterSg = $configEndpoint["nameParameterRead"];
+                $methodSg = isset($configEndpoint["HTTPMethodForRead"])? $configEndpoint["HTTPMethodForRead"] : "GET";
+                $parameterSg = isset($configEndpoint["nameParameterRead"])? $configEndpoint["nameParameterRead"] : "query";
             }
         }else{
             $endpointSg = $endpoint;
