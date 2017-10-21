@@ -40,7 +40,7 @@ if ( ! function_exists('http_build_str')) :
 	 * @param array $query associative array of query string parameters
 	 * @param string $prefix top level prefix
 	 * @param string $arg_separator argument separator to use (by default the INI setting arg_separator.output will be used, or "&" if neither is set
-	 * @return string Returns the built query as string on success or FALSE on failure. 
+	 * @return string Returns the built query as string on success or FALSE on failure.
 	 */
 	function http_build_str(array $query, $prefix = '', $arg_separator = null)
 	{
@@ -247,10 +247,10 @@ class SpecialRDFUnit extends SpecialPage
 
         $resultTestCase = "/RDFUnit/data/results/".$graphOfDatasetFileForRDFUnit.".shaclFullTestCaseResult.html";
         $dbTestCase = "/RDFUnit/cache/sparql/".$graphOfDatasetFileForRDFUnit.".mv.db";
-        $endpointOfDatasetPublic = $configSaveData->getInstanceEndpoint()->getEndpointQuery();
-        $endpointOfDataset = $configSaveData->getInstanceEndpoint()->getEndpointQuery();
+        $endpointOfDatasetPublic = $configSaveData->getInstanceEndpoint()->getEndpointRead();
+        $endpointOfDataset = $configSaveData->getInstanceEndpoint()->getEndpointRead();
 	if (! EMPTY($configSaveData->getInstanceEndpoint()->getLogin())){
-		$endpointOfDataset = http_build_url($configSaveData->getInstanceEndpoint()->getEndpointQuery(),
+		$endpointOfDataset = http_build_url($configSaveData->getInstanceEndpoint()->getEndpointRead(),
 				array(
 					"user" => $configSaveData->getInstanceEndpoint()->getLogin(),
 					"pass" => $configSaveData->getInstanceEndpoint()->getPassword()
