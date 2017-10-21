@@ -242,10 +242,11 @@ class SpecialRDFUnit extends SpecialPage
         $graphOfDataset = $configDefaultSaveData;
         $graphOfDatasetFileForRDFUnit = "";
         if (preg_match("#//(.*)#", $graphOfDataset, $matches)) {
-            $graphOfDatasetFileForRDFUnit = str_replace("/","_",$matches[1]);
+            $removeChars = array("/", ":", "#");
+            $graphOfDatasetFileForRDFUnit = str_replace($removeChars,"_",$matches[1]);
         }
 
-        $resultTestCase = "/RDFUnit/data/results/".$graphOfDatasetFileForRDFUnit.".shaclFullTestCaseResult.html";
+        $resultTestCase = "/RDFUnit/data/results/".$graphOfDatasetFileForRDFUnit.".shaclTestCaseResult.html";
         $dbTestCase = "/RDFUnit/cache/sparql/".$graphOfDatasetFileForRDFUnit.".mv.db";
         $endpointOfDatasetPublic = $configSaveData->getInstanceEndpoint()->getEndpointRead();
         $endpointOfDataset = $configSaveData->getInstanceEndpoint()->getEndpointRead();
