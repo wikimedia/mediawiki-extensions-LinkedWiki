@@ -121,14 +121,9 @@
 		]
 	},
 	"ExtensionMessagesFiles": {
-		"LinkedWiki": "LinkedWiki.i18n.php",
-		"linkedwiki-specialsparqlquery": "specialpages/SpecialSparqlQuery.i18n.php",
 		"linkedwiki-specialsparqlquery-alias": "specialpages/SpecialSparqlQuery.alias.php",
-		"linkedwiki-specialsparqlflinteditor": "specialpages/SpecialSparqlFlintEditor.i18n.php",
 		"linkedwiki-specialsparqlflinteditor-alias": "specialpages/SpecialSparqlFlintEditor.alias.php",
-		"linkedwiki-specialLinkewikiconfig": "specialpages/SpecialLinkedWikiConfig.i18n.php",
 		"linkedwiki-specialLinkewikiconfig-alias": "specialpages/SpecialLinkedWikiConfig.alias.php",
-		"linkedwiki-specialrdfunit": "specialpages/SpecialRDFUnit.i18n.php",
 		"linkedwiki-specialrdfunit-alias": "specialpages/SpecialRDFUnit.alias.php",
 		"linkedwiki-specialrdfsave-alias": "specialpages/SpecialRDFSave.alias.php"
 	},

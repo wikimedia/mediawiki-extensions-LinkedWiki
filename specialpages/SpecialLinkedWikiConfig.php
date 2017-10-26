@@ -29,8 +29,6 @@ class SpecialLinkedWikiConfig extends SpecialPage
     public function __construct()
     {
         parent::__construct('linkedwiki-speciallinkedwikiconfig');
-        /** @noinspection PhpUndefinedFunctionInspection */
-        //wfLoadExtensionMessages('specialsparqlquery');
     }
     function getGroupName() {
         return 'linkedwiki_group';
