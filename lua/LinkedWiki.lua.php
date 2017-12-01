@@ -301,7 +301,7 @@ class Scribunto_LuaLinkedWikiLibrary extends Scribunto_LuaLibraryBase
         if ($iriSubject === null && $this->subject ===null) {
             return array("ERROR : Subject unknown (Use the parameter iriSubject or the function setSubject.");
         }
-        if (EMPTY($value) || preg_match("/(\"\"\"|''')/i", $value)) {
+        if ((EMPTY($value) && !is_numeric($value)) || preg_match("/(\"\"\"|''')/i", $value)) {
             return array("ERROR : Bad value");
         }
         if (EMPTY($iriProperty) || preg_match("/(\"\"\"|'''| )/i", trim($iriProperty))) {
