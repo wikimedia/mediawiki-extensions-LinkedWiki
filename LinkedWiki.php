@@ -64,4 +64,39 @@ class LinkedWiki
         $extraLibraries['linkedwiki'] = 'Scribunto_LuaLinkedWikiLibrary';
         return true;
     }
+
+    public static function onArticleDeleteComplete( &$article, User &$user, $reason, $id, Content $content = null, LogEntry $logEntry ) {
+        $config = new LinkedWikiConfig();
+        $subject = "<".urldecode($article->getTitle()->getFullURL()).">";
+
+        $parameters = array("?subject");
+        $values = array($subject);
+        $q = str_replace($parameters,
+            $values,
+            $config->getQueryDeleteSubject());
+
+        $endpoint = $config->getInstanceEndpoint();
+        $response = $endpoint->query($q, 'raw');
+        //$err = $endpoint->getErrors();
+        /*if ($err) {
+            $message = $config->isDebug() ? $response . print_r($err, true) :"ERROR SPARQL (see details in mode debug)";
+            return array("ERROR : " . $message);
+        }*/
+        return true;
+    }
+
+    public static function onTitleMoveComplete( Title &$title, Title &$newTitle, User &$user, $oldid, $newid, $reason, Revision $revision ) {
+        $config = new LinkedWikiConfig();
+        $subject = "<".urldecode($title->getFullURL()).">";
+
+        $parameters = array("?subject");
+        $values = array($subject);
+        $q = str_replace($parameters,
+            $values,
+            $config->getQueryDeleteSubject());
+
+        $endpoint = $config->getInstanceEndpoint();
+        $response = $endpoint->query($q, 'raw');
+        return true;
+    }
 }

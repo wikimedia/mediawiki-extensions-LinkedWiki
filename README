@@ -41,6 +41,9 @@ See : http://www.mediawiki.org/wiki/Extension:LinkedWiki
 
 == Release-Notes ==
 
+* v3.1.1 Update Sgvizler2 and bootstrap by Karima Rafes <karima.rafes@bordercloud.com>
+         - Fix bugs in special page and parser
+
 * v3.1.0 Use Sgvizler2, javascript wrapper for easy visualisation of SPARQL result sets. ( T143364 )
         - Update lib bordercloud/sparql
         - Update composer.json

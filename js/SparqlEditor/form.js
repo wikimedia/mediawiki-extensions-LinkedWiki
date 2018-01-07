@@ -12,18 +12,14 @@ function eventChangeSelectConfig() {
     console.log("change");
 }
 
-$(document).ready(function () {
-    var jqselectpicker = $('.selectpicker');
-    jqselectpicker.selectpicker('refresh');
-
-    $('.selectchart').selectchart({
+$( function ()  {
+    $('#chart').selectchart({
         action: "render",
         subtext: "classFullName",
         selected: "bordercloud.visualization.DataTable"
     });
 
-    jqselectpicker.selectpicker('refresh');
-
+    $('#chart').selectpicker('refresh');
 
     $("#config").on('change',eventChangeSelectConfig);
 
@@ -33,7 +29,7 @@ $(document).ready(function () {
         if(inputValue === "php"){
             $('#formSparqlQuery').submit();
         }else{
-            var endpoint = "";
+            var endpoint = $('#endpointOther').val();
             var config = $('#config').val();
             var query = $('#query').val();
             var chart = $('.selectpicker').selectpicker('val');

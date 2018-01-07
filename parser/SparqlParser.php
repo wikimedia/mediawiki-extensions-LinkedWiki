@@ -121,6 +121,8 @@ class SparqlParser
             return array("<pre>Where is the Endpoint or the configuration ?</pre>", 'noparse' => true, 'isHTML' =>
                 false);
 
+        }else if (!EMPTY($endpoint)){
+            $endpointSg = $endpoint;
         }else if (!EMPTY($config)){
             $configuration = ConfigFactory::getDefaultInstance()->makeConfig('ext-conf-linkedwiki');
             $configs = $configuration->get("endpoint");
@@ -130,8 +132,6 @@ class SparqlParser
                 $methodSg = isset($configEndpoint["HTTPMethodForRead"])? $configEndpoint["HTTPMethodForRead"] : "GET";
                 $parameterSg = isset($configEndpoint["nameParameterRead"])? $configEndpoint["nameParameterRead"] : "query";
             }
-        }else{
-            $endpointSg = $endpoint;
         }
 
         if($debug){
@@ -141,7 +141,11 @@ class SparqlParser
         //echo $querySparql;
         $uniqId = "ID". uniqid();
         $str = "<div id='".$uniqId."' " ;
+
+// Affiche : Un 'apostrophe' en &lt;strong&gt;gras&lt;/strong&gt;
+
         $str .="data-sgvizler-query='" .  htmlentities($querySparqlWiki, ENT_QUOTES, "UTF-8") . "' \n" .
+
         "data-sgvizler-endpoint=\"" . $endpointSg . "\" \n" .
         "data-sgvizler-chart=\"" . $chart . "\" \n" ;
 

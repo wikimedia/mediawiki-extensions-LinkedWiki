@@ -1,7 +1,7 @@
 --[[
 	Registers and defines functions to access LinkedWiki through the Scribunto extension
 	Provides Lua setupInterface
-	@since 
+	@since
 	@licence CC-by-nc-sa V3.0
 	@author Karima Rafes <karima.rafes@bordercloud.com>
 ]]
@@ -139,7 +139,7 @@ function linkedwiki.getCurrentTitle()
 end
 
 function linkedwiki.getCurrentIRI()
-    return linkedwiki.getCurrentTitle():fullUrl()
+    return mw.uri.decode(linkedwiki.getCurrentTitle():fullUrl())
 end
 
 

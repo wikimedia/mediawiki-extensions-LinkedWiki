@@ -34,7 +34,7 @@ class ToolsParser
 
     public static function  pageIri(&$parser) {
         //$resolverurl = $parser->getTitle()->getFullURL();
-        $resolverurl = $parser->getTitle()->getSubjectPage()->getFullURL();
+        $resolverurl = urldecode($parser->getTitle()->getSubjectPage()->getFullURL());
         return $resolverurl;
     }
 

@@ -97,8 +97,13 @@
 		],
 		"EditFilterMergedContent": [
 			"RDFTag::onEditFilterMergedContent"
+		],
+		"ArticleDeleteComplete": [
+			"LinkedWiki::onArticleDeleteComplete"
+		],
+		"TitleMoveComplete": [
+			"LinkedWiki::onTitleMoveComplete"
 		]
-
 	},
 	"MessagesDirs": {
 		"LinkedWiki": [
@@ -173,14 +178,14 @@
 		},
 		"ext.LinkedWiki.bootstrap": {
 			"scripts": [
-				"node_modules/tether/dist/js/tether.min.js",
+				"node_modules/popper.js/dist/umd/popper.min.js",
 				"node_modules/bootstrap/dist/js/bootstrap.min.js",
-				"js/bootstrap-select/js/bootstrap-select.js"
+				"node_modules/sgvizler2/build/browser/lib/bootstrap-select/js/bootstrap-select.js"
 			],
 			"styles": [
 				"node_modules/bootstrap/dist/css/bootstrap.min.css",
 				"node_modules/font-awesome/css/font-awesome.min.css",
-				"js/bootstrap-select/css/bootstrap-select.min.css"
+				"node_modules/sgvizler2/build/browser/lib/bootstrap-select/css/bootstrap-select.min.css"
 			]
 		},
 		"ext.LinkedWiki.SpecialSparqlQuery": {
