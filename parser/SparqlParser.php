@@ -58,7 +58,7 @@ class SparqlParser
 
             $chart = isset($vars["chart"]) ? $vars["chart"] : '';
             $options = isset($vars["options"]) ? $vars["options"] : '';
-            $log = isset($vars["log"]) ? $vars["log"] : '';
+            $log = isset($vars["log"]) ? $vars["log"] : 1;
 
 
             if(!EMPTY($chart)){
@@ -77,14 +77,34 @@ class SparqlParser
                     $parser->disableCache();
                 }
                 if ($templateBare == "tableCell") {
-                   return SparqlParser::tableCell($query, $config, $endpoint, $debug);
+                   return SparqlParser::tableCell(
+                       $query,
+                       $config,
+                       $endpoint,
+                       $debug,
+                       $log);
                 } else {
                     if ($templates != "") {
-                        return SparqlParser::simpleHTMLWithTemplate($query, $config, $endpoint,
-                            $classHeaders, $headers, $templates, $footer, $debug);
+                        return SparqlParser::simpleHTMLWithTemplate(
+                            $query,
+                            $config,
+                            $endpoint,
+                            $classHeaders,
+                            $headers,
+                            $templates,
+                            $footer,
+                            $debug,
+                            $log);
                     } else {
-                        return SparqlParser::simpleHTML($query, $config, $endpoint,
-                            $classHeaders, $headers, $footer, $debug);
+                        return SparqlParser::simpleHTML(
+                            $query,
+                            $config,
+                            $endpoint,
+                            $classHeaders,
+                            $headers,
+                            $footer,
+                            $debug,
+                            $log);
                     }
                 }
             }
@@ -105,22 +125,13 @@ class SparqlParser
         $log = '',
         $debug = null)
     {
-        global $wgOut ;
-        $str = "";
-
         $methodSg = "";
         $parameterSg = "";
         $endpointSg = "";
         $logSg = $log;
 
-//        $specialC = array("&#39;","&nbsp;");
-//        $replaceC = array("'", " ");
-//        $querySparql = str_replace($specialC, $replaceC, $querySparqlWiki);
-
         if(EMPTY($config) && EMPTY($endpoint)){
-            return array("<pre>Where is the Endpoint or the configuration ?</pre>", 'noparse' => true, 'isHTML' =>
-                false);
-
+            return SparqlParser::printMessageErrorDebug(1,wfMessage('linkedwiki-error-endpoint-empty')->text());
         }else if (!EMPTY($endpoint)){
             $endpointSg = $endpoint;
         }else if (!EMPTY($config)){
@@ -134,15 +145,12 @@ class SparqlParser
             }
         }
 
-        if($debug){
+        if(SparqlParser::isDebug($debug)){
             $logSg = 2;
         }
 
-        //echo $querySparql;
         $uniqId = "ID". uniqid();
         $str = "<div id='".$uniqId."' " ;
-
-// Affiche : Un 'apostrophe' en &lt;strong&gt;gras&lt;/strong&gt;
 
         $str .="data-sgvizler-query='" .  htmlentities($querySparqlWiki, ENT_QUOTES, "UTF-8") . "' \n" .
 
@@ -162,7 +170,6 @@ class SparqlParser
             $str .= "data-sgvizler-endpoint-query-parameter=\"" . $parameterSg . "\" \n";
         }
         $str .=  "></div>";
-        //echo $str;
 
         return array($str, 'isChildObj' => true);
     }
@@ -175,15 +182,17 @@ class SparqlParser
         $headers = '',
         $templates = '',
         $footer = '',
-        $debug = null)
+        $debug = null,
+        $log = '')
     {
+        $isDebug = SparqlParser::isDebug($debug);
         $specialC = array("&#39;");
         $replaceC = array("'");
         $querySparql = str_replace($specialC, $replaceC, $querySparqlWiki);
 
         $arrEndpoint = ToolsParser::newEndpoint($config, $endpoint);
         if ($arrEndpoint["endpoint"] == null) {
-            return array("<pre>" . $arrEndpoint["errorMessage"] . "</pre>", 'noparse' => true, 'isHTML' => false);
+            return SparqlParser::printMessageErrorDebug($log,wfMessage('linkedwiki-error-endpoint-init')->text(),$arrEndpoint["errorMessage"]);
         }
         $sp = $arrEndpoint["endpoint"];
 
@@ -192,9 +201,9 @@ class SparqlParser
         if ($errs) {
             $strerr = "";
             foreach ($errs as $err) {
-                $strerr .= "'''Error #sparql :" . $err . "'''<br/>";
+                $strerr .= "'''Error #sparql :" . $err . "'''";
             }
-            return $strerr;
+            return SparqlParser::printMessageErrorDebug($log,wfMessage('linkedwiki-error-server')->text(),$strerr);
         }
         $variables = $rs['result']['variables'];
         $TableFormatTemplates = explode(",", $templates);
@@ -253,17 +262,18 @@ class SparqlParser
 
         if ($footer != "NO"  && $footer != "no") {
             $str .= "|- style=\"font-size:80%\" align=\"right\"\n";
-            $str .= "| colspan=\"" . count($TableFormatTemplates) . "\"|" . SparqlParser::footer($rs['query_time'], $querySparqlWiki, $config, $endpoint, $classHeaders, $headers) . "\n";
+            $str .= "| colspan=\"" . count($TableFormatTemplates) . "\"|" .
+                SparqlParser::footer($rs['query_time'], $querySparqlWiki, $config, $endpoint, $classHeaders, $headers)
+                . "\n";
         }
-
         $str .= "|}\n";
 
-        if ($debug != null && ($debug == "YES" || $debug == "yes")) {
+        if($isDebug){
             $str .= "INPUT WIKI : " . $querySparqlWiki . "\n";
             $str .= "Query : " . $querySparql . "\n";
             $str .= print_r($arrayParameters, true);
             $str .= print_r($rs, true);
-            return array("<pre>" . $str . "</pre>", 'noparse' => true, 'isHTML' => true);
+            return SparqlParser::printMessageErrorDebug(2,"Debug messages",$str);
         }
         return array($str, 'noparse' => false, 'isHTML' => false);
     }
@@ -274,15 +284,17 @@ class SparqlParser
         $classHeaders = '',
         $headers = '',
         $footer = '',
-        $debug = null)
+        $debug = null,
+        $log = '')
     {
+        $isDebug = SparqlParser::isDebug($debug);
         $specialC = array("&#39;");
         $replaceC = array("'");
         $querySparql = str_replace($specialC, $replaceC, $querySparqlWiki);
 
         $arrEndpoint = ToolsParser::newEndpoint($config, $endpoint);
         if ($arrEndpoint["endpoint"] == null) {
-            return array("<pre>" . $arrEndpoint["errorMessage"] . "</pre>", 'noparse' => true, 'isHTML' => false);
+            return SparqlParser::printMessageErrorDebug($log,wfMessage('linkedwiki-error-endpoint-init')->text(),$arrEndpoint["errorMessage"]);
         }
         $sp = $arrEndpoint["endpoint"];
 
@@ -291,9 +303,9 @@ class SparqlParser
         if ($errs) {
             $strerr = "";
             foreach ($errs as $err) {
-                $strerr .= "'''Error #sparql :" . $err . "'''<br/>";
+                $strerr .= "'''Error #sparql :" . $err . "'''";
             }
-            return $strerr;
+            return SparqlParser::printMessageErrorDebug($log,wfMessage('linkedwiki-error-server')->text(),$strerr);
         }
 
         $lignegrise = false;
@@ -358,25 +370,30 @@ class SparqlParser
 
         $str .= "</table>\n";
 
-        if ($debug != null && ($debug == "YES" || $debug == "yes" || $debug == "1")) {
+        if ($isDebug) {
             $str .= "INPUT WIKI: \n" . $querySparqlWiki . "\n";
             $str .= "QUERY : " . $querySparql . "\n";
             $str .= print_r($rs, true);
-            return array("<pre>" . htmlspecialchars($str) . "</pre>", 'noparse' => true, 'isHTML' => false);
+            return SparqlParser::printMessageErrorDebug(2,"Debug messages",$str);
         }
-
         return array($str, 'noparse' => false, 'isHTML' => true);
     }
 
-    public static function tableCell($querySparqlWiki, $config, $endpoint, $debug = null)
+    public static function tableCell(
+        $querySparqlWiki,
+        $config,
+        $endpoint,
+        $debug = null,
+        $log = '')
     {
+        $isDebug = SparqlParser::isDebug($debug);
         $specialC = array("&#39;");
         $replaceC = array("'");
         $querySparql = str_replace($specialC, $replaceC, $querySparqlWiki);
 
         $arrEndpoint = ToolsParser::newEndpoint($config, $endpoint);
         if ($arrEndpoint["endpoint"] == null) {
-            return array("<pre>" . $arrEndpoint["errorMessage"] . "</pre>", 'noparse' => true, 'isHTML' => false);
+            return SparqlParser::printMessageErrorDebug($log,wfMessage('linkedwiki-error-endpoint-init')->text(),$arrEndpoint["errorMessage"]);
         }
         $sp = $arrEndpoint["endpoint"];
         $rs = $sp->query($querySparqlWiki);
@@ -384,9 +401,9 @@ class SparqlParser
         if ($errs) {
             $strerr = "";
             foreach ($errs as $err) {
-                $strerr .= "'''Error #sparql :" . $err . "'''<br/>";
+                $strerr .= "'''Error #sparql :" . $err . "'''";
             }
-            return $strerr;
+            return SparqlParser::printMessageErrorDebug($log,wfMessage('linkedwiki-error-server')->text(),$strerr);
         }
 
         $variables = $rs['result']['variables'];
@@ -410,11 +427,11 @@ class SparqlParser
             $str .= "\n|- \n";
         }
 
-        if ($debug != null && ($debug == "YES" || $debug == "yes" || $debug == "1")) {
+        if ($isDebug) {
             $str .= "INPUT WIKI: \n" . $querySparqlWiki . "\n";
             $str .= "QUERY : " . $querySparql . "\n";
             $str .= print_r($rs, true);
-            return array("<pre>" . htmlspecialchars($str) . "</pre>", 'noparse' => true, 'isHTML' => false);
+            return SparqlParser::printMessageErrorDebug(2,"Debug messages",$str);
         }
 
         return array($str, 'noparse' => false, 'isHTML' => false);
@@ -467,4 +484,20 @@ class SparqlParser
         return $result;
     }
 
+    private static function isDebug($debugParam)
+    {
+        return $debugParam != null && ($debugParam == "YES" || $debugParam == "yes" || $debugParam == "1");
+    }
+
+    private static function printMessageErrorDebug($logLevel = 0, $messageName = "",$details = "")
+    {
+        $html = "";
+        if ($logLevel == 2) { //debug
+            $html .= "<p style='color:red'>" . htmlspecialchars($messageName) . "</p>";
+            $html .= "<pre>" . htmlspecialchars($details) . "</pre>";
+        } elseif ($logLevel == 1) {
+            $html .= "<p style='color:red'>" . htmlspecialchars($messageName) . "</p>";
+        } // $logLevel == 0 // Print nothing
+        return array($html, 'noparse' => true, 'isHTML' => false);
+    }
 }

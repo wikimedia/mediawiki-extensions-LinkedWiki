@@ -33,7 +33,6 @@ Put this line in your Localsettings.php for the parser "sparql" and the special 
 
 Optional extensions :
 * "Scribunto" in order to use the Lua class of Linkedwiki
-* "Widgets"  in order to use the parser WSparql with a Mediawiki widget
 
 == Tutorial and download ==
 
@@ -43,6 +42,7 @@ See : http://www.mediawiki.org/wiki/Extension:LinkedWiki
 
 * v3.1.1 Update Sgvizler2 and bootstrap by Karima Rafes <karima.rafes@bordercloud.com>
          - Fix bugs in special page and parser
+         - Fix errors messages
 
 * v3.1.0 Use Sgvizler2, javascript wrapper for easy visualisation of SPARQL result sets. ( T143364 )
         - Update lib bordercloud/sparql

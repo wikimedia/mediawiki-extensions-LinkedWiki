@@ -7,5 +7,9 @@
 	"linkedwiki-refresh": "Rafraîchir",
 	"linkedwiki-duration": "Durée du calcul",
 
-	"specialpages-group-linkedwiki_group": "Outils pour SPARQL et RDF"
+	"specialpages-group-linkedwiki_group": "Outils pour SPARQL et RDF",
+
+	"linkedwiki-error-server": "Désolé, le serveur SPARQL a envoyé une erreur. (voir les détails avec le paramètre log=2)",
+	"linkedwiki-error-endpoint-init": "Désolé, il y a un erreur à l'initialisation du endpoint SPARQL. (voir les détails avec le paramètre log=2)",
+	"linkedwiki-error-endpoint-empty": "Où est le paramètre endpoint ou configuration ?"
 }
