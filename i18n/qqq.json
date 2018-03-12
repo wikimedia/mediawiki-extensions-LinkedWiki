@@ -1,0 +1,37 @@
+{
+	"@metadata": {
+
+	},
+	"linkedwiki-desc": "{{desc|name=LinkedWiki|url=LinkedWiki}}",
+	"linkedwiki-test": "A unused test message",
+	"linkedwiki-date": "{{ignore}}",
+	"linkedwiki-refresh": "A link text",
+	"linkedwiki-duration": "A label message",
+
+	"specialpages-group-linkedwiki_group": "{{doc-specialgroup}}",
+
+	"linkedwiki-error-server": "A label message",
+	"linkedwiki-error-endpoint-init": "A label message",
+	"linkedwiki-error-endpoint-empty": "A label message",
+
+	"linkedwiki-speciallinkedwikiconfig": "{{doc-special}}"
+
+	"linkedwiki-specialrdfsave": "{{doc-special}}",
+	"linkedwiki-category-rdf-page": "A category name",
+	"linkedwiki-category-rdf-schema": "A category name",
+
+	"linkedwiki-specialrdfunit": "{{doc-special}}",
+	"linkedwiki-category-rdf-page": "A category name",
+	"linkedwiki-category-rdf-schema": "A category name",
+
+	"linkedwiki-specialsparqlflinteditor": "{{doc-special}}",
+
+	"linkedwiki-specialsparqlquery": "{{doc-special}}",
+	"linkedwiki-specialsparqlquery_categorysparqlquery": "A category name",
+	"linkedwiki-specialsparqlquery_mainpage": "A description message",
+	"linkedwiki-specialsparqlquery_sendquery": "A button text",
+	"linkedwiki-specialsparqlquery_usethisquery": "A link text",
+	"linkedwiki-specialsparqlquery_usethisquery_tutorial": "A description message",
+	"linkedwiki-specialsparqlquery_endpointsparql": "A label message",
+	"linkedwiki-specialsparqlquery_chooseaconfiguration": "A label message"
+}

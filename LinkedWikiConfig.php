@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright (c) 2017 Bourdercloud.com
+ * @copyright (c) 2018 Bourdercloud.com
  * @author Karima Rafes <karima.rafes@bordercloud.com>
  * @link http://www.mediawiki.org/wiki/Extension:LinkedWiki
  * @license CC-by-nc-sa V4.0

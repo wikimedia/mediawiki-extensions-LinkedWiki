@@ -1,0 +1,37 @@
+{
+	"@metadata": {
+		"authors": []
+	},
+	"linkedwiki-desc": "Voir le Web des données dans un wiki",
+	"linkedwiki-test": "test",
+	"linkedwiki-date": "H:i:s d/m/Y",
+	"linkedwiki-refresh": "Rafraîchir",
+	"linkedwiki-duration": "Durée du calcul",
+
+	"specialpages-group-linkedwiki_group": "Outils pour SPARQL et RDF",
+
+	"linkedwiki-error-server": "Désolé, le serveur SPARQL a envoyé une erreur. (voir les détails avec le paramètre log=2)",
+	"linkedwiki-error-endpoint-init": "Désolé, il y a un erreur à l'initialisation du endpoint SPARQL. (voir les détails avec le paramètre log=2)",
+	"linkedwiki-error-endpoint-empty": "Où est le paramètre endpoint ou configuration ?",
+
+	"linkedwiki-speciallinkedwikiconfig": "LinkedWiki configuration",
+
+	"linkedwiki-specialrdfsave": "Rafraichir la base de données RDF",
+	"linkedwiki-category-rdf-page": "Page RDF",
+	"linkedwiki-category-rdf-schema": "Schema RDF",
+
+	"linkedwiki-specialrdfunit": "Tests unitaires RDF",
+	"linkedwiki-category-rdf-page": "Page RDF",
+	"linkedwiki-category-rdf-schema": "Schema RDF",
+
+	"linkedwiki-specialsparqlflinteditor": "Editeur Flint SPARQL",
+
+	"linkedwiki-specialsparqlquery": "Editeur SPARQL",
+	"linkedwiki-specialsparqlquery_categorysparqlquery": "Requête SPARQL",
+	"linkedwiki-specialsparqlquery_mainpage": "Cette page va vous servir à tester, optimiser et partager vos requêtes si vous le souhaitez.\n\nPostez vos questions à : [https://www.mediawiki.org/wiki/Extension_talk:LinkedWiki Discussion linkedwiki]",
+	"linkedwiki-specialsparqlquery_sendquery": "Exécuter la requête",
+	"linkedwiki-specialsparqlquery_usethisquery": "Utiliser cette requête au sein de ce Wiki",
+	"linkedwiki-specialsparqlquery_usethisquery_tutorial": "Pour cela, il vous suffit de copier le text suivant dans une page du wiki. Pour formater l'affichage, voir : [http://www.mediawiki.org/wiki/Extension:LinkedWiki Extension:LinkedWiki]",
+	"linkedwiki-specialsparqlquery_endpointsparql": "Point d'accès SPARQL",
+	"linkedwiki-specialsparqlquery_chooseaconfiguration": "Choisir une configuration"
+}

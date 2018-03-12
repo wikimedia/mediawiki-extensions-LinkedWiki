@@ -10,12 +10,12 @@ See the doc : http://www.mediawiki.org/wiki/Extension:LinkedWiki
 
 == license ==
 
- Copyright (c) 2017 Bourdercloud.com
+ Copyright (c) 2018 Bourdercloud.com
 
 	This work is licensed under the Creative Commons
-	Attribution-NonCommercial-ShareAlike 3.0
+	Attribution-ShareAlike 4.0
 	Unported License. To view a copy of this license,
-	visit http://creativecommons.org/licenses/by-nc-sa/3.0/
+	visit https://creativecommons.org/licenses/by-sa/4.0/
 	or send a letter to Creative Commons,
 	171 Second Street, Suite 300, San Francisco,
 	California, 94105, USA.
@@ -39,6 +39,9 @@ Optional extensions :
 See : http://www.mediawiki.org/wiki/Extension:LinkedWiki
 
 == Release-Notes ==
+
+* v3.2.0 Update special page by Karima Rafes <karima.rafes@bordercloud.com>
+         - refresh data is possible now
 
 * v3.1.1 Update Sgvizler2 and bootstrap by Karima Rafes <karima.rafes@bordercloud.com>
          - Fix bugs in special page and parser

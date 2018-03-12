@@ -2,10 +2,10 @@
 /**
  * @version 1.0.0.0
  * @package Bourdercloud/linkedwiki
- * @copyright (c) 2011 Bourdercloud.com
+ * @copyright (c) 2018 Bourdercloud.com
  * @author Karima Rafes <karima.rafes@bordercloud.com>
  * @link http://www.mediawiki.org/wiki/Extension:LinkedWiki
- * @license CC-by-nc-sa V3.0
+ * @license CC-by-sa V4.0
  *
  * Last version : http://github.com/BorderCloud/LinkedWiki
  *
@@ -44,8 +44,6 @@ class SpecialLinkedWikiConfig extends SpecialPage
         $wgOut->addWikiText("Endpoints configurated in the system.");
         $config = new LinkedWikiConfig();
         $wgOut->addHTML($config->info());
-
-        $wgOut->addHTML("en construction");
         $this->setHeaders();
     }
 }

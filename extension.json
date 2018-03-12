@@ -1,12 +1,12 @@
 {
 	"name": "LinkedWiki",
-	"version": "3.1.1",
+	"version": "3.2.0",
 	"author": [
 		"[https://www.mediawiki.org/wiki/User:Karima_Rafes Karima Rafes]"
 	],
 	"url": "https://www.mediawiki.org/wiki/Extension:LinkedWiki",
 	"descriptionmsg": "linkedwiki-desc",
-	"license-name": "CC-BY-NC-SA-3.0",
+	"license-name": "CC-BY-SA-4.0",
 	"type": "datavalues",
 	"namespaces": [
 		{
@@ -80,7 +80,12 @@
 		"StorageInGraphMethod": "storageMethod/StorageInGraphMethod.php",
 		"SimpleStorageMethod": "storageMethod/SimpleStorageMethod.php",
 		"WikidataStorageMethod": "storageMethod/WikidataStorageMethod.php",
-		"DatabaseTestDataMethod": "storageMethod/DatabaseTestDataMethod.php"
+		"DatabaseTestDataMethod": "storageMethod/DatabaseTestDataMethod.php",
+
+		"SynchroniseThreadArticleLinkedDataJob": "job/SynchroniseThreadArticleLinkedDataJob.php"
+	},
+	"JobClasses": {
+		"SynchroniseThreadArticleLinkedDataJob": "SynchroniseThreadArticleLinkedDataJob"
 	},
 	"Hooks": {
 		"ParserFirstCallInit": [
@@ -107,22 +112,7 @@
 	},
 	"MessagesDirs": {
 		"LinkedWiki": [
-			"i18n/linkedwiki"
-		],
-		"LinkedWikiConfig": [
-			"i18n/linkedwikiconfig"
-		],
-		"linkedwiki-specialsparqlquery": [
-			"i18n/sparqlquery"
-		],
-		"linkedwiki-specialsparqlflinteditor": [
-			"i18n/sparqlflinteditor"
-		],
-		"linkedwiki-specialrdfunit": [
-			"i18n/rdfunit"
-		],
-		"linkedwiki-specialrdfsave": [
-			"i18n/rdfsave"
+			"i18n"
 		]
 	},
 	"ExtensionMessagesFiles": {

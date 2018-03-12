@@ -1,0 +1,39 @@
+{
+	"@metadata": {
+		"authors": []
+	},
+	"linkedwiki-desc": "See the linked data in a wiki",
+	"linkedwiki-test": "test",
+	"linkedwiki-date": "H:i:s m/d/Y",
+	"linkedwiki-refresh": "Refresh",
+	"linkedwiki-duration": "Duration of query",
+
+	"specialpages-group-linkedwiki_group": "SPARQL and RDF tools",
+
+	"linkedwiki-error-server": "Sorry, the sparql server sent an error. (see details with parameter log=2)",
+	"linkedwiki-error-endpoint-init": "Sorry, there is an error with your endpoint. (see details with parameter log=2)",
+	"linkedwiki-error-endpoint-empty": "Where is the Endpoint or the configuration ?",
+
+	"linkedwiki-speciallinkedwikiconfig": "LinkedWiki configuration",
+
+	"linkedwiki-specialrdfsave": "Refresh database",
+	"linkedwiki-category-rdf-page": "RDF page",
+	"linkedwiki-category-rdf-schema": "RDF schema",
+
+
+
+	"linkedwiki-specialrdfunit": "RDF test cases",
+	"linkedwiki-category-rdf-page": "RDF page",
+	"linkedwiki-category-rdf-schema": "RDF schema",
+
+	"linkedwiki-specialsparqlflinteditor": "Sparql Flint editor",
+
+	"linkedwiki-specialsparqlquery": "SPARQL editor",
+	"linkedwiki-specialsparqlquery_categorysparqlquery": "SPARQL query",
+	"linkedwiki-specialsparqlquery_mainpage": "This page will be used to test, optimize and share your queries if you wish.\n\nPost your questions to: [https://www.mediawiki.org/wiki/Extension_talk:LinkedWiki Talk:linkedwiki]",
+	"linkedwiki-specialsparqlquery_sendquery": "Execute query",
+	"linkedwiki-specialsparqlquery_usethisquery": "Howto use this query in this wiki",
+	"linkedwiki-specialsparqlquery_usethisquery_tutorial": "Copy and paste this line in a page of this wiki.\n\nSee more: [https://www.mediawiki.org/wiki/Extension:LinkedWiki Extension:LinkedWiki]",
+	"linkedwiki-specialsparqlquery_endpointsparql": "Endpoint SPARQL",
+	"linkedwiki-specialsparqlquery_chooseaconfiguration": "Choose a configuration"
+}
