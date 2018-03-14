@@ -6,9 +6,9 @@ LinkedWiki is a Mediawiki extension.
 * In a module/infobox (via Lua), you can reuse your RDF data.
 * You can also build a Mediawiki widget with your data.
 
-See the doc : http://www.mediawiki.org/wiki/Extension:LinkedWiki
+See the doc: https://www.mediawiki.org/wiki/Extension:LinkedWiki
 
-== license ==
+== License ==
 
  Copyright (c) 2018 Bourdercloud.com
 
@@ -27,7 +27,7 @@ karima.rafes@bordercloud.com.
 
 == Installation ==
 
-Put this line in your Localsettings.php for the parser "sparql" and the special pages :
+Put this line in your Localsettings.php for the parser "sparql" and the special pages:
 
     wfLoadExtension( 'LinkedWiki' );
 
@@ -36,7 +36,7 @@ Optional extensions :
 
 == Tutorial and download ==
 
-See : http://www.mediawiki.org/wiki/Extension:LinkedWiki
+See: https://www.mediawiki.org/wiki/Extension:LinkedWiki
 
 == Release-Notes ==
 

@@ -2,10 +2,10 @@
 /**
  * @copyright (c) 2018 Bourdercloud.com
  * @author Karima Rafes <karima.rafes@bordercloud.com>
- * @link http://www.mediawiki.org/wiki/Extension:LinkedWiki
+ * @link https://www.mediawiki.org/wiki/Extension:LinkedWiki
  * @license CC-by-sa V4.0
  *
- *  Last version : http://github.com/BorderCloud/LinkedWiki
+ *  Last version: https://github.com/BorderCloud/LinkedWiki
  *
  *
  * This work is licensed under the Creative Commons
