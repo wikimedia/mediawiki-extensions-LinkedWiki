@@ -14,7 +14,7 @@
 	"linkedwiki-error-endpoint-init": "A label message",
 	"linkedwiki-error-endpoint-empty": "A label message",
 
-	"linkedwiki-speciallinkedwikiconfig": "{{doc-special}}"
+	"linkedwiki-speciallinkedwikiconfig": "{{doc-special}}",
 
 	"linkedwiki-specialrdfsave": "{{doc-special}}",
 	"linkedwiki-category-rdf-page": "A category name",
