@@ -1,6 +1,8 @@
 {
 	"@metadata": {
-		"authors": []
+		"authors": [
+			"Karima Rafes"
+		]
 	},
 	"linkedwiki-desc": "Voir le Web des données dans un wiki",
 	"linkedwiki-test": "test",
