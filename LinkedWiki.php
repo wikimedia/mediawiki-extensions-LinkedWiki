@@ -44,18 +44,6 @@ class LinkedWiki
         return true;
     }
 
-    public static function languageGetMagic(&$magicWords, $langCode)
-    {
-        # Add the magic word
-        # The first array element is whether to be case sensitive, in this
-        # case (0) it is not case sensitive, 1 would be sensitive
-        # All remaining elements are synonyms for our parser function
-        $magicWords['sparql'] = array(0, 'sparql');
-        $magicWords['wsparql'] = array(0, 'wsparql');
-        # unless we return true, other parser functions extensions won't get loaded.
-        return true;
-    }
-
     public static function scribuntoExternalLibraries( $engine, array &$extraLibraries ) {
         if ( $engine !== 'lua' ) {
             return true;

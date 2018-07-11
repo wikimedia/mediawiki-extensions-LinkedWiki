@@ -91,9 +91,6 @@
 		"ParserFirstCallInit": [
 			"LinkedWiki::parserFirstCallInit"
 		],
-		"LanguageGetMagic": [
-			"LinkedWiki::languageGetMagic"
-		],
 		"ScribuntoExternalLibraries": [
 			"LinkedWiki::scribuntoExternalLibraries"
 		],
@@ -120,7 +117,8 @@
 		"linkedwiki-specialsparqlflinteditor-alias": "specialpages/SpecialSparqlFlintEditor.alias.php",
 		"linkedwiki-specialLinkewikiconfig-alias": "specialpages/SpecialLinkedWikiConfig.alias.php",
 		"linkedwiki-specialrdfunit-alias": "specialpages/SpecialRDFUnit.alias.php",
-		"linkedwiki-specialrdfsave-alias": "specialpages/SpecialRDFSave.alias.php"
+		"linkedwiki-specialrdfsave-alias": "specialpages/SpecialRDFSave.alias.php",
+		"LinkedWikiMagic": "LinkedWiki.i18n.magic.php"
 	},
 	"ResourceModules": {
 		"ext.LinkedWiki.table2CSV": {
