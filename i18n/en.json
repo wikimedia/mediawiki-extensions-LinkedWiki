@@ -33,5 +33,6 @@
 	"linkedwiki-specialsparqlquery_usethisquery": "Howto use this query in this wiki",
 	"linkedwiki-specialsparqlquery_usethisquery_tutorial": "Copy and paste this line in a page of this wiki.\n\nSee more: [https://www.mediawiki.org/wiki/Extension:LinkedWiki Extension:LinkedWiki]",
 	"linkedwiki-specialsparqlquery_endpointsparql": "Endpoint SPARQL",
-	"linkedwiki-specialsparqlquery_chooseaconfiguration": "Choose a configuration"
+	"linkedwiki-specialsparqlquery_chooseaconfiguration": "Choose a configuration",
+	"right-data-edit": ""
 }

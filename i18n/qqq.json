@@ -31,5 +31,6 @@
 	"linkedwiki-specialsparqlquery_usethisquery": "A link text",
 	"linkedwiki-specialsparqlquery_usethisquery_tutorial": "A description message",
 	"linkedwiki-specialsparqlquery_endpointsparql": "A label message",
-	"linkedwiki-specialsparqlquery_chooseaconfiguration": "A label message"
+	"linkedwiki-specialsparqlquery_chooseaconfiguration": "A label message",
+	"right-data-edit": "{{doc-right|data-edit}}"
 }
