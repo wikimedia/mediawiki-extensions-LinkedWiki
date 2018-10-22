@@ -793,7 +793,7 @@ class LinkedWikiConfig
 //            }
 //
         }
-        //$wgOut->addWikiText(wfMessage('linkedwiki-specialsparqlquery_mainpage')->text());
+        //$wgOut->addWikiMsg( 'linkedwiki-specialsparqlquery_mainpage' );
         return $html;
     }
 

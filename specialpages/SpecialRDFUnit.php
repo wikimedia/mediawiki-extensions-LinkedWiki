@@ -262,14 +262,14 @@ class SpecialRDFUnit extends SpecialPage
 
         $wgOut->addHTML("<a href='?refresh=true' class=\"mw-htmlform-submit mw-ui-button mw-ui-primary mw-ui-progressive\">Refresh test cases</a>");
 
-        $wgOut->addWikiText("== RDF schemas in the Wiki ==");
+        $wgOut->addWikiTextAsInterface("== RDF schemas in the Wiki ==");
 
 
-        $wgOut->addWikiText("You can add a new RDF schema with the tag rdf with attribut contraint='shacl'.");
+        $wgOut->addWikiTextAsInterface("You can add a new RDF schema with the tag rdf with attribut contraint='shacl'.");
         $wgOut->addHTML("For example : ".htmlentities("<rdf contraint='shacl'>"));
 
         //make the list of schema
-        //$wgOut->addWikiText("List of RDF schema uses during the tests:");
+        //$wgOut->addWikiTextAsInterface("List of RDF schema uses during the tests:");
 
         $dbr = wfGetDB(DB_SLAVE);
         $sql = "SELECT  p.page_id AS pid, p.page_title AS title, t.old_text as text FROM page p 
@@ -283,17 +283,19 @@ INNER JOIN searchindex s ON s.si_page = p.page_id
 
         $schemas = array();
         $schemasStr = array();
+        $lines = array();
         while($row = $dbr->fetchObject($res))
         {
             $schemas[] = $row;
             $schemasStr[] = '"'.Title::newFromID( $row->pid )->getFullURL().'?action=raw&export=rdf"';
-            // $wgOut->addWikiText("* [[".$row->title."]] ");
-             $wgOut->addWikiText("* [".Title::newFromID( $row->pid )->getFullURL()." ".$row->title."] ");
+            // $lines[] = "* [[".$row->title."]] ";
+            $lines[] = "* [".Title::newFromID( $row->pid )->getFullURL()." ".$row->title."] ";
         }
+        $wgOut->addWikiTextAsInterface( implode( "\n", $lines ) );
 
         //return $list;
 
-        $wgOut->addWikiText("== RDFUnit command ==");
+        $wgOut->addWikiTextAsInterface("== RDFUnit command ==");
 
         $commandPublic = 'rdfunit -d "'.$uriOfDataset.'" -r shacl -e "'.$endpointOfDatasetPublic.'" -g "'.$graphOfDataset.'" -v -s '.implode(',',$schemasStr);
 	$command = 'rdfunit -d "'.$uriOfDataset.'" -r shacl -e "'.$endpointOfDataset.'" -g "'.$graphOfDataset.'" -v -s '.implode(',',$schemasStr);
@@ -302,7 +304,7 @@ INNER JOIN searchindex s ON s.si_page = p.page_id
 
         $wgOut->addHTML("</pre>");
 
-        $wgOut->addWikiText("== Results ==");
+        $wgOut->addWikiTextAsInterface("== Results ==");
         if(!EMPTY($refresh)){
             $wgOut->addHTML(self::refreshAndPrintTests($command,$dbTestCase));
         }else{

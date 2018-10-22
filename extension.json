@@ -212,7 +212,7 @@
 	},
 	"manifest_version": 1,
 	"requires": {
-		"MediaWiki": ">= 1.25.0"
+		"MediaWiki": ">= 1.32.0"
 	},
 	"ConfigRegistry": {
 		"ext-conf-linkedwiki": "LinkedWiki::makeConfig"

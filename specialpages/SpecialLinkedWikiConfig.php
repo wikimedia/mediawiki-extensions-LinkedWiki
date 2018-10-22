@@ -38,10 +38,10 @@ class SpecialLinkedWikiConfig extends SpecialPage
     {
         global $wgOut;
 
-        $wgOut->addWikiText("Endpoints configurated in the system via the file LinkedWiki/extension.json.");
+        $wgOut->addWikiTextAsInterface("Endpoints configurated in the system via the file LinkedWiki/extension.json.");
 
-        $wgOut->addWikiText("== Configuration of endpoints SPARQL ==");
-        $wgOut->addWikiText("Endpoints configurated in the system.");
+        $wgOut->addWikiTextAsInterface("== Configuration of endpoints SPARQL ==");
+        $wgOut->addWikiTextAsInterface("Endpoints configurated in the system.");
         $config = new LinkedWikiConfig();
         $wgOut->addHTML($config->info());
         $this->setHeaders();

@@ -61,7 +61,7 @@ class SpecialSparqlQuery extends SpecialPage
         //$wgOut->addHTML(file_get_contents(__dir__ . "/../js/SparqlEditor/form.html"));
 
         /////////////////////////////
-        $output->addWikiText(wfMessage('linkedwiki-specialsparqlquery_mainpage')->text());
+        $output->addWikiMsg( 'linkedwiki-specialsparqlquery_mainpage' );
         //$output->addHTML("<pre>" . htmlentities($this->prefix(), ENT_QUOTES, 'UTF-8') . "</pre>");
         $html .= "<form method='post' name='formQuery' id='formSparqlQuery'>";
 
@@ -192,7 +192,7 @@ class SpecialSparqlQuery extends SpecialPage
         <div class=\"bg-faded\" style=\"padding: 25px;\">";
 
         $output->addHTML($html);
-        $output->addWikiText(wfMessage('linkedwiki-specialsparqlquery_usethisquery_tutorial')->text());
+        $output->addWikiMsg( 'linkedwiki-specialsparqlquery_usethisquery_tutorial' );
 
         $html2 ="<pre lang=\"html\" id=\"consoleWiki\">";
         if (!EMPTY($query)) {
