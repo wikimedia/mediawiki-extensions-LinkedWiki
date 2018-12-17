@@ -14,6 +14,26 @@ function linkedwiki.isEmpty(s)
     return s == nil or s == ''
 end
 
+function linkedwiki.tprint(t)
+  local text = ''
+  for k, v in pairs(t) do
+      local kfmt = '["' .. tostring(k) ..'"]'
+      if type(k) ~= 'string' then
+          kfmt = '[' .. k .. ']'
+      end
+      local vfmt = '"'.. tostring(v) ..'"'
+      if type(v) == 'table' then
+          tprint(v, (s or '')..kfmt)
+      else
+          if type(v) ~= 'string' then
+              vfmt = tostring(v)
+          end
+          text = text .. type(t)..(s or '')..kfmt..' = '..vfmt ..'\n'
+      end
+  end
+  return text
+end
+
 function linkedwiki.info()
     local wikitext = mw.html.create('div')
     wikitext:addClass("plainlinks")
@@ -156,7 +176,6 @@ function linkedwiki.explode(div, str)
     return arr
 end
 
-
 function linkedwiki.concatWithComma(tab)
     local html = ""
     local comma = ""
@@ -167,6 +186,27 @@ function linkedwiki.concatWithComma(tab)
     return html
 end
 
+function linkedwiki.buildDivSimple(isDifferent,html,valueInDB)
+    local result = ""
+    local div = mw.html.create('div')
+
+    if isDifferent then
+        div:addClass("linkedwiki_new_value")
+        div:addClass("linkedwiki_tooltip")
+        div:attr("data-toggle", "tooltip")
+        div:attr("data-placement", "bottom")
+        div:attr("title", "Currently in DB : " .. valueInDB)
+    else
+        div:addClass("linkedwiki_value_equal")
+    end
+
+    if not linkedwiki.isEmpty(html) then
+        div:wikitext(html)
+        result = tostring(div)
+    end
+
+    return result
+end
 
 function linkedwiki.buildDiv(countInWiki,tabHtmlInWiki,countInDB,tabHtmlInDB,tabTitleInDB)
     local result = ""
@@ -178,7 +218,7 @@ function linkedwiki.buildDiv(countInWiki,tabHtmlInWiki,countInDB,tabHtmlInDB,tab
         html = html .. linkedwiki.concatWithComma(tabHtmlInWiki)
         div:addClass("linkedwiki_new_value")
         if countInDB > 0  then
-            html = html .. ", " .. linkedwiki.concatWithComma(tabHtmlInDB)
+            html = html .. ", " .. linkedwiki.concatWithComma(tabHtmlInDB,tabOrder)
             div:addClass("linkedwiki_tooltip")
             div:attr("data-toggle", "tooltip")
             div:attr("data-placement", "bottom")
@@ -187,7 +227,7 @@ function linkedwiki.buildDiv(countInWiki,tabHtmlInWiki,countInDB,tabHtmlInDB,tab
         end
     elseif countInDB > 0 then
         div:addClass("linkedwiki_value_equal")
-        html = html .. linkedwiki.concatWithComma(tabHtmlInDB)
+        html = html .. linkedwiki.concatWithComma(tabHtmlInDB,tabOrder)
     end
 
     if not linkedwiki.isEmpty(html) then
@@ -321,25 +361,27 @@ function linkedwiki.new(subject,config,tagLang,debug)
     end
 
     function Linkedwiki:printItemInWiki(valueInWiki, valueInDB, tagLang)
-        --mw.log("linkedwiki.printTitleInWiki("..valueInWiki..",".. valueInDB..")")
-
+        --mw.log("linkedwiki.printTitleInWiki(valueInWiki "..valueInWiki..",valueInDB ".. valueInDB..")")
         local listIri = nil
         local listValue = nil
         local text = ""
         local titleInDB = ""
-        local iriInWiki = ""
 
         local tabIriInDB = {}
         local tabTitleInDB = {}
         local tabHtmlInDB = {}
-        local countInDB = 0
-        local userEmailInDB ={}
 
         local tabHtmlInWiki = {}
-        local countInWiki = 0
         local cleanId =""
-        local cleanTitle =""
+        local titleInWiki =""
         local idInWiki=""
+
+        local tabOrder = {}
+
+        local isDifferent = false
+        local html = ''
+        local comma = ''
+        local listValueInDB = ''
 
         if not linkedwiki.isEmpty(valueInDB) then
             listIri = linkedwiki.explode(";", valueInDB)
@@ -349,7 +391,6 @@ function linkedwiki.new(subject,config,tagLang,debug)
 
                 --text = '<span class="plainlinks">[' .. iri .. ' ' .. titleInDB .. ']</span>'
                 cleanId = string.match(iri, "(Q.*)")
-                --mw.log(iri)
                 text = ""
                 text = '<span class="plainlinks">'
                             .. '[https://www.wikidata.org/wiki/Special:GoToLinkedPage/'.. self:getLang(tagLang)
@@ -360,9 +401,10 @@ function linkedwiki.new(subject,config,tagLang,debug)
                 text = text.. '<span class="plainlinks"><small>([' .. iri .. ' '..cleanId..'])</small></span>'
 
                 tabIriInDB[iri]= true
+
                 tabTitleInDB[iri]= titleInDB
                 tabHtmlInDB[iri]= text
-                countInDB = countInDB + 1
+                table.insert(tabOrder, iri)
             end
         end
 
@@ -370,72 +412,62 @@ function linkedwiki.new(subject,config,tagLang,debug)
             listValue = linkedwiki.explode(";", valueInWiki)
             local wikidata
             local iriInWikidata
+
             for i, id in ipairs(listValue) do
                 idInWiki = mw.text.trim( id )
                 cleanId = string.match(idInWiki, "(Q.*)")
                 text = ""
-                --mw.log(iri)
+                --mw.log(idInWiki)
                 if not linkedwiki.isEmpty(cleanId) then
                     iriInWikidata = "http://www.wikidata.org/entity/" .. cleanId
                     wikidata = linkedwiki.new(iriInWikidata,"http://www.wikidata.org",self:getLang(tagLang))
-                    cleanTitle = wikidata:getString("http://www.w3.org/2000/01/rdf-schema#label", self:getLang(tagLang))
+                    titleInWiki = wikidata:getString("http://www.w3.org/2000/01/rdf-schema#label", self:getLang(tagLang))
                     text = '<span class="plainlinks">'
                             .. '[https://www.wikidata.org/wiki/Special:GoToLinkedPage/'.. self:getLang(tagLang)
                             ..'wiki/' ..cleanId
                             ..' '
-                            ..  cleanTitle
+                            ..  titleInWiki
                             .. ']</span>'
+
                     text = text.. '<span class="plainlinks"><small>([' .. iriInWikidata .. ' '..cleanId..'])</small></span>'
+
+                    --mw.log(text..'EE')
                 else -- it is not a ID
-                    cleanTitle = idInWiki
+                    tabTitleInWiki = idInWiki
                     iriInWikidata = idInWiki
                     text = idInWiki
                 end
 
+                tabHtmlInWiki[iriInWikidata]= text
+
                 if not tabIriInDB[iriInWikidata] then
-                    tabHtmlInWiki[iriInWikidata]= text
-                    countInWiki = countInWiki +1
-                elseif tabTitleInDB[iriInWikidata] ~= cleanTitle then
-                    tabHtmlInWiki[iriInWikidata]= text
-                    countInWiki = countInWiki +1
+                     tabIriInDB[iriInWikidata]= false
+                     isDifferent = true
+                     table.insert(tabOrder, iriInWikidata)
+                elseif tabTitleInDB[iriInWikidata] ~= titleInWiki then
+                    tabHtmlInDB[iriInWikidata]= text
+                   isDifferent = true
+                --   tabTitleInDB[iriInWikidata] = titleInWiki
                 end
             end
         end
 
-        if countInWiki > 0 then
+        if isDifferent then
             self.databaseIsUpdate = false
         end
 
-        return linkedwiki.buildDiv(countInWiki,tabHtmlInWiki,countInDB,tabHtmlInDB,tabTitleInDB)
-    end
-    --function Linkedwiki:printItemInWiki(valueInWiki, valueInDB, tagLang)
-    --    local div = mw.html.create('div')
-    --    local listLink = ""
-    --
-    --    if not linkedwiki.isEmpty(valueInDB) then
-    --        local listIriInDBLocal = linkedwiki.explode(";", valueInDB)
-    --        for i, iri in ipairs(listIriInDBLocal) do
-    --            listLink = listLink .. '[https://www.wikidata.org/wiki/Special:GoToLinkedPage/enwiki/' .. string.match(iri, "(Q.*)") .. " " .. linkedwiki.getString("http://www.w3.org/2000/01/rdf-schema#label", nil, iri) .. "] "
-    --        end
-    --    end
-    --
-    --    if not linkedwiki.isEmpty(valueInWiki) then
-    --        div:wikitext(listLink .. valueInWiki)
-    --
-    --        self.databaseIsUpdate = false
-    --        div:addClass("linkedwiki_new_value")
-    --        if not linkedwiki.isEmpty(valueInDB) then
-    --            div:addClass("linkedwiki_tooltip")
-    --            div:attr("data-toggle", "tooltip")
-    --            div:attr("data-placement", "bottom")
-    --            div:attr("title", "Currently in DB : " .. valueInDB)
-    --        end
-    --    elseif not linkedwiki.isEmpty(valueInDB) then
-    --        div:wikitext(listLink)
-    --    end
-    --    return tostring(div)
-    --end
+        for id, iri in ipairs(tabOrder) do
 
+            if tabIriInDB[iri] then
+               html = html .. comma .. tabHtmlInDB[iri]
+               listValueInDB  = listValueInDB .. comma .. tabTitleInDB[iri]
+            else
+               html = html .. comma .. tabHtmlInWiki[iri]
+            end
+            comma = ', '
+        end
+        return linkedwiki.buildDivSimple(isDifferent,html,listValueInDB)
+    end
 
     function Linkedwiki:printValueInWiki(valueInWiki, valueInDB)
         local div = mw.html.create('div')

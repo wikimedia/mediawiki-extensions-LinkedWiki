@@ -40,6 +40,9 @@ See: https://www.mediawiki.org/wiki/Extension:LinkedWiki
 
 == Release-Notes ==
 
+* v3.2.1 refresh tests with the last Selenium IDE by Karima Rafes <karima.rafes@bordercloud.com>
+         - fix bugs in the SPARQL editor special page and the Lua functions
+
 * v3.2.0 Update special page by Karima Rafes <karima.rafes@bordercloud.com>
          - refresh data is possible now
 

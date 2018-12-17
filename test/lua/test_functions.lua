@@ -106,10 +106,10 @@ function p.tests(f)
     html = html .."TEST : f.args.iri or linkedwiki.getCurrentIRI()" .. '\n'
     html = html .."RESULT : " .. subject .. '\n'
 
-local subject = linkedwiki.getCurrentIRI()
+    local subject = linkedwiki.getCurrentIRI()
 
 
-local objTest = linkedwiki.new(subject,config)
+    local objTest = linkedwiki.new(subject,config)
     local pTObjTemp1 = mw.title.new("Title1"):fullUrl()
     local pTObjTemp2 = mw.title.new("Title2"):fullUrl()
 
@@ -148,7 +148,7 @@ local objTest = linkedwiki.new(subject,config)
 
     html = html .."----------------------------------------------------------------------------" ..'\n'
     html = html .."TEST : checkString" ..'\n'
---    function objTest:checkString(property, valueInWiki, tagLang)
+    --    function objTest:checkString(property, valueInWiki, tagLang)
 
     pT = pr..'2'
     valueInWiki = "test"
@@ -231,7 +231,7 @@ local objTest = linkedwiki.new(subject,config)
 
     html = html .."----------------------------------------------------------------------------" ..'\n'
     html = html .."TEST : checkImage" ..'\n'
---    function objTest:checkImage(property, valueInWiki, width, height)
+    --    function objTest:checkImage(property, valueInWiki, width, height)
 
     pT = pr..'5'
     valueInWiki = "http://example.com/test.png"
@@ -263,9 +263,9 @@ local objTest = linkedwiki.new(subject,config)
     local ObjTemp1 = linkedwiki.new(pTObjTemp1,config);
     local ObjTemp2 = linkedwiki.new(pTObjTemp2,config);
 
---    mw.log(objTest:getConfig())
---    mw.log(ObjTemp1:getConfig())
---    mw.log(ObjTemp2:getConfig())
+    --    mw.log(objTest:getConfig())
+    --    mw.log(ObjTemp1:getConfig())
+    --    mw.log(ObjTemp2:getConfig())
     mw.log(objTest:removeSubject())
     mw.log(ObjTemp1:removeSubject())
     mw.log(ObjTemp2:removeSubject())
@@ -424,20 +424,26 @@ local objTest = linkedwiki.new(subject,config)
     mw.log(ObjTemp1:removeSubject())
     mw.log(ObjTemp2:removeSubject())
 
+    -- TEST 32
+    --mw.log("TEST 32")
     valueInWiki = ""
     --0 in DB
     result = objTest:checkItem(pT,valueInWiki)
     html = html .."32 RESULT BEGIN : "..'\n' ..result ..'\n'.."END" ..'\n'
     html = html .."RESULT : " .. p.checkString(result,'') ..'\n'
 
+    -- TEST 33
+
     valueInWiki = "Q1 ; Q2 "
     --0 in DB
     result = objTest:checkItem(pT,valueInWiki)
     html = html .."33 RESULT BEGIN : "..'\n' ..result ..'\n'.."END" ..'\n'
+    --mw.log("TEST 33")
+    --mw.log(result)
 
-  html = html .."RESULT : " .. p.checkString(result,'<div class="linkedwiki_new_value"><span class="plainlinks">[https://www.wikidata.org/wiki/Special:GoToLinkedPage/enwiki/Q2 Earth]</span><span class="plainlinks"><small>([http://www.wikidata.org/entity/Q2 Q2])</small></span>, <span class="plainlinks">[https://www.wikidata.org/wiki/Special:GoToLinkedPage/enwiki/Q1 universe]</span><span class="plainlinks"><small>([http://www.wikidata.org/entity/Q1 Q1])</small></span></div>') ..'\n'
+    html = html .."RESULT : " .. p.checkString(result,'<div class="linkedwiki_new_value linkedwiki_tooltip" data-toggle="tooltip" data-placement="bottom" title="Currently in DB : "><span class="plainlinks">[https://www.wikidata.org/wiki/Special:GoToLinkedPage/enwiki/Q1 Universe]</span><span class="plainlinks"><small>([http://www.wikidata.org/entity/Q1 Q1])</small></span>, <span class="plainlinks">[https://www.wikidata.org/wiki/Special:GoToLinkedPage/enwiki/Q2 Earth]</span><span class="plainlinks"><small>([http://www.wikidata.org/entity/Q2 Q2])</small></span></div>') ..'\n'
 
-
+    -- TEST 34
     valueInWiki =  ""
     --"universe" in DB
     -- current - pT -> pTObj
@@ -447,16 +453,21 @@ local objTest = linkedwiki.new(subject,config)
     result = objTest:checkItem(pT,valueInWiki)
     html = html .."34 RESULT BEGIN : "..'\n' ..result ..'\n'.."END" ..'\n'
 
+    --mw.log("TEST 34")
+    --mw.log(result)
+
     html = html .."RESULT : " .. p.checkString(result,'<div class="linkedwiki_value_equal"><span class="plainlinks">[https://www.wikidata.org/wiki/Special:GoToLinkedPage/enwiki/Q1 universe]</span><span class="plainlinks"><small>([http://www.wikidata.org/entity/Q1 Q1])</small></span></div>') ..'\n'
 
-
+    -- TEST 35
     valueInWiki =  "Q1;Q2"
     --"universe" in DB
     result = objTest:checkItem(pT,valueInWiki)
     html = html .."35 RESULT BEGIN : "..'\n' ..result ..'\n'.."END" ..'\n'
+    --mw.log(objTest:addPropertyWithIri(pT,pTObjTemp2))
 
-    html = html .."RESULT : " .. p.checkString(result,'<div class="linkedwiki_new_value linkedwiki_tooltip" data-toggle="tooltip" data-placement="bottom" title="Currently in DB : universe"><span class="plainlinks">[https://www.wikidata.org/wiki/Special:GoToLinkedPage/enwiki/Q2 Earth]</span><span class="plainlinks"><small>([http://www.wikidata.org/entity/Q2 Q2])</small></span>, <span class="plainlinks">[https://www.wikidata.org/wiki/Special:GoToLinkedPage/enwiki/Q1 universe]</span><span class="plainlinks"><small>([http://www.wikidata.org/entity/Q1 Q1])</small></span></div>') ..'\n'
+    html = html .."RESULT : " .. p.checkString(result,'<div class="linkedwiki_new_value linkedwiki_tooltip" data-toggle="tooltip" data-placement="bottom" title="Currently in DB : universe"><span class="plainlinks">[https://www.wikidata.org/wiki/Special:GoToLinkedPage/enwiki/Q1 Universe]</span><span class="plainlinks"><small>([http://www.wikidata.org/entity/Q1 Q1])</small></span>, <span class="plainlinks">[https://www.wikidata.org/wiki/Special:GoToLinkedPage/enwiki/Q2 Earth]</span><span class="plainlinks"><small>([http://www.wikidata.org/entity/Q2 Q2])</small></span></div>') ..'\n'
 
+    -- TEST 36
     valueInWiki = " Q1 ; Q2 "
     --"Title1;Title2" in DB
     --"Title1" in DB
@@ -465,27 +476,58 @@ local objTest = linkedwiki.new(subject,config)
     mw.log(objTest:addPropertyWithIri(pT,pTObjTemp2))
     mw.log(ObjTemp2:addPropertyWithLitteral(rdfs.."label","Earth"))
     result = objTest:checkItem(pT,valueInWiki)
-    html = html .."36 RESULT BEGIN : "..'\n' ..result ..'\n'.."END" ..'\n'
-    html = html .."RESULT : " .. p.checkString(result,'<div class="linkedwiki_value_equal"><span class="plainlinks">[https://www.wikidata.org/wiki/Special:GoToLinkedPage/enwiki/Q2 Earth]</span><span class="plainlinks"><small>([http://www.wikidata.org/entity/Q2 Q2])</small></span>, <span class="plainlinks">[https://www.wikidata.org/wiki/Special:GoToLinkedPage/enwiki/Q1 universe]</span><span class="plainlinks"><small>([http://www.wikidata.org/entity/Q1 Q1])</small></span></div>') ..'\n'
 
+    html = html .."36 RESULT BEGIN : "..'\n' ..result ..'\n'.."END" ..'\n'
+    html = html .."RESULT : " .. p.checkString(result,'<div class="linkedwiki_new_value linkedwiki_tooltip" data-toggle="tooltip" data-placement="bottom" title="Currently in DB : universe, Earth"><span class="plainlinks">[https://www.wikidata.org/wiki/Special:GoToLinkedPage/enwiki/Q1 Universe]</span><span class="plainlinks"><small>([http://www.wikidata.org/entity/Q1 Q1])</small></span>, <span class="plainlinks">[https://www.wikidata.org/wiki/Special:GoToLinkedPage/enwiki/Q2 Earth]</span><span class="plainlinks"><small>([http://www.wikidata.org/entity/Q2 Q2])</small></span></div>') ..'\n'
+
+    --mw.log("TEST 36")
+    --mw.log(result)
+
+    -- TEST 36Bis
+    valueInWiki = " Q1 ; Q2 "
+
+    --"Universe" in DB
+    -- current - pT -> pTObj
+    -- pTObj - rdfs:label -> "Universe"
+    mw.log(ObjTemp1:removeSubject())
+    mw.log(ObjTemp1:addPropertyWithLitteral(rdfs.."label","Universe"))
+    result = objTest:checkItem(pT,valueInWiki)
+
+    html = html .."36Bis RESULT BEGIN : "..'\n' ..result ..'\n'.."END" ..'\n'
+    html = html .."RESULT : " .. p.checkString(result,'<div class="linkedwiki_value_equal"><span class="plainlinks">[https://www.wikidata.org/wiki/Special:GoToLinkedPage/enwiki/Q1 Universe]</span><span class="plainlinks"><small>([http://www.wikidata.org/entity/Q1 Q1])</small></span>, <span class="plainlinks">[https://www.wikidata.org/wiki/Special:GoToLinkedPage/enwiki/Q2 Earth]</span><span class="plainlinks"><small>([http://www.wikidata.org/entity/Q2 Q2])</small></span></div>') ..'\n'
+
+    --mw.log("TEST 36Bis")
+    --mw.log(result)
+
+    -- TEST 37
     valueInWiki = ""
     --"Title1;Title2" in DB
     result = objTest:checkItem(pT,valueInWiki)
     html = html .."37 RESULT BEGIN : "..'\n' ..result ..'\n'.."END" ..'\n'
-    html = html .."RESULT : " .. p.checkString(result,'<div class="linkedwiki_value_equal"><span class="plainlinks">[https://www.wikidata.org/wiki/Special:GoToLinkedPage/enwiki/Q2 Earth]</span><span class="plainlinks"><small>([http://www.wikidata.org/entity/Q2 Q2])</small></span>, <span class="plainlinks">[https://www.wikidata.org/wiki/Special:GoToLinkedPage/enwiki/Q1 universe]</span><span class="plainlinks"><small>([http://www.wikidata.org/entity/Q1 Q1])</small></span></div>') ..'\n'
+    html = html .."RESULT : " .. p.checkString(result,'<div class="linkedwiki_value_equal"><span class="plainlinks">[https://www.wikidata.org/wiki/Special:GoToLinkedPage/enwiki/Q1 Universe]</span><span class="plainlinks"><small>([http://www.wikidata.org/entity/Q1 Q1])</small></span>, <span class="plainlinks">[https://www.wikidata.org/wiki/Special:GoToLinkedPage/enwiki/Q2 Earth]</span><span class="plainlinks"><small>([http://www.wikidata.org/entity/Q2 Q2])</small></span></div>') ..'\n'
 
+    --mw.log("TEST 37")
+    --mw.log(result)
 
+    -- TEST 38
     valueInWiki = "Title3"
     --"Title1;Title2" in DB
     result = objTest:checkItem(pT,valueInWiki)
     html = html .."38 RESULT BEGIN : "..'\n' ..result ..'\n'.."END" ..'\n'
-    html = html .."RESULT : " .. p.checkString(result,'<div class="linkedwiki_new_value linkedwiki_tooltip" data-toggle="tooltip" data-placement="bottom" title="Currently in DB : Earth, universe">Title3, <span class="plainlinks">[https://www.wikidata.org/wiki/Special:GoToLinkedPage/enwiki/Q2 Earth]</span><span class="plainlinks"><small>([http://www.wikidata.org/entity/Q2 Q2])</small></span>, <span class="plainlinks">[https://www.wikidata.org/wiki/Special:GoToLinkedPage/enwiki/Q1 universe]</span><span class="plainlinks"><small>([http://www.wikidata.org/entity/Q1 Q1])</small></span></div>') ..'\n'
+    html = html .."RESULT : " .. p.checkString(result,'<div class="linkedwiki_new_value linkedwiki_tooltip" data-toggle="tooltip" data-placement="bottom" title="Currently in DB : Universe, Earth"><span class="plainlinks">[https://www.wikidata.org/wiki/Special:GoToLinkedPage/enwiki/Q1 Universe]</span><span class="plainlinks"><small>([http://www.wikidata.org/entity/Q1 Q1])</small></span>, <span class="plainlinks">[https://www.wikidata.org/wiki/Special:GoToLinkedPage/enwiki/Q2 Earth]</span><span class="plainlinks"><small>([http://www.wikidata.org/entity/Q2 Q2])</small></span>, Title3</div>') ..'\n'
 
+    --mw.log("TEST 38")
+    --mw.log(result)
+
+    -- TEST 39
     valueInWiki = "Title3;Title4"
     --"Title1;Title2" in DB
     result = objTest:checkItem(pT,valueInWiki)
     html = html .."39 RESULT BEGIN : "..'\n' ..result ..'\n'.."END" ..'\n'
-    html = html .."RESULT : " .. p.checkString(result,'<div class="linkedwiki_new_value linkedwiki_tooltip" data-toggle="tooltip" data-placement="bottom" title="Currently in DB : Earth, universe">Title3, Title4, <span class="plainlinks">[https://www.wikidata.org/wiki/Special:GoToLinkedPage/enwiki/Q2 Earth]</span><span class="plainlinks"><small>([http://www.wikidata.org/entity/Q2 Q2])</small></span>, <span class="plainlinks">[https://www.wikidata.org/wiki/Special:GoToLinkedPage/enwiki/Q1 universe]</span><span class="plainlinks"><small>([http://www.wikidata.org/entity/Q1 Q1])</small></span></div>') ..'\n'
+    html = html .."RESULT : " .. p.checkString(result,'<div class="linkedwiki_new_value linkedwiki_tooltip" data-toggle="tooltip" data-placement="bottom" title="Currently in DB : Universe, Earth"><span class="plainlinks">[https://www.wikidata.org/wiki/Special:GoToLinkedPage/enwiki/Q1 Universe]</span><span class="plainlinks"><small>([http://www.wikidata.org/entity/Q1 Q1])</small></span>, <span class="plainlinks">[https://www.wikidata.org/wiki/Special:GoToLinkedPage/enwiki/Q2 Earth]</span><span class="plainlinks"><small>([http://www.wikidata.org/entity/Q2 Q2])</small></span>, Title3, Title4</div>') ..'\n'
+
+        --mw.log("TEST 39")
+        --mw.log(result)
 
     html = html .."----------------------------------------------------------------------------" ..'\n'
     html = html .."TEST : printDateInWiki" ..'\n'
@@ -574,7 +616,7 @@ local objTest = linkedwiki.new(subject,config)
     html = html .."51 RESULT BEGIN : "..'\n' ..result ..'\n'.."END" ..'\n'
     html = html .."RESULT : " .. p.checkString(result,'<div>Error is not a date (0000-00-00) : Truc</div>') ..'\n'
 
---    mw.log(linkedwiki.getLastQuery())
+    --    mw.log(linkedwiki.getLastQuery())
     mw.log(objTest:removeSubject())
 
 

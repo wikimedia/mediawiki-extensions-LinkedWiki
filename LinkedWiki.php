@@ -87,4 +87,11 @@ class LinkedWiki
         $response = $endpoint->query($q, 'raw');
         return true;
     }
+
+    public static function onBeforePageDisplay( OutputPage &$out, Skin &$skin ) {
+        if ( $out->getTitle()->isSpecial( 'linkedwiki-specialsparqlquery' ) ) {
+            $out->addModules('ext.LinkedWiki.SpecialSparqlQuery');
+        }
+        return true;
+    }
 }

@@ -61,7 +61,6 @@ class SpecialSparqlQuery extends SpecialPage
         //$wgOut->addHTML(file_get_contents(__dir__ . "/../js/SparqlEditor/form.html"));
 
         /////////////////////////////
-        $output->addModules('ext.LinkedWiki.SpecialSparqlQuery');
         $output->addWikiText(wfMessage('linkedwiki-specialsparqlquery_mainpage')->text());
         //$output->addHTML("<pre>" . htmlentities($this->prefix(), ENT_QUOTES, 'UTF-8') . "</pre>");
         $html .= "<form method='post' name='formQuery' id='formSparqlQuery'>";
@@ -83,7 +82,8 @@ class SpecialSparqlQuery extends SpecialPage
             <label for=\"endpointOther\" class=\"col-2 col-form-label\">";
         $html .=wfMessage('linkedwiki-specialsparqlquery_endpointsparql')->text() . "</label>
             <div class=\"col-10\">
-                <input class=\"form-control\" type=\"url\" value=\"https://query.wikidata.org/sparql\" id=\"endpointOther\"/>
+                <input class=\"form-control\" type=\"url\" value=\"\" id=\"endpointOther\" name=\"endpoint\"/>
+                <small class=\"form-text text-muted\">Example: https://query.wikidata.org/sparql</small>
             </div>
         </div>";
 
@@ -124,7 +124,7 @@ class SpecialSparqlQuery extends SpecialPage
         </div>
         <div id=\"sgvizlerInputsForm\" ";
 
-        if ($checkedPhp == "php")
+        if ($radioCache == "php")
             $html .="style='display: none;'";
 
         $html .=">
@@ -183,7 +183,7 @@ class SpecialSparqlQuery extends SpecialPage
         <div id=\"example\" style=\"padding: 25px;\"><div id=\"result\">";
 
         if (!EMPTY($query)) {
-            $arr = SparqlParser::simpleHTML($query, $idConfig, $endpoint, '', '', null);
+            $arr = SparqlParser::simpleHTML($query, $idConfig, $endpoint, '', '', null,false,2);
             $html .=$arr[0];
         }
         $html .="</div></div>
@@ -210,9 +210,9 @@ class SpecialSparqlQuery extends SpecialPage
             }
             $template .= "\n}}";
             if (EMPTY($errorMessage)) {
-                $html .=$template;
+                $html2 .=$template;
             } else {
-                $html .=$errorMessage;
+                $html2 .=$errorMessage;
             }
         }
         $html2 .="</pre></div>
