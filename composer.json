@@ -19,7 +19,7 @@
 	},
 	"scripts": {
 		"test": [
-			"parallel-lint . --exclude vendor --exclude node_modules --exclude old",
+			"parallel-lint . --exclude vendor --exclude node_modules",
 			"minus-x check ."
 		],
 		"fix": [
