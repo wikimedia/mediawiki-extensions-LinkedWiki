@@ -40,6 +40,8 @@ class SynchroniseThreadArticleLinkedDataJob extends Job {
             return false;
         }
         if ( $page->doPurge() ) {
+            $cmd = 'wget -q "'. $this->title->getFullURL().'" -O /dev/null';
+            exec($cmd. " > /dev/null");
             return true;
         } else {
             return false;
