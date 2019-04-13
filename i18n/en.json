@@ -34,5 +34,6 @@
 	"linkedwiki-specialsparqlquery_usethisquery_tutorial": "Copy and paste this line in a page of this wiki.\n\nSee more: [https://www.mediawiki.org/wiki/Extension:LinkedWiki Extension:LinkedWiki]",
 	"linkedwiki-specialsparqlquery_endpointsparql": "Endpoint SPARQL",
 	"linkedwiki-specialsparqlquery_chooseaconfiguration": "Choose a configuration",
+	"action-data-edit": "edit data pages (in the namespace Data and UserData), transfer these data with [[Special:RDFSave]] and check RDF graphs",
 	"right-data-edit": "Edit data pages (in the namespace Data and UserData), transfer these data with [[Special:RDFSave]] and check RDF graphs with [[Special:RDFUnit]]. [https://www.mediawiki.org/wiki/Extension:LinkedWiki/Import_in_wiki_to_write,_check,_transfer_and_validate_RDF Documentations]"
 }
