@@ -16,8 +16,6 @@
  * 171 Second Street, Suite 300, San Francisco,
  * California, 94105, USA.
  */
-if (!defined('MEDIAWIKI'))
-    die();
 
 class LwgraphTag
 {

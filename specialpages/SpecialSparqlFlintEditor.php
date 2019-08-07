@@ -22,7 +22,6 @@
 	California, 94105, USA.
 
  */
-if (!defined('MEDIAWIKI')) die();
 
 class SpecialSparqlFlintEditor extends SpecialPage {
 

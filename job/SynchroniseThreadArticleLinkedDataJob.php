@@ -17,9 +17,6 @@
  * California, 94105, USA.
  */
 
-if (!defined('MEDIAWIKI'))
-    die();
-
 class SynchroniseThreadArticleLinkedDataJob extends Job {
     public function __construct( $DBkey, $params ) {
         // Replace synchroniseThreadArticleData with an identifier for your job.

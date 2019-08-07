@@ -16,10 +16,6 @@
  * 171 Second Street, Suite 300, San Francisco,
  * California, 94105, USA.
  */
-if (!defined('MEDIAWIKI')) {
-    echo "This file is not a valid entry point.";
-    exit(1);
-}
 
 use BorderCloud\SPARQL\SparqlClient;
 
