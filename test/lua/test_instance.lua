@@ -1,7 +1,7 @@
--- @copyright (c) 2016 Bourdercloud.com
+-- @copyright (c) 2019 Bourdercloud.com
 -- @author Karima Rafes <karima.rafes@bordercloud.com>
 -- @link https://www.mediawiki.org/wiki/Extension:LinkedWiki
--- @license CC-by-nc-sa V3.0
+-- @license CC-by-sa V4.0
 --
 --  Last version: https://github.com/BorderCloud/LinkedWiki
 --

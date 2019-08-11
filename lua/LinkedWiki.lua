@@ -1,9 +1,10 @@
 --[[
 	Registers and defines functions to access LinkedWiki through the Scribunto extension
 	Provides Lua setupInterface
-	@since
-	@licence CC-by-nc-sa V3.0
-	@author Karima Rafes <karima.rafes@bordercloud.com>
+ @copyright (c) 2019 Bourdercloud.com
+ @author Karima Rafes <karima.rafes@bordercloud.com>
+ @link https://www.mediawiki.org/wiki/Extension:LinkedWiki
+ @license CC-by-sa V4.0
 ]]
 
 -- module
