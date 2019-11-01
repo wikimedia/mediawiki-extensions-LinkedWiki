@@ -1,0 +1,38 @@
+{
+	"@metadata": {
+		"authors": [
+			"Purodha"
+		]
+	},
+	"push-desc": "E eijfach Zohsazprojramm för Saache en ander Wikis erövver zo bränge.",
+	"group-pusher": "Övverdraarer",
+	"group-pusher-member": "{{GENDER:$1|Övverdraarer}}",
+	"grouppage-pusher": "{{ns:project}}:Övverdraarer",
+	"group-bulkpusher": "Maßßeövverdraarer",
+	"group-bulkpusher-member": "{{GENDER:$1|Maßßeövverdraarer}}",
+	"grouppage-bulkpusher": "{{ns:project}}:Maßßeövverdraarer",
+	"group-filepusher": "Datteijeövverdraarer",
+	"group-filepusher-member": "{{GENDER:$1|Datteijeövverdraarer}}",
+	"grouppage-filepusher": "{{ns:project}}:Datteijeövverdraarer",
+	"group-pusher.css": "/* Dat CSS heh aan dä Stell wirrek nur op de Siggeövverdraarer */",
+	"group-pusher.js": "/* Dat JavaSkrep heh aan dä Stell wirrek nur op de Siggeövverdraarer */",
+	"group-bulkpusher.css": "/* Dat CSS heh aan dä Stell wirrek nur op de Maßßeövverdraarer */",
+	"group-bulkpusher.js": "/* Dat JavaSkrep heh aan dä Stell wirrek nur op de Maßßeövverdraarer */",
+	"group-filepusher.css": "/* Dat CSS heh aan dä Stell wirrek nur op de Datteijeeövverdraarer */",
+	"group-filepusher.js": "/* Dat JavaSkrep heh aan dä Stell wirrek nur op de Datteijeövverdraarer */",
+	"push-err-captacha": "Mer kunnte dat nit op „$1“ afflivvere weil e <span style=\"text-transform:uppercase\" title=\"Jät zom Ennjävve, öm ze zeije, dadd ene Minsch vör em Kompjuhter sez\">Kaptscha</span>s em Wähsch wohr.",
+	"push-err-captcha-page": "Mer kunnte di Sigg „$1“ nit obb alle Zihle afflivvere. Et wohre <span style=\"text-transform:uppercase\" title=\"Jät zom Ennjävve, öm ze zeije, dadd ene Minsch vör em Kompjuhter sez\">Kaptscha</span>s em Wähsch.",
+	"push-tab-text": "Övverdraare",
+	"push-button-text": "Övverdraare",
+	"push-tab-title": "De Sigg „$1“ övverdrahre",
+	"push-remote-page-link": "$1 {{GENDER:en+Dativ|{{ucfirst:$2}}}}",
+	"push-remote-page-link-full": "De Sigg „$1“ {{GRAMMAR:em|{{ucfirst:$2}}}} beloore",
+	"push-targets-total": "Es jitt ensjesamp {{PLURAL:$1|ei Zihl|$1 Zihle|kein Zihle}}.",
+	"push-tab-not-created": "Di Sigg jidd_et noch nit!",
+	"push-tab-inc-templates": "De Schablohne metnämme",
+	"push-tab-inc-files": "Enthallde Datteije metnämme",
+	"push-tab-embedded-files": "Enthallde Datteije:",
+	"push-tab-files-override": "{{PLURAL:$2|Di Dattei es|Di Datteije sin|Kein Datteie sin}} ald doh: $1",
+	"push-tab-template-override": "{{PLURAL:$2|Di Schbalohn es|Di Schablohne sin|Kein Schablohn es}} ald doh: $1",
+	"push-special-inc-files": "Enthallde Datteije metnämme"
+}

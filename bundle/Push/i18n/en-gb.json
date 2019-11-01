@@ -1,0 +1,10 @@
+{
+	"@metadata": {
+		"authors": [
+			"Shirayuki"
+		]
+	},
+	"right-push": "Use push functionality",
+	"right-bulkpush": "Use bulk push functionality (i.e. Special:Push)",
+	"right-pushadmin": "Modify push targets and push settings"
+}

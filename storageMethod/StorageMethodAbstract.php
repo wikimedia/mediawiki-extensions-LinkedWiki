@@ -3,15 +3,38 @@
  * @copyright (c) 2019 Bourdercloud.com
  * @author Karima Rafes <karima.rafes@bordercloud.com>
  * @link https://www.mediawiki.org/wiki/Extension:LinkedWiki
- * @license CC-by-sa V4.0
+ * @license CC-BY-SA-4.0
  */
 
-abstract class StorageMethodAbstract
-{
-    abstract public function getQueryReadStringWithTagLang();
-    abstract public function getQueryReadStringWithoutTagLang();
-    abstract public function getQueryReadValue();
-    abstract public function getQueryInsertValue();
-    abstract public function getQueryDeleteSubject();
-    abstract public function getQueryLoadData($url);
+abstract class StorageMethodAbstract {
+	/**
+	 * @return string
+	 */
+	abstract public function getQueryReadStringWithTagLang();
+
+	/**
+	 * @return string
+	 */
+	abstract public function getQueryReadStringWithoutTagLang();
+
+	/**
+	 * @return string
+	 */
+	abstract public function getQueryReadValue();
+
+	/**
+	 * @return string
+	 */
+	abstract public function getQueryInsertValue();
+
+	/**
+	 * @return string
+	 */
+	abstract public function getQueryDeleteSubject();
+
+	/**
+	 * @param string $url
+	 * @return string
+	 */
+	abstract public function getQueryLoadData( $url );
 }

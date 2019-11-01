@@ -1,17 +1,19 @@
 {
 	"private": true,
 	"scripts": {
-		"test": "grunt test"
+		"test": "grunt test",
+		"buildcss": "sass  resources/bootstrap/scss/custom.scss resources/bootstrap/dist/bootstrap.light.css; sass  resources/bootstrap/scss/custom.scss resources/bootstrap/dist/bootstrap.light.min.css --style compressed"
 	},
 	"devDependencies": {
 		"grunt": "1.0.4",
-		"grunt-banana-checker": "0.6.0",
-		"grunt-jsonlint": "1.0.7"
+		"grunt-banana-checker": "0.8.1",
+		"grunt-jsonlint": "2.0.0",
+		"sass": "^1.23.3"
 	},
 	"dependencies": {
-		"bootstrap": "^4.0.0-beta.3",
-		"font-awesome": "^4.7.0",
-		"popper.js": "^1.12.9",
-		"sgvizler2": "^1.0.9"
+		"@fortawesome/fontawesome-free": "^5.11.2",
+		"bootstrap": "4.3.1",
+		"popper.js": "1.16.0",
+		"sgvizler2": "^1.3.3"
 	}
 }

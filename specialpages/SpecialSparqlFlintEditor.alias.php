@@ -3,16 +3,16 @@
  * @copyright (c) 2019 Bourdercloud.com
  * @author Karima Rafes <karima.rafes@bordercloud.com>
  * @link https://www.mediawiki.org/wiki/Extension:LinkedWiki
- * @license CC-by-sa V4.0
+ * @license CC-BY-SA-4.0
  */
-$specialPageAliases = array();
+$specialPageAliases = [];
 
 /** English */
-$specialPageAliases['en'] = array(
-	'linkedwiki-specialsparqlflinteditor' => array('SparqlFlintEditor', 'Sparql Flint editor'),
-);
+$specialPageAliases['en'] = [
+	'linkedwiki-specialsparqlflinteditor' => [ 'SparqlFlintEditor', 'Sparql Flint editor' ],
+];
 
 /** Français */
-$specialPageAliases['fr'] = array(
-	'linkedwiki-specialsparqlflinteditor' => array( 'SparqlFlintEditor', 'Editeur Flint Sparql'),
-);
+$specialPageAliases['fr'] = [
+	'linkedwiki-specialsparqlflinteditor' => [ 'SparqlFlintEditor', 'Editeur Flint Sparql' ],
+];

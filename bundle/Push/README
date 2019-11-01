@@ -1,0 +1,9 @@
+These is the original readme file for the Push extension.
+
+Extension page on mediawiki.org: https://www.mediawiki.org/wiki/Extension:Push
+Latest version of the readme file: https://github.com/wikimedia/mediawiki-extensions-Push/blob/master/README
+
+== About ==
+
+The Push extension is a simple lightweight tool that adds an extra tab to articles which
+enables users to push the content of the article to one or more other MediaWiki wikis.

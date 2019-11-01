@@ -1,0 +1,20 @@
+{
+	"@metadata": {
+		"authors": [
+			"CERminator"
+		]
+	},
+	"push-err-authentication": "Autentificiranje na $1 nije uspjelo. $2",
+	"push-tab-text": "Postavi",
+	"push-button-text": "Postavi",
+	"push-tab-desc": "Ovaj jezičak omogućava vam da postavite trenutno reviziju ove stranice na jednu ili više drugih wikija.",
+	"push-targets": "Postavi ciljeve",
+	"push-add-target": "Dodaj cilj",
+	"push-remote-page-link": "$1 na $2",
+	"push-tab-inc-files": "Uključi umetnute datoteke",
+	"push-tab-embedded-files": "Umetnute datoteke:",
+	"push-special-target-is": "Ciljna wiki: $1",
+	"push-special-select-targets": "Ciljne wiki:",
+	"push-special-item-pushing": "$1: Premještanje",
+	"push-special-item-completed": "$1: Premještanje završeno"
+}

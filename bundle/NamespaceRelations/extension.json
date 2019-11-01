@@ -1,0 +1,53 @@
+{
+	"name": "NamespaceRelations (for LinkedWiki)",
+	"version": "1.0.0",
+	"author": [
+		"[https://www.mediawiki.org/wiki/User:Wizardist Pavel Selitskas]",
+		"[https://www.mediawiki.org/wiki/User:Karima_Rafes Karima Rafes]"
+	],
+	"url": "https://www.mediawiki.org/wiki/Extension:LinkedWiki",
+	"descriptionmsg": "nsrels-desc",
+	"license-name": "GPL-2.0-or-later",
+	"type": "other",
+	"manifest_version": 2,
+	"requires": {
+		"MediaWiki": ">= 1.31.1"
+	},
+	"MessagesDirs": {
+		"NamespaceRelations": [
+			"i18n"
+		]
+	},
+	"ExtensionMessagesFiles": {
+		"PushAlias": "Push.alias.php"
+	},
+	"AutoloadClasses": {
+		"NamespaceRelations": "NamespaceRelations.php"
+	},
+	"ResourceFileModulePaths": {
+		"localBasePath": "",
+		"remoteExtPath": "NamespaceRelations"
+	},
+	"Hooks": {
+		"SkinTemplateNavigation": "NamespaceRelations::onSkinTemplateNavigation"
+	},
+	"ConfigRegistry": {
+		"ext-conf-namespacerelations": "NamespaceRelations::makeConfig"
+	},
+	"config_prefix": "ext-conf-namespacerelations",
+	"config": {
+		"NamespaceRelations": {
+			"description": "List of custom tabs",
+			"value": {
+				"data_main": {
+					"namespace": 0,
+					"target": 10000
+				},
+				"data_user" : {
+					"namespace" : 2,
+					"target" : 10002
+				}
+			}
+		}
+	}
+}

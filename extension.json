@@ -1,6 +1,6 @@
 {
 	"name": "LinkedWiki",
-	"version": "3.2.1",
+	"version": "3.3.0",
 	"author": [
 		"[https://www.mediawiki.org/wiki/User:Karima_Rafes Karima Rafes]"
 	],
@@ -57,6 +57,11 @@
 			"data-edit" : true
 		}
 	},
+	"GrantPermissions": {
+		"editdata": {
+			"data-edit" : true
+		}
+	},
 	"AutoloadClasses": {
 		"LinkedWikiConfig": "LinkedWikiConfig.php",
 		"LinkedWiki": "LinkedWiki.php",
@@ -74,7 +79,7 @@
 
 		"RDFTag": "tag/RDFTag.php",
 
-		"Scribunto_LuaLinkedWikiLibrary": "lua/LinkedWiki.lua.php",
+		"LinkedWikiLuaLibrary": "lua/LinkedWikiLuaLibrary.php",
 
 		"StorageMethodAbstract": "storageMethod/StorageMethodAbstract.php",
 		"StorageInGraphMethod": "storageMethod/StorageInGraphMethod.php",
@@ -82,7 +87,10 @@
 		"WikidataStorageMethod": "storageMethod/WikidataStorageMethod.php",
 		"DatabaseTestDataMethod": "storageMethod/DatabaseTestDataMethod.php",
 
-		"SynchroniseThreadArticleLinkedDataJob": "job/SynchroniseThreadArticleLinkedDataJob.php"
+		"SynchroniseThreadArticleLinkedDataJob": "job/SynchroniseThreadArticleLinkedDataJob.php",
+
+
+		"Push": "bundle/Push/Push.php"
 	},
 	"JobClasses": {
 		"SynchroniseThreadArticleLinkedDataJob": "SynchroniseThreadArticleLinkedDataJob"
@@ -95,14 +103,15 @@
 			"LinkedWiki::scribuntoExternalLibraries"
 		],
 		"RawPageViewBeforeOutput": [
-			"RDFTag::RawRDFSource"
+			"RDFTag::rawRDFSource"
 		],
 		"EditFilterMergedContent": [
 			"RDFTag::onEditFilterMergedContent"
 		],
-		"ArticleDeleteComplete": [
-			"LinkedWiki::onArticleDeleteComplete"
+		"ArticleDeleteAfterSuccess": [
+			"LinkedWiki::onArticleDeleteAfterSuccess"
 		],
+
 		"TitleMoveComplete": [
 			"LinkedWiki::onTitleMoveComplete"
 		],
@@ -124,6 +133,11 @@
 		"LinkedWikiMagic": "LinkedWiki.i18n.magic.php"
 	},
 	"ResourceModules": {
+		"ext.LinkedWiki.common": {
+			"styles": [
+				"resources/common.css"
+			]
+		},
 		"ext.LinkedWiki.table2CSV": {
 			"group": "ext.LinkedWiki",
 			"scripts": [
@@ -164,34 +178,29 @@
 		},
 		"ext.LinkedWiki.sgvizler2": {
 			"scripts": [
-				"node_modules/sgvizler2/build/browser/sgvizler2.min.js"
-			]
-		},
-		"ext.LinkedWiki.bootstrap": {
-			"scripts": [
 				"node_modules/popper.js/dist/umd/popper.min.js",
 				"node_modules/bootstrap/dist/js/bootstrap.min.js",
-				"node_modules/sgvizler2/build/browser/lib/bootstrap-select/js/bootstrap-select.js"
+				"node_modules/sgvizler2/build/browser/sgvizler2.min.js"
 			],
 			"styles": [
-				"node_modules/bootstrap/dist/css/bootstrap.min.css",
-				"node_modules/font-awesome/css/font-awesome.min.css",
-				"node_modules/sgvizler2/build/browser/lib/bootstrap-select/css/bootstrap-select.min.css"
+				"resources/bootstrap/dist/bootstrap.light.min.css",
+				"node_modules/@fortawesome/fontawesome-free/css/all.min.css"
 			]
 		},
 		"ext.LinkedWiki.SpecialSparqlQuery": {
 			"scripts": [
-				"keys.js",
+				"node_modules/sgvizler2/build/browser/lib/bootstrap-select/js/bootstrap-select.js",
 				"js/SparqlEditor/form.js"
 			],
+			"styles": [
+				"node_modules/sgvizler2/build/browser/lib/bootstrap-select/css/bootstrap-select.min.css"
+			],
 			"dependencies": [
-				"ext.LinkedWiki.bootstrap",
 				"ext.LinkedWiki.sgvizler2"
 			]
 		},
 		"ext.LinkedWiki.SparqlParser": {
 			"scripts": [
-				"keys.js",
 				"js/lwsgvizler2.js"
 			],
 			"dependencies": [
@@ -210,69 +219,70 @@
 		"linkedwiki-specialrdfunit": "SpecialRDFUnit",
 		"linkedwiki-specialrdfsave": "SpecialRDFSave"
 	},
-	"manifest_version": 1,
+	"manifest_version": 2,
 	"requires": {
-		"MediaWiki": ">= 1.32.0"
+		"MediaWiki": ">= 1.31.1"
 	},
 	"ConfigRegistry": {
-		"ext-conf-linkedwiki": "LinkedWiki::makeConfig"
+		"wgLinkedWiki": "LinkedWiki::makeConfig"
 	},
+	"config_prefix": "wgLinkedWiki",
 	"config": {
-		"_prefix": "ext-conf-linkedwiki",
-		"querySparqlInSpecialPage": "select * where \n { ?x ?y ?z . } \nLIMIT 15",
-		"endpointDefault": "http://www.wikidata.org",
-		"@doc": "http://www.example.org is the config by default. If you need to change, be careful about orther endpoints.",
-		"endpoint": {
-			"http://www.example.org": {
-				"isReadOnly": true,
-				"debug": false,
-				"proxyHost": "",
-				"proxyPort": 0,
-				"endpointRead": "http://www.example.org/sparql",
-				"endpointWrite": "",
-				"login": "",
-				"password": "",
-				"HTTPMethodForRead": "POST",
-				"HTTPMethodForWrite": "POST",
-				"nameParameterRead": "query",
-				"nameParameterWrite": "update",
-				"lang": "en",
-				"storageMethodClass": "SimpleStorageMethod"
-			},
-			"http://www.wikidata.org": {
-				"debug": false,
-				"isReadOnly": true,
-				"endpointRead": "https://query.wikidata.org/sparql",
-				"typeRDFDatabase": "blazegraph",
-				"HTTPMethodForRead": "GET",
-				"storageMethodClass": "WikidataStorageMethod",
-				"lang": "en"
-			},
-			"http://database-test/data": {
-				"debug": false,
-				"isReadOnly": false,
-				"typeRDFDatabase": "virtuoso",
-				"endpointRead": "http://database-test:8890/sparql/",
-				"endpointWrite": "http://database-test:8890/sparql-auth/",
-				"login": "dba",
-				"password": "dba",
-				"HTTPMethodForRead": "POST",
-				"HTTPMethodForWrite": "POST",
-				"lang": "en",
-				"storageMethodClass": "DatabaseTestDataMethod",
-				"nameParameterRead": "query",
-				"nameParameterWrite": "update"
-			},
-			"http://database-test2": {
-				"isReadOnly": true,
-				"typeRDFDatabase": "fuseki",
-				"endpointRead": "http://172.17.0.2/test/sparql",
-				"HTTPMethodForRead": "GET"
-			}
+		"QuerySparqlInSpecialPage":{
+			"description": "Query by default in the editor SPARQL",
+			"value": "SELECT * WHERE \n { ?x ?y ?z . } \nLIMIT 15"
 		},
-
-		"endpointSaveDataOfWiki": "http://database-test/data",
-		"checkRDFPage" : false
+		"SPARQLServiceByDefault":{
+			"description": "Without parameters (config or endpoint) the SPARQL queries are sent at this SPARQL service.",
+			"value": "http://www.wikidata.org"
+		},
+		"ConfigSPARQLServices": {
+			"description": "Array of SPARQL services uses in this wiki. http://www.example.org is the config by default for all SPARQL service. If you need to change, be careful about other endpoints.",
+			"value": {
+				"http://www.example.org": {
+					"isReadOnly": true,
+					"debug": false,
+					"proxyHost": "",
+					"proxyPort": 0,
+					"endpointRead": "http://www.example.org/sparql",
+					"endpointWrite": "",
+					"login": "",
+					"password": "",
+					"HTTPMethodForRead": "POST",
+					"HTTPMethodForWrite": "POST",
+					"nameParameterRead": "query",
+					"nameParameterWrite": "update",
+					"lang": "en",
+					"storageMethodClass": "SimpleStorageMethod"
+				},
+				"http://www.wikidata.org": {
+					"debug": false,
+					"isReadOnly": true,
+					"endpointRead": "https://query.wikidata.org/sparql",
+					"typeRDFDatabase": "blazegraph",
+					"HTTPMethodForRead": "GET",
+					"storageMethodClass": "WikidataStorageMethod",
+					"lang": "en"
+				}
+			},
+			"merge_strategy": "array_plus_2d"
+		},
+		"EndpointSaveDataOfWiki": {
+				"description": "If you specify the SPARQL service uses to save RDF data (in the RDF tag) on the pages of wiki, you are able to use the special page to clean/import all your RDF data.",
+				"value": ""
+			},
+		"CheckRDFPage" : {
+			"description": "If you have install Rapper, you can choose to check the RDF when you save a page, with this option.",
+			"value": false
+		},
+		"GoogleApiKey" : {
+			"description": "Google API key, if you use Google charts. (https://developers.google.com/places/web-service/get-api-key)",
+			"value": "GOOGLE_MAP_API_KEY"
+		},
+		"OSMAccessToken" : {
+			"description": "OpenStreetMap Access Token, if you use OpenStreetMap via the Leaflet charts. (https://www.mapbox.com/)",
+			"value": "OPENSTREETMAP_ACCESS_TOKEN"
+		}
 	},
 	"load_composer_autoloader": true
 }

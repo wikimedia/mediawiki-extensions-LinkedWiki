@@ -1,0 +1,40 @@
+{
+	"@metadata": {
+		"authors": [
+			"David1010"
+		]
+	},
+	"push-tab-text": "განთავსება",
+	"push-button-text": "განთავსება",
+	"push-button-pushing": "თავსდება",
+	"push-button-pushing-files": "განთავსებადი ფაილები",
+	"push-button-completed": "განთავსება დასრულებულია",
+	"push-button-failed": "განთავსება ვერ მოხერხდა",
+	"push-tab-title": "განთავსება $1",
+	"push-targets": "განთავსების მიზანი",
+	"push-add-target": "მიზნის დამატება",
+	"push-remote-pages": "გვერდების წაშლა",
+	"push-remote-page-link": "$1 $2-ზე",
+	"push-remote-page-link-full": "იხილეთ $1 $2-ზე",
+	"push-button-all": "ყველას განთავსება",
+	"push-tab-not-created": "ეს გვერდი ჯერ არ არსებობს.",
+	"push-tab-push-options": "განთავსების პარამეტრები:",
+	"push-tab-inc-templates": "თარგების ჩართვა",
+	"push-tab-used-templates": "(გამოყენებულია {{PLURAL:$2|თარგი|თარგები}}: $1)",
+	"push-tab-no-used-templates": "(ამ გვერდზე თარგები არ გამოიყენება.)",
+	"push-tab-embedded-files": "ჩადგმული ფაილები:",
+	"push-tab-no-embedded-files": "(ამ გვერდზე არ არის ჩადგმული ფაილები.)",
+	"push-tab-files-override": "{{PLURAL:$2|ეს ფაილი უკვე არსებობს|ეს ფაილები უკვე არსებობენ}}: $1",
+	"push-tab-template-override": "{{PLURAL:$2|ეს თარგი უკვე არსებობს|ეს თარგები უკვე არსებობენ}}: $1",
+	"special-push": "გვერდების განთავსება",
+	"push-special-button-text": "გვერდების განთავსება",
+	"push-special-target-is": "სამიზნო ვიკი: $1",
+	"push-special-select-targets": "სამიზნო ვიკიები:",
+	"push-special-item-pushing": "$1: თავსდება",
+	"push-special-item-completed": "$1: განთავსება დასრულებულია",
+	"push-special-item-failed": "$1: განთავსება ვერ მოხერხდა: $2",
+	"push-special-push-done": "განთავსება დასრულებულია",
+	"push-special-obtaining-fileinfo": "$1: ინფორმაციის მიღება ფაილზე...",
+	"push-special-pushing-file": "$1: თავსდება ფაილი $2...",
+	"push-special-return": "მეტი გვერდის განთავსება"
+}

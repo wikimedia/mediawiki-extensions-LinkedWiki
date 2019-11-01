@@ -1,0 +1,12 @@
+{
+	"@metadata": {
+		"authors": [
+			"Sfic",
+			"Susant purohit"
+		]
+	},
+	"push-tab-last-edit": "अंतिम संपादन $1 के द्वारा $2 को $3 बजे किया गया।",
+	"apihelp-push-param-page": "पृस्था का नाम आगे बढ़ाएं",
+	"apihelp-push-param-targets": "विकी का URL को आगे बढ़ाएं",
+	"apihelp-push-example": "\"मुख्य पृष्ठा\"को अंग्रेजी विकिपीडिया को धकेलें।"
+}

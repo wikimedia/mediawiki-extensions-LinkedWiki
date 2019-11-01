@@ -1,0 +1,40 @@
+{
+	"@metadata": {
+		"authors": [
+			"Manuae"
+		]
+	},
+	"push-tab-text": "Iwadraache",
+	"push-button-text": "Iwadraache",
+	"push-button-pushing": "Iwadraach's",
+	"push-button-pushing-files": "Iwadraach Dadaije",
+	"push-button-completed": "Iwadraach isch ferdisch",
+	"push-button-failed": "Iwadraach hod ned gklabd",
+	"push-tab-title": "Iwadraach $1",
+	"push-import-revision-message": "Vun $1 iwadraache.",
+	"push-tab-no-targets": "S'hod kä Ziel fade Iwadraach. Seds des mol in doine LocalSettings.php Dadai.",
+	"push-tab-push-to": "Iwadraach's noch $1",
+	"push-remote-page-link": "Said $1 uffm Wiki $2",
+	"push-remote-page-link-full": "Guggda $1 uffm Wiki $2 oa",
+	"push-button-all": "Iwadraach alles",
+	"push-tab-last-edit": "Ledschd Ännarung vum Benudza $1 om $2 um $3 Uhr.",
+	"push-tab-not-created": "Die Said hods noch ned.",
+	"push-tab-err-fileinfo": "Ma wes ned, wasfa Dadaije do oigbunde sin. S'isch nix iwadraache worre.",
+	"push-tab-err-filepush-unknown": "Dadai iwadraache hod ned gklabd un ma wes ned warum.",
+	"push-tab-err-filepush": "Dadai hod ned iwadraache were kenne: $1",
+	"push-tab-no-embedded-files": "(Uff der Said hods kä Dadaije.)",
+	"push-tab-files-override": "Die Dadaije hods schun: $1",
+	"push-tab-template-override": "Die Vorlaache hods schun: $1",
+	"push-tab-err-uploaddisabled": "S'Hochlaade vun Dadaije gehd ned. Schdell sischa, das <code>$wgEnableUploads</code> un <code>$wgAllowCopyUploads</code> inde Dadai LocalSettings.php vum Zielwiki uff „true“ schdehd.",
+	"special-push": "Saide iwadraache",
+	"push-special-pushing-desc": "Iwadraach $2 {{PLURAL:$2|Said|Saide}} noch $1 …",
+	"push-special-button-text": "Saide iwadraache",
+	"push-special-target-is": "Zielwiki: $1",
+	"push-special-select-targets": "Zielwikis:",
+	"push-special-item-pushing": "$1: Iwadraache …",
+	"push-special-item-completed": "$1: Iwadraach isch ferdisch",
+	"push-special-item-failed": "$1: Iwadraach hod net gklabd. $2",
+	"push-special-push-done": "Iwadraach isch ferdisch",
+	"push-special-pushing-file": "$1: Iwadraach Dadai $2 …",
+	"push-special-return": "Mea Saide iwaddraache"
+}

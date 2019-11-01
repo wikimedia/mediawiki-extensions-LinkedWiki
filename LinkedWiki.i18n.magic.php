@@ -3,16 +3,16 @@
  * @copyright (c) 2019 Bourdercloud.com
  * @author Karima Rafes <karima.rafes@bordercloud.com>
  * @link https://www.mediawiki.org/wiki/Extension:LinkedWiki
- * @license CC-by-sa V4.0
+ * @license CC-BY-SA-4.0
  */
 $magicWords = [];
 
 $magicWords['en'] = [
-    'sparql' => [ 0, 'sparql' ],
-    'wsparql' => [ 0, 'wsparql' ],
+	'sparql' => [ 0, 'sparql' ],
+	'wsparql' => [ 0, 'wsparql' ],
 ];
 
 $magicWords['fr'] = [
-    'sparql' => [ 0, 'sparql' ],
-    'wsparql' => [ 0, 'wsparql' ],
+	'sparql' => [ 0, 'sparql' ],
+	'wsparql' => [ 0, 'wsparql' ],
 ];

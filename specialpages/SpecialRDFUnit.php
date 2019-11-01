@@ -3,337 +3,411 @@
  * @copyright (c) 2019 Bourdercloud.com
  * @author Karima Rafes <karima.rafes@bordercloud.com>
  * @link https://www.mediawiki.org/wiki/Extension:LinkedWiki
- * @license CC-by-sa V4.0
+ * @license CC-BY-SA-4.0
  */
 
 /**
  * Constants usable with http_build_url()
  * @link http://php.net/manual/en/http.constants.php#constant.http-url-replace
  */
-defined('HTTP_URL_REPLACE')        or define('HTTP_URL_REPLACE',        0);
-defined('HTTP_URL_JOIN_PATH')      or define('HTTP_URL_JOIN_PATH',      1);
-defined('HTTP_URL_JOIN_QUERY')     or define('HTTP_URL_JOIN_QUERY',     2);
-defined('HTTP_URL_STRIP_USER')     or define('HTTP_URL_STRIP_USER',     4);
-defined('HTTP_URL_STRIP_PASS')     or define('HTTP_URL_STRIP_PASS',     8);
-defined('HTTP_URL_STRIP_AUTH')     or define('HTTP_URL_STRIP_AUTH',     12);
-defined('HTTP_URL_STRIP_PORT')     or define('HTTP_URL_STRIP_PORT',     32);
-defined('HTTP_URL_STRIP_PATH')     or define('HTTP_URL_STRIP_PATH',     64);
-defined('HTTP_URL_STRIP_QUERY')    or define('HTTP_URL_STRIP_QUERY',    128);
-defined('HTTP_URL_STRIP_FRAGMENT') or define('HTTP_URL_STRIP_FRAGMENT', 256);
-defined('HTTP_URL_STRIP_ALL')      or define('HTTP_URL_STRIP_ALL',      492);
-if ( ! function_exists('http_build_str')) :
+defined( 'HTTP_URL_REPLACE' ) || define( 'HTTP_URL_REPLACE',        0 );
+defined( 'HTTP_URL_JOIN_PATH' ) || define( 'HTTP_URL_JOIN_PATH',      1 );
+defined( 'HTTP_URL_JOIN_QUERY' ) || define( 'HTTP_URL_JOIN_QUERY',     2 );
+defined( 'HTTP_URL_STRIP_USER' ) || define( 'HTTP_URL_STRIP_USER',     4 );
+defined( 'HTTP_URL_STRIP_PASS' ) || define( 'HTTP_URL_STRIP_PASS',     8 );
+defined( 'HTTP_URL_STRIP_AUTH' ) || define( 'HTTP_URL_STRIP_AUTH',     12 );
+defined( 'HTTP_URL_STRIP_PORT' ) || define( 'HTTP_URL_STRIP_PORT',     32 );
+defined( 'HTTP_URL_STRIP_PATH' ) || define( 'HTTP_URL_STRIP_PATH',     64 );
+defined( 'HTTP_URL_STRIP_QUERY' ) || define( 'HTTP_URL_STRIP_QUERY',    128 );
+defined( 'HTTP_URL_STRIP_FRAGMENT' ) || define( 'HTTP_URL_STRIP_FRAGMENT', 256 );
+defined( 'HTTP_URL_STRIP_ALL' ) || define( 'HTTP_URL_STRIP_ALL',      492 );
+if ( !function_exists( 'http_build_str' ) ) :
+
 	/**
 	 * Build query string
 	 * @link http://php.net/manual/en/function.http-build-str.php
 	 * @param array $query associative array of query string parameters
 	 * @param string $prefix top level prefix
-	 * @param string $arg_separator argument separator to use (by default the INI setting arg_separator.output will be used, or "&" if neither is set
+	 * @param string|null $arg_separator argument separator to use
+	 * (by default the INI setting arg_separator.output will be used,
+	 * or "&" if neither is set)
 	 * @return string Returns the built query as string on success or FALSE on failure.
 	 */
-	function http_build_str(array $query, $prefix = '', $arg_separator = null)
-	{
-		if (is_null($arg_separator)) $arg_separator = ini_get('arg_separator.output');
-		$out = array();
-		foreach($query as $k => $v)
-		{
-			$key = $prefix ? "{$prefix}%5B{$k}%5D" : $k;
-			if (is_array($v))
-				$out[] = call_user_func(__FUNCTION__, $v, $key, $arg_separator);
-			else
-				$out[] = $key . '=' . urlencode($v);
+	function http_build_str( array $query, $prefix = '', $arg_separator = null ) {
+		if ( is_null( $arg_separator ) ) {
+			$arg_separator = ini_get( 'arg_separator.output' );
 		}
-		return implode($arg_separator, $out);
+		$out = [];
+		foreach ( $query as $k => $v ) {
+			$key = $prefix ? "{$prefix}%5B{$k}%5D" : $k;
+			if ( is_array( $v ) ) {
+				$out[] = call_user_func(
+					__FUNCTION__, $v, $key, $arg_separator
+				);
+			} else {
+				$out[] = $key . '=' . urlencode( $v );
+			}
+		}
+		return implode( $arg_separator, $out );
 	}
+
 endif;
-if ( ! function_exists('http_build_url')) :
+
+if ( !function_exists( 'http_build_url' ) ) :
+
 	/**
 	 * Build a URL
 	 * @link http://php.net/manual/en/function.http-build-url.php
-	 * @param mixed $url (part(s) of) an URL in form of a string or associative array like parse_url() returns
+	 * @param mixed $url (part(s) of) an URL in form of a string
+	 * 			or associative array like parse_url() returns
 	 * @param mixed $parts same as the first argument
-	 * @param integer $flags a bitmask of binary or'ed HTTP_URL constants; HTTP_URL_REPLACE is the default
-	 * @param array $new_url if set, it will be filled with the parts of the composed url like parse_url() would return
+	 * @param int $flags a bitmask of binary or'ed HTTP_URL constants; HTTP_URL_REPLACE is the default
+	 * @param array|null &$new_url if set, it will be filled with the parts
+	 * of the composed url like parse_url() would return
 	 * @return string Returns the new URL as string on success or FALSE on failure.
 	 */
-	function http_build_url($url = array(), $parts = array(), $flags = HTTP_URL_REPLACE, &$new_url = null)
-	{
-		$defaults = array(
-			'scheme' => (empty($_SERVER['HTTPS']) || strtolower($_SERVER['HTTPS'])=='off' ? 'http' : 'https'),
+	function http_build_url(
+		$url = [], $parts = [], $flags = HTTP_URL_REPLACE, &$new_url = null ) {
+		$defaults = [
+			'scheme' => (
+				empty( $_SERVER['HTTPS'] )
+				|| strtolower( $_SERVER['HTTPS'] ) == 'off' ? 'http' : 'https'
+			),
 			'host'   => $_SERVER['HTTP_HOST'],
 			'port'   => '',
 			'user'   => '', 'pass' => '',
-			'path'   => preg_replace('`^([^\?]*).*$`', '$1', $_SERVER['REQUEST_URI']),
+			'path'   => preg_replace( '`^([^\?]*).*$`', '$1', $_SERVER['REQUEST_URI'] ),
 			'query'  => '', 'fragment' => '',
-		);
-		is_array($url) or $url = parse_url($url);
-		is_array($parts) or $parts = parse_url($parts);
+		];
+		is_array( $url ) || $url = parse_url( $url );
+		is_array( $parts ) || $parts = parse_url( $parts );
 		$new_url = $parts + $url + $defaults;
-		$flags or $flags = (HTTP_URL_JOIN_PATH); // Default flags ?
-		$JOIN_PATH      = (($flags | HTTP_URL_JOIN_PATH) == $flags);
-		$JOIN_QUERY     = (($flags | HTTP_URL_JOIN_QUERY) == $flags);
-		$STRIP_USER     = (($flags | HTTP_URL_STRIP_USER) == $flags);
-		$STRIP_PASS     = (($flags | HTTP_URL_STRIP_PASS) == $flags);
-		$STRIP_PATH     = (($flags | HTTP_URL_STRIP_PATH) == $flags);
-		$STRIP_QUERY    = (($flags | HTTP_URL_STRIP_QUERY) == $flags);
-		$STRIP_FRAGMENT = (($flags | HTTP_URL_STRIP_FRAGMENT) == $flags);
+		// Default flags ?
+		$flags || $flags = ( HTTP_URL_JOIN_PATH );
+		$JOIN_PATH      = ( ( $flags | HTTP_URL_JOIN_PATH ) == $flags );
+		$JOIN_QUERY     = ( ( $flags | HTTP_URL_JOIN_QUERY ) == $flags );
+		$STRIP_USER     = ( ( $flags | HTTP_URL_STRIP_USER ) == $flags );
+		$STRIP_PASS     = ( ( $flags | HTTP_URL_STRIP_PASS ) == $flags );
+		$STRIP_PATH     = ( ( $flags | HTTP_URL_STRIP_PATH ) == $flags );
+		$STRIP_QUERY    = ( ( $flags | HTTP_URL_STRIP_QUERY ) == $flags );
+		$STRIP_FRAGMENT = ( ( $flags | HTTP_URL_STRIP_FRAGMENT ) == $flags );
 		// User
-		if ($STRIP_USER)
+		if ( $STRIP_USER ) {
 			$new_url['user'] = '';
+		}
 		// Pass
-		if ( ! $new_url['user'] || ($new_url['pass'] && $STRIP_PASS))
+		if ( !$new_url['user'] || ( $new_url['pass'] && $STRIP_PASS ) ) {
 			$new_url['pass'] = '';
+		}
 		// Port
-		if ($new_url['port'] && ($flags | HTTP_URL_STRIP_PORT) == $flags)
+		if ( $new_url['port'] && ( $flags | HTTP_URL_STRIP_PORT ) == $flags ) {
 			$new_url['port'] = '';
+		}
 		// Path
-		if ($STRIP_PATH)
+		if ( $STRIP_PATH ) {
 			$new_url['path'] = '';
-		else
-		{
+  } else {
 			$d_path = $defaults['path'];
-			$u_path = (isset($url['path'])   ? $url['path']   : '');
-			$p_path = (isset($parts['path']) ? $parts['path'] : '');
-			if ($p_path) $u_path = '';
+			$u_path = ( isset( $url['path'] ) ? $url['path'] : '' );
+			$p_path = ( isset( $parts['path'] ) ? $parts['path'] : '' );
+			if ( $p_path ) { $u_path = '';
+			}
 			$path = $d_path;
-			if (isset($url['host']) && ! $p_path)
-				$path = '/' . ltrim($u_path, '/');
-			elseif (strpos($u_path, '/') === 0)
+			if ( isset( $url['host'] ) && !$p_path ) {
+				$path = '/' . ltrim( $u_path, '/' );
+   } elseif ( strpos( $u_path, '/' ) === 0 ) {
 				$path = $u_path;
-			elseif ($u_path)
-				$path = pathinfo($path . 'x', PATHINFO_DIRNAME) . '/' . $u_path;
-			if (isset($parts['host']))
-				$path = '/' . ltrim($p_path, '/');
-			elseif (strpos($p_path, '/') === 0)
+   } elseif ( $u_path ) {
+				$path = pathinfo( $path . 'x', PATHINFO_DIRNAME ) . '/' . $u_path;
+   }
+			if ( isset( $parts['host'] ) ) {
+				$path = '/' . ltrim( $p_path, '/' );
+   } elseif ( strpos( $p_path, '/' ) === 0 ) {
 				$path = $p_path;
-			elseif ($p_path)
-				$path = pathinfo($path . 'x', PATHINFO_DIRNAME) . '/' . $p_path;
-			$path = explode('/', $path);
-			$k_stack = array();
-			foreach($path as $k => $v)
-			{
-				if( $v == '..') // /../
-				{
-					if ($k_stack)
-					{
-						$k_parent = array_pop($k_stack);
-						unset($path[$k_parent]);
+   } elseif ( $p_path ) {
+				$path = pathinfo( $path . 'x', PATHINFO_DIRNAME ) . '/' . $p_path;
+   }
+			$path = explode( '/', $path );
+			$k_stack = [];
+			foreach ( $path as $k => $v ) {
+				if ( $v == '..' ) {
+					if ( $k_stack ) {
+						$k_parent = array_pop( $k_stack );
+						unset( $path[$k_parent] );
 					}
-					unset($path[$k]);
-				}
-				elseif ($v == '.') // /./
-					unset($path[$k]);
-				else
-					$k_stack[] = $k;
+					unset( $path[$k] );
+				} elseif ( $v == '.' ) {
+					unset( $path[$k] );
+
+	   } else { $k_stack[] = $k;
+	   }
 			}
-			$path = implode('/', $path);
+			$path = implode( '/', $path );
 			$new_url['path'] = $path;
-		}
-		$new_url['path'] = '/' . ltrim($new_url['path'], '/');
+  }
+		$new_url['path'] = '/' . ltrim( $new_url['path'], '/' );
 		// Query
-		if ($STRIP_QUERY)
+		if ( $STRIP_QUERY ) {
 			$new_url['query'] = '';
-		else
-		{
-			$u_query = isset($url['query'])   ? $url['query']   : '';
-			$p_query = isset($parts['query']) ? $parts['query'] : '';
+  } else {
+			$u_query = isset( $url['query'] ) ? $url['query'] : '';
+			$p_query = isset( $parts['query'] ) ? $parts['query'] : '';
 			$query = $new_url['query'];
-			if (is_array($p_query))
+			if ( is_array( $p_query ) ) {
 				$query = $u_query;
-			elseif ($JOIN_QUERY)
-			{
-				if ( ! is_array($u_query)) parse_str($u_query, $u_query);
-				if ( ! is_array($p_query)) parse_str($p_query, $p_query);
-				$u_query = http_build_str($u_query);
-				$p_query = http_build_str($p_query);
-				$u_query = str_replace(array('[', '%5B'), '{{{', $u_query);
-				$u_query = str_replace(array(']', '%5D'), '}}}', $u_query);
-				$p_query = str_replace(array('[', '%5B'), '{{{', $p_query);
-				$p_query = str_replace(array(']', '%5D'), '}}}', $p_query);
-				parse_str($u_query, $u_query);
-				parse_str($p_query, $p_query);
-				$query = http_build_str(array_merge($u_query, $p_query));
-				$query = str_replace(array('{{{', '%7B%7B%7B'), '%5B', $query);
-				$query = str_replace(array('}}}', '%7D%7D%7D'), '%5D', $query);
-				parse_str($query, $query);
+   } elseif ( $JOIN_QUERY ) {
+				if ( !is_array( $u_query ) ) { parse_str( $u_query, $u_query );
+				}
+				if ( !is_array( $p_query ) ) { parse_str( $p_query, $p_query );
+				}
+				$u_query = http_build_str( $u_query );
+				$p_query = http_build_str( $p_query );
+				$u_query = str_replace( [ '[', '%5B' ], '{{{', $u_query );
+				$u_query = str_replace( [ ']', '%5D' ], '}}}', $u_query );
+				$p_query = str_replace( [ '[', '%5B' ], '{{{', $p_query );
+				$p_query = str_replace( [ ']', '%5D' ], '}}}', $p_query );
+				parse_str( $u_query, $u_query );
+				parse_str( $p_query, $p_query );
+				$query = http_build_str( array_merge( $u_query, $p_query ) );
+				$query = str_replace( [ '{{{', '%7B%7B%7B' ], '%5B', $query );
+				$query = str_replace( [ '}}}', '%7D%7D%7D' ], '%5D', $query );
+				parse_str( $query, $query );
+   }
+			if ( is_array( $query ) ) {
+				$query = http_build_str( $query );
 			}
-			if (is_array($query))
-				$query = http_build_str($query);
 			$new_url['query'] = $query;
-		}
+  }
 		// Fragment
-		if ($STRIP_FRAGMENT)
+		if ( $STRIP_FRAGMENT ) {
 			$new_url['fragment'] = '';
+		}
 		// Scheme
 		$out = $new_url['scheme'] . '://';
 		// User
-		if ($new_url['user'])
+		if ( $new_url['user'] ) {
 			$out .= $new_url['user']
-				. ($new_url['pass'] ? ':' . $new_url['pass'] : '')
+				. ( $new_url['pass'] ? ':' . $new_url['pass'] : '' )
 				. '@';
+		}
 		// Host
 		$out .= $new_url['host'];
 		// Port
-		if ($new_url['port'])
+		if ( $new_url['port'] ) {
 			$out .= ':' . $new_url['port'];
+		}
 		// Path
 		$out .= $new_url['path'];
 		// Query
-		if ($new_url['query'])
+		if ( $new_url['query'] ) {
 			$out .= '?' . $new_url['query'];
+		}
 		// Fragment
-		if ($new_url['fragment'])
+		if ( $new_url['fragment'] ) {
 			$out .= '#' . $new_url['fragment'];
-		$new_url = array_filter($new_url);
+		}
+		$new_url = array_filter( $new_url );
 		return $out;
 	}
+
 endif;
 
-class SpecialRDFUnit extends SpecialPage
-{
+class SpecialRDFUnit extends SpecialPage {
 
-    public function __construct()
-    {
-        parent::__construct('linkedwiki-specialrdfunit',"data-edit");
-    }
+	public function __construct() {
+		parent::__construct( 'linkedwiki-specialrdfunit', "data-edit" );
+	}
 
-    function getGroupName() {
-        return 'linkedwiki_group';
-    }
+	/**
+	 * @return string
+	 */
+	public function getGroupName() {
+		return 'linkedwiki_group';
+	}
 
-    public function execute($par = null)
-    {
-        global $wgOut;
+	/**
+	 * @param null $par
+	 */
+	public function execute( $par = null ) {
+		$output = $this->getOutput();
 
-        if ( !$this->userCanExecute( $this->getUser() ) ) {
-            $this->displayRestrictionError();
-            return;
-        }
-
-        if(!file_exists ("/RDFUnit")){
-            $wgOut->addHTML("RDFUnit is not installed.");
-            return;
-        }
-
-        $config = ConfigFactory::getDefaultInstance()->makeConfig('ext-conf-linkedwiki');
-        if(!$config->has("endpointSaveDataOfWiki")){
-            $wgOut->addHTML("Database by default for the Wiki is not precised in the extension.json of the LinkedWiki extension.(parameter endpointSaveDataOfWiki)");
-            return;
-        }
-
-        $configDefaultSaveData = $config->get("endpointSaveDataOfWiki");
-        $configSaveData = new LinkedWikiConfig($configDefaultSaveData);
-
-        $request = $this->getRequest();
-        $refresh = $request->getText('refresh');
-
-        $uriOfDataset = $configDefaultSaveData;
-        $graphOfDataset = $configDefaultSaveData;
-        $graphOfDatasetFileForRDFUnit = "";
-        if (preg_match("#//(.*)#", $graphOfDataset, $matches)) {
-            $removeChars = array("/", ":", "#");
-            $graphOfDatasetFileForRDFUnit = str_replace($removeChars,"_",$matches[1]);
-        }
-
-        $resultTestCase = "/RDFUnit/data/results/".$graphOfDatasetFileForRDFUnit.".shaclTestCaseResult.html";
-        $dbTestCase = "/RDFUnit/cache/sparql/".$graphOfDatasetFileForRDFUnit.".mv.db";
-        $endpointOfDatasetPublic = $configSaveData->getInstanceEndpoint()->getEndpointRead();
-        $endpointOfDataset = $configSaveData->getInstanceEndpoint()->getEndpointRead();
-	if (! EMPTY($configSaveData->getInstanceEndpoint()->getLogin())){
-		$endpointOfDataset = http_build_url($configSaveData->getInstanceEndpoint()->getEndpointRead(),
-				array(
-					"user" => $configSaveData->getInstanceEndpoint()->getLogin(),
-					"pass" => $configSaveData->getInstanceEndpoint()->getPassword()
-				));
+		if ( !$this->userCanExecute( $this->getUser() ) ) {
+			$this->displayRestrictionError();
+			return;
 		}
 
-        $category = Title::newFromText(wfMessage( 'linkedwiki-category-rdf-schema' )->inContentLanguage()->parse() )->getDBKey(); //"RDF_schema";
+		if ( !file_exists( "/RDFUnit" ) ) {
+			$output->addHTML( "RDFUnit is not installed." );
+			return;
+		}
 
-        $wgOut->addHTML("<a href='?refresh=true' class=\"mw-htmlform-submit mw-ui-button mw-ui-primary mw-ui-progressive\">Refresh test cases</a>");
+		$config = ConfigFactory::getDefaultInstance()->makeConfig( 'wgLinkedWiki' );
+		if ( !$config->has( "EndpointSaveDataOfWiki" ) ) {
+			$output->addHTML(
+				"Database by default for the Wiki is not precised "
+				. "in the extension.json of the LinkedWiki extension. "
+				. "(parameter EndpointSaveDataOfWiki)"
+			);
+			return;
+		}
 
-        $wgOut->addWikiTextAsInterface("== RDF schemas in the Wiki ==");
+		$configDefaultSaveData = $config->get( "EndpointSaveDataOfWiki" );
+		$configSaveData = new LinkedWikiConfig( $configDefaultSaveData );
 
+		$request = $this->getRequest();
+		$refresh = $request->getText( 'refresh' );
 
-        $wgOut->addWikiTextAsInterface("You can add a new RDF schema with the tag rdf with attribut contraint='shacl'.");
-        $wgOut->addHTML("For example : ".htmlentities("<rdf contraint='shacl'>"));
+		$uriOfDataset = $configDefaultSaveData;
+		$graphOfDataset = $configDefaultSaveData;
+		$graphOfDatasetFileForRDFUnit = "";
+		if ( preg_match( "#//(.*)#", $graphOfDataset, $matches ) ) {
+			$removeChars = [ "/", ":", "#" ];
+			$graphOfDatasetFileForRDFUnit = str_replace( $removeChars, "_", $matches[1] );
+		}
 
-        //make the list of schema
-        //$wgOut->addWikiTextAsInterface("List of RDF schema uses during the tests:");
+		$resultTestCase = "/RDFUnit/data/results/"
+			. $graphOfDatasetFileForRDFUnit	. ".shaclTestCaseResult.html";
+		$dbTestCase = "/RDFUnit/cache/sparql/"
+			. $graphOfDatasetFileForRDFUnit . ".mv.db";
+		$endpointOfDatasetPublic = $configSaveData->getInstanceEndpoint()->getEndpointRead();
+		$endpointOfDataset = $configSaveData->getInstanceEndpoint()->getEndpointRead();
+	if ( !empty( $configSaveData->getInstanceEndpoint()->getLogin() ) ) {
+		$endpointOfDataset = http_build_url( $configSaveData->getInstanceEndpoint()->getEndpointRead(),
+				[
+					"user" => $configSaveData->getInstanceEndpoint()->getLogin(),
+					"pass" => $configSaveData->getInstanceEndpoint()->getPassword()
+				] );
+	}
 
-        $dbr = wfGetDB(DB_SLAVE);
-        $sql = "SELECT  p.page_id AS pid, p.page_title AS title, t.old_text as text FROM page p 
+		$category = Title::newFromText(
+			wfMessage( 'linkedwiki-category-rdf-schema' )->inContentLanguage()->parse()
+		)->getDBKey();
+
+		// make the list of schema
+		// $output->addWikiTextAsInterface("List of RDF schema uses during the tests:");
+
+		$dbr = wfGetDB( DB_REPLICA );
+		$sql = "SELECT  p.page_id AS pid, p.page_title AS title, t.old_text as text FROM page p 
 INNER JOIN revision r ON p.page_latest = r.rev_id
 INNER JOIN text t ON r.rev_text_id = t.old_id 
 INNER JOIN categorylinks c ON c.cl_from = p.page_id 
 INNER JOIN searchindex s ON s.si_page = p.page_id 
- WHERE c.cl_to='".$category."' ORDER BY p.page_title ASC";
-//echo  $sql;
-	$res = $dbr->query($sql, __METHOD__);
+ WHERE c.cl_to='" . $category . "' ORDER BY p.page_title ASC";
+// echo  $sql;
+		// phpcs:disable
+		$res = $dbr->query( $sql, __METHOD__ );
+		// phpcs:enable
 
-        $schemas = array();
-        $schemasStr = array();
-        $lines = array();
-        while($row = $dbr->fetchObject($res))
-        {
-            $schemas[] = $row;
-            $schemasStr[] = '"'.Title::newFromID( $row->pid )->getFullURL().'?action=raw&export=rdf"';
-            // $lines[] = "* [[".$row->title."]] ";
-            $lines[] = "* [".Title::newFromID( $row->pid )->getFullURL()." ".$row->title."] ";
-        }
-        $wgOut->addWikiTextAsInterface( implode( "\n", $lines ) );
+		$schemas = [];
+		$schemasStr = [];
+		$lines = [];
+		$row = $dbr->fetchObject( $res );
+		while ( $row ) {
+			$schemas[] = $row;
+			$schemasStr[] = '"' . Title::newFromID( $row->pid )->getFullURL() . '?action=raw&export=rdf"';
+			// $lines[] = "* [[".$row->title."]] ";
+			$lines[] = "* [" . Title::newFromID( $row->pid )->getFullURL() . " " . $row->title . "] ";
 
-        //return $list;
+			$row = $dbr->fetchObject( $res );
+		}
 
-        $wgOut->addWikiTextAsInterface("== RDFUnit command ==");
+		if ( count( $schemasStr ) == 0 ) {
+			$output->addHTML(
+				"<button class=\"mw-htmlform-submit mw-ui-button mw-ui-primary mw-ui-progressive\""
+				. " disabled>Refresh test cases</button>"
+				. " (No test cases for the moment in the wiki)"
+			);
+		} else {
+			$output->addHTML(
+				"<a href='?refresh=true' "
+				. "class=\"mw-htmlform-submit mw-ui-button mw-ui-primary mw-ui-progressive\"> "
+				. "Refresh test cases</a>"
+			);
+		}
 
-        $commandPublic = 'rdfunit -d "'.$uriOfDataset.'" -r shacl -e "'.$endpointOfDatasetPublic.'" -g "'.$graphOfDataset.'" -v -s '.implode(',',$schemasStr);
-	$command = 'rdfunit -d "'.$uriOfDataset.'" -r shacl -e "'.$endpointOfDataset.'" -g "'.$graphOfDataset.'" -v -s '.implode(',',$schemasStr);
+		$output->addWikiTextAsInterface( "== RDF schemas in the Wiki ==" );
 
-        $wgOut->addHTML("<pre>".$commandPublic);
+		$output->addWikiTextAsInterface(
+			"You can add a new RDF schema with the tag rdf with attribut contraint='shacl'."
+		);
+		$output->addHTML( "For example : " . htmlentities( "<rdf contraint='shacl'>" ) );
 
-        $wgOut->addHTML("</pre>");
+		$output->addWikiTextAsInterface( implode( "\n", $lines ) );
 
-        $wgOut->addWikiTextAsInterface("== Results ==");
-        if(!EMPTY($refresh)){
-            $wgOut->addHTML(self::refreshAndPrintTests($command,$dbTestCase));
-        }else{
-            $wgOut->addHTML(self::printTests($resultTestCase));
-        }
+		// return $list;
 
-        $this->setHeaders();
-    }
+		$output->addWikiTextAsInterface( "== RDFUnit command ==" );
 
-    public static function refreshAndPrintTests($command,$dbTestCase)
-    {
-        $result = "";
-        unlink($dbTestCase);
+		$commandPublic = 'rdfunit -d "' . $uriOfDataset
+			. '" -r shacl -e "' . $endpointOfDatasetPublic
+			. '" -g "' . $graphOfDataset
+			. '" -v -s ' . implode( ',', $schemasStr );
 
-//        $commandRDFUnit = "ls -al";// "whoami";
-//$commandRDFUnit =  "mvn -pl rdfunit-validate -am clean install";
-        $commandRDFUnit =  "bin/".$command ;
-        chdir('/RDFUnit');
-        $file = exec($commandRDFUnit ." 2>&1", $retval);
-        $textRetval = print_r($retval,true);
+		$command = 'rdfunit -d "' . $uriOfDataset
+		. '" -r shacl -e "' . $endpointOfDataset
+		. '" -g "' . $graphOfDataset
+		. '" -v -s ' . implode( ',', $schemasStr );
 
-        if (preg_match("#\[INFO  ValidateCLI\] Results stored in: (.*)\.\*#", $textRetval, $matches)) {
-            $result = self::printTests("/RDFUnit/" . $matches[1] . ".html");
-        }elseif (preg_match("#.*ERROR.*#", $textRetval)) {
-            $result = "<pre>".$textRetval."</pre>";
-        }else{
-            $result = "<pre>".$textRetval."</pre>";
-        }
+		$output->addHTML( "<pre>" . $commandPublic );
 
-        return $result;
-    }
+		$output->addHTML( "</pre>" );
 
-    public static function   printTests( $file)
-    {
-        $result ="NO RESULTS";
-        if(file_exists($file)){
-            if (preg_match("#<body>(.*)</body>#s", file_get_contents($file), $matchesbody)) {
-                $result = $matchesbody[1];
-            }
-        }
-        return $result;
-    }
+		$output->addWikiTextAsInterface( "== Results ==" );
+		if ( !empty( $refresh ) ) {
+			$output->addHTML( self::refreshAndPrintTests( $command, $dbTestCase ) );
+		} else {
+			$output->addHTML( self::printTests( $resultTestCase ) );
+		}
+
+		$this->setHeaders();
+	}
+
+	/**
+	 * @param string $command
+	 * @param string $dbTestCase
+	 * @return mixed|string
+	 */
+	public static function refreshAndPrintTests( $command, $dbTestCase ) {
+		$result = "";
+		if ( file_exists( $dbTestCase ) ) {
+			unlink( $dbTestCase );
+		}
+
+		// $commandRDFUnit = "ls -al";// "whoami";
+		// $commandRDFUnit =  "mvn -pl rdfunit-validate -am clean install";
+		$commandRDFUnit = "bin/" . $command;
+		chdir( '/RDFUnit' );
+		$file = exec( $commandRDFUnit . " 2>&1", $retval );
+		$textRetval = print_r( $retval, true );
+
+		if ( preg_match(
+			"#\[INFO  ValidateCLI\] Results stored in: (.*)\.\*#",
+			$textRetval,
+			$matches
+			)
+		) {
+			$result = self::printTests( "/RDFUnit/" . $matches[1] . ".html" );
+		} elseif ( preg_match( "#.*ERROR.*#", $textRetval ) ) {
+			$result = "<pre>" . $textRetval . "</pre>";
+		} else {
+			$result = "<pre>" . $textRetval . "</pre>";
+		}
+
+		return $result;
+	}
+
+	/**
+	 * @param string $file
+	 * @return mixed|string
+	 */
+	public static function   printTests( $file ) {
+		$result = "NO RESULTS";
+		if ( file_exists( $file ) ) {
+			if ( preg_match( "#<body>(.*)</body>#s", file_get_contents( $file ), $matchesbody ) ) {
+				$result = $matchesbody[1];
+			}
+		}
+		return $result;
+	}
 
 }

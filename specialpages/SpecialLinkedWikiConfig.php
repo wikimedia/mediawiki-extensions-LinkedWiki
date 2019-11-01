@@ -3,30 +3,40 @@
  * @copyright (c) 2019 Bourdercloud.com
  * @author Karima Rafes <karima.rafes@bordercloud.com>
  * @link https://www.mediawiki.org/wiki/Extension:LinkedWiki
- * @license CC-by-sa V4.0
+ * @license CC-BY-SA-4.0
  */
 
-class SpecialLinkedWikiConfig extends SpecialPage
-{
+class SpecialLinkedWikiConfig extends SpecialPage {
 
-    public function __construct()
-    {
-        parent::__construct('linkedwiki-speciallinkedwikiconfig');
-    }
-    function getGroupName() {
-        return 'linkedwiki_group';
-    }
+	public function __construct() {
+		parent::__construct( 'linkedwiki-speciallinkedwikiconfig' );
+	}
 
-    public function execute($par = null)
-    {
-        global $wgOut;
+	/**
+	 * @return string
+	 */
+	public function getGroupName() {
+		return 'linkedwiki_group';
+	}
 
-        $wgOut->addWikiTextAsInterface("Endpoints configurated in the system via the file LinkedWiki/extension.json.");
+	/**
+	 * @param null $par
+	 */
+	public function execute( $par = null ) {
+		$this->setHeaders();
+		$output = $this->getOutput();
 
-        $wgOut->addWikiTextAsInterface("== Configuration of endpoints SPARQL ==");
-        $wgOut->addWikiTextAsInterface("Endpoints configurated in the system.");
-        $config = new LinkedWikiConfig();
-        $wgOut->addHTML($config->info());
-        $this->setHeaders();
-    }
+		$output->addWikiTextAsInterface(
+			"SPARQL services configurated in the system via the file LinkedWiki/extension.json 
+			and via the localsettings of wiki. 
+			[https://www.mediawiki.org/wiki/Extension:LinkedWiki/Configuration Details]"
+		);
+
+		$config = new LinkedWikiConfig();
+		$output->addWikiTextAsInterface( "== SPARQL services configurated ==" );
+		$output->addHTML( $config->info() );
+
+		$output->addWikiTextAsInterface( "== Other options ==" );
+		$output->addHTML( $config->infoOtherOptions() );
+	}
 }

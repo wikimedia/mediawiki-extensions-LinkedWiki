@@ -1,0 +1,24 @@
+{
+	"@metadata": {
+		"authors": [
+			"Nikosgranturismogt"
+		]
+	},
+	"push-tab-text": "Πίεση",
+	"push-button-text": "Πίεση",
+	"push-button-pushing": "Πίεση",
+	"push-button-pushing-files": "Πίεση αρχείων",
+	"push-add-target": "Προσθήκη στόχου",
+	"push-remote-pages": "Απομακρυσμένες σελίδες",
+	"push-remote-page-link": "$1 στη $2",
+	"push-remote-page-link-full": "Προβολή του $1 στο $2",
+	"push-tab-last-edit": "Τελευταία επεξεργασία από τον $1 στις $2 στις $3.",
+	"push-tab-not-created": "Αυτή η σελίδα δεν υπάρχει ακόμα.",
+	"push-tab-inc-templates": "Συμπερίληψη προτύπων",
+	"push-tab-used-templates": "(Χρησιμοποιούμενα {{PLURAL:$2|πρότυπο|πρότυπα}}: $1)",
+	"push-tab-no-used-templates": "(Δεν χρησιμοποιούνται πρότυπα σε αυτή τη σελίδα.)",
+	"push-tab-inc-files": "Συμπερίληψη ενωσωματωμένων αρχείων",
+	"push-tab-embedded-files": "Ενσωματωμένα αρχεία:",
+	"push-special-target-is": "Βίκι στόχου: $1",
+	"push-special-select-targets": "Βίκι στόχου:"
+}

@@ -1,0 +1,13 @@
+{
+	"@metadata": {
+		"authors": [
+			"Jopparn",
+			"Freked"
+		]
+	},
+	"push-err-authentication": "Autentisering på $1 misslyckades. $2",
+	"push-add-target": "Lägg till målet",
+	"push-remote-page-link-full": "Visa $1 på $2",
+	"push-targets-total": "Det finns totalt $1 {{PLURAL:$1|mål}}.",
+	"push-tab-not-created": "Denna sida existerar inte ännu."
+}

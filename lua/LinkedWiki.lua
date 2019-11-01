@@ -4,7 +4,7 @@
  @copyright (c) 2019 Bourdercloud.com
  @author Karima Rafes <karima.rafes@bordercloud.com>
  @link https://www.mediawiki.org/wiki/Extension:LinkedWiki
- @license CC-by-sa V4.0
+ @license CC-BY-SA-4.0
 ]]
 
 -- module
@@ -71,7 +71,11 @@ end
     setConfig can replace setEndpoint and setGraph.
 ]]
 function linkedwiki.setConfig(iriDataset)
-    return php.setConfig(iriDataset)
+	local status, message = php.setConfig(iriDataset);
+	if not status then
+		error(message)
+	end
+	return message
 end
 function linkedwiki.getConfig()
     return php.getConfig()
@@ -95,7 +99,7 @@ function linkedwiki.isDebug()
 --        result = tagLang
 --    end
 --    return result
-return php.isDebug()
+    return php.isDebug()
 end
 
 --function linkedwiki.setGraph(iriGraph)
@@ -630,7 +634,7 @@ function linkedwiki.new(subject,config,tagLang,debug)
         end
 
         if not linkedwiki.isEmpty(valueInWiki) then
-            img:attr("src", valueInWiki)
+            img:attr("src", string.gsub( valueInWiki, "https?://", "//" ) )
             div:node(img)
 
             if valueInWiki == valueInDB then
