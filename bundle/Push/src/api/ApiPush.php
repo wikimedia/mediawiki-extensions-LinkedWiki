@@ -11,7 +11,6 @@
  * @author Karima Rafes < karima.rafes@gmail.com >
  */
 class ApiPush extends ApiPushBase {
-
 	protected $editResponses = [];
 
 	/**

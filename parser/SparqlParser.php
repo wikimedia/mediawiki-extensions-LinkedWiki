@@ -274,7 +274,7 @@ class SparqlParser {
 					continue;
 				}
 				// END ADD BY DOUG
-				if ( $row[$variable . " type"] == "uri" ) {
+				if ( isset( $row[$variable . " type"] ) && $row[$variable . " type"] == "uri" ) {
 					$arrayParameters[] = $variable . " = " . self::uri2Link( $row[$variable], true );
 				} else {
 					if ( isset( $variable ) ) {
@@ -284,7 +284,9 @@ class SparqlParser {
 			}
 			foreach ( $TableFormatTemplates as $key => $TableFormatTemplate ) {
 				if ( empty( $TableFormatTemplate ) ) {
-					$str .= $separateur . $row[$variables[$key]];
+					$str .= $separateur;
+					$str .= isset( $row[$variables[$key]] ) && !empty( $row[$variables[$key]] ) ?
+							$row[$variables[$key]] : "";
 				} else {
 					$str .= $separateur
 						. "{{" . $TableFormatTemplate
@@ -406,13 +408,14 @@ class SparqlParser {
 
 			foreach ( $variables as $variable ) {
 				$str .= "<td>";
+				$value = isset( $row[$variable] ) && !empty( $row[$variable] ) ?
+							$row[$variable] : "";
 
-				if ( $row[$variable . " type"] == "uri" ) {
-					$str .= "<a href='" . $row[$variable] . "'>" . $row[$variable] . "</a>";
+				if ( isset( $row[$variable . " type"] ) && $row[$variable . " type"] == "uri" ) {
+					$str .= "<a href='" . $value . "'>" . $value . "</a>";
 				} else {
 					// T227845
-					$str .= isset( $row[$variable] ) && !empty( $row[$variable] ) ?
-						$row[$variable] : "&nbsp;";
+					$str .= empty( $value ) ? "&nbsp;" : htmlentities( $value );
 				}
 				$str .= "</td>\n";
 			}
@@ -501,7 +504,7 @@ class SparqlParser {
 					continue;
 				}
 				// END ADD BY DOUG
-				if ( $row[$variable . " type"] == "uri" ) {
+				if ( isset( $row[$variable . " type"] ) && $row[$variable . " type"] == "uri" ) {
 					$str .= $separateur . self::uri2Link( $row[$variable] );
 				} else {
 					$str .= $separateur . $row[$variable];

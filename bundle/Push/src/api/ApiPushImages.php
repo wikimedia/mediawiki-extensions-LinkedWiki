@@ -8,8 +8,10 @@
  * @ingroup Push
  *
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
+ * @author Karima Rafes < karima.rafes@gmail.com >
  */
 class ApiPushImages extends ApiPushBase {
+	protected $editResponses = [];
 
 	/**
 	 * ApiPushImages constructor.
@@ -26,12 +28,21 @@ class ApiPushImages extends ApiPushBase {
 	 */
 	public function doModuleExecute() {
 		$params = $this->extractRequestParams();
+		$target = $params['targets'];
 
 		foreach ( $params['images'] as $image ) {
 			$title = Title::newFromText( $image, NS_FILE );
 			if ( !is_null( $title ) && $title->getNamespace() == NS_FILE && $title->exists() ) {
-				$this->doPush( $title, $params['targets'] );
+				$this->doPush( $title, $target );
 			}
+		}
+
+		foreach ( $this->editResponses as $response ) {
+			$this->getResult()->addValue(
+				null,
+				null,
+				FormatJson::decode( $response )
+			);
 		}
 	}
 
@@ -137,14 +148,18 @@ class ApiPushImages extends ApiPushBase {
 
 		if ( $status->isOK() ) {
 			$response = $req->getContent();
+			$responseObj = FormatJson::decode( $req->getContent() );
 
-			$this->getResult()->addValue(
-				null,
-				null,
-				FormatJson::decode( $response )
-			);
+			if ( isset( $responseObj->error ) ) {
+				if ( isset( $responseObj->code ) && $responseObj->code != "fileexists-no-change" ) {
+					$this->dieWithError( $responseObj->error->info, 'page-push-failed' );
+					return;
+				}
+			}
 
+			$this->editResponses[] = $response;
 			Hooks::run( 'PushAPIAfterImagePush', [ $title, $target, $token, $response ] );
+
 		} else {
 			$this->dieWithError( wfMessage( 'push-special-err-push-failed' )->text(), 'page-push-failed' );
 		}
