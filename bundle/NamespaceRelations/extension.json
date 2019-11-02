@@ -18,9 +18,6 @@
 			"i18n"
 		]
 	},
-	"ExtensionMessagesFiles": {
-		"PushAlias": "Push.alias.php"
-	},
 	"AutoloadClasses": {
 		"NamespaceRelations": "NamespaceRelations.php"
 	},

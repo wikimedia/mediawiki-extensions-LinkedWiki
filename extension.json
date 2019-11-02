@@ -1,6 +1,6 @@
 {
 	"name": "LinkedWiki",
-	"version": "3.3.0",
+	"version": "3.3.1",
 	"author": [
 		"[https://www.mediawiki.org/wiki/User:Karima_Rafes Karima Rafes]"
 	],
@@ -87,10 +87,7 @@
 		"WikidataStorageMethod": "storageMethod/WikidataStorageMethod.php",
 		"DatabaseTestDataMethod": "storageMethod/DatabaseTestDataMethod.php",
 
-		"SynchroniseThreadArticleLinkedDataJob": "job/SynchroniseThreadArticleLinkedDataJob.php",
-
-
-		"Push": "bundle/Push/Push.php"
+		"SynchroniseThreadArticleLinkedDataJob": "job/SynchroniseThreadArticleLinkedDataJob.php"
 	},
 	"JobClasses": {
 		"SynchroniseThreadArticleLinkedDataJob": "SynchroniseThreadArticleLinkedDataJob"
