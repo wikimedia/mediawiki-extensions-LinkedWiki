@@ -18,6 +18,19 @@ class ToolsParser {
 			$uri  = "<" . self::pageIri( $parser ) . ">";
 			$res  = str_replace( "<PAGEIRI>", $uri, $res );
 		}
+		// remove comments
+		$array = explode( "\n", $res );
+		$output = [];
+		foreach ( $array as $line ) {
+			if ( preg_match( "/^ *#/", $line ) ) {
+				// do nothing
+			} elseif ( preg_match( "/#[^<>]*$/", $line ) ) {
+				$output[] = preg_replace( "/#[^<>]*$/", "", $line );
+			} else {
+				$output[] = $line;
+			}
+		}
+		$res = implode( "\n", $output );
 		return $res;
 	}
 
