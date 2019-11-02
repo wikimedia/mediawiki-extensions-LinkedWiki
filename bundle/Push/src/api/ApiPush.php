@@ -150,13 +150,14 @@ class ApiPush extends ApiPushBase {
 					$this->pushToTarget( $title, $revision, $target, $token );
 
 					$targetKey = array_search( $target, $egPushTargets, true );
-
-					foreach ( $egPushTargetsNamespace[$targetKey] as $namespace ) {
-						$titleNamespace = Title::newFromText( $namespace . ":" . $title->getDBKey() );
-						if ( $titleNamespace->exists() ) {
-							$revisionamespace = $this->getPageRevision( $titleNamespace );
-							if ( $revisionamespace !== false ) {
-								$this->pushToTarget( $titleNamespace, $revisionamespace, $target, $token );
+					if ( is_array( $egPushTargetsNamespace[$targetKey] ) ) {
+						foreach ( $egPushTargetsNamespace[$targetKey] as $namespace ) {
+							$titleNamespace = Title::newFromText( $namespace . ":" . $title->getDBKey() );
+							if ( $titleNamespace->exists() ) {
+								$revisionamespace = $this->getPageRevision( $titleNamespace );
+								if ( $revisionamespace !== false ) {
+									$this->pushToTarget( $titleNamespace, $revisionamespace, $target, $token );
+								}
 							}
 						}
 					}

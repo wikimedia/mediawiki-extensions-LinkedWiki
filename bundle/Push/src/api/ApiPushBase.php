@@ -139,7 +139,7 @@ abstract class ApiPushBase extends ApiBase {
 
 		$response = FormatJson::decode( $req->getContent() );
 		// for debug :
-		error_log( print_r( $response, true ) );
+		// error_log( print_r( $response, true ) );
 		if ( !property_exists( $response, 'login' ) || !property_exists( $response->login, 'result' ) ) {
 			$this->dieWithError(
 				wfMessage( 'push-err-authentication', $target, '' )->parse(),

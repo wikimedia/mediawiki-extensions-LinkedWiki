@@ -223,11 +223,8 @@
 			"value": true
 		},
 		"TargetsNamespace": {
-			"description": "Other pages of other namespaces to push with the same title page.",
+			"description": "Other namespaces to push with the same title page.",
 			"value": {
-				"wikiTarget": [
-					"Data"
-				]
 			},
 			"merge_strategy": "array_plus_2d"
 		}
