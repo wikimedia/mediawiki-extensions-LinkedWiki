@@ -62,7 +62,7 @@ class SparqlParser {
 			} else {
 				// renderer with php
 				if ( $cache == "no" ) {
-					$parser->disableCache();
+					$parser->getOutput()->updateCacheExpiry( 0 );
 				}
 				if ( $templateBare == "tableCell" ) {
 				   return self::tableCell(
@@ -97,7 +97,7 @@ class SparqlParser {
 				}
 			}
 		} else {
-			$parser->disableCache();
+			$parser->getOutput()->updateCacheExpiry( 0 );
 			$result = "'''Error #sparql: "
 				. "Incorrect argument (usage : #sparql: SELECT * WHERE {?a ?b ?c .} )'''";
 		}

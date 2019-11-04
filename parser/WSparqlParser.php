@@ -16,7 +16,7 @@ class WSparqlParser {
 		$configFactory = ConfigFactory::getDefaultInstance()->makeConfig( 'wgLinkedWiki' );
 		$configDefault = $configFactory->get( "SPARQLServiceByDefault" );
 		// TODO OPTIMIZE
-		$parser->disableCache();
+		$parser->getOutput()->updateCacheExpiry( 0 );
 
 		$args = func_get_args();
 		$countArgs = count( $args );
@@ -49,7 +49,7 @@ class WSparqlParser {
 		}
 
 		if ( $cache == "no" ) {
-			$parser->disableCache();
+			$parser->getOutput()->updateCacheExpiry( 0 );
 		}
 
 		if ( $query != "" && $namewidget != "" ) {
@@ -58,7 +58,7 @@ class WSparqlParser {
 
 			return self::widget( $namewidget, $query, $config, $endpoint, $debug, $vars );
 		} else {
-			$parser->disableCache();
+			$parser->getOutput()->updateCacheExpiry( 0 );
 			return "'''Error #sparql: "
 				. "Argument incorrect (usage : #wsparql:namewidget|query=SELECT * WHERE {?a ?b ?c .} )'''";
 		}
