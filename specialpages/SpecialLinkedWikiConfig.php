@@ -27,13 +27,13 @@ class SpecialLinkedWikiConfig extends SpecialPage {
 		$output = $this->getOutput();
 
 		$output->addWikiTextAsInterface(
-			"SPARQL services configurated in the system via the file LinkedWiki/extension.json 
-			and via the localsettings of wiki. 
+			"SPARQL services are configurated by the file LinkedWiki/extension.json 
+			and the file LocalSettings.php of wiki. 
 			[https://www.mediawiki.org/wiki/Extension:LinkedWiki/Configuration Details]"
 		);
 
 		$config = new LinkedWikiConfig();
-		$output->addWikiTextAsInterface( "== SPARQL services configurated ==" );
+		$output->addWikiTextAsInterface( "== configurated SPARQL services  ==" );
 		$output->addHTML( $config->info() );
 
 		$output->addWikiTextAsInterface( "== Other options ==" );

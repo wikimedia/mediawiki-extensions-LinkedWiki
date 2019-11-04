@@ -242,16 +242,16 @@ class SpecialRDFUnit extends SpecialPage {
 		}
 
 		$config = ConfigFactory::getDefaultInstance()->makeConfig( 'wgLinkedWiki' );
-		if ( !$config->has( "EndpointSaveDataOfWiki" ) ) {
+		if ( !$config->has( "SPARQLServiceSaveDataOfWiki" ) ) {
 			$output->addHTML(
 				"Database by default for the Wiki is not precised "
-				. "in the extension.json of the LinkedWiki extension. "
-				. "(parameter EndpointSaveDataOfWiki)"
+				. "in the LocalSettings.php. "
+				. '(parameter $wgLinkedWikiSPARQLServiceSaveDataOfWiki)'
 			);
 			return;
 		}
 
-		$configDefaultSaveData = $config->get( "EndpointSaveDataOfWiki" );
+		$configDefaultSaveData = $config->get( "SPARQLServiceSaveDataOfWiki" );
 		$configSaveData = new LinkedWikiConfig( $configDefaultSaveData );
 
 		$request = $this->getRequest();
@@ -325,12 +325,12 @@ INNER JOIN searchindex s ON s.si_page = p.page_id
 			);
 		}
 
-		$output->addWikiTextAsInterface( "== RDF schemas in the Wiki ==" );
+		$output->addWikiTextAsInterface( "== RDF schemas in the wiki ==" );
 
 		$output->addWikiTextAsInterface(
-			"You can add a new RDF schema with the tag rdf with attribut contraint='shacl'."
+			"You can add a new RDF schema with the tag rdf with attribut constraint='shacl'."
 		);
-		$output->addHTML( "For example : " . htmlentities( "<rdf contraint='shacl'>" ) );
+		$output->addHTML( "For example : " . htmlentities( "<rdf constraint='shacl'>" ) );
 
 		$output->addWikiTextAsInterface( implode( "\n", $lines ) );
 

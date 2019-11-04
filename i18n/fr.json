@@ -28,11 +28,21 @@
 
 	"linkedwiki-specialsparqlquery": "Editeur SPARQL",
 	"linkedwiki-specialsparqlquery_categorysparqlquery": "Requête SPARQL",
+	"linkedwiki-specialsparqlquery_query": "Requête",
 	"linkedwiki-specialsparqlquery_mainpage": "Cette page va vous servir à tester, optimiser et partager vos requêtes si vous le souhaitez.\n\nPostez vos questions à : [https://www.mediawiki.org/wiki/Extension_talk:LinkedWiki Discussion linkedwiki]",
 	"linkedwiki-specialsparqlquery_sendquery": "Exécuter la requête",
 	"linkedwiki-specialsparqlquery_usethisquery": "Utiliser cette requête au sein de ce Wiki",
 	"linkedwiki-specialsparqlquery_usethisquery_tutorial": "Pour cela, il vous suffit de copier le text suivant dans une page du wiki. Pour formater l'affichage, voir : [https://www.mediawiki.org/wiki/Extension:LinkedWiki Extension:LinkedWiki]",
 	"linkedwiki-specialsparqlquery_endpointsparql": "Point d'accès SPARQL",
 	"linkedwiki-specialsparqlquery_chooseaconfiguration": "Choisir une configuration",
+	"linkedwiki-specialsparqlquery_option1part1javascriptvisualizationsof" : "Visuels en Javascript de",
+	"linkedwiki-specialsparqlquery_option1part2details": "(sans cache et seulement pour des données publiques)",
+	"linkedwiki-specialsparqlquery_option2tableonly": "Table uniquement (avec cache et pour des données publiques ou privées)",
+	"linkedwiki-specialsparqlquery_options": "Options",
+	"linkedwiki-specialsparqlquery_loglevel": "Niveau des logs",
+	"linkedwiki-specialsparqlquery_visualization": "Visualisation",
+	"linkedwiki-specialsparqlquery_seethedoc": "Voir la doc",
+	"linkedwiki-specialsparqlquery_result": "Résultat",
+
 	"right-data-edit": "Modifier les pages de données (dans l'espace de noms : Data et UserData), transférer ces données avec [[Special:RDFSave]] et vérfier les graphes RDF  [[Special:RDFUnit]]. [https://www.mediawiki.org/wiki/Extension:LinkedWiki/Import_in_wiki_to_write,_check,_transfer_and_validate_RDF Documentations]"
 }

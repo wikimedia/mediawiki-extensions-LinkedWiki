@@ -32,16 +32,16 @@ class SpecialRDFSave extends SpecialPage {
 
 		// Default config for saving the schemas
 		$config = ConfigFactory::getDefaultInstance()->makeConfig( 'wgLinkedWiki' );
-		if ( !$config->has( "EndpointSaveDataOfWiki" ) ) {
+		if ( !$config->has( "SPARQLServiceSaveDataOfWiki" ) ) {
 			$output->addHTML(
 				"Database by default for the Wiki is not precised 
 				in the extension.json of the LinkedWiki extension.
-				(parameter EndpointSaveDataOfWiki)"
+				(parameter SPARQLServiceSaveDataOfWiki)"
 			);
 			return;
 		}
 
-		$configDefaultSaveData = $config->get( "EndpointSaveDataOfWiki" );
+		$configDefaultSaveData = $config->get( "SPARQLServiceSaveDataOfWiki" );
 
 		$configSaveData = new LinkedWikiConfig( $configDefaultSaveData );
 

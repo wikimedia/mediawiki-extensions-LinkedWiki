@@ -26,12 +26,22 @@
 
 	"linkedwiki-specialsparqlquery": "{{doc-special}}",
 	"linkedwiki-specialsparqlquery_categorysparqlquery": "A category name",
+	"linkedwiki-specialsparqlquery_query": "A label message",
 	"linkedwiki-specialsparqlquery_mainpage": "A description message",
 	"linkedwiki-specialsparqlquery_sendquery": "A button text",
 	"linkedwiki-specialsparqlquery_usethisquery": "A link text",
 	"linkedwiki-specialsparqlquery_usethisquery_tutorial": "A description message",
 	"linkedwiki-specialsparqlquery_endpointsparql": "A label message",
 	"linkedwiki-specialsparqlquery_chooseaconfiguration": "A label message",
+	"linkedwiki-specialsparqlquery_option1part1javascriptvisualizationsof" : "A label message",
+	"linkedwiki-specialsparqlquery_option1part2details": "A label message",
+	"linkedwiki-specialsparqlquery_option2tableonly": "A label message",
+	"linkedwiki-specialsparqlquery_options": "A label message",
+	"linkedwiki-specialsparqlquery_loglevel": "A label message",
+	"linkedwiki-specialsparqlquery_visualization": "A label message",
+	"linkedwiki-specialsparqlquery_seethedoc": "A label message",
+	"linkedwiki-specialsparqlquery_result": "A label message",
+
 	"action-data-edit": "{{doc-action|data-edit}}",
 	"right-data-edit": "{{doc-right|data-edit}}"
 }

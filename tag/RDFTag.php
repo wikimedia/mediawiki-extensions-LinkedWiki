@@ -28,8 +28,8 @@ class RDFTag {
 
 		$parser->addTrackingCategory( 'linkedwiki-category-rdf-page' );
 
-		$contraint = isset( $args['contraint'] ) ? strtolower( $args['contraint'] ) : '';
-		if ( $contraint == "shacl" ) {
+		$constraint = isset( $args['constraint'] ) ? strtolower( $args['constraint'] ) : '';
+		if ( $constraint == "shacl" ) {
 			$parser->addTrackingCategory( 'linkedwiki-category-rdf-schema' );
 		}
 

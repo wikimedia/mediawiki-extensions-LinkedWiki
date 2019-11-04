@@ -55,14 +55,14 @@ class LinkedWiki {
 	 */
 	public static function onArticleDeleteAfterSuccess( Title $title, OutputPage $output ) {
 		$config = ConfigFactory::getDefaultInstance()->makeConfig( 'wgLinkedWiki' );
-		if ( !$config->has( "EndpointSaveDataOfWiki" ) ) {
+		if ( !$config->has( "SPARQLServiceSaveDataOfWiki" ) ) {
 			$output->addHTML( "Database by default for the Wiki is not precised 
 			in the extension.json of the LinkedWiki extension.
-			(parameter EndpointSaveDataOfWiki) : no data deleted." );
+			(parameter SPARQLServiceSaveDataOfWiki) : no data deleted." );
 			return true;
 		}
 
-		$configDefaultSaveData = $config->get( "EndpointSaveDataOfWiki" );
+		$configDefaultSaveData = $config->get( "SPARQLServiceSaveDataOfWiki" );
 		$configSaveData = new LinkedWikiConfig( $configDefaultSaveData );
 
 		$subject = "<" . urldecode( $title->getFullURL() ) . ">";
@@ -104,14 +104,14 @@ class LinkedWiki {
 		Title &$title, Title &$newTitle, User &$user,
 		$oldid, $newid, $reason, Revision $revision ) {
 		$config = ConfigFactory::getDefaultInstance()->makeConfig( 'wgLinkedWiki' );
-		if ( !$config->has( "EndpointSaveDataOfWiki" ) ) {
+		if ( !$config->has( "SPARQLServiceSaveDataOfWiki" ) ) {
 			// $output->addHTML("Database by default for the Wiki is not precised
 			// in the extension.json of the LinkedWiki extension.
-			// (parameter EndpointSaveDataOfWiki) : no data deleted.");
+			// (parameter SPARQLServiceSaveDataOfWiki) : no data deleted.");
 			return true;
 		}
 
-		$configDefaultSaveData = $config->get( "EndpointSaveDataOfWiki" );
+		$configDefaultSaveData = $config->get( "SPARQLServiceSaveDataOfWiki" );
 		$configSaveData = new LinkedWikiConfig( $configDefaultSaveData );
 		$subject = "<" . urldecode( $title->getFullURL() ) . ">";
 

@@ -457,7 +457,7 @@
         ["xpath=//pre", "xpath:position"],
         ["xpath=//pre[contains(.,'The configuration of http://unknown.org is not found in the file LinkedWiki/extension.json or in the localsettings.')]", "xpath:innerText"]
       ],
-      "value": "The configuration of http://unknown.org is not found in the file LinkedWiki/extension.json or in the localsettings."
+      "value": "The configuration of http://unknown.org is not found in the file LinkedWiki/extension.json or in the LocalSettings.php."
     }]
   }, {
     "id": "3efb2562-a591-4852-ad40-9e822bcb1998",

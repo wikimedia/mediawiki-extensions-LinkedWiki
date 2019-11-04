@@ -295,7 +295,7 @@ class LinkedWikiConfig {
 		if ( !array_key_exists( $urlEndpointConfig, $this->configEndpoints ) ) {
 			throw new Exception(
 				"The configuration of " . $urlEndpointConfig
-				. " is not found in the file LinkedWiki/extension.json or in the localsettings."
+				. " is not found in the file LinkedWiki/extension.json or in the LocalSettings.php."
 			);
 		}
 
@@ -591,7 +591,7 @@ class LinkedWikiConfig {
 			$html .= "login";
 			$html .= "</td>";
 			$html .= "<td>";
-			$html .= "see file: localsettings";
+			$html .= "see file: LocalSettings.php";
 			$html .= "</td>";
 			$html .= "</tr>";
 
@@ -600,7 +600,7 @@ class LinkedWikiConfig {
 			$html .= "password";
 			$html .= "</td>";
 			$html .= "<td>";
-			$html .= "see file: localsettings";
+			$html .= "see file: LocalSettings.php";
 			$html .= "</td>";
 			$html .= "</tr>";
 
@@ -730,7 +730,7 @@ class LinkedWikiConfig {
 	public static function infoOtherOptions() {
 		$config = ConfigFactory::getDefaultInstance()->makeConfig( 'wgLinkedWiki' );
 		$varSPARQLServiceByDefault = $config->get( "SPARQLServiceByDefault" );
-		$varEndpointSaveDataOfWiki = $config->get( "EndpointSaveDataOfWiki" );
+		$varSPARQLServiceSaveDataOfWiki = $config->get( "SPARQLServiceSaveDataOfWiki" );
 		$varCheckRDFPage = $config->get( "CheckRDFPage" );
 		$varQuerySparqlInSpecialPage = $config->get( "QuerySparqlInSpecialPage" );
 
@@ -749,7 +749,7 @@ class LinkedWikiConfig {
 
 		$html .= "<tr>";
 		$html .= "<th>";
-		$html .= "SPARQLServiceByDefault";
+		$html .= 'SPARQLServiceByDefault <br/>($wgLinkedWikiSPARQLServiceByDefault)';
 		$html .= "</th>";
 		$html .= "<td>";
 		$html .= $varSPARQLServiceByDefault;
@@ -758,16 +758,16 @@ class LinkedWikiConfig {
 
 		$html .= "<tr>";
 		$html .= "<th>";
-		$html .= "EndpointSaveDataOfWiki";
+		$html .= 'SPARQLServiceSaveDataOfWiki <br/>($wgLinkedWikiSPARQLServiceSaveDataOfWiki)';
 		$html .= "</th>";
 		$html .= "<td>";
-		$html .= $varEndpointSaveDataOfWiki;
+		$html .= $varSPARQLServiceSaveDataOfWiki;
 		$html .= "</td>";
 		$html .= "</tr>";
 
 		$html .= "<tr>";
 		$html .= "<th>";
-		$html .= "CheckRDFPage";
+		$html .= 'CheckRDFPage <br/>($wgLinkedWikiCheckRDFPage)';
 		$html .= "</th>";
 		$html .= "<td>";
 		$html .= $varCheckRDFPage ? "Enable" : "Disable";
@@ -776,7 +776,7 @@ class LinkedWikiConfig {
 
 		$html .= "<tr>";
 		$html .= "<th>";
-		$html .= "QuerySparqlInSpecialPage";
+		$html .= 'QuerySparqlInSpecialPage <br/>($wgLinkedWikiQuerySparqlInSpecialPage)';
 		$html .= "</th>";
 		$html .= "<td><pre>";
 		$html .= htmlentities( $varQuerySparqlInSpecialPage );

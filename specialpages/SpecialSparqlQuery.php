@@ -69,7 +69,8 @@ class SpecialSparqlQuery extends SpecialPage {
 
 		$html .= "
         <div class=\"form-group row\">
-            <label for=\"query\" class=\"col-2 col-form-label\">Query</label>
+            <label for=\"query\" class=\"col-2 col-form-label\">
+            " . wfMessage( 'linkedwiki-specialsparqlquery_query' )->text() . "</label>
             <div class=\"col-10\">
         <textarea class=\"form-control\" id=\"query\" name='query'  rows=\"8\"  lang=\"sparql\">";
 
@@ -91,9 +92,13 @@ class SpecialSparqlQuery extends SpecialPage {
                     aria-label=\"Charts of Sgvizler2 (wihtout cache and only for public data)\"
                            class=\"custom-control-input\"
                            value='sgvizler2' " . $checkedSgvizler . ">
-                    <label class=\"custom-control-label\" for=\"radio1\">Javascript charts of 
+                    <label class=\"custom-control-label\" for=\"radio1\">
+                    " . wfMessage(
+						'linkedwiki-specialsparqlquery_option1part1javascriptvisualizationsof'
+						)->text() . "
                         <a href=\"https://bordercloud.github.io/sgvizler2\">Svizgler2</a>
-                         (wihtout cache and only for public data)</label>
+                    " . wfMessage( 'linkedwiki-specialsparqlquery_option1part2details' )->text() . "
+                         </label>
                 </div>
                 <div class=\"custom-control custom-radio\">
                     <input id=\"radio2\" type=\"radio\" name=\"radio\"
@@ -101,7 +106,8 @@ class SpecialSparqlQuery extends SpecialPage {
                            class=\"custom-control-input\"
                            value='php' " . $checkedPhp . ">
                     <label class=\"custom-control-label\" for=\"radio2\"
-                    >Table only with cache and for public data</label>
+                    >" . wfMessage( 'linkedwiki-specialsparqlquery_option2tableonly' )->text() . "
+                    </label>
                 </div>
             </div>
         </div>
@@ -113,14 +119,16 @@ class SpecialSparqlQuery extends SpecialPage {
 
 		$html .= ">
             <div class=\"form-group row\">
-                <label for=\"options\" class=\"col-2 col-form-label\">Options</label>
+                <label for=\"options\" class=\"col-2 col-form-label\">
+                " . wfMessage( 'linkedwiki-specialsparqlquery_options' )->text() . "</label>
                 <div class=\"col-10\">
                     <input class=\"form-control\" type=\"input\" id=\"options\"
                      value='width=100%!height=500px'>
                 </div>
             </div>
             <div class=\"form-group row\">
-                <label for=\"logsLevel\" class=\"col-2 col-form-label\">Logs level</label>
+                <label for=\"logsLevel\" class=\"col-2 col-form-label\">
+                " . wfMessage( 'linkedwiki-specialsparqlquery_loglevel' )->text() . "</label>
                 <div class=\"col-10\">
                     <select class=\"form-control\" id=\"logsLevel\">
                         <option value=\"0\">0</option>
@@ -130,11 +138,13 @@ class SpecialSparqlQuery extends SpecialPage {
                 </div>
             </div>
             <div class=\"form-group row\">
-                <label for=\"logsLevel\" class=\"col-2 col-form-label\">Charts</label>
+                <label for=\"logsLevel\" class=\"col-2 col-form-label\">
+                " . wfMessage( 'linkedwiki-specialsparqlquery_visualization' )->text() . "</label>
                 <div class=\"col-10\">
                     <select class=\"selectpicker\" id=\"chart\"></select>
                     <button id=\"seeDoc\" type=\"button\"
-                     class=\"btn btn-info info\">See the doc</button>
+                     class=\"btn btn-info info\">
+                     " . wfMessage( 'linkedwiki-specialsparqlquery_seethedoc' )->text() . "</button>
                 </div>
             </div>
         </div>";
@@ -151,7 +161,8 @@ class SpecialSparqlQuery extends SpecialPage {
 		$html .= " </form>
  <ul class=\"nav nav-tabs\" role=\"tablist\" id='tabSparqlQuery'>
     <li class=\"nav-item\">
-        <a class=\"nav-link active\" data-toggle=\"tab\" href=\"#resultTab\" role=\"tab\">Result</a>
+        <a class=\"nav-link active\" data-toggle=\"tab\" href=\"#resultTab\" role=\"tab\">
+        " . wfMessage( 'linkedwiki-specialsparqlquery_result' )->text() . "</a>
     </li>
     <li class=\"nav-item\">
         <a class=\"nav-link\" data-toggle=\"tab\" href=\"#htmlTab\" role=\"tab\">"

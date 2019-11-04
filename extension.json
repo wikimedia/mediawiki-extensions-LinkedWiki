@@ -1,6 +1,6 @@
 {
 	"name": "LinkedWiki",
-	"version": "3.3.4",
+	"version": "3.3.5",
 	"author": [
 		"[https://www.mediawiki.org/wiki/User:Karima_Rafes Karima Rafes]"
 	],
@@ -218,7 +218,7 @@
 	},
 	"manifest_version": 2,
 	"requires": {
-		"MediaWiki": ">= 1.31.1"
+		"MediaWiki": ">= 1.31"
 	},
 	"ConfigRegistry": {
 		"wgLinkedWiki": "LinkedWiki::makeConfig"
@@ -234,7 +234,7 @@
 			"value": "http://www.wikidata.org"
 		},
 		"ConfigSPARQLServices": {
-			"description": "Array of SPARQL services uses in this wiki. http://www.example.org is the config by default for all SPARQL service. If you need to change, be careful about other endpoints.",
+			"description": "Array of SPARQL services uses in this wiki. http://www.example.org is the configuration by default for all SPARQL service. If you need to change, be careful about other endpoints.",
 			"value": {
 				"http://www.example.org": {
 					"isReadOnly": true,
@@ -264,7 +264,7 @@
 			},
 			"merge_strategy": "array_plus_2d"
 		},
-		"EndpointSaveDataOfWiki": {
+		"SPARQLServiceSaveDataOfWiki": {
 				"description": "If you specify the SPARQL service uses to save RDF data (in the RDF tag) on the pages of wiki, you are able to use the special page to clean/import all your RDF data.",
 				"value": ""
 			},

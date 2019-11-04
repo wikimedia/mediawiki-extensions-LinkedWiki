@@ -49,7 +49,7 @@ See: https://www.mediawiki.org/wiki/Extension:LinkedWiki
 
 == Release-Notes ==
 
-* v3.3.0 update for Mediawiki 1.33.1 by Karima Rafes <karima.rafes@bordercloud.com>
+* v3.3.5 update for Mediawiki 1.33.1 by Karima Rafes <karima.rafes@bordercloud.com>
 		 Objectives: stabilize and simplify the installation
          		 - BREAKING CHANGE: Update extension.json at the version 2
          		   (see the new install/configuration)
