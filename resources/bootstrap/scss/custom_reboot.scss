@@ -258,13 +258,14 @@ table {
 	border-collapse: collapse; // Prevent double borders
 }
 
-caption {
-	padding-top: $table-cell-padding;
-	padding-bottom: $table-cell-padding;
-	color: $table-caption-color;
-	text-align: left;
-	caption-side: bottom;
-}
+// Collision with the Capiunto extension's css
+//caption {
+//	padding-top: $table-cell-padding;
+//	padding-bottom: $table-cell-padding;
+//	color: $table-caption-color;
+//	text-align: left;
+//	caption-side: bottom;
+//}
 
 th {
 	// Matches default `<td>` alignment by inheriting from the `<body>`, or the
