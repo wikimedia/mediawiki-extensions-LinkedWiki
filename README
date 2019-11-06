@@ -49,6 +49,10 @@ See: https://www.mediawiki.org/wiki/Extension:LinkedWiki
 
 == Release-Notes ==
 
+* v3.3.6 fix bugs by Karima Rafes <karima.rafes@bordercloud.com>
+         - fix rebuildall pages with lua modules in the version 1.33.1
+         - fix css
+
 * v3.3.5 update for Mediawiki 1.33.1 by Karima Rafes <karima.rafes@bordercloud.com>
 		 Objectives: stabilize and simplify the installation
          		 - BREAKING CHANGE: Update extension.json at the version 2

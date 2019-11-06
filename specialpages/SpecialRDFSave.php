@@ -112,8 +112,7 @@ class SpecialRDFSave extends SpecialPage {
 			if ( $nbPage ) {
 				foreach ( $titleArray as $title ) {
 					$jobParams = [];
-					$job = new SynchroniseThreadArticleLinkedDataJob( $title, $jobParams );
-
+					$job = new RefreshLinksJob( $title, $jobParams );
 					$output->addHTML( $title->getText() . "\n" );
 					JobQueueGroup::singleton()->push( $job );
 				}
