@@ -94,7 +94,7 @@ class SpecialRDFSave extends SpecialPage {
 			}
 		}
 
-		$jobQueue = JobQueueGroup::singleton()->get( "SynchroniseThreadArticleLinkedDataJob" );
+		$jobQueue = JobQueueGroup::singleton()->get( "refreshLinks" );
 		if ( !empty( $refreshWikiPage ) ) {
 			while ( $jobQueue->pop() ) {
    }

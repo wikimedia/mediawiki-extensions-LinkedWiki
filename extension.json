@@ -87,9 +87,6 @@
 		"WikidataStorageMethod": "storageMethod/WikidataStorageMethod.php",
 		"DatabaseTestDataMethod": "storageMethod/DatabaseTestDataMethod.php"
 	},
-	"JobClasses": {
-		"SynchroniseThreadArticleLinkedDataJob": "SynchroniseThreadArticleLinkedDataJob"
-	},
 	"Hooks": {
 		"ParserFirstCallInit": [
 			"LinkedWiki::parserFirstCallInit"
