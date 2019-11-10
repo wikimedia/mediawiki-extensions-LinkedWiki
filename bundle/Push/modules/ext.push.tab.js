@@ -197,8 +197,8 @@
 	function getRemoteArticleInfo( targetId, targetUrl ) {
 		var pageName = $('#pageName').attr('value');
 
-		$.getJSON(
-			targetUrl + '/api.php?callback=?',
+		$.post(
+			targetUrl + '/api.php',
 			{
 				'action': 'query',
 				'format': 'json',
@@ -257,7 +257,7 @@
 					displayTargetConflictStatus( targetId );
 				}
 			}
-		);
+			, "jsonp");
 	}
 
 	function displayTargetsConflictStatus() {
@@ -328,7 +328,7 @@
 	function initiatePush( sender, pages, targetUrl, targetName ) {
 		sender.innerHTML = mw.msg( 'push-button-pushing' );
 
-		$.getJSON(
+		$.post(
 			mw.config.get( 'wgScriptPath' )  + '/api.php',
 			{
 				'action': 'push',
@@ -347,7 +347,7 @@
 					handlePushingCompletion( sender, targetUrl, targetName );
 				}
 			}
-		);
+			, "json");
 	}
 
 	function handlePushingCompletion( sender, targetUrl, targetName ) {
@@ -383,7 +383,7 @@
 	}
 
 	function initiateImagePush( sender, pages, targetUrl, targetName, images, fileName ) {
-		$.getJSON(
+		$.post(
 			mw.config.get( 'wgScriptPath' )  + '/api.php',
 			{
 				'action': 'pushimages',
@@ -428,7 +428,7 @@
 					}
 				}
 			}
-		);
+			, "json");
 	}
 
 	function reEnableButton( button, targetUrl, targetName ) {
