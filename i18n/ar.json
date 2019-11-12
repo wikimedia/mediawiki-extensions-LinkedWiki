@@ -1,0 +1,39 @@
+{
+	"@metadata": {
+		"authors": [
+			"ديفيد"
+		]
+	},
+	"linkedwiki-desc": "انظر البيانات المرتبطة في الويكي",
+	"linkedwiki-refresh": "تحديث",
+	"linkedwiki-duration": "مدة الاستعلام",
+	"specialpages-group-linkedwiki_group": "أدوات سباركل وRDF",
+	"linkedwiki-error-server": "عذرا، أرسل خادم سباركل خطأ. (انظر التفاصيل مع سجل الوسيط=2)",
+	"linkedwiki-error-endpoint-init": "عذرا، أرسل خادم سباركل خطأ. (انظر التفاصيل مع سجل الوسيط <kbd>log=2</kbd>)",
+	"linkedwiki-error-endpoint-empty": "أين هي نقطة النهاية أو التكوين؟",
+	"linkedwiki-speciallinkedwikiconfig": "تكوين ويكي مرتبط",
+	"linkedwiki-specialrdfsave": "تحديث قاعدة البيانات",
+	"linkedwiki-category-rdf-page": "صفحة RDF",
+	"linkedwiki-category-rdf-schema": "مخطط RDF",
+	"linkedwiki-specialrdfunit": "حالات RDF تجريبية",
+	"linkedwiki-specialsparqlflinteditor": "محرر سباركل فلينت",
+	"linkedwiki-specialsparqlquery": "محرر سباركل",
+	"linkedwiki-specialsparqlquery_categorysparqlquery": "استعلام سباركل",
+	"linkedwiki-specialsparqlquery_query": "استعلام",
+	"linkedwiki-specialsparqlquery_mainpage": "سيتم استخدام هذه الصفحة لاختبار الاستعلامات وتحسينها ومشاركتها إذا كنت ترغب في ذلك.\nانشر أسئلتك على:[https://www.mediawiki.org/wiki/Extension_talk:LinkedWiki نقاش:ويكي مرتبط]",
+	"linkedwiki-specialsparqlquery_sendquery": "تنفيذ الاستعلام",
+	"linkedwiki-specialsparqlquery_usethisquery": "كيفية استخدام هذا الاستعلام في هذا الويكي",
+	"linkedwiki-specialsparqlquery_usethisquery_tutorial": "انسخ هذا السطر والصقه في صفحة من هذا الويكي.\n\nشاهد المزيد:[https://www.mediawiki.org/wiki/Extension:LinkedWiki امتداد:ويكي مرتبط]",
+	"linkedwiki-specialsparqlquery_endpointsparql": "نقطة نهاية سباركل",
+	"linkedwiki-specialsparqlquery_chooseaconfiguration": "اختيار التكوين",
+	"linkedwiki-specialsparqlquery_option1part1javascriptvisualizationsof": "تصورات جافا سكريبت ل",
+	"linkedwiki-specialsparqlquery_option1part2details": "(بدون ذاكرة التخزين المؤقت والبيانات العامة فقط)",
+	"linkedwiki-specialsparqlquery_option2tableonly": "جدول فقط (مع ذاكرة التخزين المؤقت وللبيانات العامة أو البيانات الخاصة)",
+	"linkedwiki-specialsparqlquery_options": "خيارات",
+	"linkedwiki-specialsparqlquery_loglevel": "مستوى السجلات",
+	"linkedwiki-specialsparqlquery_visualization": "تصور",
+	"linkedwiki-specialsparqlquery_seethedoc": "انظر التوثيق",
+	"linkedwiki-specialsparqlquery_result": "النتيجة",
+	"action-data-edit": "تحرير صفحات البيانات (في نطاقي البيانات وبيانات المستخدم) ونقل هذه البيانات مع [[Special:RDFSave]] وتحقق من الرسوم البيانية RDF",
+	"right-data-edit": "تحرير صفحات البيانات (في نطاقي البيانات وبيانات المستخدم) ونقل هذه البيانات مع [[Special:RDFSave]] والتحقق من الرسوم البيانية RDF ب[[Special:RDFUnit]]. [https://www.mediawiki.org/wiki/Extension:LinkedWiki/Import_in_wiki_to_write,_check,_transfer_and_validate_RDF التوثيق]"
+}

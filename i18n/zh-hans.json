@@ -1,0 +1,15 @@
+{
+	"@metadata": {
+		"authors": [
+			"沈澄心"
+		]
+	},
+	"linkedwiki-refresh": "刷新",
+	"linkedwiki-specialrdfsave": "刷新数据库",
+	"linkedwiki-specialsparqlquery_query": "查询",
+	"linkedwiki-specialsparqlquery_sendquery": "执行查询",
+	"linkedwiki-specialsparqlquery_options": "选项",
+	"linkedwiki-specialsparqlquery_loglevel": "日志等级",
+	"linkedwiki-specialsparqlquery_visualization": "可视化",
+	"linkedwiki-specialsparqlquery_result": "结果"
+}

@@ -1,48 +1,41 @@
 {
 	"@metadata": {
 		"authors": [
-			"Karima Rafes"
+			"Karima Rafes",
+			"Verdy p"
 		]
 	},
 	"linkedwiki-desc": "Voir le Web des données dans un wiki",
-	"linkedwiki-test": "test",
 	"linkedwiki-date": "H:i:s d/m/Y",
-	"linkedwiki-refresh": "Rafraîchir",
-	"linkedwiki-duration": "Durée du calcul",
-
+	"linkedwiki-refresh": "Actualiser",
+	"linkedwiki-duration": "Durée de la requête",
 	"specialpages-group-linkedwiki_group": "Outils pour SPARQL et RDF",
-
-	"linkedwiki-error-server": "Désolé, le serveur SPARQL a envoyé une erreur. (voir les détails avec le paramètre log=2)",
-	"linkedwiki-error-endpoint-init": "Désolé, il y a un erreur à l'initialisation du endpoint SPARQL. (voir les détails avec le paramètre log=2)",
-	"linkedwiki-error-endpoint-empty": "Où est le paramètre endpoint ou configuration ?",
-
-	"linkedwiki-speciallinkedwikiconfig": "LinkedWiki configuration",
-
-	"linkedwiki-specialrdfsave": "Rafraichir la base de données RDF",
+	"linkedwiki-error-server": "Désolé, le serveur SPARQL a envoyé une erreur (voir les détails avec le paramètre log=2).",
+	"linkedwiki-error-endpoint-init": "Désolé, il y a un erreur à l’initialisation du point d’accès SPARQL (voir les détails avec le paramètre log=2).",
+	"linkedwiki-error-endpoint-empty": "Où est le point d’accès ou la configuration ?",
+	"linkedwiki-speciallinkedwikiconfig": "Configuration de LinkedWiki",
+	"linkedwiki-specialrdfsave": "Actualiser la base de données",
 	"linkedwiki-category-rdf-page": "Page RDF",
-	"linkedwiki-category-rdf-schema": "Schema RDF",
-
+	"linkedwiki-category-rdf-schema": "Schéma RDF",
 	"linkedwiki-specialrdfunit": "Tests unitaires RDF",
-
-	"linkedwiki-specialsparqlflinteditor": "Editeur Flint SPARQL",
-
-	"linkedwiki-specialsparqlquery": "Editeur SPARQL",
+	"linkedwiki-specialsparqlflinteditor": "Éditeur Flint SPARQL",
+	"linkedwiki-specialsparqlquery": "Éditeur SPARQL",
 	"linkedwiki-specialsparqlquery_categorysparqlquery": "Requête SPARQL",
 	"linkedwiki-specialsparqlquery_query": "Requête",
-	"linkedwiki-specialsparqlquery_mainpage": "Cette page va vous servir à tester, optimiser et partager vos requêtes si vous le souhaitez.\n\nPostez vos questions à : [https://www.mediawiki.org/wiki/Extension_talk:LinkedWiki Discussion linkedwiki]",
+	"linkedwiki-specialsparqlquery_mainpage": "Cette page sera utilisée pour tester, optimiser et partager vos requêtes si vous le souhaitez.\n\nPostez vos questions à : [https://www.mediawiki.org/wiki/Extension_talk:LinkedWiki Discussion linkedwiki]",
 	"linkedwiki-specialsparqlquery_sendquery": "Exécuter la requête",
-	"linkedwiki-specialsparqlquery_usethisquery": "Utiliser cette requête au sein de ce Wiki",
-	"linkedwiki-specialsparqlquery_usethisquery_tutorial": "Pour cela, il vous suffit de copier le text suivant dans une page du wiki. Pour formater l'affichage, voir : [https://www.mediawiki.org/wiki/Extension:LinkedWiki Extension:LinkedWiki]",
-	"linkedwiki-specialsparqlquery_endpointsparql": "Point d'accès SPARQL",
+	"linkedwiki-specialsparqlquery_usethisquery": "Comment utiliser cette requête au sein de ce Wiki",
+	"linkedwiki-specialsparqlquery_usethisquery_tutorial": "Pour cela, il vous suffit de copier le texte suivant dans une page du wiki.\n\nPour plus de détails, voir : [https://www.mediawiki.org/wiki/Extension:LinkedWiki Extension:LinkedWiki]",
+	"linkedwiki-specialsparqlquery_endpointsparql": "Point d’accès SPARQL",
 	"linkedwiki-specialsparqlquery_chooseaconfiguration": "Choisir une configuration",
-	"linkedwiki-specialsparqlquery_option1part1javascriptvisualizationsof" : "Visuels en Javascript de",
-	"linkedwiki-specialsparqlquery_option1part2details": "(sans cache et seulement pour des données publiques)",
-	"linkedwiki-specialsparqlquery_option2tableonly": "Table uniquement (avec cache et pour des données publiques ou privées)",
+	"linkedwiki-specialsparqlquery_option1part1javascriptvisualizationsof": "Visualisations en Javascript de",
+	"linkedwiki-specialsparqlquery_option1part2details": "(sans cache et seulement pour les données publiques)",
+	"linkedwiki-specialsparqlquery_option2tableonly": "Table uniquement (avec cache et pour les données publiques ou privées)",
 	"linkedwiki-specialsparqlquery_options": "Options",
-	"linkedwiki-specialsparqlquery_loglevel": "Niveau des logs",
+	"linkedwiki-specialsparqlquery_loglevel": "Niveau des journaux",
 	"linkedwiki-specialsparqlquery_visualization": "Visualisation",
-	"linkedwiki-specialsparqlquery_seethedoc": "Voir la doc",
+	"linkedwiki-specialsparqlquery_seethedoc": "Voir la documentation",
 	"linkedwiki-specialsparqlquery_result": "Résultat",
-
-	"right-data-edit": "Modifier les pages de données (dans l'espace de noms : Data et UserData), transférer ces données avec [[Special:RDFSave]] et vérfier les graphes RDF  [[Special:RDFUnit]]. [https://www.mediawiki.org/wiki/Extension:LinkedWiki/Import_in_wiki_to_write,_check,_transfer_and_validate_RDF Documentations]"
+	"action-data-edit": "modifier les pages de données (dans les espaces de noms Data et UserData), transférer ces données avec [[Special:RDFSave]] et vérifier les graphes RDF",
+	"right-data-edit": "Modifier les pages de données (dans les espaces de noms Data et UserData), transférer ces données avec [[Special:RDFSave]] et vérfier les graphes RDF avec [[Special:RDFUnit]]. [https://www.mediawiki.org/wiki/Extension:LinkedWiki/Import_in_wiki_to_write,_check,_transfer_and_validate_RDF Documentations]"
 }
