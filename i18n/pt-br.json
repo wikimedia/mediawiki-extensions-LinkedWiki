@@ -1,0 +1,25 @@
+{
+	"@metadata": {
+		"authors": [
+			"Eduardo Addad de Oliveira"
+		]
+	},
+	"linkedwiki-refresh": "Atualizar",
+	"linkedwiki-duration": "Duração da consulta",
+	"linkedwiki-error-server": "Desculpe, o servidor SPARQL enviou um erro. (veja detalhes com o parâmetro log=2)",
+	"linkedwiki-error-endpoint-empty": "Onde está o terminal ou a configuração?",
+	"linkedwiki-speciallinkedwikiconfig": "Configuração do LinkedWiki",
+	"linkedwiki-specialrdfsave": "Atualizar banco de dados",
+	"linkedwiki-category-rdf-page": "Página RDF",
+	"linkedwiki-specialrdfunit": "Casos de teste RDF",
+	"linkedwiki-specialsparqlquery_query": "Consulta",
+	"linkedwiki-specialsparqlquery_usethisquery": "Como usar esta consulta nessa wiki",
+	"linkedwiki-specialsparqlquery_chooseaconfiguration": "Escolher uma configuração",
+	"linkedwiki-specialsparqlquery_option1part1javascriptvisualizationsof": "Visualizações JavaScript de",
+	"linkedwiki-specialsparqlquery_option1part2details": "(sem cache e apenas para dados públicos)",
+	"linkedwiki-specialsparqlquery_option2tableonly": "Somente tabela (com cache e para dados públicos ou privados)",
+	"linkedwiki-specialsparqlquery_options": "Opções",
+	"linkedwiki-specialsparqlquery_visualization": "Visualização",
+	"linkedwiki-specialsparqlquery_seethedoc": "Veja a documentação",
+	"linkedwiki-specialsparqlquery_result": "Resultado"
+}

@@ -1,0 +1,13 @@
+{
+	"@metadata": {
+		"authors": [
+			"Papuass"
+		]
+	},
+	"specialpages-group-linkedwiki_group": "SPARQL un RDF rīki",
+	"linkedwiki-category-rdf-schema": "RDF shēma",
+	"linkedwiki-specialsparqlquery": "SPARQL redaktors",
+	"linkedwiki-specialsparqlquery_query": "Vaicājums",
+	"linkedwiki-specialsparqlquery_sendquery": "Izpildīt vaicājumu",
+	"linkedwiki-specialsparqlquery_visualization": "Vizualizācija"
+}

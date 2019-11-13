@@ -1,0 +1,39 @@
+{
+	"@metadata": {
+		"authors": [
+			"Bjankuloski06"
+		]
+	},
+	"linkedwiki-desc": "Преглед на сврзаните податоци во едно вики",
+	"linkedwiki-refresh": "Превчитај",
+	"linkedwiki-duration": "Траење на барањето",
+	"specialpages-group-linkedwiki_group": "Алатки за SPARQL и RDF",
+	"linkedwiki-error-server": "За жал, опслужувачот на SPARQL пријави грешка (погл. подробно со параметарот log=2).",
+	"linkedwiki-error-endpoint-init": "За жал, има грешка во вашата завршница (погл. подробно со параметарот <kbd>log=2</kbd>).",
+	"linkedwiki-error-endpoint-empty": "Каде е завршницата или поставеноста?",
+	"linkedwiki-speciallinkedwikiconfig": "Поставување на LinkedWiki",
+	"linkedwiki-specialrdfsave": "Превчитај база",
+	"linkedwiki-category-rdf-page": "RDF-страница",
+	"linkedwiki-category-rdf-schema": "RDF-шема",
+	"linkedwiki-specialrdfunit": "Пробни случаи за RDF",
+	"linkedwiki-specialsparqlflinteditor": "Уредник Flint за SPARQL",
+	"linkedwiki-specialsparqlquery": "Уредник за SPARQL",
+	"linkedwiki-specialsparqlquery_categorysparqlquery": "Барање од SPARQL",
+	"linkedwiki-specialsparqlquery_query": "Барање",
+	"linkedwiki-specialsparqlquery_mainpage": "Оваа страница ќе служи за испробување, оптимизација и споделување на вашите барања, доколку сакате.\n\nПрашањата поставувајте ги на: [https://www.mediawiki.org/wiki/Extension_talk:LinkedWiki Talk:LinkedWiki]",
+	"linkedwiki-specialsparqlquery_sendquery": "Изврши го барањето",
+	"linkedwiki-specialsparqlquery_usethisquery": "Како се применува барањево на ова вики",
+	"linkedwiki-specialsparqlquery_usethisquery_tutorial": "Прекопирајте го редов во страница на ова вики.\n\nПогледајте повеќе: [https://www.mediawiki.org/wiki/Extension:LinkedWiki Extension:LinkedWiki]",
+	"linkedwiki-specialsparqlquery_endpointsparql": "SPARQL на завршницата",
+	"linkedwiki-specialsparqlquery_chooseaconfiguration": "Одберете поставеност",
+	"linkedwiki-specialsparqlquery_option1part1javascriptvisualizationsof": "Нагледни претстави со JavaScript на",
+	"linkedwiki-specialsparqlquery_option1part2details": "(без меѓусклад и само за јавни податоци)",
+	"linkedwiki-specialsparqlquery_option2tableonly": "Само табела (со меѓусклад и за јавни или приватни податоци)",
+	"linkedwiki-specialsparqlquery_options": "Поставки",
+	"linkedwiki-specialsparqlquery_loglevel": "Дневнички степен",
+	"linkedwiki-specialsparqlquery_visualization": "Нагледна претстава",
+	"linkedwiki-specialsparqlquery_seethedoc": "Погл. документацијата",
+	"linkedwiki-specialsparqlquery_result": "Исход",
+	"action-data-edit": "уредување на податотечни страници (во именските простори Податоци и Кориснички податоци), пренос на овие податоци со [[Special:RDFSave]] и проверка на RDF-графикони",
+	"right-data-edit": "Уредување на податотечни страници (во именските простори Податоци и Кориснички податоци), пренос на овие податоци со [[Special:RDFSave]] и проверка на RDF-графикони со [[Special:RDFUnit]]. [https://www.mediawiki.org/wiki/Extension:LinkedWiki/Import_in_wiki_to_write,_check,_transfer_and_validate_RDF Документации]"
+}

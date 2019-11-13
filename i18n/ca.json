@@ -1,0 +1,14 @@
+{
+	"@metadata": {
+		"authors": [
+			"Fitoschido"
+		]
+	},
+	"linkedwiki-refresh": "Actualitza",
+	"linkedwiki-specialrdfsave": "Actualitza la base de dades",
+	"linkedwiki-specialsparqlquery_chooseaconfiguration": "Trieu una configuració",
+	"linkedwiki-specialsparqlquery_options": "Opcions",
+	"linkedwiki-specialsparqlquery_visualization": "Visualització",
+	"linkedwiki-specialsparqlquery_seethedoc": "Consulteu la documentació",
+	"linkedwiki-specialsparqlquery_result": "Resultat"
+}

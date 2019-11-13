@@ -1,15 +1,21 @@
 {
 	"@metadata": {
 		"authors": [
-			"沈澄心"
+			"沈澄心",
+			"Ywang"
 		]
 	},
 	"linkedwiki-refresh": "刷新",
+	"linkedwiki-speciallinkedwikiconfig": "LinkedWiki配置",
 	"linkedwiki-specialrdfsave": "刷新数据库",
+	"linkedwiki-category-rdf-page": "RDF页",
 	"linkedwiki-specialsparqlquery_query": "查询",
 	"linkedwiki-specialsparqlquery_sendquery": "执行查询",
+	"linkedwiki-specialsparqlquery_chooseaconfiguration": "选择一个配置",
+	"linkedwiki-specialsparqlquery_option1part2details": "（无缓存，仅用于公共数据）",
 	"linkedwiki-specialsparqlquery_options": "选项",
 	"linkedwiki-specialsparqlquery_loglevel": "日志等级",
 	"linkedwiki-specialsparqlquery_visualization": "可视化",
+	"linkedwiki-specialsparqlquery_seethedoc": "查看在线文档",
 	"linkedwiki-specialsparqlquery_result": "结果"
 }
