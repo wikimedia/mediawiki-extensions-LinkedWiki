@@ -1,0 +1,14 @@
+{
+	"@metadata": {
+		"authors": [
+			"Mansil alfalb"
+		]
+	},
+	"linkedwiki-refresh": "Atualizar",
+	"linkedwiki-duration": "Duração da consulta",
+	"linkedwiki-specialsparqlquery_query": "Consulta",
+	"linkedwiki-specialsparqlquery_options": "Opções",
+	"linkedwiki-specialsparqlquery_visualization": "Visualização",
+	"linkedwiki-specialsparqlquery_seethedoc": "Consulte a documentação",
+	"linkedwiki-specialsparqlquery_result": "Resultado"
+}
