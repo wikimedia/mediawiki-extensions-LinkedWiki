@@ -49,7 +49,7 @@ See: https://www.mediawiki.org/wiki/Extension:LinkedWiki
 
 == Release-Notes ==
 * v3.3.7 fix bugs by Karima Rafes <karima.rafes@bordercloud.com>
-         - fix problems about update data in mode preview or revision
+         - fix problems about update data in mode preview and revision
 
 * v3.3.6 fix bugs by Karima Rafes <karima.rafes@bordercloud.com>
          - fix rebuildall pages with lua modules in the version 1.33.1

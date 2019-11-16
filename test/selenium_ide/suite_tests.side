@@ -61,7 +61,7 @@
         ["xpath=//div[@id='mw-content-text']/table[2]/tbody/tr[8]/td[2]", "xpath:idRelative"],
         ["xpath=//table[2]/tbody/tr[8]/td[2]", "xpath:position"]
       ],
-      "value": "see file: localsettings"
+      "value": "see file: LocalSettings.php"
     }, {
       "id": "dc111130-141f-41e3-b69b-4290c628afc0",
       "comment": "",
@@ -72,7 +72,7 @@
         ["xpath=//div[@id='mw-content-text']/table[2]/tbody/tr[9]/td[2]", "xpath:idRelative"],
         ["xpath=//table[2]/tbody/tr[9]/td[2]", "xpath:position"]
       ],
-      "value": "see file: localsettings"
+      "value": "see file: LocalSettings.php"
     }, {
       "id": "becb8810-955c-47f4-8f66-b4e8a4389815",
       "comment": "",
@@ -2314,7 +2314,7 @@
       "id": "6e58c47b-5c2d-405e-a872-9b452c31a8b1",
       "comment": "",
       "command": "click",
-      "target": "link=Sparql Flint editor",
+      "target": "link=SPARQL Flint editor",
       "targets": [],
       "value": ""
     }, {

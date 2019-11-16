@@ -209,19 +209,19 @@ function p.tests(f)
     valueInWiki = "http://example.com/test.png"
     result = objTest:checkImage(pT,valueInWiki)
     html = html .."15 RESULT BEGIN : "..'\n' ..result ..'\n'.."END" ..'\n'
-    html = html .."RESULT : " .. p.checkString(result,'<div class="linkedwiki_new_value"><img src="http://example.com/test.png" /></div>') ..'\n'
+    html = html .."RESULT : " .. p.checkString(result,'<div class="linkedwiki_new_value"><img src="//example.com/test.png" /></div>') ..'\n'
 
     mw.log(objTest:addPropertyWithIri(pT,"http://example.com/test.png"))
 
     valueInWiki = "http://example.com/test.png"
     result = objTest:checkImage(pT,valueInWiki)
     html = html .."16 RESULT BEGIN : "..'\n' ..result ..'\n'.."END" ..'\n'
-    html = html .."RESULT : " .. p.checkString(result,'<div class="linkedwiki_value_equal"><img src="http://example.com/test.png" /></div>') ..'\n'
+    html = html .."RESULT : " .. p.checkString(result,'<div class="linkedwiki_value_equal"><img src="//example.com/test.png" /></div>') ..'\n'
 
     valueInWiki = "http://example.com/test2.png"
     result = objTest:checkImage(pT,valueInWiki)
     html = html .."17 RESULT BEGIN : "..'\n' ..result ..'\n'.."END" ..'\n'
-    html = html .."RESULT : " .. p.checkString(result,'<div class="linkedwiki_new_value linkedwiki_tooltip" data-toggle="tooltip" data-placement="bottom" title="Currently in DB : http://example.com/test.png"><img src="http://example.com/test2.png" /></div>') ..'\n'
+    html = html .."RESULT : " .. p.checkString(result,'<div class="linkedwiki_new_value linkedwiki_tooltip" data-toggle="tooltip" data-placement="bottom" title="Currently in DB : http://example.com/test.png"><img src="//example.com/test2.png" /></div>') ..'\n'
 
     html = html .."----------------------------------------------------------------------------" ..'\n'
     html = html .."TEST : checkTitle" ..'\n'
