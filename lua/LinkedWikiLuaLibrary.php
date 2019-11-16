@@ -125,6 +125,19 @@ class LinkedWikiLuaLibrary extends Scribunto_LuaLibraryBase {
 		return [ $this->getInstanceConfig()->isDebug() ];
 	}
 
+	/**
+	 * @return bool
+	 */
+	public function isPreviewOrHistory() {
+		if ( array_key_exists( "wpPreview", $_REQUEST )
+			|| ( array_key_exists( "oldid", $_REQUEST ) && $_REQUEST["oldid"] > 0 )
+		) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	// public function setGraph($graphNamed)
 	//    {
 	//        $graph = trim($graphNamed);
@@ -310,6 +323,9 @@ class LinkedWikiLuaLibrary extends Scribunto_LuaLibraryBase {
 		if ( preg_match( "/(\"\"\"|'''| )/i", trim( $iriSubject ) ) ) {
 			return [ "ERROR : Bad subject" ];
 		}
+		if ( $this->isPreviewOrHistory() ) {
+			return [ "Mode PreviewOrHistory detected: data will not save" ];
+		}
 
 		$this->checkType( 'addPropertyWithIri', 1, $iriProperty, 'string' );
 		$this->checkType( 'addPropertyWithIri', 2, $iriValue, 'string' );
@@ -365,6 +381,9 @@ class LinkedWikiLuaLibrary extends Scribunto_LuaLibraryBase {
 		}
 		if ( preg_match( "/(\"\"\"|'''| )/i", trim( $iriSubject ) ) ) {
 			return [ "ERROR : Bad subject" ];
+		}
+		if ( $this->isPreviewOrHistory() ) {
+			return [ "Mode PreviewOrHistory detected: data will not save." ];
 		}
 		// $this->checkType( 'addPropertyWithLitteral', 1, $iriProperty, 'string' );
 		// $this->checkType( 'addPropertyWithLitteral', 2, $value, 'number or string' );
@@ -434,6 +453,9 @@ class LinkedWikiLuaLibrary extends Scribunto_LuaLibraryBase {
 
 		if ( preg_match( "/(\"\"\"|'''| )/i", trim( $iriSubject ) ) ) {
 			return [ "ERROR : Bad subject" ];
+		}
+		if ( $this->isPreviewOrHistory() ) {
+			return [ "Mode PreviewOrHistory detected: data will not save." ];
 		}
 
 		$subject = ( $iriSubject === null ) ?
