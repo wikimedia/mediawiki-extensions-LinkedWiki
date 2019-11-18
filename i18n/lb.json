@@ -5,8 +5,10 @@
 		]
 	},
 	"linkedwiki-refresh": "Aktualiséieren",
+	"linkedwiki-specialrdfsave": "Datebank aktualiséieren",
 	"linkedwiki-category-rdf-page": "RDF-Säit",
 	"linkedwiki-specialsparqlquery_options": "Optiounen",
+	"linkedwiki-specialsparqlquery_visualization": "Visualisatioun",
 	"linkedwiki-specialsparqlquery_seethedoc": "Kuckt d'Dokumentatioun",
 	"linkedwiki-specialsparqlquery_result": "Resultat"
 }
