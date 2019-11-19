@@ -5,9 +5,13 @@
 		]
 	},
 	"linkedwiki-refresh": "Actualitza",
+	"specialpages-group-linkedwiki_group": "Eines per a l’SPARQL i l’RDF",
 	"linkedwiki-specialrdfsave": "Actualitza la base de dades",
+	"linkedwiki-specialsparqlquery_query": "Consulta",
+	"linkedwiki-specialsparqlquery_sendquery": "Executa la consulta",
 	"linkedwiki-specialsparqlquery_chooseaconfiguration": "Trieu una configuració",
 	"linkedwiki-specialsparqlquery_options": "Opcions",
+	"linkedwiki-specialsparqlquery_loglevel": "Nivell dels registres",
 	"linkedwiki-specialsparqlquery_visualization": "Visualització",
 	"linkedwiki-specialsparqlquery_seethedoc": "Consulteu la documentació",
 	"linkedwiki-specialsparqlquery_result": "Resultat"

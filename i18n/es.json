@@ -13,5 +13,6 @@
 	"linkedwiki-specialsparqlquery_sendquery": "Ejecutar consulta",
 	"linkedwiki-specialsparqlquery_options": "Opciones",
 	"linkedwiki-specialsparqlquery_loglevel": "Nivel de registros",
-	"linkedwiki-specialsparqlquery_visualization": "Visualización"
+	"linkedwiki-specialsparqlquery_visualization": "Visualización",
+	"linkedwiki-specialsparqlquery_result": "Resultado"
 }
