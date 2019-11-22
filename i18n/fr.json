@@ -2,16 +2,17 @@
 	"@metadata": {
 		"authors": [
 			"Karima Rafes",
-			"Verdy p"
+			"Verdy p",
+			"Wladek92"
 		]
 	},
-	"linkedwiki-desc": "Voir le Web des données dans un wiki",
+	"linkedwiki-desc": "Voir les données liées dans un wiki",
 	"linkedwiki-date": "H:i:s d/m/Y",
 	"linkedwiki-refresh": "Actualiser",
 	"linkedwiki-duration": "Durée de la requête",
 	"specialpages-group-linkedwiki_group": "Outils pour SPARQL et RDF",
 	"linkedwiki-error-server": "Désolé, le serveur SPARQL a envoyé une erreur (voir les détails avec le paramètre log=2).",
-	"linkedwiki-error-endpoint-init": "Désolé, il y a un erreur à l’initialisation du point d’accès SPARQL (voir les détails avec le paramètre log=2).",
+	"linkedwiki-error-endpoint-init": "Désolé, il y a un erreur liée à votre point de terminaison (voir les détails avec le paramètre <kbd>log=2</kbd>).",
 	"linkedwiki-error-endpoint-empty": "Où est le point d’accès ou la configuration ?",
 	"linkedwiki-speciallinkedwikiconfig": "Configuration de LinkedWiki",
 	"linkedwiki-specialrdfsave": "Actualiser la base de données",
@@ -25,7 +26,7 @@
 	"linkedwiki-specialsparqlquery_mainpage": "Cette page sera utilisée pour tester, optimiser et partager vos requêtes si vous le souhaitez.\n\nPostez vos questions à : [https://www.mediawiki.org/wiki/Extension_talk:LinkedWiki Discussion linkedwiki]",
 	"linkedwiki-specialsparqlquery_sendquery": "Exécuter la requête",
 	"linkedwiki-specialsparqlquery_usethisquery": "Comment utiliser cette requête au sein de ce Wiki",
-	"linkedwiki-specialsparqlquery_usethisquery_tutorial": "Pour cela, il vous suffit de copier le texte suivant dans une page du wiki.\n\nPour plus de détails, voir : [https://www.mediawiki.org/wiki/Extension:LinkedWiki Extension:LinkedWiki]",
+	"linkedwiki-specialsparqlquery_usethisquery_tutorial": "Copiez et collez cette ligne dans une page de ce wiki.\n\nPour plus de détails, voir : [https://www.mediawiki.org/wiki/Extension:LinkedWiki Extension:LinkedWiki]",
 	"linkedwiki-specialsparqlquery_endpointsparql": "Point d’accès SPARQL",
 	"linkedwiki-specialsparqlquery_chooseaconfiguration": "Choisir une configuration",
 	"linkedwiki-specialsparqlquery_option1part1javascriptvisualizationsof": "Visualisations en Javascript de",
