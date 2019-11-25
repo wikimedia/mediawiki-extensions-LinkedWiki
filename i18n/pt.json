@@ -1,12 +1,18 @@
 {
 	"@metadata": {
 		"authors": [
-			"Mansil alfalb"
+			"Mansil alfalb",
+			"Hamilton Abreu"
 		]
 	},
 	"linkedwiki-refresh": "Atualizar",
 	"linkedwiki-duration": "Duração da consulta",
+	"linkedwiki-specialrdfsave": "Atualizar base de dados",
+	"linkedwiki-category-rdf-page": "Página RDF",
 	"linkedwiki-specialsparqlquery_query": "Consulta",
+	"linkedwiki-specialsparqlquery_usethisquery": "Como utilizar esta consulta nesta wiki",
+	"linkedwiki-specialsparqlquery_chooseaconfiguration": "Escolher uma configuração",
+	"linkedwiki-specialsparqlquery_option1part2details": "(sem ''cach'' e apenas para dados públicos)",
 	"linkedwiki-specialsparqlquery_options": "Opções",
 	"linkedwiki-specialsparqlquery_visualization": "Visualização",
 	"linkedwiki-specialsparqlquery_seethedoc": "Consulte a documentação",
