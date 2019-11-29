@@ -1,0 +1,27 @@
+{
+	"@metadata": {
+		"authors": [
+			"Ykhwong"
+		]
+	},
+	"linkedwiki-refresh": "새로 고침",
+	"specialpages-group-linkedwiki_group": "SPARQL 및 RDF 도구",
+	"linkedwiki-error-server": "죄송합니다. SPARQL 서버가 오류를 보냈습니다. (자세한 정보를 보려면 변수 log=2를 사용하십시오)",
+	"linkedwiki-specialrdfsave": "데이터베이스 새로 고침",
+	"linkedwiki-category-rdf-page": "RDF 페이지",
+	"linkedwiki-category-rdf-schema": "RDF 스키마",
+	"linkedwiki-specialrdfunit": "RDF 테스트 케이스",
+	"linkedwiki-specialsparqlflinteditor": "SPARQL 플린트 편집기",
+	"linkedwiki-specialsparqlquery": "SPARQL 편집기",
+	"linkedwiki-specialsparqlquery_categorysparqlquery": "SPARQL 쿼리",
+	"linkedwiki-specialsparqlquery_query": "쿼리",
+	"linkedwiki-specialsparqlquery_sendquery": "쿼리 실행",
+	"linkedwiki-specialsparqlquery_usethisquery": "이 위키에서 이 쿼리를 사용하는 방법",
+	"linkedwiki-specialsparqlquery_endpointsparql": "엔드포인트 SPARQL",
+	"linkedwiki-specialsparqlquery_chooseaconfiguration": "구성 선택",
+	"linkedwiki-specialsparqlquery_options": "옵션",
+	"linkedwiki-specialsparqlquery_loglevel": "로그 레벨",
+	"linkedwiki-specialsparqlquery_visualization": "시각화",
+	"linkedwiki-specialsparqlquery_seethedoc": "설명문서 보기",
+	"linkedwiki-specialsparqlquery_result": "결과"
+}
