@@ -260,9 +260,9 @@
 			"merge_strategy": "array_plus_2d"
 		},
 		"SPARQLServiceSaveDataOfWiki": {
-				"description": "If you specify the SPARQL service uses to save RDF data (in the RDF tag) on the pages of wiki, you are able to use the special page to clean/import all your RDF data.",
-				"value": ""
-			},
+			"description": "If you specify the SPARQL service uses to save RDF data (in the RDF tag) on the pages of wiki, you are able to use the special page to clean/import all your RDF data.",
+			"value": ""
+		},
 		"CheckRDFPage" : {
 			"description": "If you have install Rapper, you can choose to check the RDF when you save a page, with this option.",
 			"value": false
