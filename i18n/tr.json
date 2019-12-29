@@ -1,0 +1,39 @@
+{
+	"@metadata": {
+		"authors": [
+			"BaRaN6161 TURK"
+		]
+	},
+	"linkedwiki-desc": "Bağlantılı verileri bir wikide gör",
+	"linkedwiki-refresh": "Yenile",
+	"linkedwiki-duration": "Sorgu süresi",
+	"specialpages-group-linkedwiki_group": "SPARQL ve RDF araçları",
+	"linkedwiki-error-server": "Maalesef SPARQL sunucusu bir hata gönderdi. (parametre log=2 olan ayrıntılara bakın)",
+	"linkedwiki-error-endpoint-init": "Maalesef, uç noktanızla ilgili bir hata var (<kbd>log=2</kbd> parametresiyle ilgili ayrıntılara bakın).",
+	"linkedwiki-error-endpoint-empty": "Bitiş noktası veya yapılandırma nerede?",
+	"linkedwiki-speciallinkedwikiconfig": "LinkedWiki yapılandırması",
+	"linkedwiki-specialrdfsave": "Veritabanını yenile",
+	"linkedwiki-category-rdf-page": "RDF sayfası",
+	"linkedwiki-category-rdf-schema": "RDF şeması",
+	"linkedwiki-specialrdfunit": "RDF test senaryoları",
+	"linkedwiki-specialsparqlflinteditor": "SPARQL Flint editörü",
+	"linkedwiki-specialsparqlquery": "SPARQL editörü",
+	"linkedwiki-specialsparqlquery_categorysparqlquery": "SPARQL sorgusu",
+	"linkedwiki-specialsparqlquery_query": "Sorgu",
+	"linkedwiki-specialsparqlquery_mainpage": "Bu sayfa, isterseniz sorgularınızı test etmek, optimize etmek ve paylaşmak için kullanılacaktır.\n\nSorularınızı şu adrese gönderin: [https://www.mediawiki.org/wiki/Extension_talk:LinkedWiki Tartışma:LinkedWiki]",
+	"linkedwiki-specialsparqlquery_sendquery": "Sorguyu çalıştır",
+	"linkedwiki-specialsparqlquery_usethisquery": "Bu wikide bu sorguyu kullanma",
+	"linkedwiki-specialsparqlquery_usethisquery_tutorial": "Bu satırı kopyalayıp bu wikinin bir sayfasına yapıştırın.\n\nDaha fazlasını görün: [https://www.mediawiki.org/wiki/Extension:LinkedWiki Uzantı:LinkedWiki]",
+	"linkedwiki-specialsparqlquery_endpointsparql": "Uç nokta SPARQL",
+	"linkedwiki-specialsparqlquery_chooseaconfiguration": "Bir yapılandırma seçin",
+	"linkedwiki-specialsparqlquery_option1part1javascriptvisualizationsof": "JavaScript görselleştirmeleri",
+	"linkedwiki-specialsparqlquery_option1part2details": "(önbellek olmadan ve yalnızca herkese açık veriler için)",
+	"linkedwiki-specialsparqlquery_option2tableonly": "Yalnızca tablo (önbellekli ve genel veriler veya özel veriler için)",
+	"linkedwiki-specialsparqlquery_options": "Seçenekler",
+	"linkedwiki-specialsparqlquery_loglevel": "Kayıt seviyesi",
+	"linkedwiki-specialsparqlquery_visualization": "Görüntüleme",
+	"linkedwiki-specialsparqlquery_seethedoc": "Belgelere bakın",
+	"linkedwiki-specialsparqlquery_result": "Sonuç",
+	"action-data-edit": "veri sayfalarını düzenleyin (Data ve UserData ad alanlarında), bu verileri [[Special:RDFSave]] ile aktarın ve RDF grafiklerini kontrol edin",
+	"right-data-edit": "Veri sayfalarını düzenleyin (Data ve UserData ad alanlarında), bu verileri [[Special:RDFSave]] ile aktarın ve [[Special:RDFUnit]] ile RDF grafiklerini kontrol edin. [https://www.mediawiki.org/wiki/Extension:LinkedWiki/Import_in_wiki_to_write,_check,_transfer_and_validate_RDF Belgeleri]"
+}
