@@ -379,7 +379,7 @@
 	 */
 	private function getCustomTargetTitle( $key, $title, $raw = false ) {
 		$customTarget = $this->getNamespace( $key, 'customTarget' );
-		if ( !is_null( $customTarget ) ) {
+		if ( $customTarget !== null ) {
 			$title = wfMsgReplaceArgs( $customTarget, [ $title ] );
 		}
 		if ( $raw ) {
@@ -459,16 +459,16 @@
 	 * Returns full NS tab definition or one of its fields
 	 *
 	 * @param string $key NS tab key
-	 * @param string $param NS tab parameter
+	 * @param string|null $param NS tab parameter
 	 * @param mixed $default Value to return if parameter doesn't exist
 	 *
 	 * @return array|mixed
 	 */
 	private function getNamespace( $key, $param = null, $default = null ) {
-		if ( is_null( $param ) && isset( $this->namespaces[$key] ) ) {
+		if ( $param === null && isset( $this->namespaces[$key] ) ) {
 			return $this->namespaces[$key];
 		} elseif ( isset( $this->namespaces[$key][$param] )
-			&& !is_null( $this->namespaces[$key][$param] )
+			&& $this->namespaces[$key][$param] !== null
 		) {
 			return $this->namespaces[$key][$param];
 		} else {
@@ -480,15 +480,15 @@
 	 * Sets full NS tab definition or one of its fields
 	 *
 	 * @param string $key NS tab key
-	 * @param string $param NS tab parameter
+	 * @param string|null $param NS tab parameter
 	 * @param mixed $value Value to set, defines the whole tab if param is null
 	 *
 	 * @return NamespaceRelations
 	 */
 	private function setNamespace( $key, $param = null, $value = null ) {
-		if ( is_null( $param ) && !is_null( $value ) ) {
+		if ( $param === null && $value !== null ) {
 			$this->namespaces[$key] = $value;
-		} elseif ( !is_null( $param ) && !is_null( $value ) ) {
+		} elseif ( $param !== null && $value !== null ) {
 			$this->namespaces[$key][$param] = $value;
 		}
 
@@ -498,7 +498,7 @@
 	/**
 	 * Attaches tabs handling to a source namespace
 	 *
-	 * @param integer $ns Namespace ID
+	 * @param int $ns Namespace ID
 	 * @param string $key NS tab key
 	 *
 	 * @throws MWException Thrown if namespace doesn't exist
@@ -514,7 +514,7 @@
 	/**
 	 * Attaches tabs handling to a target namespace
 	 *
-	 * @param integer $ns Namespace ID
+	 * @param int $ns Namespace ID
 	 * @param string $key NS tab key
 	 *
 	 * @throws MWException Thrown if namespace doesn't exist

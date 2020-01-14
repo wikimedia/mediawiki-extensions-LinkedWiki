@@ -32,7 +32,7 @@ class ApiPushImages extends ApiPushBase {
 
 		foreach ( $params['images'] as $image ) {
 			$title = Title::newFromText( $image, NS_FILE );
-			if ( !is_null( $title ) && $title->getNamespace() == NS_FILE && $title->exists() ) {
+			if ( $title !== null && $title->getNamespace() == NS_FILE && $title->exists() ) {
 				$this->doPush( $title, $target );
 			}
 		}

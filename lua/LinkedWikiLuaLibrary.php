@@ -518,7 +518,7 @@ class LinkedWikiLuaLibrary extends Scribunto_LuaLibraryBase {
 	////PRIVATE FUNCTION
 
 	/**
-	 * @param $query
+	 * @param string $query
 	 */
 	private function setLastQuery( $query ) {
 		$this->lastQuery = $query;

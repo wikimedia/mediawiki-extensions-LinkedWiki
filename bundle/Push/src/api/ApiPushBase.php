@@ -72,7 +72,7 @@ abstract class ApiPushBase extends ApiBase {
 		if ( property_exists( $response->query->tokens, 'logintoken' ) ) {
 			$token = $response->query->tokens->logintoken;
 		} elseif (
-			!is_null( $response )
+			$response !== null
 			&& property_exists( $response, 'query' )
 			&& property_exists( $response->query, 'error' )
 		) {
@@ -209,7 +209,7 @@ abstract class ApiPushBase extends ApiBase {
 		if ( property_exists( $response->query->tokens, 'csrftoken' ) ) {
 			$token = $response->query->tokens->csrftoken;
 		} elseif (
-			!is_null( $response )
+			$response !== null
 			&& property_exists( $response, 'query' )
 			&& property_exists( $response->query, 'error' )
 		) {

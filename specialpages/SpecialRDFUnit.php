@@ -34,7 +34,7 @@ if ( !function_exists( 'http_build_str' ) ) :
 	 * @return string Returns the built query as string on success or FALSE on failure.
 	 */
 	function http_build_str( array $query, $prefix = '', $arg_separator = null ) {
-		if ( is_null( $arg_separator ) ) {
+		if ( $arg_separator === null ) {
 			$arg_separator = ini_get( 'arg_separator.output' );
 		}
 		$out = [];

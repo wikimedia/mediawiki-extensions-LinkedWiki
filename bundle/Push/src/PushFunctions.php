@@ -173,7 +173,7 @@ final class PushFunctions {
 					foreach ( $page['images'] as $image ) {
 						$title = Title::newFromText( $image['title'], NS_FILE );
 
-						if ( !is_null( $title ) && $title->getNamespace() == NS_FILE && $title->exists() ) {
+						if ( $title !== null && $title->getNamespace() == NS_FILE && $title->exists() ) {
 							$images[] = $image['title'];
 						}
 					}
