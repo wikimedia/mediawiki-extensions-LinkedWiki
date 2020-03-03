@@ -1,0 +1,39 @@
+{
+	"@metadata": {
+		"authors": [
+			"Piramidion"
+		]
+	},
+	"linkedwiki-desc": "Див. Linked Data у вікі",
+	"linkedwiki-refresh": "Оновити",
+	"linkedwiki-duration": "Тривалість запиту",
+	"specialpages-group-linkedwiki_group": "Інструменти SPARQL та RDF",
+	"linkedwiki-error-server": "Вибачте, сервер SPARQL надіслав помилку (див. подробиці з параметром log=2)",
+	"linkedwiki-error-endpoint-init": "Вибачте, сталася помилка з вашою точкою доступу (див. подробиці з параметром <kbd>log=2</kbd>).",
+	"linkedwiki-error-endpoint-empty": "Де є точка доступу чи конфігурація?",
+	"linkedwiki-speciallinkedwikiconfig": "Конфігурація LinkedWiki",
+	"linkedwiki-specialrdfsave": "Оновити базу даних",
+	"linkedwiki-category-rdf-page": "Сторінка RDF",
+	"linkedwiki-category-rdf-schema": "Схема RDF",
+	"linkedwiki-specialrdfunit": "Тестові випадки RDF",
+	"linkedwiki-specialsparqlflinteditor": "Редактор Flint SPARQL",
+	"linkedwiki-specialsparqlquery": "Редактор SPARQL",
+	"linkedwiki-specialsparqlquery_categorysparqlquery": "Запит SPARQL",
+	"linkedwiki-specialsparqlquery_query": "Запит",
+	"linkedwiki-specialsparqlquery_mainpage": "Цю сторінку буде використано для тестувань, оптимізації та поширення ваших запитів, якщо забажаєте.\n\nСтавте свої запитання на: [https://www.mediawiki.org/wiki/Extension_talk:LinkedWiki сторінці обговорення LinkedWiki]",
+	"linkedwiki-specialsparqlquery_sendquery": "Виконати запит",
+	"linkedwiki-specialsparqlquery_usethisquery": "Як використовувати запити (query) в цій вікі",
+	"linkedwiki-specialsparqlquery_usethisquery_tutorial": "Скопіюйте і вставте цей рядок на сторінку цієї вікі.\n\nДив. подробиці: [https://www.mediawiki.org/wiki/Extension:LinkedWiki Розширення:LinkedWiki]",
+	"linkedwiki-specialsparqlquery_endpointsparql": "Точка доступу SPARQL",
+	"linkedwiki-specialsparqlquery_chooseaconfiguration": "Виберіть конфігурацію",
+	"linkedwiki-specialsparqlquery_option1part1javascriptvisualizationsof": "JavaScript-візуалізації",
+	"linkedwiki-specialsparqlquery_option1part2details": "(без кешу і лише для публічних даних)",
+	"linkedwiki-specialsparqlquery_option2tableonly": "Лише таблиця (з кешем і для публічних чи приватних даних)",
+	"linkedwiki-specialsparqlquery_options": "Опції",
+	"linkedwiki-specialsparqlquery_loglevel": "Рівні журналів",
+	"linkedwiki-specialsparqlquery_visualization": "Візуалізація",
+	"linkedwiki-specialsparqlquery_seethedoc": "Див. документацію",
+	"linkedwiki-specialsparqlquery_result": "Результат",
+	"action-data-edit": "редагування сторінок даних (у просторах назв Data та UserData), передачу цих даних за допомогою [[Special:RDFSave]] та перевірку RDF-графів",
+	"right-data-edit": "редагування сторінок даних (у просторах назв Data та UserData), передача цих даних за допомогою [[Special:RDFSave]] та перевірка RDF-графів за допомогою [[Special:RDFUnit]]. [https://www.mediawiki.org/wiki/Extension:LinkedWiki/Import_in_wiki_to_write,_check,_transfer_and_validate_RDF Документації]"
+}
