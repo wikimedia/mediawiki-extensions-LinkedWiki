@@ -88,28 +88,13 @@
 		"DatabaseTestDataMethod": "storageMethod/DatabaseTestDataMethod.php"
 	},
 	"Hooks": {
-		"ParserFirstCallInit": [
-			"LinkedWiki::parserFirstCallInit"
-		],
-		"ScribuntoExternalLibraries": [
-			"LinkedWiki::scribuntoExternalLibraries"
-		],
-		"RawPageViewBeforeOutput": [
-			"RDFTag::rawRDFSource"
-		],
-		"EditFilterMergedContent": [
-			"RDFTag::onEditFilterMergedContent"
-		],
-		"ArticleDeleteAfterSuccess": [
-			"LinkedWiki::onArticleDeleteAfterSuccess"
-		],
-
-		"TitleMoveComplete": [
-			"LinkedWiki::onTitleMoveComplete"
-		],
-		"BeforePageDisplay": [
-			"LinkedWiki::onBeforePageDisplay"
-		]
+		"ParserFirstCallInit": "LinkedWiki::parserFirstCallInit",
+		"ScribuntoExternalLibraries": "LinkedWiki::scribuntoExternalLibraries",
+		"RawPageViewBeforeOutput": "RDFTag::rawRDFSource",
+		"EditFilterMergedContent": "RDFTag::onEditFilterMergedContent",
+		"ArticleDeleteAfterSuccess": "LinkedWiki::onArticleDeleteAfterSuccess",
+		"TitleMoveComplete": "LinkedWiki::onTitleMoveComplete",
+		"BeforePageDisplay": "LinkedWiki::onBeforePageDisplay"
 	},
 	"MessagesDirs": {
 		"LinkedWiki": [
