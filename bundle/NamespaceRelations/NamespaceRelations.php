@@ -1,4 +1,7 @@
 <?php
+
+use MediaWiki\MediaWikiServices;
+
  class NamespaceRelations {
 
 	const SUBJECT_WEIGHT = 10;
@@ -103,7 +106,15 @@
 		$subjectNS = $title->getSubjectPage()->getNamespace();
 		$rootText = $this->getRootTitle( $titleText, $subjectNS );
 		// the root title to link other tabs against
-		$userCanRead = $title->quickUserCan( 'read', $skinTemplate->getUser() );
+
+		if ( class_exists( 'MediaWiki\Permissions\PermissionManager' ) ) {
+			// MW 1.33+
+			$userCanRead = MediaWikiServices::getInstance()
+				->getPermissionManager()
+				->quickUserCan( 'read', $skinTemplate->getUser(), $title );
+		} else {
+			$userCanRead = $title->quickUserCan( 'read', $skinTemplate->getUser() );
+		}
 
 		/**
 		 * * key (subject, talk, or custom key)
