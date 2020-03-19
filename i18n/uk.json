@@ -35,5 +35,5 @@
 	"linkedwiki-specialsparqlquery_seethedoc": "Див. документацію",
 	"linkedwiki-specialsparqlquery_result": "Результат",
 	"action-data-edit": "редагування сторінок даних (у просторах назв Data та UserData), передачу цих даних за допомогою [[Special:RDFSave]] та перевірку RDF-графів",
-	"right-data-edit": "редагування сторінок даних (у просторах назв Data та UserData), передача цих даних за допомогою [[Special:RDFSave]] та перевірка RDF-графів за допомогою [[Special:RDFUnit]]. [https://www.mediawiki.org/wiki/Extension:LinkedWiki/Import_in_wiki_to_write,_check,_transfer_and_validate_RDF Документації]"
+	"right-data-edit": "Редагування сторінок даних (у просторах назв Data та UserData), передача цих даних за допомогою [[Special:RDFSave]] та перевірка RDF-графів за допомогою [[Special:RDFUnit]]. [https://www.mediawiki.org/wiki/Extension:LinkedWiki/Import_in_wiki_to_write,_check,_transfer_and_validate_RDF Документації]"
 }
