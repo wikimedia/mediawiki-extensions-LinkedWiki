@@ -56,7 +56,7 @@ class LinkedWiki {
 	public static function onArticleDeleteAfterSuccess( Title $title, OutputPage $output ) {
 		$config = ConfigFactory::getDefaultInstance()->makeConfig( 'wgLinkedWiki' );
 		if ( !$config->has( "SPARQLServiceSaveDataOfWiki" ) ) {
-			$output->addHTML( "Database by default for the Wiki is not precised 
+			$output->addHTML( "Database by default for the Wiki is not precised
 			in the extension.json of the LinkedWiki extension.
 			(parameter SPARQLServiceSaveDataOfWiki) : no data deleted." );
 			return true;
@@ -81,9 +81,9 @@ class LinkedWiki {
 			$message = $configSaveData->isDebug() ?
 				$response . print_r( $err, true )
 				: "ERROR SPARQL (see details in mode debug)";
-			$output->addWikiText( "ERROR : " . $message );
+			$output->addWikiTextAsInterface( "ERROR : " . $message );
 		} else {
-			$output->addWikiText( "Data deleted." );
+			$output->addWikiTextAsInterface( "Data deleted." );
 		}
 		return true;
 	}

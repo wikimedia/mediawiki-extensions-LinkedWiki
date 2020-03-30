@@ -48,6 +48,9 @@ Optional extensions :
 See: https://www.mediawiki.org/wiki/Extension:LinkedWiki
 
 == Release-Notes ==
+* v3.3.8 fix a bug by Ostrzycel <ostrzyciel.nozyczek@gmail.com>
+		- remove the use of OutputPage::addWikitext() removed in 1.34
+
 * v3.3.7 fix bugs by Karima Rafes <karima.rafes@bordercloud.com>
          - fix problems about update data in mode preview and revision
 
