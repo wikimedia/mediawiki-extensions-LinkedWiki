@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Gomoko",
 			"Karima Rafes",
 			"Thibaut120094",
 			"Verdy p",
@@ -27,7 +28,7 @@
 	"linkedwiki-specialsparqlquery_mainpage": "Cette page sera utilisée pour tester, optimiser et partager vos requêtes si vous le souhaitez.\n\nPostez vos questions à : [https://www.mediawiki.org/wiki/Extension_talk:LinkedWiki Discussion linkedwiki]",
 	"linkedwiki-specialsparqlquery_sendquery": "Exécuter la requête",
 	"linkedwiki-specialsparqlquery_usethisquery": "Comment utiliser cette requête au sein de ce Wiki",
-	"linkedwiki-specialsparqlquery_usethisquery_tutorial": "Copiez et collez cette ligne dans une page de ce wiki.\n\nPour plus de détails, voir : [https://www.mediawiki.org/wiki/Extension:LinkedWiki Extension:LinkedWiki]",
+	"linkedwiki-specialsparqlquery_usethisquery_tutorial": "Copiez et collez cette ligne dans une page de ce wiki.\n\nPour plus de détails, voir : [https://www.mediawiki.org/wiki/Special:MyLanguage/Extension:LinkedWiki Extension:LinkedWiki]",
 	"linkedwiki-specialsparqlquery_endpointsparql": "Point d’accès SPARQL",
 	"linkedwiki-specialsparqlquery_chooseaconfiguration": "Choisir une configuration",
 	"linkedwiki-specialsparqlquery_option1part1javascriptvisualizationsof": "Visualisations en Javascript de",
@@ -39,5 +40,5 @@
 	"linkedwiki-specialsparqlquery_seethedoc": "Voir la documentation",
 	"linkedwiki-specialsparqlquery_result": "Résultat",
 	"action-data-edit": "modifier les pages de données (dans les espaces de noms Data et UserData), transférer ces données avec [[Special:RDFSave]] et vérifier les graphes RDF",
-	"right-data-edit": "Modifier les pages de données (dans les espaces de noms Data et UserData), transférer ces données avec [[Special:RDFSave]] et vérfier les graphes RDF avec [[Special:RDFUnit]]. [https://www.mediawiki.org/wiki/Extension:LinkedWiki/Import_in_wiki_to_write,_check,_transfer_and_validate_RDF Documentations]"
+	"right-data-edit": "Modifier les pages de données (dans les espaces de noms Data et UserData), transférer ces données avec [[Special:RDFSave]] et vérfier les graphes RDF avec [[Special:RDFUnit]]. [https://www.mediawiki.org/wiki/Special:MyLanguage/Extension:LinkedWiki/Import_in_wiki_to_write,_check,_transfer_and_validate_RDF Documentations]"
 }

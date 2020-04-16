@@ -23,7 +23,7 @@
 	"linkedwiki-specialsparqlquery_mainpage": "Bu sayfa, isterseniz sorgularınızı test etmek, optimize etmek ve paylaşmak için kullanılacaktır.\n\nSorularınızı şu adrese gönderin: [https://www.mediawiki.org/wiki/Extension_talk:LinkedWiki Tartışma:LinkedWiki]",
 	"linkedwiki-specialsparqlquery_sendquery": "Sorguyu çalıştır",
 	"linkedwiki-specialsparqlquery_usethisquery": "Bu wikide bu sorguyu kullanma",
-	"linkedwiki-specialsparqlquery_usethisquery_tutorial": "Bu satırı kopyalayıp bu wikinin bir sayfasına yapıştırın.\n\nDaha fazlasını görün: [https://www.mediawiki.org/wiki/Extension:LinkedWiki Uzantı:LinkedWiki]",
+	"linkedwiki-specialsparqlquery_usethisquery_tutorial": "Bu satırı kopyalayıp bu wikinin bir sayfasına yapıştırın.\n\nDaha fazlasını bakın: [https://www.mediawiki.org/wiki/Special:MyLanguage/Extension:LinkedWiki Extension:LinkedWiki]",
 	"linkedwiki-specialsparqlquery_endpointsparql": "Uç nokta SPARQL",
 	"linkedwiki-specialsparqlquery_chooseaconfiguration": "Bir yapılandırma seçin",
 	"linkedwiki-specialsparqlquery_option1part1javascriptvisualizationsof": "JavaScript görselleştirmeleri",
@@ -35,5 +35,5 @@
 	"linkedwiki-specialsparqlquery_seethedoc": "Belgelere bakın",
 	"linkedwiki-specialsparqlquery_result": "Sonuç",
 	"action-data-edit": "veri sayfalarını düzenleyin (Data ve UserData ad alanlarında), bu verileri [[Special:RDFSave]] ile aktarın ve RDF grafiklerini kontrol edin",
-	"right-data-edit": "Veri sayfalarını düzenleyin (Data ve UserData ad alanlarında), bu verileri [[Special:RDFSave]] ile aktarın ve [[Special:RDFUnit]] ile RDF grafiklerini kontrol edin. [https://www.mediawiki.org/wiki/Extension:LinkedWiki/Import_in_wiki_to_write,_check,_transfer_and_validate_RDF Belgeleri]"
+	"right-data-edit": "Veri sayfalarını düzenleyin (Data ve UserData ad alanlarında), bu verileri [[Special:RDFSave]] ile aktarın ve [[Special:RDFUnit]] ile RDF grafiklerini kontrol edin. [https://www.mediawiki.org/wiki/Special:MyLanguage/Extension:LinkedWiki/Import_in_wiki_to_write,_check,_transfer_and_validate_RDF Belgeler]"
 }

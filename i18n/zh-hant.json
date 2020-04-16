@@ -24,7 +24,7 @@
 	"linkedwiki-specialsparqlquery_mainpage": "若有需要此頁面會用於測試，來最佳化並共享您的查詢。\n\n發佈您的問題到：[https://www.mediawiki.org/wiki/Extension_talk:LinkedWiki Talk:LinkedWiki]",
 	"linkedwiki-specialsparqlquery_sendquery": "執行查詢",
 	"linkedwiki-specialsparqlquery_usethisquery": "如何使用此 wiki 上的查詢",
-	"linkedwiki-specialsparqlquery_usethisquery_tutorial": "在此 wiki 的頁面上複製貼上該行。\n\n了解更多： [https://www.mediawiki.org/wiki/Extension:LinkedWiki Extension:LinkedWiki]",
+	"linkedwiki-specialsparqlquery_usethisquery_tutorial": "在此 wiki 的頁面上複製貼上該行。\n\n了解更多：[https://www.mediawiki.org/wiki/Special:MyLanguage/Extension:LinkedWiki Extension:LinkedWiki]",
 	"linkedwiki-specialsparqlquery_endpointsparql": "端點SPARQL",
 	"linkedwiki-specialsparqlquery_chooseaconfiguration": "選擇一個配置",
 	"linkedwiki-specialsparqlquery_option1part1javascriptvisualizationsof": "JavaScript視覺化",
@@ -36,5 +36,5 @@
 	"linkedwiki-specialsparqlquery_seethedoc": "查看文件",
 	"linkedwiki-specialsparqlquery_result": "結果",
 	"action-data-edit": "編輯資料頁面（在 Data 與 UserData 命名空間），以 [[Special:RDFSave]] 傳遞這些資料並檢查 RDF 圖形",
-	"right-data-edit": "編輯資料頁面（在 Data 與 UserData 命名空間），以 [[Special:RDFSave]] 傳遞這些資料和 [[Special:RDFUnit]] 來檢查 RDF 圖形。 [https://www.mediawiki.org/wiki/Extension:LinkedWiki/Import_in_wiki_to_write,_check,_transfer_and_validate_RDF 文件]"
+	"right-data-edit": "編輯資料頁面（在 Data 與 UserData 命名空間），以 [[Special:RDFSave]] 傳遞這些資料和 [[Special:RDFUnit]] 來檢查 RDF 圖形。 [https://www.mediawiki.org/wiki/Special:MyLanguage/Extension:LinkedWiki/Import_in_wiki_to_write,_check,_transfer_and_validate_RDF 文件]"
 }

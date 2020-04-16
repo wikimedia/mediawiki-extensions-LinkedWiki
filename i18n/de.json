@@ -1,0 +1,20 @@
+{
+	"@metadata": {
+		"authors": []
+	},
+	"linkedwiki-refresh": "Aktualisieren",
+	"linkedwiki-duration": "Dauer der Abfrage",
+	"specialpages-group-linkedwiki_group": "SPARQL- und RDF-Werkzeuge",
+	"linkedwiki-error-server": "Entschuldigung, der SPARQL-Server hat einen Fehler gesendet. (siehe Details mit Parameter log=2)",
+	"linkedwiki-error-endpoint-init": "Entschuldigung, es liegt ein Fehler mit deinem Endpunkt vor (siehe Details mit Parameter <kbd>log=2<kbd>).",
+	"linkedwiki-error-endpoint-empty": "Wo ist der Endpunkt oder die Konfiguration?",
+	"linkedwiki-speciallinkedwikiconfig": "LinkedWiki-Konfiguration",
+	"linkedwiki-specialrdfsave": "Datenbank auffrischen",
+	"linkedwiki-category-rdf-page": "RDF-Seite",
+	"linkedwiki-category-rdf-schema": "RDF-Schema",
+	"linkedwiki-specialrdfunit": "RDF-Testfälle",
+	"linkedwiki-specialsparqlflinteditor": "SPARQL-Flint-Editor",
+	"linkedwiki-specialsparqlquery": "SPARQL-Editor",
+	"linkedwiki-specialsparqlquery_categorysparqlquery": "SPARQL-Abfrage",
+	"linkedwiki-specialsparqlquery_query": "Abfrage"
+}
