@@ -23,7 +23,7 @@
 	"linkedwiki-specialsparqlquery_mainpage": "Оваа страница ќе служи за испробување, оптимизација и споделување на вашите барања, доколку сакате.\n\nПрашањата поставувајте ги на: [https://www.mediawiki.org/wiki/Extension_talk:LinkedWiki Talk:LinkedWiki]",
 	"linkedwiki-specialsparqlquery_sendquery": "Изврши го барањето",
 	"linkedwiki-specialsparqlquery_usethisquery": "Како се применува барањево на ова вики",
-	"linkedwiki-specialsparqlquery_usethisquery_tutorial": "Прекопирајте го редов во страница на ова вики.\n\nПогледајте повеќе: [https://www.mediawiki.org/wiki/Extension:LinkedWiki Extension:LinkedWiki]",
+	"linkedwiki-specialsparqlquery_usethisquery_tutorial": "Прекопирајте го редов во страница на ова вики.\n\nПогледајте повеќе: [https://www.mediawiki.org/wiki/Special:MyLanguage/Extension:LinkedWiki Extension:LinkedWiki]",
 	"linkedwiki-specialsparqlquery_endpointsparql": "SPARQL на завршницата",
 	"linkedwiki-specialsparqlquery_chooseaconfiguration": "Одберете поставеност",
 	"linkedwiki-specialsparqlquery_option1part1javascriptvisualizationsof": "Нагледни претстави со JavaScript на",
@@ -35,5 +35,5 @@
 	"linkedwiki-specialsparqlquery_seethedoc": "Погл. документацијата",
 	"linkedwiki-specialsparqlquery_result": "Исход",
 	"action-data-edit": "уредување на податотечни страници (во именските простори Податоци и Кориснички податоци), пренос на овие податоци со [[Special:RDFSave]] и проверка на RDF-графикони",
-	"right-data-edit": "Уредување на податотечни страници (во именските простори Податоци и Кориснички податоци), пренос на овие податоци со [[Special:RDFSave]] и проверка на RDF-графикони со [[Special:RDFUnit]]. [https://www.mediawiki.org/wiki/Extension:LinkedWiki/Import_in_wiki_to_write,_check,_transfer_and_validate_RDF Документации]"
+	"right-data-edit": "Уредување на податотечни страници (во именските простори Податоци и Кориснички податоци), пренос на овие податоци со [[Special:RDFSave]] и проверка на RDF-графикони со [[Special:RDFUnit]]. [https://www.mediawiki.org/wiki/Special:MyLanguage/Extension:LinkedWiki/Import_in_wiki_to_write,_check,_transfer_and_validate_RDF Документации]"
 }

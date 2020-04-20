@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Movses",
 			"Piramidion"
 		]
 	},
@@ -23,7 +24,7 @@
 	"linkedwiki-specialsparqlquery_mainpage": "Цю сторінку буде використано для тестувань, оптимізації та поширення ваших запитів, якщо забажаєте.\n\nСтавте свої запитання на: [https://www.mediawiki.org/wiki/Extension_talk:LinkedWiki сторінці обговорення LinkedWiki]",
 	"linkedwiki-specialsparqlquery_sendquery": "Виконати запит",
 	"linkedwiki-specialsparqlquery_usethisquery": "Як використовувати запити (query) в цій вікі",
-	"linkedwiki-specialsparqlquery_usethisquery_tutorial": "Скопіюйте і вставте цей рядок на сторінку цієї вікі.\n\nДив. подробиці: [https://www.mediawiki.org/wiki/Extension:LinkedWiki Розширення:LinkedWiki]",
+	"linkedwiki-specialsparqlquery_usethisquery_tutorial": "Скопіюйте і вставте цей рядок на сторінку цієї вікі.\n\nДив. подробиці: [https://www.mediawiki.org/wiki/Special:MyLanguage/Extension:LinkedWiki Розширення:LinkedWiki]",
 	"linkedwiki-specialsparqlquery_endpointsparql": "Точка доступу SPARQL",
 	"linkedwiki-specialsparqlquery_chooseaconfiguration": "Виберіть конфігурацію",
 	"linkedwiki-specialsparqlquery_option1part1javascriptvisualizationsof": "JavaScript-візуалізації",
@@ -35,5 +36,5 @@
 	"linkedwiki-specialsparqlquery_seethedoc": "Див. документацію",
 	"linkedwiki-specialsparqlquery_result": "Результат",
 	"action-data-edit": "редагування сторінок даних (у просторах назв Data та UserData), передачу цих даних за допомогою [[Special:RDFSave]] та перевірку RDF-графів",
-	"right-data-edit": "Редагування сторінок даних (у просторах назв Data та UserData), передача цих даних за допомогою [[Special:RDFSave]] та перевірка RDF-графів за допомогою [[Special:RDFUnit]]. [https://www.mediawiki.org/wiki/Extension:LinkedWiki/Import_in_wiki_to_write,_check,_transfer_and_validate_RDF Документації]"
+	"right-data-edit": "Редагування сторінок даних (у просторах назв Data та UserData), передача цих даних за допомогою [[Special:RDFSave]] та перевірка RDF-графів за допомогою [[Special:RDFUnit]]. [https://www.mediawiki.org/wiki/Special:MyLanguage/Extension:LinkedWiki/Import_in_wiki_to_write,_check,_transfer_and_validate_RDF Документації]"
 }
