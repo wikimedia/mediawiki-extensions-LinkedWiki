@@ -1,8 +1,10 @@
 {
 	"@metadata": {
 		"authors": [
-			"Mainframe98"
+			"Mainframe98",
+			"Nieuwsgierige Gebruiker"
 		]
 	},
-	"linkedwiki-refresh": "Vernieuwen"
+	"linkedwiki-refresh": "Vernieuwen",
+	"right-data-edit": "Bewerk datapagina's (in de naamruimten Data en GebruikersData), verplaats deze data met [[Special:RDFSave]] en check RDFgraphs met [[Special:RDFUnit]]. [https://www.mediawiki.org/wiki/Special:MyLanguage/Extension:LinkedWiki/Import_in_wiki_to_write,_check,_transfer_and_validate_RDF Documentaties]"
 }
