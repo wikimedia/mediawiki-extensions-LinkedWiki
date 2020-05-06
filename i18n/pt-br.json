@@ -23,7 +23,7 @@
 	"linkedwiki-specialsparqlquery_mainpage": "Esta página será usada para testar, otimizar e compartilhar suas consultas, se desejar.\n\nPoste suas perguntas para:[https://www.mediawiki.org/wiki/Extension_talk:LinkedWiki Talk:LinkedWiki]",
 	"linkedwiki-specialsparqlquery_sendquery": "Executar consulta",
 	"linkedwiki-specialsparqlquery_usethisquery": "Como usar esta consulta nessa wiki",
-	"linkedwiki-specialsparqlquery_usethisquery_tutorial": "Copie e cole esta linha em uma página dessa wiki.\n\nVer mais: [https://www.mediawiki.org/wiki/Extension:LinkedWiki Extension:LinkedWiki]",
+	"linkedwiki-specialsparqlquery_usethisquery_tutorial": "Copie e cole esta linha em uma página dessa wiki.\n\nVer mais: [https://www.mediawiki.org/wiki/Special:MyLanguage/Extension:LinkedWiki Extension:LinkedWiki]",
 	"linkedwiki-specialsparqlquery_endpointsparql": "Ponto de extremidade SPARQL",
 	"linkedwiki-specialsparqlquery_chooseaconfiguration": "Escolher uma configuração",
 	"linkedwiki-specialsparqlquery_option1part1javascriptvisualizationsof": "Visualizações JavaScript de",
