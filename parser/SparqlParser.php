@@ -248,8 +248,9 @@ class SparqlParser {
 				if ( !isset( $TableClassHeaders[$i] ) || $TableClassHeaders[$i] == "" ) {
 					$classStr = "";
 
-	   } else { $classStr = $TableClassHeaders[$i] . "|";
-	   }
+				} else {
+					$classStr = $TableClassHeaders[$i] . "|";
+				}
 				$TableTitleHeaders[$i] = $classStr . $TableTitleHeaders[$i];
 			}
 
@@ -387,8 +388,9 @@ class SparqlParser {
 				if ( !isset( $TableClassHeaders[$i] ) || $TableClassHeaders[$i] == "" ) {
 					$classStr = "";
 
-	   } else { $classStr = " class=\"" . $TableClassHeaders[$i] . "\"";
-	   }
+				} else {
+					$classStr = " class=\"" . $TableClassHeaders[$i] . "\"";
+				}
 				$TableTitleHeaders[$i] = "<th" . $classStr . ">" . $variables[$i] . "</th>";
 			}
 

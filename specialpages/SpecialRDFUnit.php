@@ -106,7 +106,7 @@ if ( !function_exists( 'http_build_url' ) ) :
 		// Path
 		if ( $STRIP_PATH ) {
 			$new_url['path'] = '';
-  } else {
+		} else {
 			$d_path = $defaults['path'];
 			$u_path = ( isset( $url['path'] ) ? $url['path'] : '' );
 			$p_path = ( isset( $parts['path'] ) ? $parts['path'] : '' );
@@ -115,18 +115,18 @@ if ( !function_exists( 'http_build_url' ) ) :
 			$path = $d_path;
 			if ( isset( $url['host'] ) && !$p_path ) {
 				$path = '/' . ltrim( $u_path, '/' );
-   } elseif ( strpos( $u_path, '/' ) === 0 ) {
+			} elseif ( strpos( $u_path, '/' ) === 0 ) {
 				$path = $u_path;
-   } elseif ( $u_path ) {
+			} elseif ( $u_path ) {
 				$path = pathinfo( $path . 'x', PATHINFO_DIRNAME ) . '/' . $u_path;
-   }
+			}
 			if ( isset( $parts['host'] ) ) {
 				$path = '/' . ltrim( $p_path, '/' );
-   } elseif ( strpos( $p_path, '/' ) === 0 ) {
+			} elseif ( strpos( $p_path, '/' ) === 0 ) {
 				$path = $p_path;
-   } elseif ( $p_path ) {
+			} elseif ( $p_path ) {
 				$path = pathinfo( $path . 'x', PATHINFO_DIRNAME ) . '/' . $p_path;
-   }
+			}
 			$path = explode( '/', $path );
 			$k_stack = [];
 			foreach ( $path as $k => $v ) {
@@ -139,23 +139,23 @@ if ( !function_exists( 'http_build_url' ) ) :
 				} elseif ( $v == '.' ) {
 					unset( $path[$k] );
 
-	   } else { $k_stack[] = $k;
-	   }
+				} else { $k_stack[] = $k;
+				}
 			}
 			$path = implode( '/', $path );
 			$new_url['path'] = $path;
-  }
+		}
 		$new_url['path'] = '/' . ltrim( $new_url['path'], '/' );
 		// Query
 		if ( $STRIP_QUERY ) {
 			$new_url['query'] = '';
-  } else {
+		} else {
 			$u_query = isset( $url['query'] ) ? $url['query'] : '';
 			$p_query = isset( $parts['query'] ) ? $parts['query'] : '';
 			$query = $new_url['query'];
 			if ( is_array( $p_query ) ) {
 				$query = $u_query;
-   } elseif ( $JOIN_QUERY ) {
+			} elseif ( $JOIN_QUERY ) {
 				if ( !is_array( $u_query ) ) { parse_str( $u_query, $u_query );
 				}
 				if ( !is_array( $p_query ) ) { parse_str( $p_query, $p_query );
@@ -172,12 +172,12 @@ if ( !function_exists( 'http_build_url' ) ) :
 				$query = str_replace( [ '{{{', '%7B%7B%7B' ], '%5B', $query );
 				$query = str_replace( [ '}}}', '%7D%7D%7D' ], '%5D', $query );
 				parse_str( $query, $query );
-   }
+			}
 			if ( is_array( $query ) ) {
 				$query = http_build_str( $query );
 			}
 			$new_url['query'] = $query;
-  }
+		}
 		// Fragment
 		if ( $STRIP_FRAGMENT ) {
 			$new_url['fragment'] = '';

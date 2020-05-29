@@ -480,11 +480,11 @@ final class PushTab {
 	}
 
 	/**
-		* Outputs the HTML for the "include files" option.
-		*
-		* @since 0.4
+	 * Outputs the HTML for the "include files" option.
 	 *
-		*/
+	 * @since 0.4
+	 *
+	 */
 	protected static function displayIncFilesOption() {
 		global $wgOut;
 		$config = ConfigFactory::getDefaultInstance()->makeConfig( 'egPush' );

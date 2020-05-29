@@ -97,7 +97,7 @@ class SpecialRDFSave extends SpecialPage {
 		$jobQueue = JobQueueGroup::singleton()->get( "refreshLinks" );
 		if ( !empty( $refreshWikiPage ) ) {
 			while ( $jobQueue->pop() ) {
-   }
+			}
 
 			// Find the Nb pages in this wiki
 			$dbr = wfGetDB( DB_REPLICA );
