@@ -1,0 +1,15 @@
+{
+	"@metadata": {
+		"authors": [
+			"Diman Russkov"
+		]
+	},
+	"linkedwiki-refresh": "Обновить",
+	"linkedwiki-duration": "Duration of query",
+	"specialpages-group-linkedwiki_group": "Инструменты SPARQL и RDF",
+	"linkedwiki-error-server": "Извините, сервер SPARQL отправил ошибку. (см. подробности с параметром log=2)",
+	"linkedwiki-specialrdfsave": "Обновить базу данных",
+	"linkedwiki-specialsparqlquery_options": "Настройки",
+	"linkedwiki-specialsparqlquery_visualization": "Визуализация",
+	"linkedwiki-specialsparqlquery_result": "Результат"
+}
