@@ -2,7 +2,7 @@
   "id": "a49eaa47-02fa-4b1d-a4a6-abf31d11efcb",
   "version": "2.0",
   "name": "suite_tests",
-  "url": "http://wiki.serverdev-mediawiki-v1",
+  "url": "http://wiki.serverdev-mediawiki",
   "tests": [{
     "id": "9e1856a6-6331-43d9-b633-7e6dd609edc3",
     "name": "special_config_T1",
@@ -10,7 +10,7 @@
       "id": "a9b76d35-fba3-4e82-9ce4-091f9088af0d",
       "comment": "",
       "command": "open",
-      "target": "http://wiki.serverdev-mediawiki-v1/index.php/Main_Page",
+      "target": "http://wiki.serverdev-mediawiki/index.php/Main_Page",
       "targets": [],
       "value": ""
     }, {
@@ -224,7 +224,7 @@
       "id": "d212741e-4620-44c5-94e1-3b492dd1f0e5",
       "comment": "",
       "command": "open",
-      "target": "http://wiki.serverdev-mediawiki-v1/index.php/Main_Page",
+      "target": "http://wiki.serverdev-mediawiki/index.php/Main_Page",
       "targets": [],
       "value": ""
     }, {
@@ -284,7 +284,7 @@
       "id": "fb7e09d5-cc23-42cd-bbcb-22a27f555b0b",
       "comment": "",
       "command": "open",
-      "target": "http://wiki.serverdev-mediawiki-v1/index.php/Main_Page",
+      "target": "http://wiki.serverdev-mediawiki/index.php/Main_Page",
       "targets": [],
       "value": ""
     }, {
@@ -344,7 +344,7 @@
       "id": "e3359dfd-2d37-4ff7-9903-74c0bc448ad7",
       "comment": "",
       "command": "open",
-      "target": "http://wiki.serverdev-mediawiki-v1/index.php/Main_Page",
+      "target": "http://wiki.serverdev-mediawiki/index.php/Main_Page",
       "targets": [],
       "value": ""
     }, {
@@ -408,7 +408,7 @@
       "id": "58566e7f-aef8-4e0b-8da8-7d498e045b08",
       "comment": "",
       "command": "open",
-      "target": "http://wiki.serverdev-mediawiki-v1/index.php/Main_Page",
+      "target": "http://wiki.serverdev-mediawiki/index.php/Main_Page",
       "targets": [],
       "value": ""
     }, {
@@ -473,7 +473,7 @@
       "id": "f6091816-5887-46cd-826c-ffedddbc832a",
       "comment": "",
       "command": "open",
-      "target": "http://wiki.serverdev-mediawiki-v1/index.php/Main_Page",
+      "target": "http://wiki.serverdev-mediawiki/index.php/Main_Page",
       "targets": [],
       "value": ""
     }, {
@@ -538,7 +538,7 @@
       "id": "020508d8-84f0-4dc5-9ac5-8ac7c00fbe15",
       "comment": "",
       "command": "open",
-      "target": "http://wiki.serverdev-mediawiki-v1/index.php/Main_Page",
+      "target": "http://wiki.serverdev-mediawiki/index.php/Main_Page",
       "targets": [],
       "value": ""
     }, {
@@ -603,7 +603,7 @@
       "id": "33359cf5-bff8-4420-9ddc-dff9b449ed43",
       "comment": "",
       "command": "open",
-      "target": "http://wiki.serverdev-mediawiki-v1/index.php/Main_Page",
+      "target": "http://wiki.serverdev-mediawiki/index.php/Main_Page",
       "targets": [],
       "value": ""
     }, {
@@ -668,7 +668,7 @@
       "id": "00f0b7f7-02e1-4f7d-b2a1-1781330ac361",
       "comment": "",
       "command": "open",
-      "target": "http://wiki.serverdev-mediawiki-v1/index.php/Main_Page",
+      "target": "http://wiki.serverdev-mediawiki/index.php/Main_Page",
       "targets": [],
       "value": ""
     }, {
@@ -755,7 +755,7 @@
       "id": "83f0a341-3d17-4ff0-82e1-bc3b5c046ddd",
       "comment": "",
       "command": "open",
-      "target": "http://wiki.serverdev-mediawiki-v1/index.php/Main_Page",
+      "target": "http://wiki.serverdev-mediawiki/index.php/Main_Page",
       "targets": [],
       "value": ""
     }, {
@@ -834,7 +834,7 @@
       "id": "2bad4f00-82de-4ca7-86ec-948ba79a8136",
       "comment": "",
       "command": "open",
-      "target": "http://wiki.serverdev-mediawiki-v1/index.php/Main_Page",
+      "target": "http://wiki.serverdev-mediawiki/index.php/Main_Page",
       "targets": [],
       "value": ""
     }, {
@@ -908,7 +908,7 @@
       "id": "9a040e97-297d-4522-82cb-3c2fc1dc494f",
       "comment": "",
       "command": "open",
-      "target": "http://wiki.serverdev-mediawiki-v1/index.php/Main_Page",
+      "target": "http://wiki.serverdev-mediawiki/index.php/Main_Page",
       "targets": [],
       "value": ""
     }, {
@@ -982,7 +982,7 @@
       "id": "10e67ac3-6b43-4e47-81cb-69c7a3ffee96",
       "comment": "",
       "command": "open",
-      "target": "http://wiki.serverdev-mediawiki-v1/index.php/Main_Page",
+      "target": "http://wiki.serverdev-mediawiki/index.php/Main_Page",
       "targets": [],
       "value": ""
     }, {
@@ -1056,7 +1056,7 @@
       "id": "98905c26-f3fb-4566-b793-8a9bd61e29a2",
       "comment": "",
       "command": "open",
-      "target": "http://wiki.serverdev-mediawiki-v1/index.php/Main_Page",
+      "target": "http://wiki.serverdev-mediawiki/index.php/Main_Page",
       "targets": [],
       "value": ""
     }, {
@@ -1130,7 +1130,7 @@
       "id": "fefd4917-72a9-48a3-ad2f-edc4975d540d",
       "comment": "",
       "command": "open",
-      "target": "http://wiki.serverdev-mediawiki-v1/index.php/Main_Page",
+      "target": "http://wiki.serverdev-mediawiki/index.php/Main_Page",
       "targets": [],
       "value": ""
     }, {
@@ -1208,7 +1208,7 @@
       "id": "f17fa0d2-428d-4c23-9419-cc74758595c6",
       "comment": "",
       "command": "open",
-      "target": "http://wiki.serverdev-mediawiki-v1/index.php/Main_Page",
+      "target": "http://wiki.serverdev-mediawiki/index.php/Main_Page",
       "targets": [],
       "value": ""
     }, {
@@ -1282,7 +1282,7 @@
       "id": "871cc698-bf62-4a57-8417-8fa74f296120",
       "comment": "",
       "command": "open",
-      "target": "http://wiki.serverdev-mediawiki-v1/index.php/Main_Page",
+      "target": "http://wiki.serverdev-mediawiki/index.php/Main_Page",
       "targets": [],
       "value": ""
     }, {
@@ -1356,7 +1356,7 @@
       "id": "c7c800c8-d235-4fa8-a004-9d6d391a7a40",
       "comment": "",
       "command": "open",
-      "target": "http://wiki.serverdev-mediawiki-v1/index.php/Main_Page",
+      "target": "http://wiki.serverdev-mediawiki/index.php/Main_Page",
       "targets": [],
       "value": ""
     }, {
@@ -1434,7 +1434,7 @@
       "id": "2b1e1678-b189-4d2a-9037-35f79231c747",
       "comment": "",
       "command": "open",
-      "target": "http://wiki.serverdev-mediawiki-v1/index.php/Main_Page",
+      "target": "http://wiki.serverdev-mediawiki/index.php/Main_Page",
       "targets": [],
       "value": ""
     }, {
@@ -1501,7 +1501,7 @@
       "id": "13dd589c-5e0a-43df-90dd-0aa7f8b9c8d8",
       "comment": "",
       "command": "open",
-      "target": "http://wiki.serverdev-mediawiki-v1/index.php/Main_Page",
+      "target": "http://wiki.serverdev-mediawiki/index.php/Main_Page",
       "targets": [],
       "value": ""
     }, {
@@ -1568,7 +1568,7 @@
       "id": "702c9b8f-78ad-4dc4-9ce4-e37108657b4a",
       "comment": "",
       "command": "open",
-      "target": "http://wiki.serverdev-mediawiki-v1/index.php/Main_Page",
+      "target": "http://wiki.serverdev-mediawiki/index.php/Main_Page",
       "targets": [],
       "value": ""
     }, {
@@ -1633,7 +1633,7 @@
       "id": "bca557a2-ad3e-4be7-8b2f-1c5e64ae74b7",
       "comment": "",
       "command": "open",
-      "target": "http://wiki.serverdev-mediawiki-v1/index.php/Main_Page",
+      "target": "http://wiki.serverdev-mediawiki/index.php/Main_Page",
       "targets": [],
       "value": ""
     }, {
@@ -1698,7 +1698,7 @@
       "id": "b5f5bdc0-a451-4295-8d9c-aa2ecf8b1f73",
       "comment": "",
       "command": "open",
-      "target": "http://wiki.serverdev-mediawiki-v1/index.php/Main_Page",
+      "target": "http://wiki.serverdev-mediawiki/index.php/Main_Page",
       "targets": [],
       "value": ""
     }, {
@@ -1758,7 +1758,7 @@
       "id": "0bedd3d0-449d-4066-ae40-3390c7f51805",
       "comment": "",
       "command": "open",
-      "target": "http://wiki.serverdev-mediawiki-v1/index.php/Main_Page",
+      "target": "http://wiki.serverdev-mediawiki/index.php/Main_Page",
       "targets": [],
       "value": ""
     }, {
@@ -1824,7 +1824,7 @@
       "id": "f1ed7515-5eff-4b4f-80b4-5c144123418b",
       "comment": "",
       "command": "open",
-      "target": "http://wiki.serverdev-mediawiki-v1/index.php/Main_Page",
+      "target": "http://wiki.serverdev-mediawiki/index.php/Main_Page",
       "targets": [],
       "value": ""
     }, {
@@ -1884,7 +1884,7 @@
       "id": "f868c94f-d8d5-42fc-8a5f-b62a7c6c5e51",
       "comment": "",
       "command": "open",
-      "target": "http://wiki.serverdev-mediawiki-v1/index.php/Main_Page",
+      "target": "http://wiki.serverdev-mediawiki/index.php/Main_Page",
       "targets": [],
       "value": ""
     }, {
@@ -1944,7 +1944,7 @@
       "id": "7ee53810-2e8d-4bf3-8bac-6ca2d463254d",
       "comment": "",
       "command": "open",
-      "target": "http://wiki.serverdev-mediawiki-v1/index.php/Main_Page",
+      "target": "http://wiki.serverdev-mediawiki/index.php/Main_Page",
       "targets": [],
       "value": ""
     }, {
@@ -2009,7 +2009,7 @@
       "id": "28bde464-bebc-43ad-bb95-1f83cf48cd51",
       "comment": "",
       "command": "open",
-      "target": "http://wiki.serverdev-mediawiki-v1/index.php/Main_Page",
+      "target": "http://wiki.serverdev-mediawiki/index.php/Main_Page",
       "targets": [],
       "value": ""
     }, {
@@ -2069,7 +2069,7 @@
       "id": "8d19baf3-0a1d-4a24-840c-97fbf59afeea",
       "comment": "",
       "command": "open",
-      "target": "http://wiki.serverdev-mediawiki-v1/index.php/Main_Page",
+      "target": "http://wiki.serverdev-mediawiki/index.php/Main_Page",
       "targets": [],
       "value": ""
     }, {
@@ -2129,7 +2129,7 @@
       "id": "2ac60b54-9a29-4b1c-b53b-3d487cec7691",
       "comment": "",
       "command": "open",
-      "target": "http://wiki.serverdev-mediawiki-v1/index.php/Main_Page",
+      "target": "http://wiki.serverdev-mediawiki/index.php/Main_Page",
       "targets": [],
       "value": ""
     }, {
@@ -2194,7 +2194,7 @@
       "id": "15b3752b-fe69-4ca2-9ea6-3d5f89d31c32",
       "comment": "",
       "command": "open",
-      "target": "http://wiki.serverdev-mediawiki-v1/index.php/Main_Page",
+      "target": "http://wiki.serverdev-mediawiki/index.php/Main_Page",
       "targets": [],
       "value": ""
     }, {
@@ -2254,7 +2254,7 @@
       "id": "733778ad-2b7e-4750-ae2a-731e9a481418",
       "comment": "",
       "command": "open",
-      "target": "http://wiki.serverdev-mediawiki-v1/index.php/Main_Page",
+      "target": "http://wiki.serverdev-mediawiki/index.php/Main_Page",
       "targets": [],
       "value": ""
     }, {
@@ -2307,7 +2307,7 @@
       "id": "20283ba6-22cb-411e-baf2-2b87edcad9f3",
       "comment": "",
       "command": "open",
-      "target": "http://wiki.serverdev-mediawiki-v1/index.php/Special:SpecialPages",
+      "target": "http://wiki.serverdev-mediawiki/index.php/Special:SpecialPages",
       "targets": [],
       "value": ""
     }, {
@@ -2332,7 +2332,7 @@
       "id": "55138d9c-24f6-4c8f-b60b-f89718d5c34b",
       "comment": "",
       "command": "open",
-      "target": "http://wiki.serverdev-mediawiki-v1/index.php/Special:SparqlQuery",
+      "target": "http://wiki.serverdev-mediawiki/index.php/Special:SparqlQuery",
       "targets": [],
       "value": ""
     }, {
@@ -2414,7 +2414,7 @@
       "id": "63e903e6-aff8-490a-9df8-64ef2104deb9",
       "comment": "",
       "command": "open",
-      "target": "http://wiki.serverdev-mediawiki-v1/index.php/Special:SparqlQuery",
+      "target": "http://wiki.serverdev-mediawiki/index.php/Special:SparqlQuery",
       "targets": [],
       "value": ""
     }, {
@@ -2517,7 +2517,7 @@
       "id": "02acf8c5-8e9c-4074-9062-a56d36fd2474",
       "comment": "",
       "command": "open",
-      "target": "http://wiki.serverdev-mediawiki-v1/index.php/Main_Page",
+      "target": "http://wiki.serverdev-mediawiki/index.php/Main_Page",
       "targets": [],
       "value": ""
     }, {
@@ -2577,7 +2577,7 @@
       "id": "acaa2b46-fe66-4c70-a33f-0680d1800f04",
       "comment": "",
       "command": "open",
-      "target": "http://wiki.serverdev-mediawiki-v1/index.php?title=Module:LinkedWikiTest${Title}&action=edit",
+      "target": "http://wiki.serverdev-mediawiki/index.php?title=Module:LinkedWikiTest${Title}&action=edit",
       "targets": [],
       "value": ""
     }, {
@@ -2598,7 +2598,7 @@
       "id": "60f42f04-d38c-4e47-bfa1-6b237d80b236",
       "comment": "",
       "command": "open",
-      "target": "http://wiki.serverdev-mediawiki-v1/index.php/LinkedWikiTestLua${Title}?action=edit",
+      "target": "http://wiki.serverdev-mediawiki/index.php/LinkedWikiTestLua${Title}?action=edit",
       "targets": [],
       "value": ""
     }, {
@@ -2619,7 +2619,7 @@
       "id": "126b4d01-b330-485c-933b-a8246231da3c",
       "comment": "",
       "command": "open",
-      "target": "http://wiki.serverdev-mediawiki-v1/index.php/LinkedWikiTestLua${Title}?action=purge",
+      "target": "http://wiki.serverdev-mediawiki/index.php/LinkedWikiTestLua${Title}?action=purge",
       "targets": [],
       "value": ""
     }, {
@@ -2668,7 +2668,7 @@
       "id": "dd9a69f6-aed2-48a3-b048-f90c2ee8037f",
       "comment": "",
       "command": "open",
-      "target": "http://wiki.serverdev-mediawiki-v1/index.php?title=Module:LinkedWikiTest${Title}&action=edit",
+      "target": "http://wiki.serverdev-mediawiki/index.php?title=Module:LinkedWikiTest${Title}&action=edit",
       "targets": [],
       "value": ""
     }, {
@@ -2689,7 +2689,7 @@
       "id": "5b596aa4-4a86-43e1-8109-c6a41963fc4d",
       "comment": "",
       "command": "open",
-      "target": "http://wiki.serverdev-mediawiki-v1/index.php/LinkedWikiTestLua${Title}?action=edit",
+      "target": "http://wiki.serverdev-mediawiki/index.php/LinkedWikiTestLua${Title}?action=edit",
       "targets": [],
       "value": ""
     }, {
@@ -2710,7 +2710,7 @@
       "id": "c17ebe0e-6077-484f-85ea-9f961fedc990",
       "comment": "",
       "command": "open",
-      "target": "http://wiki.serverdev-mediawiki-v1/index.php/LinkedWikiTestLua${Title}?action=purge",
+      "target": "http://wiki.serverdev-mediawiki/index.php/LinkedWikiTestLua${Title}?action=purge",
       "targets": [],
       "value": ""
     }, {
@@ -2759,7 +2759,7 @@
       "id": "ab6d8e57-1c71-493e-a89c-8526f6f87fca",
       "comment": "",
       "command": "open",
-      "target": "http://wiki.serverdev-mediawiki-v1/index.php?title=Module:LinkedWikiTest${Title}&action=edit",
+      "target": "http://wiki.serverdev-mediawiki/index.php?title=Module:LinkedWikiTest${Title}&action=edit",
       "targets": [],
       "value": ""
     }, {
@@ -2780,7 +2780,7 @@
       "id": "74823dde-8d67-4f3d-b692-4c579ec96f08",
       "comment": "",
       "command": "open",
-      "target": "http://wiki.serverdev-mediawiki-v1/index.php/LinkedWikiTestLua${Title}?action=edit",
+      "target": "http://wiki.serverdev-mediawiki/index.php/LinkedWikiTestLua${Title}?action=edit",
       "targets": [],
       "value": ""
     }, {
@@ -2801,7 +2801,7 @@
       "id": "6cfc9d1c-d212-45f9-9754-25013ee8aed1",
       "comment": "",
       "command": "open",
-      "target": "http://wiki.serverdev-mediawiki-v1/index.php/LinkedWikiTestLua${Title}?action=purge",
+      "target": "http://wiki.serverdev-mediawiki/index.php/LinkedWikiTestLua${Title}?action=purge",
       "targets": [],
       "value": ""
     }, {
@@ -2843,7 +2843,7 @@
       "id": "3508a445-4fd1-47f9-bc50-bb26a486517f",
       "comment": "",
       "command": "open",
-      "target": "http://wiki.serverdev-mediawiki-v1/index.php/Special:SparqlQuery",
+      "target": "http://wiki.serverdev-mediawiki/index.php/Special:SparqlQuery",
       "targets": [],
       "value": ""
     }, {
@@ -2933,7 +2933,7 @@
       "id": "2800a2c3-29bc-4580-a5e4-cf34dec59a05",
       "comment": "",
       "command": "open",
-      "target": "http://wiki.serverdev-mediawiki-v1/index.php/Special:SparqlQuery",
+      "target": "http://wiki.serverdev-mediawiki/index.php/Special:SparqlQuery",
       "targets": [],
       "value": ""
     }, {
@@ -3030,7 +3030,7 @@
       "id": "46cc667a-83fc-47f8-a139-6c2afbf81990",
       "comment": "",
       "command": "open",
-      "target": "http://wiki.serverdev-mediawiki-v1/index.php/Special:SparqlQuery",
+      "target": "http://wiki.serverdev-mediawiki/index.php/Special:SparqlQuery",
       "targets": [],
       "value": ""
     }, {
@@ -3076,7 +3076,7 @@
       "id": "45718586-4745-4f49-853e-28b8e33a593f",
       "comment": "",
       "command": "open",
-      "target": "http://wiki.serverdev-mediawiki-v1/index.php/Special:SparqlQuery",
+      "target": "http://wiki.serverdev-mediawiki/index.php/Special:SparqlQuery",
       "targets": [],
       "value": ""
     }, {
@@ -3166,6 +3166,6 @@
     "timeout": 300,
     "tests": ["9e1856a6-6331-43d9-b633-7e6dd609edc3", "de81f059-86ac-4875-bc5e-ee97ca2e8861", "227782ed-5bc3-4174-a061-8c0768400233", "c22b500b-afc1-4926-8908-37e0b829cd83", "3efb2562-a591-4852-ad40-9e822bcb1998", "2ea5af13-eb2f-49a8-b74c-4cb41527f2c7", "a07e9b58-6231-4b3c-9fac-277a6a5bc1c6", "ac2fd1df-a502-43c0-9ae2-d3c094c1f11b", "efd1dbbc-ca76-4016-b430-5f4d18f08b38", "415d9fc5-6c78-43cf-b3c1-dc830b52c228", "9b11f2ef-771a-47b9-9a5e-054c79c5b93a", "9ad99a48-ed57-4c89-8433-01bc0f17530d", "e782f760-0f82-43b0-a20c-99378bde263c", "8f40c18e-d70d-4ec8-b0ab-89e8f7856245", "fe4952c9-cfd5-40ce-9305-c58413ea5ff7", "30ea261f-34f8-4d90-98d5-b04592b6bc43", "65aa7df0-8378-444f-8277-4d8a9206e954", "aaf026c7-c56a-4626-8eb3-f7a3e6a1ef50", "85ceb53e-6c7e-46cb-acc9-6566f861e6f8", "52a73a44-6599-4b23-b3f0-8b4e82adea99", "3fd3c696-733a-4dc2-ab6b-b20eb42357c5", "bddac27b-0186-4050-9c96-21d8b2f1c58e", "a55933c3-9067-413f-9160-096af7d53583", "9de3c089-8498-44ea-9c4a-1fa39daf35d8", "808e69fe-7e9e-4faf-9827-5fcae148ee47", "4f6abbe8-5b84-4747-a968-a3ede5ac2309", "29b7ef4f-3995-4c0b-b492-4c6e48f8cb89", "8c7e6115-deb9-4a10-b2af-914cf6615639", "be7154be-4ddd-4ffe-8c4d-29c94d7a9cfd", "75e908d0-c1db-473e-ba92-35ed2ca47c6d", "0a5d8a20-c7f8-49db-b72b-e92cb9632bdb", "70a0030c-9c4d-4f06-a27a-32ae0b0d4398", "7cb16f7e-93f8-4153-a522-5c978a69605b", "6d839cc4-612a-4f80-be0e-80940b5f1e45", "b892d0ad-a9d9-449e-8cec-fd8755a365ee", "3da8d641-41db-4c43-bc39-79e4d9d5fc09", "33d391a9-b41b-4141-8998-e1960dad1c95", "13c5a4dd-816f-4963-b594-33950867ebb1"]
   }],
-  "urls": ["http://wiki.serverdev-mediawiki-v1/"],
+  "urls": ["http://wiki.serverdev-mediawiki/"],
   "plugins": []
 }

@@ -15,7 +15,7 @@ See the doc: https://www.mediawiki.org/wiki/Extension:LinkedWiki
 
 == License ==
 
- Copyright (c) 2019 Bourdercloud.com
+ Copyright (c) 2020 Bourdercloud.com
 
 	This work is licensed under the Creative Commons
 	Attribution-ShareAlike 4.0
@@ -35,19 +35,24 @@ karima.rafes@bordercloud.com.
 Put this line in your Localsettings.php for the parser "sparql" and the special pages:
 
    wfLoadExtension( 'LinkedWiki' );
-   wfLoadExtension( 'Push', "$IP/extensions/LinkedWiki/bundle/Push/extension.json" );
-   wfLoadExtension( 'NamespaceRelations', "$IP/extensions/LinkedWiki/bundle/NamespaceRelations/extension.json" );
 
 Optional extensions :
 * "Scribunto" in order to use the Lua class of Linkedwiki (SyntaxHighlight_GeSHi + WikiEditor)
 * "Capiunto" in order to build infobox
 * "SyntaxHighlight_GeSHi" in order to use the color syntax with RDF/turtle and SPARQL
+* "PushAll" can push a page with all subpages, images and modules to another wiki in one click
+* "NamespaceData" adds a tab Data for main pages and user pages
 
 == Tutorial and download ==
 
 See: https://www.mediawiki.org/wiki/Extension:LinkedWiki
 
 == Release-Notes ==
+* v3.4.0 update for Mediawiki 1.34.1 by Karima Rafes <karima.rafes@bordercloud.com>
+		- fix obsolete SQL queries
+		- update Sgvizler2
+		- move the forks of extensions Push and NamespaceRelationals in two new extensions (PushAll and NamespaceData)
+
 * v3.3.8 fix a bug by Ostrzycel <ostrzyciel.nozyczek@gmail.com>
 		- remove the use of OutputPage::addWikitext() removed in 1.34
 
@@ -118,6 +123,6 @@ See: https://www.mediawiki.org/wiki/Extension:LinkedWiki
 
 * V2.0.0 Alpha 1 version Extension LinkedWiki by Karima Rafes <karima.rafes@bordercloud.com>
 	- simplify client SPARQL for MediaWiki (with or without SMW)
-	- Remove ARC2 and replace with the SPARQL (simple)
+	- Remove ARC2 and replace with the lib SPARQL (simple)
 	- Add parameter templateBare if YES : print only cells
 	- Add parameter footer if NO : hide footer

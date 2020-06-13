@@ -34,7 +34,7 @@ class SpecialRDFSave extends SpecialPage {
 		$config = ConfigFactory::getDefaultInstance()->makeConfig( 'wgLinkedWiki' );
 		if ( !$config->has( "SPARQLServiceSaveDataOfWiki" ) ) {
 			$output->addHTML(
-				"Database by default for the Wiki is not precised 
+				"Database by default for the Wiki is not precised
 				in the extension.json of the LinkedWiki extension.
 				(parameter SPARQLServiceSaveDataOfWiki)"
 			);
@@ -145,11 +145,8 @@ EOT
 		)->getDBKey();
 
 		$dbr = wfGetDB( DB_REPLICA );
-		$sql = "SELECT  p.page_id AS pid, p.page_title AS title, t.old_text as text FROM page p 
-INNER JOIN revision r ON p.page_latest = r.rev_id
-INNER JOIN text t ON r.rev_text_id = t.old_id 
-INNER JOIN categorylinks c ON c.cl_from = p.page_id 
-INNER JOIN searchindex s ON s.si_page = p.page_id 
+		$sql = "SELECT  p.page_id AS pid, p.page_title AS title FROM page p
+INNER JOIN categorylinks c ON c.cl_from = p.page_id
  WHERE c.cl_to='" . $category . "' ORDER BY p.page_title ASC";
 		// phpcs:disable
 		$res = $dbr->query( $sql, __METHOD__ );
@@ -158,7 +155,7 @@ INNER JOIN searchindex s ON s.si_page = p.page_id
 		$row = $dbr->fetchObject( $res );
 		while ( $row ) {
 			$q .= $config->getQueryLoadData(
-				Title::newFromID( $row->pid )->getFullURL() . '?action=raw&export=rdf'
+				Title::newFromID( $row->pid )->getFullURL( 'action=raw&export=rdf' )
 				)
 				. ' ;' . "\n";
 			$row = $dbr->fetchObject( $res );

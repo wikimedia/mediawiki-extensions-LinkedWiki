@@ -287,11 +287,8 @@ class SpecialRDFUnit extends SpecialPage {
 		// $output->addWikiTextAsInterface("List of RDF schema uses during the tests:");
 
 		$dbr = wfGetDB( DB_REPLICA );
-		$sql = "SELECT  p.page_id AS pid, p.page_title AS title, t.old_text as text FROM page p 
-INNER JOIN revision r ON p.page_latest = r.rev_id
-INNER JOIN text t ON r.rev_text_id = t.old_id 
-INNER JOIN categorylinks c ON c.cl_from = p.page_id 
-INNER JOIN searchindex s ON s.si_page = p.page_id 
+		$sql = "SELECT  p.page_id AS pid, p.page_title AS title FROM page p
+INNER JOIN categorylinks c ON c.cl_from = p.page_id
  WHERE c.cl_to='" . $category . "' ORDER BY p.page_title ASC";
 // echo  $sql;
 		// phpcs:disable
