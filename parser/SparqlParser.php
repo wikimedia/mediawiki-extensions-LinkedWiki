@@ -37,6 +37,7 @@ class SparqlParser {
 
 			$config = isset( $vars["config"] ) ? $vars["config"] : $configDefault;
 			$endpoint = isset( $vars["endpoint"] ) ? $vars["endpoint"] : null;
+			$class = isset( $vars["class"] ) ? $vars["class"] : 'wikitable sortable';
 			$classHeaders = isset( $vars["classHeaders"] ) ? $vars["classHeaders"] : '';
 			$headers = isset( $vars["headers"] ) ? $vars["headers"] : '';
 			$templates = isset( $vars["templates"] ) ? $vars["templates"] : '';
@@ -48,6 +49,8 @@ class SparqlParser {
 			$chart = isset( $vars["chart"] ) ? $vars["chart"] : '';
 			$options = isset( $vars["options"] ) ? $vars["options"] : '';
 			$log = isset( $vars["log"] ) ? $vars["log"] : 1;
+
+			$noResultMsg = isset( $vars["default"] ) ? $vars["default"] : '';
 
 			if ( !empty( $chart ) ) {
 				// renderer with sgvizler2
@@ -77,17 +80,20 @@ class SparqlParser {
 							$query,
 							$config,
 							$endpoint,
+							$class,
 							$classHeaders,
 							$headers,
 							$templates,
 							$footer,
 							$debug,
-							$log );
+							$log,
+							$noResultMsg );
 					} else {
 						return self::simpleHTML(
 							$query,
 							$config,
 							$endpoint,
+							$class,
 							$classHeaders,
 							$headers,
 							$footer,
@@ -202,12 +208,14 @@ class SparqlParser {
 		$querySparqlWiki,
 		$config,
 		$endpoint,
+		$class,
 		$classHeaders = '',
 		$headers = '',
 		$templates = '',
 		$footer = '',
 		$debug = null,
-		$log = '' ) {
+		$log = '',
+		$noResultMsg = '' ) {
 		$isDebug = self::isDebug( $debug );
 		$specialC = [ "&#39;" ];
 		$replaceC = [ "'" ];
@@ -239,73 +247,78 @@ class SparqlParser {
 		$variables = $rs['result']['variables'];
 		$TableFormatTemplates = explode( ",", $templates );
 
-		$lignegrise = false;
-		$str = "{| class=\"wikitable sortable\" \n";
-		if ( $headers != '' ) {
-			$TableTitleHeaders = explode( ",", $headers );
-			$TableClassHeaders = explode( ",", $classHeaders );
-			for ( $i = 0; $i < count( $TableClassHeaders ); $i++ ) {
-				if ( !isset( $TableClassHeaders[$i] ) || $TableClassHeaders[$i] == "" ) {
-					$classStr = "";
-
-				} else {
-					$classStr = $TableClassHeaders[$i] . "|";
-				}
-				$TableTitleHeaders[$i] = $classStr . $TableTitleHeaders[$i];
-			}
-
-			$str .= "|- \n";
-			$str .= "!" . implode( "!!", $TableTitleHeaders );
-			$str .= "\n";
+		if ( empty( $rs['result']['rows'] ) && !empty( $noResultMsg ) ) {
+			$str = $noResultMsg;
 		}
+		else {
+			$lignegrise = false;
+			$str = "{| class=\"" . $class . "\" \n";
+			if ( $headers != '' ) {
+				$TableTitleHeaders = explode( ",", $headers );
+				$TableClassHeaders = explode( ",", $classHeaders );
+				for ( $i = 0; $i < count( $TableClassHeaders ); $i++ ) {
+					if ( !isset( $TableClassHeaders[$i] ) || $TableClassHeaders[$i] == "" ) {
+						$classStr = "";
 
-		$arrayParameters = [];
-		foreach ( $rs['result']['rows'] as $row ) {
-			$str .= "|- ";
-			if ( $lignegrise ) {
-				$str .= "bgcolor=\"#f5f5f5\"";
-			}
-			$lignegrise = !$lignegrise;
-			$str .= "\n";
-			$separateur = "|";
-			unset( $arrayParameters );
-			foreach ( $variables as $variable ) {
-				// START ADD BY DOUG to support optional variables in query
-				if ( !isset( $row[$variable] ) ) {
-					continue;
+					} else {
+						$classStr = $TableClassHeaders[$i] . "|";
+					}
+					$TableTitleHeaders[$i] = $classStr . $TableTitleHeaders[$i];
 				}
-				// END ADD BY DOUG
-				if ( isset( $row[$variable . " type"] ) && $row[$variable . " type"] == "uri" ) {
-					$arrayParameters[] = $variable . " = " . self::uri2Link( $row[$variable], true );
-				} else {
-					if ( isset( $variable ) ) {
-						$arrayParameters[] = $variable . " = " . $row[$variable];
+
+				$str .= "|- \n";
+				$str .= "!" . implode( "!!", $TableTitleHeaders );
+				$str .= "\n";
+			}
+
+			$arrayParameters = [];
+			foreach ( $rs['result']['rows'] as $row ) {
+				$str .= "|- ";
+				if ( $lignegrise ) {
+					$str .= "bgcolor=\"#f5f5f5\"";
+				}
+				$lignegrise = !$lignegrise;
+				$str .= "\n";
+				$separateur = "|";
+				unset( $arrayParameters );
+				foreach ( $variables as $variable ) {
+					// START ADD BY DOUG to support optional variables in query
+					if ( !isset( $row[$variable] ) ) {
+						continue;
+					}
+					// END ADD BY DOUG
+					if ( isset( $row[$variable . " type"] ) && $row[$variable . " type"] == "uri" ) {
+						$arrayParameters[] = $variable . " = " . self::uri2Link( $row[$variable], true );
+					} else {
+						if ( isset( $variable ) ) {
+							$arrayParameters[] = $variable . " = " . $row[$variable];
+						}
 					}
 				}
-			}
-			foreach ( $TableFormatTemplates as $key => $TableFormatTemplate ) {
-				if ( empty( $TableFormatTemplate ) ) {
-					$str .= $separateur;
-					$str .= isset( $row[$variables[$key]] ) && !empty( $row[$variables[$key]] ) ?
-							$row[$variables[$key]] : "";
-				} else {
-					$str .= $separateur
-						. "{{" . $TableFormatTemplate
-						. "|" . implode( "|", $arrayParameters )
-						. "}}";
+				foreach ( $TableFormatTemplates as $key => $TableFormatTemplate ) {
+					if ( empty( $TableFormatTemplate ) ) {
+						$str .= $separateur;
+						$str .= isset( $row[$variables[$key]] ) && !empty( $row[$variables[$key]] ) ?
+								$row[$variables[$key]] : "";
+					} else {
+						$str .= $separateur
+							. "{{" . $TableFormatTemplate
+							. "|" . implode( "|", $arrayParameters )
+							. "}}";
+					}
+					$separateur = "||";
 				}
-				$separateur = "||";
+				$str .= "\n";
 			}
-			$str .= "\n";
-		}
 
-		if ( $footer != "NO" && $footer != "no" ) {
-			$str .= "|- style=\"font-size:80%\" align=\"right\"\n";
-			$str .= "| colspan=\"" . count( $TableFormatTemplates ) . "\"|" .
-				self::footer( $rs['query_time'], $querySparqlWiki, $config, $endpoint, $classHeaders, $headers )
-				. "\n";
+			if ( $footer != "NO" && $footer != "no" ) {
+				$str .= "|- style=\"font-size:80%\" align=\"right\"\n";
+				$str .= "| colspan=\"" . count( $TableFormatTemplates ) . "\"|" .
+					self::footer( $rs['query_time'], $querySparqlWiki, $config, $endpoint, $classHeaders, $headers )
+					. "\n";
+			}
+			$str .= "|}\n";
 		}
-		$str .= "|}\n";
 
 		if ( $isDebug ) {
 			$str .= "INPUT WIKI : " . $querySparqlWiki . "\n";
@@ -331,6 +344,7 @@ class SparqlParser {
 	public static function simpleHTML(
 		$querySparqlWiki,
 		$config, $endpoint,
+		$class,
 		$classHeaders = '',
 		$headers = '',
 		$footer = '',
@@ -367,7 +381,7 @@ class SparqlParser {
 
 		$lignegrise = false;
 		$variables = $rs['result']['variables'];
-		$str = "<table class='wikitable sortable'>\n";
+		$str = "<table class='" . $class . "'>\n";
 		if ( $headers != '' ) {
 			$TableTitleHeaders = explode( ",", $headers );
 			$TableClassHeaders = explode( ",", $classHeaders );
