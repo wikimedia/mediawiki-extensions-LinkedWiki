@@ -37,6 +37,7 @@ class SparqlParser {
 
 			$config = isset( $vars["config"] ) ? $vars["config"] : $configDefault;
 			$endpoint = isset( $vars["endpoint"] ) ? $vars["endpoint"] : null;
+			$class = isset( $vars["class"] ) ? $vars["class"] : 'wikitable sortable';
 			$classHeaders = isset( $vars["classHeaders"] ) ? $vars["classHeaders"] : '';
 			$headers = isset( $vars["headers"] ) ? $vars["headers"] : '';
 			$templates = isset( $vars["templates"] ) ? $vars["templates"] : '';
@@ -79,6 +80,7 @@ class SparqlParser {
 							$query,
 							$config,
 							$endpoint,
+							$class,
 							$classHeaders,
 							$headers,
 							$templates,
@@ -91,6 +93,7 @@ class SparqlParser {
 							$query,
 							$config,
 							$endpoint,
+							$class,
 							$classHeaders,
 							$headers,
 							$footer,
@@ -205,6 +208,7 @@ class SparqlParser {
 		$querySparqlWiki,
 		$config,
 		$endpoint,
+		$class,
 		$classHeaders = '',
 		$headers = '',
 		$templates = '',
@@ -248,7 +252,7 @@ class SparqlParser {
 		}
 		else {
 			$lignegrise = false;
-			$str = "{| class=\"wikitable sortable\" \n";
+			$str = "{| class=\"" . $class . "\" \n";
 			if ( $headers != '' ) {
 				$TableTitleHeaders = explode( ",", $headers );
 				$TableClassHeaders = explode( ",", $classHeaders );
@@ -340,6 +344,7 @@ class SparqlParser {
 	public static function simpleHTML(
 		$querySparqlWiki,
 		$config, $endpoint,
+		$class,
 		$classHeaders = '',
 		$headers = '',
 		$footer = '',
@@ -376,7 +381,7 @@ class SparqlParser {
 
 		$lignegrise = false;
 		$variables = $rs['result']['variables'];
-		$str = "<table class='wikitable sortable'>\n";
+		$str = "<table class='" . $class . "'>\n";
 		if ( $headers != '' ) {
 			$TableTitleHeaders = explode( ",", $headers );
 			$TableClassHeaders = explode( ",", $classHeaders );
