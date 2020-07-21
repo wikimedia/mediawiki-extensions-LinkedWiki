@@ -23,7 +23,7 @@
 	"linkedwiki-specialsparqlquery_mainpage": "Denne siden brukes til å teste, optimere og dele spørringene dine (om du ønsker).\n\nPost spørsmål du har til: [https://www.mediawiki.org/wiki/Extension_talk:LinkedWiki Talk:LinkedWiki]",
 	"linkedwiki-specialsparqlquery_sendquery": "Kjør spørring",
 	"linkedwiki-specialsparqlquery_usethisquery": "Hvordan bruke denne spørringen på denne wikien",
-	"linkedwiki-specialsparqlquery_usethisquery_tutorial": "Kopier og lim inn denne linja på en side på wikien.\n\nSe mer: [https://www.mediawiki.org/wiki/Extension:LinkedWiki Extension:LinkedWiki]",
+	"linkedwiki-specialsparqlquery_usethisquery_tutorial": "Kopier og lim inn denne linja på en side på wikien.\n\nSe mer: [https://www.mediawiki.org/wiki/Special:MyLanguage/Extension:LinkedWiki Extension:LinkedWiki]",
 	"linkedwiki-specialsparqlquery_endpointsparql": "Endepunkt-SPARQL",
 	"linkedwiki-specialsparqlquery_chooseaconfiguration": "Velg en konfigurasjon",
 	"linkedwiki-specialsparqlquery_option1part1javascriptvisualizationsof": "JavaScript-visualiseringer av",
@@ -35,5 +35,5 @@
 	"linkedwiki-specialsparqlquery_seethedoc": "Se dokumentasjonen",
 	"linkedwiki-specialsparqlquery_result": "Resultat",
 	"action-data-edit": "redigere datasider (i navnerommene Data og UserData), overføre disse dataene med [[Special:RDFSave]] og sjekke RDF-grafer",
-	"right-data-edit": "Redigere datasider (i navnerommene Data og UserData), overføre disse dataene med [[Special:RDFSave]] og sjekke RDF-grafer med [[Special:RDFUnit]]. [https://www.mediawiki.org/wiki/Extension:LinkedWiki/Import_in_wiki_to_write,_check,_transfer_and_validate_RDF Dokumentasjon]"
+	"right-data-edit": "Redigere datasider (i navnerommene Data og UserData), overføre disse dataene med [[Special:RDFSave]] og sjekke RDF-grafer med [[Special:RDFUnit]]. [https://www.mediawiki.org/wiki/Special:MyLanguage/Extension:LinkedWiki/Import_in_wiki_to_write,_check,_transfer_and_validate_RDF Dokumentasjon]"
 }
