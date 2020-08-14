@@ -6,8 +6,8 @@
 		]
 	},
 	"linkedwiki-desc": "{{desc|name=LinkedWiki|url=LinkedWiki}}",
-	"linkedwiki-test": "A unused test message",
-	"linkedwiki-date": "{{ignore}}",
+	"linkedwiki-test": "{{notranslate}}\nA unused test message",
+	"linkedwiki-date": "{{optional}}",
 	"linkedwiki-refresh": "A link text\n{{Identical|Refresh}}",
 	"linkedwiki-duration": "A label message",
 	"specialpages-group-linkedwiki_group": "{{doc-special-group}}",
