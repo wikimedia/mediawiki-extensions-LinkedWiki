@@ -1,4 +1,3 @@
-/*global $:false */
 jQuery.fn.table2CSV = function (pOptions) {
 	var
 		options = jQuery.extend({

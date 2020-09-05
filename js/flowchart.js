@@ -1,7 +1,3 @@
-/*global $:false */
-/*global mw:false */
-/*jshint -W055 */
-
 function lwFlowChartLine() {
 	var shapeBefore;
 	this.shapes = [];

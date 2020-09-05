@@ -1,4 +1,3 @@
-/*global $:false */
 jQuery.fn.lwDrawPolygon = function (shape) {
 	var
 		a = $(this)[0].getContext('2d'),
