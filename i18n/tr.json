@@ -1,10 +1,11 @@
 {
 	"@metadata": {
 		"authors": [
-			"BaRaN6161 TURK"
+			"BaRaN6161 TURK",
+			"MuratTheTurkish"
 		]
 	},
-	"linkedwiki-desc": "Bağlantılı verileri bir wikide gör",
+	"linkedwiki-desc": "Bağlantılı verileri bir vikide bakın",
 	"linkedwiki-refresh": "Yenile",
 	"linkedwiki-duration": "Sorgu süresi",
 	"specialpages-group-linkedwiki_group": "SPARQL ve RDF araçları",
@@ -22,8 +23,8 @@
 	"linkedwiki-specialsparqlquery_query": "Sorgu",
 	"linkedwiki-specialsparqlquery_mainpage": "Bu sayfa, isterseniz sorgularınızı test etmek, optimize etmek ve paylaşmak için kullanılacaktır.\n\nSorularınızı şu adrese gönderin: [https://www.mediawiki.org/wiki/Extension_talk:LinkedWiki Tartışma:LinkedWiki]",
 	"linkedwiki-specialsparqlquery_sendquery": "Sorguyu çalıştır",
-	"linkedwiki-specialsparqlquery_usethisquery": "Bu wikide bu sorguyu kullanma",
-	"linkedwiki-specialsparqlquery_usethisquery_tutorial": "Bu satırı kopyalayıp bu wikinin bir sayfasına yapıştırın.\n\nDaha fazlasını bakın: [https://www.mediawiki.org/wiki/Special:MyLanguage/Extension:LinkedWiki Extension:LinkedWiki]",
+	"linkedwiki-specialsparqlquery_usethisquery": "Bu vikide bu sorguyu kullanma",
+	"linkedwiki-specialsparqlquery_usethisquery_tutorial": "Bu satırı kopyalayıp bu vikinin bir sayfasına yapıştırın.\n\nDaha fazlasını bakın: [https://www.mediawiki.org/wiki/Special:MyLanguage/Extension:LinkedWiki Extension:LinkedWiki]",
 	"linkedwiki-specialsparqlquery_endpointsparql": "Uç nokta SPARQL",
 	"linkedwiki-specialsparqlquery_chooseaconfiguration": "Bir yapılandırma seçin",
 	"linkedwiki-specialsparqlquery_option1part1javascriptvisualizationsof": "JavaScript görselleştirmeleri",
