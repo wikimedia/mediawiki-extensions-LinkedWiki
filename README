@@ -48,6 +48,10 @@ Optional extensions :
 See: https://www.mediawiki.org/wiki/Extension:LinkedWiki
 
 == Release-Notes ==
+
+* v3.4.2 update for Mediawiki 1.35.0 by Karima Rafes <karima.rafes@bordercloud.com>
+ 		- Replace the function mw.getCurrentFrame()
+
 * v3.4.0 update for Mediawiki 1.34.1 by Karima Rafes <karima.rafes@bordercloud.com>
 		- fix obsolete SQL queries
 		- update Sgvizler2

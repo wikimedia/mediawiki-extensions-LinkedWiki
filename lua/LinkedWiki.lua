@@ -11,6 +11,22 @@
 local linkedwiki = {}
 local php
 
+-- FIX temporary the problem https://phabricator.wikimedia.org/T264413 for Mediawiki 1.35
+local currentFrame
+function linkedwiki.setCurrentFrame(frame)
+	currentFrame = frame
+end
+function linkedwiki.getCurrentFrame()
+	if currentFrame ~= nil then
+         return currentFrame
+    end
+    if mw.getCurrentFrame ~= nil then
+    	return mw.getCurrentFrame()
+    else
+    	error('ERROR T264413. You can set manually the frame in a module with the code linkedwiki.setCurrentFrame(mw.getCurrentFrame())')
+    end
+end
+
 function linkedwiki.isEmpty(s)
     return s == nil or s == ''
 end
@@ -158,7 +174,7 @@ local currentFullPageName
 function linkedwiki.getCurrentTitle()
     local currentFullPageName
     if currentFullPageName == nil then
-        currentFullPageName = mw.getCurrentFrame():preprocess('{{FULLPAGENAME}}')
+         currentFullPageName = linkedwiki.getCurrentFrame():preprocess('{{FULLPAGENAME}}')
     end
     return mw.title.new(currentFullPageName)
 end
@@ -666,7 +682,7 @@ function linkedwiki.new(subject,config,tagLang,debug)
             if linkedwiki.isEmpty(timeStampInWiki) then
                 div:wikitext('Error is not a date (0000-00-00) : ' .. valueInWiki)
             else
-                div:wikitext(mw.getCurrentFrame():preprocess('{{#time:' .. format .. '|' .. valueInWiki .. '}}'))
+                div:wikitext(linkedwiki.getCurrentFrame():preprocess('{{#time:' .. format .. '|' .. valueInWiki .. '}}'))
                 if not linkedwiki.isEmpty(valueInDB) then
                     local timeStampInDB = linkedwiki.timeStamp(valueInDB)
                     if linkedwiki.timeStamp(valueInWiki) == timeStampInDB then
@@ -682,14 +698,14 @@ function linkedwiki.new(subject,config,tagLang,debug)
                                 div:attr("title", "Currently in DB : not a date")
                             else
                                 div:attr("title", "Currently in DB : " ..
-                                    mw.getCurrentFrame():preprocess('{{#time:' .. format .. '|' .. valueInDB .. '}}'))
+                                    linkedwiki.getCurrentFrame():preprocess('{{#time:' .. format .. '|' .. valueInDB .. '}}'))
                             end
                         end
                     end
                 end
             end
         elseif not linkedwiki.isEmpty(valueInDB) then
-            div:wikitext(mw.getCurrentFrame():preprocess('{{#time:' .. format .. '|' .. valueInDB .. '}}'))
+            div:wikitext(linkedwiki.getCurrentFrame():preprocess('{{#time:' .. format .. '|' .. valueInDB .. '}}'))
         else -- Empty
             return ''
         end
