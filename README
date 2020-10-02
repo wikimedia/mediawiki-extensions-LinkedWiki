@@ -49,6 +49,10 @@ See: https://www.mediawiki.org/wiki/Extension:LinkedWiki
 
 == Release-Notes ==
 
+* v3.5.0 Add features and a fix by Karima Rafes <karima.rafes@bordercloud.com>
+ 		- Add options default and class for SPARQL table (pull request #1 on github of trueg)
+ 		- Replace obsolete <source> tag by <syntaxhighlight> tag of SyntaxHighlight_GeSHi
+
 * v3.4.2 update for Mediawiki 1.35.0 by Karima Rafes <karima.rafes@bordercloud.com>
  		- Replace the function mw.getCurrentFrame()
 
