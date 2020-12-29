@@ -213,7 +213,7 @@ class LinkedWikiConfig {
 //    }
 
 	/**
-	 * @param object $endpointRead
+	 * @param string $endpointRead
 	 */
 	public function setEndpointRead( $endpointRead ) {
 		$this->endpointRead = $endpointRead;
@@ -473,7 +473,7 @@ class LinkedWikiConfig {
 	}
 
 	/**
-	 * @param object $HTTPMethodForRead
+	 * @param string $HTTPMethodForRead
 	 */
 	public function setMethodForRead( $HTTPMethodForRead ) {
 		$this->HTTPMethodForRead = $HTTPMethodForRead;

@@ -9,7 +9,7 @@
 class WSparqlParser {
 
 	/**
-	 * @param object $parser
+	 * @param Parser $parser
 	 * @return array|string
 	 */
 	public static function render( $parser ) {

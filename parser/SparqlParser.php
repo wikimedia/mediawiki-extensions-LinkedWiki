@@ -8,7 +8,7 @@
 
 class SparqlParser {
 	/**
-	 * @param object $parser
+	 * @param Parser $parser
 	 * @return array|string|null
 	 */
 	public static function render( $parser ) {

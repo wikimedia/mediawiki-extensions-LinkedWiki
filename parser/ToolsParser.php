@@ -9,8 +9,8 @@
 class ToolsParser {
 	/**
 	 * @param string $query
-	 * @param object $parser
-	 * @return mixed
+	 * @param Parser $parser
+	 * @return string
 	 */
 	public static function parserQuery( $query, $parser ) {
 		$res = $query;
@@ -35,7 +35,7 @@ class ToolsParser {
 	}
 
 	/**
-	 * @param object &$parser
+	 * @param Parser &$parser
 	 * @return string
 	 */
 	public static function  pageIri( &$parser ) {

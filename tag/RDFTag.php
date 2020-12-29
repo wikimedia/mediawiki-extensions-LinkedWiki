@@ -62,7 +62,7 @@ class RDFTag {
 	}
 
 	/**
-	 * @param object &$rawAction
+	 * @param string &$rawAction
 	 * @param string &$text
 	 * @return bool
 	 */
@@ -89,8 +89,8 @@ class RDFTag {
 	}
 
 	/**
-	 * @param object $context
-	 * @param object $content
+	 * @param IContextSource $context
+	 * @param string $content
 	 * @return mixed|string
 	 */
 	public static function checkErrorWithRapper( $context, $content ) {
@@ -137,12 +137,12 @@ class RDFTag {
 	}
 
 	/**
-	 * @param object $context
-	 * @param object $content
-	 * @param object $status
-	 * @param object $summary
-	 * @param object $user
-	 * @param object $minoredit
+	 * @param IContextSource $context
+	 * @param Content $content
+	 * @param Status $status
+	 * @param string $summary
+	 * @param User $user
+	 * @param bool $minoredit
 	 */
 	public static function onEditFilterMergedContent(
 		$context, $content, $status, $summary, $user, $minoredit ) {

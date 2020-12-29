@@ -15,7 +15,7 @@ class LinkedWiki {
 	}
 
 	/**
-	 * @param object &$parser
+	 * @param Parser &$parser
 	 * @return bool
 	 */
 	public static function parserFirstCallInit( &$parser ) {
@@ -34,7 +34,7 @@ class LinkedWiki {
 	}
 
 	/**
-	 * @param object $engine
+	 * @param string $engine
 	 * @param array &$extraLibraries
 	 * @return bool
 	 */
