@@ -10,32 +10,33 @@ use BorderCloud\SPARQL\SparqlClient;
 
 class LinkedWikiConfig {
 	// region private variables
-	/*
+
+	/**
 	 * Object with all the configurations of the extension
 	 */
 	private $config = null;
 
-	/*
+	/**
 	 * Object with the endpoint's configurations
 	 */
 	private $configEndpoints = null;
 
-	/*
+	/**
 	 * Config of the current endpoint
 	 */
 	private $configEndpoint = null;
 
-	/*
+	/**
 	 * Id of Endpoint by default
 	 */
 	private $idEndpointByDefault = "";
 
-	/*
+	/**
 	 * Id of current Endpoint (iri)
 	 */
 	private $idEndpoint = "";
 
-	/*
+	/**
 	 * Instance of Endpoint with this current config
 	 */
 	private $objEndpoint = null;
@@ -44,8 +45,13 @@ class LinkedWikiConfig {
 
 	private $debug = false;
 	private $isReadOnly = true;
+
 	// private $graphNamed = "";
-//    private $endpoint = "";
+	// private $endpoint = "";
+
+	/**
+	 * @var string
+	 */
 	private $endpointRead = "";
 	private $endpointUpdate = "";
 	private $login = "";
@@ -62,8 +68,11 @@ class LinkedWikiConfig {
 	private $proxyPort = null;
 	// endregion
 
-	//region private functions
+	// region private functions
 
+	/**
+	 * @param string $endpointWrite
+	 */
 	private function setEndpointWrite( $endpointWrite ) {
 		$this->endpointWrite = $endpointWrite;
 		$this->resetInstanceEndpoint();
