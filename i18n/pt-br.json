@@ -33,5 +33,7 @@
 	"linkedwiki-specialsparqlquery_loglevel": "Nível de registros",
 	"linkedwiki-specialsparqlquery_visualization": "Visualização",
 	"linkedwiki-specialsparqlquery_seethedoc": "Veja a documentação",
-	"linkedwiki-specialsparqlquery_result": "Resultado"
+	"linkedwiki-specialsparqlquery_result": "Resultado",
+	"action-data-edit": "edite as páginas de dados (nos espaços nominais Data e UserData), transfira esses dados com [[Special:RDFSave]] e verifique os gráficos RDF",
+	"right-data-edit": "Edite as páginas de dados (nos espaços nominais Data e UserData), transfira esses dados com [[Special:RDFSave]] e verifique os gráficos RDF com [[Special:RDFUnit]]. [https://www.mediawiki.org/wiki/Special:MyLanguage/Extension:LinkedWiki/Import_in_wiki_to_write,_check,_transfer_and_validate_RDF Documentações]"
 }
