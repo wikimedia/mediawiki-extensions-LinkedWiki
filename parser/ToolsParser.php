@@ -38,7 +38,7 @@ class ToolsParser {
 	 * @param Parser &$parser
 	 * @return string
 	 */
-	public static function  pageIri( &$parser ) {
+	public static function pageIri( &$parser ) {
 		// $resolverurl = $parser->getTitle()->getFullURL();
 		$resolverurl = urldecode( $parser->getTitle()->getSubjectPage()->getFullURL() );
 		return $resolverurl;
@@ -49,7 +49,7 @@ class ToolsParser {
 	 * @param string $endpoint
 	 * @return array
 	 */
-	public static function  newEndpoint( $config, $endpoint ) {
+	public static function newEndpoint( $config, $endpoint ) {
 		$errorMessage = null;
 		$objConfig = null;
 

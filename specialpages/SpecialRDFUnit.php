@@ -397,7 +397,7 @@ INNER JOIN categorylinks c ON c.cl_from = p.page_id
 	 * @param string $file
 	 * @return mixed|string
 	 */
-	public static function   printTests( $file ) {
+	public static function printTests( $file ) {
 		$result = "NO RESULTS";
 		if ( file_exists( $file ) ) {
 			if ( preg_match( "#<body>(.*)</body>#s", file_get_contents( $file ), $matchesbody ) ) {
