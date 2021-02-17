@@ -88,7 +88,7 @@ class SpecialSparqlQuery extends SpecialPage {
             <label for=\"endpoint\" class=\"col-2 col-form-label\"></label>
             <div class=\"col-10\">
                 <div class=\"custom-control custom-radio\">
-                    <input id=\"radio1\" type=\"radio\"  name=\"radio\" 
+                    <input id=\"radio1\" type=\"radio\"  name=\"radio\"
                     aria-label=\"Charts of Sgvizler2 (wihtout cache and only for public data)\"
                            class=\"custom-control-input\"
                            value='sgvizler2' " . $checkedSgvizler . ">
@@ -185,7 +185,7 @@ class SpecialSparqlQuery extends SpecialPage {
 		$html .= ">";
 
 		if ( !empty( $query ) ) {
-			$arr = SparqlParser::simpleHTML( $query, $idConfig, $endpoint, '', '', null, false, 2 );
+			$arr = SparqlParser::simpleHTML( $query, $idConfig, $endpoint, 'wikitable sortable', '', null, false, 2 );
 			$html .= $arr[0];
 		}
 		$html .= "</div></div>

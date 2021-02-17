@@ -147,10 +147,6 @@ class LinkedWikiConfig {
 		$objEndpoint = null;
 		$objEndpoint = new SparqlClient( $this->debug );
 		$objEndpoint->setEndpointRead( $this->endpointRead );
-
-// $objEndpoint->setNameParameterQueryRead($nameParameterQuery);
-//        $objEndpoint->setNameParameterQueryWrite($nameParameterWrite);
-
 		if ( !empty( $this->proxyHost ) ) {
 			$objEndpoint->setproxyHost( $this->proxyHost );
 		}
@@ -169,11 +165,9 @@ class LinkedWikiConfig {
 		if ( !$this->isReadOnly ) {
 			if ( !empty( $this->endpointWrite ) ) {
 				$objEndpoint->setEndpointWrite( $this->endpointWrite );
-			} else {
-				$objEndpoint->setEndpointWrite( $this->endpoint );
 			}
-			if ( !empty( $this->HTTPMethodForRead ) ) {
-				$objEndpoint->setMethodHTTPWrite( $this->HTTPMethodForRead );
+			if ( !empty( $this->HTTPMethodForWrite ) ) {
+				$objEndpoint->setMethodHTTPWrite( $this->HTTPMethodForWrite );
 			}
 			if ( !empty( $this->nameParameterWrite ) ) {
 				$objEndpoint->setNameParameterQueryWrite( $this->nameParameterWrite );
@@ -209,17 +203,6 @@ class LinkedWikiConfig {
 	// endregion
 
 	//region public functions
-
-//    public function setEndpoint($urlEndpoint)
-//    {
-//        $this->endpoint = $urlEndpoint;
-//        $this->resetInstanceEndpoint();
-//    }
-//
-//    public function getEndpoint()
-//    {
-//        return $this->endpoint;
-//    }
 
 	/**
 	 * @param string $endpointRead
@@ -335,9 +318,6 @@ class LinkedWikiConfig {
 		if ( isset( $this->configEndpoint["lang"] ) ) {
 			$this->setLang( $this->configEndpoint["lang"] );
 		}
-
-// if (isset($this->configEndpoint["endpoint"]))
-//            $this->setEndpoint($this->configEndpoint["endpoint"]);
 
 		if ( isset( $this->configEndpoint["endpointRead"] ) ) {
 			$this->setEndpointRead( $this->configEndpoint["endpointRead"] );
