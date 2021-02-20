@@ -51,15 +51,15 @@
 	],
 	"GroupPermissions": {
 		"sysop": {
-			"data-edit" : true
+			"data-edit": true
 		},
 		"data": {
-			"data-edit" : true
+			"data-edit": true
 		}
 	},
 	"GrantPermissions": {
 		"editdata": {
-			"data-edit" : true
+			"data-edit": true
 		}
 	},
 	"AutoloadClasses": {
@@ -205,11 +205,11 @@
 	},
 	"config_prefix": "wgLinkedWiki",
 	"config": {
-		"QuerySparqlInSpecialPage":{
+		"QuerySparqlInSpecialPage": {
 			"description": "Query by default in the editor SPARQL",
 			"value": "SELECT * WHERE \n { ?x ?y ?z . } \nLIMIT 15"
 		},
-		"SPARQLServiceByDefault":{
+		"SPARQLServiceByDefault": {
 			"description": "Without parameters (config or endpoint) the SPARQL queries are sent at this SPARQL service.",
 			"value": "http://www.wikidata.org"
 		},
@@ -248,15 +248,15 @@
 			"description": "If you specify the SPARQL service uses to save RDF data (in the RDF tag) on the pages of wiki, you are able to use the special page to clean/import all your RDF data.",
 			"value": ""
 		},
-		"CheckRDFPage" : {
+		"CheckRDFPage": {
 			"description": "If you have install Rapper, you can choose to check the RDF when you save a page, with this option.",
 			"value": false
 		},
-		"GoogleApiKey" : {
+		"GoogleApiKey": {
 			"description": "Google API key, if you use Google charts. (https://developers.google.com/places/web-service/get-api-key)",
 			"value": "GOOGLE_MAP_API_KEY"
 		},
-		"OSMAccessToken" : {
+		"OSMAccessToken": {
 			"description": "OpenStreetMap Access Token, if you use OpenStreetMap via the Leaflet charts. (https://www.mapbox.com/)",
 			"value": "OPENSTREETMAP_ACCESS_TOKEN"
 		}

@@ -28,7 +28,7 @@
 	"linkedwiki-specialsparqlquery_usethisquery_tutorial": "Copy and paste this line in a page of this wiki.\n\nSee more: [https://www.mediawiki.org/wiki/Special:MyLanguage/Extension:LinkedWiki Extension:LinkedWiki]",
 	"linkedwiki-specialsparqlquery_endpointsparql": "Endpoint SPARQL",
 	"linkedwiki-specialsparqlquery_chooseaconfiguration": "Choose a configuration",
-	"linkedwiki-specialsparqlquery_option1part1javascriptvisualizationsof" : "JavaScript visualizations of",
+	"linkedwiki-specialsparqlquery_option1part1javascriptvisualizationsof": "JavaScript visualizations of",
 	"linkedwiki-specialsparqlquery_option1part2details": "(wihtout cache and only for public data)",
 	"linkedwiki-specialsparqlquery_option2tableonly": "Table only (with cache and for public data or private data)",
 	"linkedwiki-specialsparqlquery_options": "Options",
