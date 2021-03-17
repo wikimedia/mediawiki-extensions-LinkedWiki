@@ -1,6 +1,8 @@
 {
 	"@metadata": {
-		"authors": []
+		"authors": [
+			"Gebu"
+		]
 	},
 	"linkedwiki-refresh": "Aktualisieren",
 	"linkedwiki-duration": "Dauer der Abfrage",
@@ -16,5 +18,7 @@
 	"linkedwiki-specialsparqlflinteditor": "SPARQL-Flint-Editor",
 	"linkedwiki-specialsparqlquery": "SPARQL-Editor",
 	"linkedwiki-specialsparqlquery_categorysparqlquery": "SPARQL-Abfrage",
-	"linkedwiki-specialsparqlquery_query": "Abfrage"
+	"linkedwiki-specialsparqlquery_query": "Abfrage",
+	"linkedwiki-specialsparqlquery_options": "Optionen",
+	"linkedwiki-specialsparqlquery_result": "Ergebnis"
 }
