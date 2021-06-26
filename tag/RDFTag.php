@@ -143,6 +143,7 @@ class RDFTag {
 	 * @param string $summary
 	 * @param User $user
 	 * @param bool $minoredit
+	 * @return bool
 	 */
 	public static function onEditFilterMergedContent(
 		$context, $content, $status, $summary, $user, $minoredit ) {
@@ -158,6 +159,9 @@ class RDFTag {
 						. htmlspecialchars( $error ) . "</div>"
 					)
 				);
+				// @todo Remove this line after this extension do not support mediawiki version 1.36 and before
+				$status->value = EditPage::AS_HOOK_ERROR_EXPECTED;
+				return false;
 			}
 		}
 	}
