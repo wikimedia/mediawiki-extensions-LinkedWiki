@@ -60,6 +60,7 @@ end
 function p.tests(f)
 
     local linkedwiki = require 'linkedwiki'
+    linkedwiki.setCurrentFrame(mw.getCurrentFrame())
     local endpoint = 'http://database-test:8890/sparql'
     local config = 'http://database-test/data'
 

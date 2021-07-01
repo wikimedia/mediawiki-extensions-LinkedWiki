@@ -378,7 +378,7 @@ INNER JOIN categorylinks c ON c.cl_from = p.page_id
 		$textRetval = print_r( $retval, true );
 
 		if ( preg_match(
-			"#\[INFO  ValidateCLI\] Results stored in: (.*)\.\*#",
+			"#\[INFO  ValidateCommand\] Results stored in: (.*)\.\*#",
 			$textRetval,
 			$matches
 			)
