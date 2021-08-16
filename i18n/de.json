@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Gebu"
+			"Gebu",
+			"Zabe"
 		]
 	},
 	"linkedwiki-refresh": "Aktualisieren",
@@ -19,6 +20,7 @@
 	"linkedwiki-specialsparqlquery": "SPARQL-Editor",
 	"linkedwiki-specialsparqlquery_categorysparqlquery": "SPARQL-Abfrage",
 	"linkedwiki-specialsparqlquery_query": "Abfrage",
+	"linkedwiki-specialsparqlquery_chooseaconfiguration": "Wähle eine Konfiguration",
 	"linkedwiki-specialsparqlquery_options": "Optionen",
 	"linkedwiki-specialsparqlquery_result": "Ergebnis"
 }
