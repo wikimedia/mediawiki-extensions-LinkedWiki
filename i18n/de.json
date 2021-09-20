@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Gebu",
+			"Umlaut",
 			"Zabe"
 		]
 	},
@@ -22,5 +23,7 @@
 	"linkedwiki-specialsparqlquery_query": "Abfrage",
 	"linkedwiki-specialsparqlquery_chooseaconfiguration": "Wähle eine Konfiguration",
 	"linkedwiki-specialsparqlquery_options": "Optionen",
+	"linkedwiki-specialsparqlquery_visualization": "Visualisierung",
+	"linkedwiki-specialsparqlquery_seethedoc": "Dokumentation ansehen",
 	"linkedwiki-specialsparqlquery_result": "Ergebnis"
 }
