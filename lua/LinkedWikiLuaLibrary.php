@@ -1,7 +1,10 @@
 <?php
+
+use BorderCloud\SPARQL\ParserSparql;
+
 /**
  * @package Bourdercloud/linkedwiki
- * @copyright (c) 2019 Bourdercloud.com
+ * @copyright (c) 2021 Bordercloud.com
  * @author Karima Rafes <karima.rafes@bordercloud.com>
  * @link https://www.mediawiki.org/wiki/Extension:LinkedWiki
  * @license CC-BY-SA-4.0
@@ -12,43 +15,59 @@
 
 class LinkedWikiLuaLibrary extends Scribunto_LuaLibraryBase {
 	/**
-	 * @var luaBindings|null
+	 * Current configuration
+	 * @var LinkedWikiConfig
 	 */
 	private $objConfig = null;
+
+	/**
+	 * Default subject of triples
+	 * @var string IRI
+	 */
 	private $subject = null;
+
+	/**
+	 * Last SPARQL query used (enable the mode debug with setDebug(true) to see the last query in error)
+	 * @var string
+	 */
 	private $lastQuery = null;
 
 	////PUBLIC FUNCTION
 
 	/**
+	 * These functions will be exposed to the Lua module.
+	 * They are member functions on a Lua table which is private to the module, thus
+	 * these can't be called from user code, unless explicitly exposed in Lua.
 	 * @return mixed
 	 */
 	public function register() {
-		// These functions will be exposed to the Lua module.
-		// They are member functions on a Lua table which is private to the module, thus
-		// these can't be called from user code, unless explicitly exposed in Lua.
 		$lib = [
 			'setConfig' => [ $this, 'setConfig' ],
-			'setEndpoint' => [ $this, 'setEndpoint' ],
-			'setDebug' => [ $this, 'setDebug' ],
-			'isDebug' => [ $this, 'isDebug' ],
-			'setGraph' => [ $this, 'setGraph' ],
-			'setSubject' => [ $this, 'setSubject' ],
+			'getConfig' => [ $this, 'getConfig' ],
+			'getDefaultConfig' => [ $this, 'getDefaultConfig' ],
+
 			'setLang' => [ $this, 'setLang' ],
 			'getLang' => [ $this, 'getLang' ],
-			'getValue' => [ $this, 'getValue' ],
-			'getString' => [ $this, 'getString' ],
-			'getConfig' => [ $this, 'getConfig' ],
 
-			'getDefaultConfig' => [ $this, 'getDefaultConfig' ],
-			// 'getDefaultLang' => array($this, 'getDefaultLang'),
+			'setSubject' => [ $this, 'setSubject' ],
+			'removeSubject' => [ $this, 'removeSubject' ],
 
+			'setDebug' => [ $this, 'setDebug' ],
+			'isDebug' => [ $this, 'isDebug' ],
 			'getLastQuery' => [ $this, 'getLastQuery' ],
 
 			'addPropertyWithIri' => [ $this, 'addPropertyWithIri' ],
-			'addPropertyWithLitteral' => [ $this, 'addPropertyWithLitteral' ],
-			'removeSubject' => [ $this, 'removeSubject' ],
+			'addPropertyWithLiteral' => [ $this, 'addPropertyWithLiteral' ],
+			'getValue' => [ $this, 'getValue' ],
+			'getString' => [ $this, 'getString' ],
+
+			'setEndpoint' => [ $this, 'setEndpoint' ],
+			'query' => [ $this, 'query' ],
 			'loadData' => [ $this, 'loadData' ],
+
+			'getProtocol' => [ $this, 'getProtocol' ],
+			'loadStyles' => [ $this, 'loadStyles' ]
+
 		];
 		return $this->getEngine()->registerInterface(
 			__DIR__ . '/LinkedWiki.lua', $lib, []
@@ -56,32 +75,44 @@ class LinkedWikiLuaLibrary extends Scribunto_LuaLibraryBase {
 	}
 
 	/**
-	 * @return array
+	 * Load the css ressources used in infoboxes
+	 */
+	public function loadStyles() {
+		$this->getParser()->getOutput()->addModules( 'ext.LinkedWiki.Lua' );
+	}
+
+	/**
+	 * Get the last SPARQL query used by this class
+	 *
+	 * @return array [
+	 *     the last SPARQL query
+	 * ]
 	 */
 	public function getLastQuery() {
 		return [ $this->lastQuery ];
 	}
 
 	/**
-	 * @return LinkedWikiConfig|luaBindings|null
+	 * Get the current protocol of wiki. It's useful when we need to build a correct url
+	 * to print an image in a HTML page.
+	 *
+	 * @return array luaBindings [
+	 *     the current protocol of wiki
+	 * ]
 	 */
-	private function getInstanceConfig() {
-		if ( $this->objConfig === null ) {
-			$this->objConfig = new LinkedWikiConfig();
-		}
-		return $this->objConfig;
+	public function getProtocol() {
+		return [ WebRequest::detectProtocol() ];
 	}
 
 	/**
-	 * @return \BorderCloud\SPARQL\SparqlClient|null
-	 */
-	private function getInstanceEndpoint() {
-		return $this->getInstanceConfig()->getInstanceEndpoint();
-	}
-
-	/**
+	 * Set the default SPARQL endpoint configuration to use
+	 * (see https://www.mediawiki.org/wiki/Extension:LinkedWiki/Configuration )
+	 *
 	 * @param null|string $urlConfig
-	 * @return array
+	 * @return array luaBindings [
+	 *     bool True, if the configuration has been changed else false
+	 *     string A error message when the configuration has not been changed
+	 * ]
 	 */
 	public function setConfig( $urlConfig = null ) {
 		try{
@@ -91,26 +122,39 @@ class LinkedWikiLuaLibrary extends Scribunto_LuaLibraryBase {
 				$this->objConfig->setConfigEndpoint( $urlConfig );
 			}
 		} catch ( Exception $e ) {
-			return [ false,"ERROR : " . $e->getMessage() ];
+			return [ false, $e->getMessage() ];
 		}
 		return [ true ];
 	}
 
 	/**
-	 * @return array
+	 * Get the current SPARQL endpoint configuration to use
+	 * (see https://www.mediawiki.org/wiki/Extension:LinkedWiki/Configuration )
+	 *
+	 * @return array luaBindings [
+	 *     string Uri of the configuration
+	 * ]
 	 */
 	public function getConfig() {
 		return [ $this->getInstanceConfig()->getConfigEndpoint() ];
 	}
 
 	/**
-	 * @return array
+	 * Get the default SPARQL endpoint configuration for this wiki
+	 * (see https://www.mediawiki.org/wiki/Extension:LinkedWiki/Configuration )
+	 *
+	 * @return array luaBindings [
+	 *     string Uri of the default configuration of wiki
+	 * ]
 	 */
 	public function getDefaultConfig() {
 		return [ $this->getInstanceConfig()->getDefaultConfigEndpoint() ];
 	}
 
 	/**
+	 * Enable or disable the mode debug
+	 * With the mode debug, the error message are more verbose.
+	 *
 	 * @param string $debug
 	 */
 	public function setDebug( $debug ) {
@@ -119,33 +163,19 @@ class LinkedWikiLuaLibrary extends Scribunto_LuaLibraryBase {
 	}
 
 	/**
-	 * @return array
+	 * Get information about the debug mode
+	 *
+	 * @return array luaBindings [
+	 *     bool state of debug mode
+	 * ]
 	 */
 	public function isDebug() {
 		return [ $this->getInstanceConfig()->isDebug() ];
 	}
 
 	/**
-	 * @return bool
-	 */
-	public function isPreviewOrHistory() {
-		if ( array_key_exists( "wpPreview", $_REQUEST )
-			|| ( array_key_exists( "oldid", $_REQUEST ) && $_REQUEST["oldid"] > 0 )
-		) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	// public function setGraph($graphNamed)
-	//    {
-	//        $graph = trim($graphNamed);
-	//        $this->checkType('setGraph', 1, $graph, 'string');
-	//        $this->getInstanceConfig()->setGraph($graph);
-	//    }
-
-	/**
+	 * Change the read access SPARQL endpoint
+	 *
 	 * @param string $urlEndpoint
 	 */
 	public function setEndpoint( $urlEndpoint ) {
@@ -159,6 +189,8 @@ class LinkedWikiLuaLibrary extends Scribunto_LuaLibraryBase {
 	}
 
 	/**
+	 * Change the subject of triple by default
+	 *
 	 * @param string $iriSubject
 	 */
 	public function setSubject( $iriSubject ) {
@@ -167,6 +199,8 @@ class LinkedWikiLuaLibrary extends Scribunto_LuaLibraryBase {
 	}
 
 	/**
+	 * Change the tag lang by default (for example: fr, en, etc.)
+	 *
 	 * @param string $tagLang
 	 */
 	public function setLang( $tagLang ) {
@@ -178,29 +212,40 @@ class LinkedWikiLuaLibrary extends Scribunto_LuaLibraryBase {
 	}
 
 	/**
-	 * @return array
+	 * Get the tag lang by default
+	 *
+	 * @return array luaBindings [
+	 *     string tag lang
+	 * ]
 	 */
 	public function getLang() {
 		return [ $this->getInstanceConfig()->getLang() ];
 	}
 
-	// public function geDefaultLang()
-	//    {
-	//        return array($this->getInstanceConfig()->getLang());
-	//    }
-
 	/**
-	 * Find the value for a property
+	 * Find the literal of type string for a property with the subject by default
+	 * and the tag lang by default.
+	 * You can also change the subject and the tag lang
+	 * with optional parameters.
+	 *
+	 * The result is a list of string because a subject can have several triples with
+	 * the same property and different values.
 	 *
 	 * @param string $iriProperty : IRI of the property
-	 * @param string|null $tagLang : by default uses the lang by default
-	 * in the configuration. if null, it will search the value without tag lang.
-	 * @param string|null $iriSubject : Optional, IRI of the subject
-	 * @return array
+	 * @param string|null $tagLang : replace the lang by default. if null,
+	 *                               it will search the value without tag lang.
+	 * @param string|null $iriSubject : Optional, IRI of subject
+	 * @return array luaBindings [
+	 *     string list of results with separator ';'
+	 *     string Error message
+	 * ]
 	 */
 	public function getString( $iriProperty, $tagLang = null, $iriSubject = null ) {
 		if ( $iriSubject === null && $this->subject === null ) {
-			return [ "ERROR : Subject unknown (Use the parameter iriSubject or the function setSubject." ];
+			return [
+				null,
+				wfMessage( "linkedwiki-lua-param-error-subject-unknown" )->plain()
+			];
 		}
 
 		$result = "";
@@ -242,15 +287,13 @@ class LinkedWikiLuaLibrary extends Scribunto_LuaLibraryBase {
 		$rows = $endpoint->query( $q, 'rows' );
 		$err = $endpoint->getErrors();
 		if ( $err ) {
-			$message = $this->getInstanceConfig()->isDebug() ?
-				print_r( $err, true )
-				: "ERROR SPARQL (see details in mode debug)";
-			return [ "ERROR : " . $message ];
+			return $this->manageError( "", $err );
+		} else {
+			$this->doAfterReading();
 		}
 
 		$result = [];
 		foreach ( $rows["result"]["rows"] as $row ) {
-
 			$result[] = $row["value"];
 		}
 
@@ -258,13 +301,27 @@ class LinkedWikiLuaLibrary extends Scribunto_LuaLibraryBase {
 	}
 
 	/**
-	 * @param string $iriProperty
-	 * @param null $iriSubject
-	 * @return array
+	 * Find the literal for a property with the subject by default.
+	 * You can also change the subject with an optional parameter.
+	 *
+	 * The result is a list of value of all types because a subject
+	 * can have several triples with the same property and different values.
+	 * If you need to select triples by the tag lang, you can use
+	 * the function getString in this class.
+	 *
+	 * @param string $iriProperty : IRI of the property
+	 * @param string|null $iriSubject : Optional, IRI of subject
+	 * @return array luaBindings [
+	 *     string list of results with separator ';'
+	 *     string Error message
+	 * ]
 	 */
 	public function getValue( $iriProperty, $iriSubject = null ) {
 		if ( $iriSubject === null && $this->subject === null ) {
-			return [ "ERROR : Subject unknown (Use the parameter iriSubject or the function setSubject." ];
+			return [
+				null,
+				wfMessage( "linkedwiki-lua-param-error-subject-unknown" )->plain()
+			];
 		}
 		$this->checkType( 'getValue', 1, $iriProperty, 'string' );
 		$this->checkTypeOptional( 'getValue', 2, $iriSubject, 'string', $this->subject );
@@ -288,10 +345,9 @@ class LinkedWikiLuaLibrary extends Scribunto_LuaLibraryBase {
 		$rows = $endpoint->query( $q, 'rows' );
 		$err = $endpoint->getErrors();
 		if ( $err ) {
-			$message = $this->getInstanceConfig()->isDebug() ?
-				print_r( $err, true )
-				: "ERROR SPARQL (see details in mode debug)";
-			return [ "ERROR : " . $message ];
+			return $this->manageError( "", $err );
+		} else {
+			$this->doAfterReading();
 		}
 
 		$result = [];
@@ -303,43 +359,89 @@ class LinkedWikiLuaLibrary extends Scribunto_LuaLibraryBase {
 	}
 
 	/**
-	 * @param string $iriProperty
-	 * @param string $iriValue
-	 * @param null|string $iriSubject
-	 * @return array
+	 * Execute a SPARQL query only in read access.
+	 *
+	 * @param string $q SPARQL query
+	 * @return array luaBindings [
+	 *     array [
+	 *             variables => array variable names of rows
+	 *             rows => array of rows
+	 *           ]
+	 *     string Error message
+	 * ]
 	 */
-	public function addPropertyWithIri(
-		$iriProperty, $iriValue, $iriSubject = null ) {
-		if ( $iriSubject === null && $this->subject === null ) {
-			return [ "ERROR : Subject unknown (Use the parameter iriSubject or the function setSubject." ];
+	public function query( $q ) {
+		if ( ParserSparql::isUpdateQuery( $q ) ) {
+			return $this->manageError(
+				"",
+				wfMessage( "linkedwiki-lua-query-error-not-allow-to-write" )->plain()
+			);
 		}
 
-		if ( preg_match( "/(\"\"\"|''')/i", $iriValue ) ) {
-			return [ "ERROR : Bad value" ];
+		// for debug
+		$this->setLastQuery( $q );
+		$endpoint = clone $this->getInstanceEndpoint();
+		// disable update
+		$endpoint->setEndpointWrite( "" );
+		$result = $endpoint->query( $q );
+		$err = $endpoint->getErrors();
+		if ( $err ) {
+			return $this->manageError( "", $err );
+		} else {
+			$this->doAfterReading();
+		}
+		return [ $result ];
+	}
+
+	/**
+	 * Add a triple of type Subject(IRI) Property(IRI) Object(IRI).
+	 *
+	 * @param string $iriProperty : IRI of the property
+	 * @param string $iriObject : IRI of the object
+	 * @param string|null $iriSubject : Optional, IRI of subject
+	 * @return array luaBindings [
+	 *     string response of server
+	 *     string Error message
+	 * ]
+	 */
+	public function addPropertyWithIri(
+		$iriProperty, $iriObject, $iriSubject = null ) {
+		if ( $iriSubject === null && $this->subject === null ) {
+			return [
+				null,
+				wfMessage( "linkedwiki-lua-param-error-subject-unknown" )->plain()
+			];
+		}
+
+		if ( preg_match( "/(\"\"\"|''')/i", $iriObject ) ) {
+			return [ null, "Bad value" ];
 		}
 		if ( preg_match( "/(\"\"\"|'''| )/i", trim( $iriProperty ) ) ) {
-			return [ "ERROR : Bad property" ];
+			return [ null, "Bad property" ];
 		}
 		if ( preg_match( "/(\"\"\"|'''| )/i", trim( $iriSubject ) ) ) {
-			return [ "ERROR : Bad subject" ];
+			return [ null, "Bad subject" ];
 		}
 		if ( $this->isPreviewOrHistory() ) {
-			return [ "Mode PreviewOrHistory detected: data will not save" ];
+			// it is not an error. When it's a preview page or an archive, to do nothing.
+			return [
+				wfMessage( "linkedwiki-lua-message-preview-or-history" )->plain()
+			];
 		}
 
 		$this->checkType( 'addPropertyWithIri', 1, $iriProperty, 'string' );
-		$this->checkType( 'addPropertyWithIri', 2, $iriValue, 'string' );
-		$this->checkTypeOptional( 'addPropertyWithIri', 3, $iriSubject, 'string', $this->subject );
-		// $this->checkType( 'getValue', 2, $iriSubject, 'string', $this->subject  );
+		$this->checkType( 'addPropertyWithIri', 2, $iriObject, 'string' );
+		$this->checkTypeOptional( 'addPropertyWithIri', 3,
+			$iriSubject, 'string', $this->subject );
 
 		$subject = ( $iriSubject === null ) ?
 			"<" . $this->subject . ">"
 			: "<" . trim( $iriSubject ) . ">";
 		$property = "<" . trim( $iriProperty ) . ">";
-		$value = "<" . trim( $iriValue ) . ">";
+		$object = "<" . trim( $iriObject ) . ">";
 
 		$parameters = [ "?subject", "?property", "?value" ];
-		$values = [ $subject, $property, $value ];
+		$values = [ $subject, $property, $object ];
 		$q = str_replace( $parameters,
 			$values,
 			$this->getInstanceConfig()->getQueryInsertValue() );
@@ -351,48 +453,110 @@ class LinkedWikiLuaLibrary extends Scribunto_LuaLibraryBase {
 		$response = $endpoint->query( $q, 'raw' );
 		$err = $endpoint->getErrors();
 		if ( $err ) {
-			$message = $this->getInstanceConfig()->isDebug() ?
-				$response . print_r( $err, true )
-				: "ERROR SPARQL (see details in mode debug)";
-			return [ "ERROR : " . $message ];
+			return $this->manageError( $response, $err );
+		} else {
+			$this->doAfterWriting();
 		}
-
 		return [ $response ];
 	}
 
 	/**
-	 * @param string $iriProperty
-	 * @param number $value
-	 * @param null $type
-	 * @param null $tagLang
-	 * @param null $iriSubject
-	 * @return array
+	 * Add a triple of type Subject(IRI) Property(IRI) value(Literal).
+	 *
+	 * @param string $iriProperty : IRI of the property
+	 * @param number|string $value : Literal is a number or a string
+	 * @param null|string $type : datatype IRI of literal
+	 * @param null|string $tagLang : tag lang of string literal.
+	 *                               If null, it will use the default tag lang.
+	 *                               If empty (""), the tag lang will not save.
+	 * @param null|string $iriSubject : Optional, IRI of subject
+	 * @return array luaBindings [
+	 *     string response of server
+	 *     string Error message
+	 * ]
 	 */
-	public function addPropertyWithLitteral(
+	public function addPropertyWithLiteral(
 		$iriProperty, $value, $type = null, $tagLang = null, $iriSubject = null ) {
 		if ( $iriSubject === null && $this->subject === null ) {
-			return [ "ERROR : Subject unknown (Use the parameter iriSubject or the function setSubject." ];
+			return [
+				null,
+				wfMessage( "linkedwiki-lua-param-error-subject-unknown" )->plain()
+			];
 		}
 		if ( ( empty( $value ) && !is_numeric( $value ) ) || preg_match( "/(\"\"\"|''')/i", $value ) ) {
-			return [ "ERROR : Bad value" ];
+			return [ null, "Bad value" ];
 		}
-		if ( empty( $iriProperty ) || preg_match( "/(\"\"\"|'''| )/i", trim( $iriProperty ) ) ) {
-			return [ "ERROR : Bad property" ];
+		if ( $iriProperty === null || empty( $iriProperty )
+			|| preg_match( "/(\"\"\"|'''| )/i", trim( $iriProperty ) ) ) {
+			return [ null, "Bad property" ];
 		}
 		if ( preg_match( "/(\"\"\"|'''| )/i", trim( $iriSubject ) ) ) {
-			return [ "ERROR : Bad subject" ];
+			return [ null, "Bad subject" ];
 		}
 		if ( $this->isPreviewOrHistory() ) {
-			return [ "Mode PreviewOrHistory detected: data will not save." ];
+			// it is not an error. When it's a preview page or an archive, to do nothing.
+			return [
+				wfMessage( "linkedwiki-lua-message-preview-or-history" )->plain()
+			];
 		}
-		// $this->checkType( 'addPropertyWithLitteral', 1, $iriProperty, 'string' );
-		// $this->checkType( 'addPropertyWithLitteral', 2, $value, 'number or string' );
-		// $this->checkType( 'addPropertyWithLitteral', 3, $type, 'string',null );
-		// $this->checkTypeOptional( 'addPropertyWithLitteral', 4, $tagLang, 'string' ,
-		// $this->getInstanceConfig()->getLang() );
-		// $this->checkTypeOptional( 'addPropertyWithLitteral', 5, $iriSubject,
-		// 'string',$this->subject  );
-		// $this->checkType( 'getValue', 2, $iriSubject, 'string', $this->subject  );
+		if ( !empty( $type ) ) {
+			switch ( $type ) {
+				case "http://www.w3.org/2001/XMLSchema#date":
+					/**
+					 * RegExp to test a string for a ISO 8601 Date spec
+					 *  YYYY
+					 *  YYYY-MM
+					 *  YYYY-MM-DD
+					 *  YYYY-MM-DDThh:mmTZD
+					 *  YYYY-MM-DDThh:mm:ssTZD
+					 *  YYYY-MM-DDThh:mm:ss.sTZD
+					 * @see: https://www.w3.org/TR/NOTE-datetime
+					 * @type {RegExp}
+					 */
+					if (
+						!preg_match(
+							"/^\d{4}(-\d\d(-\d\d(T\d\d:\d\d(:\d\d)?(\.\d+)?(([+-]\d\d:\d\d)|Z)?)?)?)?$/i",
+							trim( $value )
+						)
+					) {
+						return [ null, wfMessage( "linkedwiki-lua-type-error-xsddate", $value )->plain() ];
+					}
+					break;
+				case "http://www.w3.org/2001/XMLSchema#dateTime":
+					/**
+					 * RegExp to test a string for a full ISO 8601 Date
+					 * Does not do any sort of date validation,
+					 * only checks if the string is according to the ISO 8601 spec.
+					 *  YYYY-MM-DDThh:mm:ss
+					 *  YYYY-MM-DDThh:mm:ssTZD
+					 *  YYYY-MM-DDThh:mm:ss.sTZD
+					 * @see: https://www.w3.org/TR/NOTE-datetime
+					 * @type {RegExp}
+					 */
+					if (
+						!preg_match(
+							"/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(\.\d+)?(([+-]\d\d:\d\d)|Z)?$/i",
+							trim( $value )
+						)
+					) {
+						return [ null, wfMessage( "linkedwiki-lua-type-error-xsddatetime", $value )->plain() ];
+					}
+					break;
+				case "http://www.w3.org/2001/XMLSchema#long":
+				case "http://www.w3.org/2001/XMLSchema#short":
+				case "http://www.w3.org/2001/XMLSchema#int":
+					if ( !is_numeric( $value ) || !is_int( 0 + $value ) ) {
+						return [ null, wfMessage( "linkedwiki-lua-type-error-xsdint", $value )->plain() ];
+					}
+					break;
+				case "http://www.w3.org/2001/XMLSchema#float":
+				case "http://www.w3.org/2001/XMLSchema#decimal":
+					if ( !is_numeric( $value ) || ( !is_float( 0 + $value ) && !is_int( 0 + $value ) ) ) {
+						return [ null, wfMessage( "linkedwiki-lua-type-error-xsddecimal", $value )->plain() ];
+					}
+					break;
+			}
+		}
 
 		$subject = ( $iriSubject === null ) ?
 			"<" . $this->subject . ">"
@@ -406,12 +570,23 @@ class LinkedWikiLuaLibrary extends Scribunto_LuaLibraryBase {
 			if ( $type != null ) {
 				$strValue .= "^^" . "<" . trim( $type ) . ">";
 			}
-			if ( $tagLang === null ) {
-				$strValue .= "@" . $this->getInstanceConfig()->getLang();
-			} elseif ( $tagLang === "" ) {
-				// do nothing;
-			} else {
-				$strValue .= "@" . trim( $tagLang );
+			switch ( trim( $type ) ) {
+				case "http://www.w3.org/2001/XMLSchema#date":
+				case "http://www.w3.org/2001/XMLSchema#dateTime":
+				case "http://www.w3.org/2001/XMLSchema#long":
+				case "http://www.w3.org/2001/XMLSchema#short":
+				case "http://www.w3.org/2001/XMLSchema#int":
+				case "http://www.w3.org/2001/XMLSchema#float":
+				case "http://www.w3.org/2001/XMLSchema#decimal":
+					break;
+				default:
+					if ( $tagLang === null ) {
+						$strValue .= "@" . $this->getInstanceConfig()->getLang();
+					} elseif ( $tagLang === "" ) {
+						// do nothing;
+					} else {
+						$strValue .= "@" . trim( $tagLang );
+					}
 			}
 		} else {
 			$strValue = strval( $value );
@@ -433,29 +608,38 @@ class LinkedWikiLuaLibrary extends Scribunto_LuaLibraryBase {
 		$response = $endpoint->query( $q, 'raw' );
 		$err = $endpoint->getErrors();
 		if ( $err ) {
-			$message = $this->getInstanceConfig()->isDebug() ?
-				$response . print_r( $err, true )
-				: "ERROR SPARQL (see details in mode debug)";
-			return [ "ERROR : " . $message ];
+			return $this->manageError( $response, $err );
+		} else {
+			$this->doAfterWriting();
 		}
 
 		return [ $response ];
 	}
 
 	/**
-	 * @param null $iriSubject
-	 * @return array
+	 * Delete all triples with the subject by default or an other subject.
+	 *
+	 * @param null|string $iriSubject if null, it uses the subject by default
+	 * @return array luaBindings [
+	 *     string response of server
+	 *     string Error message
+	 * ]
 	 */
 	public function removeSubject( $iriSubject = null ) {
 		if ( $iriSubject === null && $this->subject === null ) {
-			return [ "ERROR : Subject unknown (Use the parameter iriSubject or the function setSubject." ];
+			return [
+				null,
+				wfMessage( "linkedwiki-lua-param-error-subject-unknown" )->plain()
+			];
 		}
-
 		if ( preg_match( "/(\"\"\"|'''| )/i", trim( $iriSubject ) ) ) {
-			return [ "ERROR : Bad subject" ];
+			return [ null, "ERROR : Bad subject" ];
 		}
 		if ( $this->isPreviewOrHistory() ) {
-			return [ "Mode PreviewOrHistory detected: data will not save." ];
+			// it is not an error. When it's a preview page or an archive, to do nothing.
+			return [
+				wfMessage( "linkedwiki-lua-message-preview-or-history" )->plain()
+			];
 		}
 
 		$subject = ( $iriSubject === null ) ?
@@ -475,18 +659,21 @@ class LinkedWikiLuaLibrary extends Scribunto_LuaLibraryBase {
 		$response = $endpoint->query( $q, 'raw' );
 		$err = $endpoint->getErrors();
 		if ( $err ) {
-			$message = $this->getInstanceConfig()->isDebug() ?
-				$response . print_r( $err, true )
-				: "ERROR SPARQL (see details in mode debug)";
-			return [ "ERROR : " . $message ];
+			return $this->manageError( $response, $err );
+		} else {
+			$this->doAfterWriting();
 		}
-
 		return [ $response ];
 	}
 
 	/**
-	 * @param array $titles
-	 * @return array
+	 * Load the RDF of wiki pages in the database.
+	 *
+	 * @param string $titles list of page titles in the wiki with comma separator
+	 * @return array luaBindings [
+	 *     string response of server
+	 *     string Error message
+	 * ]
 	 */
 	public function loadData( $titles ) {
 		$listTitle = explode( ",", $titles );
@@ -507,20 +694,100 @@ class LinkedWikiLuaLibrary extends Scribunto_LuaLibraryBase {
 		$response = $endpoint->query( $q, 'raw' );
 		$err = $endpoint->getErrors();
 		if ( $err ) {
-			$message = $this->getInstanceConfig()->isDebug() ?
-				$response . print_r( $err, true )
-				: "ERROR SPARQL (see details in mode debug)";
-			return [ "ERROR : " . $message ];
+			return $this->manageError( $response, $err );
+		} else {
+			$this->doAfterWriting();
 		}
+
 		return [ $response ];
 	}
 
 	////PRIVATE FUNCTION
 
 	/**
+	 * @return LinkedWikiConfig
+	 */
+	private function getInstanceConfig() {
+		if ( $this->objConfig === null ) {
+			$this->objConfig = new LinkedWikiConfig();
+		}
+		return $this->objConfig;
+	}
+
+	/**
+	 * @return \BorderCloud\SPARQL\SparqlClient|null
+	 */
+	private function getInstanceEndpoint() {
+		return $this->getInstanceConfig()->getInstanceEndpoint();
+	}
+
+	/**
+	 * Detect if the current page with this module is only a preview or an archive.
+	 * This function helps to disable the save in the database.
+	 *
+	 * @return bool
+	 */
+	private function isPreviewOrHistory() {
+		if ( array_key_exists( "wpPreview", $_REQUEST )
+			|| ( array_key_exists( "oldid", $_REQUEST ) && $_REQUEST["oldid"] > 0 )
+		) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Save the last query.
+	 *
 	 * @param string $query
 	 */
 	private function setLastQuery( $query ) {
 		$this->lastQuery = $query;
+	}
+
+	/**
+	 * For the functions with SPARQL query, this function encapsule
+	 * a SPARQL error in a lua error.
+	 *
+	 * @param string $response
+	 * @param string $err
+	 * @return array luaBindings [
+	 *     string response of server
+	 *     string Error message in function of debug mode
+	 * ]
+	 */
+	private function manageError( $response, $err ) {
+		$messageError = print_r( $err, true );
+		$p = $this->getParser()->getOutput();
+		$p->setProperty( LinkedWikiStatus::PAGEPROP_ERROR_MESSAGE, $messageError );
+		$message = $this->getInstanceConfig()->isDebug() ?
+			$messageError
+			: wfMessage( "linkedwiki-lua-query-error-unknown" )->plain();
+		return [ $response, $message ];
+	}
+
+	/**
+	 * Attach a property with the wiki page that use this lua module
+	 * in order to write in a RDF database.
+	 * Save the job to refresh wiki pages with SPARQL queries when this module modifies
+	 * a RDF database.
+	 */
+	private function doAfterWriting() {
+		$p = $this->getParser()->getOutput();
+		$p->setProperty( LinkedWikiStatus::PAGEPROP_WRITER_MODULE, true );
+		// push a job to refresh old queries (also in the modules) in the wiki if it is not a job
+		if ( !RequestContext::getMain()->getRequest() instanceof FauxRequest ) {
+			$p->setProperty( LinkedWikiStatus::PAGEPROP_DB_TOUCHED, time() );
+			JobQueueGroup::singleton()->lazyPush( new InvalidatePageWithQueryJob() );
+		}
+	}
+
+	/**
+	 * Attach a property with the wiki page that use this lua module
+	 * in order to read a RDF database.
+	 */
+	private function doAfterReading() {
+		$this->getParser()->getOutput()->setProperty( LinkedWikiStatus::PAGEPROP_READER_MODULE, true );
 	}
 }

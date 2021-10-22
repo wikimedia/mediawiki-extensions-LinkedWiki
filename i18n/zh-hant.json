@@ -10,7 +10,7 @@
 	"linkedwiki-duration": "查詢時間",
 	"specialpages-group-linkedwiki_group": "SPARQL和RDF工具",
 	"linkedwiki-error-server": "抱歉，SPARQL伺服器回傳了錯誤。（透過參數log=2查看詳細資料）",
-	"linkedwiki-error-endpoint-init": "抱歉，您的端點有錯誤。（透過參數<kbd>log=2</kbd>查看詳細資料）。",
+	"linkedwiki-error-endpoint-init": "抱歉，您的端點有錯誤。（透過參數log=2查看詳細資料）。",
 	"linkedwiki-error-endpoint-empty": "端點或配置檔的位置？",
 	"linkedwiki-speciallinkedwikiconfig": "LinkedWiki配置",
 	"linkedwiki-specialrdfsave": "重新整理資料庫",

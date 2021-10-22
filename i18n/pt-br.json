@@ -10,7 +10,7 @@
 	"linkedwiki-duration": "Duração da consulta",
 	"specialpages-group-linkedwiki_group": "SPARQL e ferramentas RDF",
 	"linkedwiki-error-server": "Desculpe, o servidor SPARQL enviou um erro. (veja detalhes com o parâmetro log=2)",
-	"linkedwiki-error-endpoint-init": "Desculpe, há um erro no seu endpoint (veja detalhes com o parâmetro <kbd>log=2</kbd>).",
+	"linkedwiki-error-endpoint-init": "Desculpe, há um erro no seu endpoint (veja detalhes com o parâmetro log=2).",
 	"linkedwiki-error-endpoint-empty": "Onde está o terminal ou a configuração?",
 	"linkedwiki-speciallinkedwikiconfig": "Configuração do LinkedWiki",
 	"linkedwiki-specialrdfsave": "Atualizar banco de dados",

@@ -1,6 +1,9 @@
 <?php
+
+use MediaWiki\MediaWikiServices;
+
 /**
- * @copyright (c) 2019 Bourdercloud.com
+ * @copyright (c) 2021 Bordercloud.com
  * @author Karima Rafes <karima.rafes@bordercloud.com>
  * @link https://www.mediawiki.org/wiki/Extension:LinkedWiki
  * @license CC-BY-SA-4.0
@@ -19,16 +22,11 @@ class LinkedWiki {
 	 * @return bool
 	 */
 	public static function parserFirstCallInit( &$parser ) {
-		global $wgOut;
-		$wgOut->addModules( 'ext.LinkedWiki.table2CSV' );
-		$wgOut->addModules( 'ext.LinkedWiki.flowchart' );
-
-		$wgOut->addModules( 'ext.LinkedWiki.SparqlParser' );
-
-		$parser->setHook( 'lwgraph', 'LwgraphTag::render' );
+		if ( !empty( $parser->getTitle() ) ) {
+			// TODO question: $parser->unsetProperty( $name ); or write directly in the database
+			LinkedWikiStatus::clearPageProperties();
+		}
 		$parser->setFunctionHook( 'sparql', 'SparqlParser::render' );
-		$parser->setFunctionHook( 'wsparql', 'WSparqlParser::render' );
-
 		$parser->setHook( 'rdf', 'RDFTag::render' );
 		return true;
 	}
@@ -54,7 +52,7 @@ class LinkedWiki {
 	 * @throws Exception
 	 */
 	public static function onArticleDeleteAfterSuccess( Title $title, OutputPage $output ) {
-		$config = ConfigFactory::getDefaultInstance()->makeConfig( 'wgLinkedWiki' );
+		$config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'wgLinkedWiki' );
 		if ( !$config->has( "SPARQLServiceSaveDataOfWiki" ) ) {
 			$output->addHTML( "Database by default for the Wiki is not precised
 			in the extension.json of the LinkedWiki extension.
@@ -89,31 +87,26 @@ class LinkedWiki {
 	}
 
 	/**
-	 * @param Title &$title old Title
-	 * @param Title &$newTitle new Title
-	 * @param User &$user User who did the move
-	 * @param int $oldid database page_id of the page that's been moved
-	 * @param int $newid database page_id of the created redirect,
-	 * or 0 if the redirect was suppressed.
-	 * @param string $reason reason for the move
-	 * @param Revision $revision revision created by the move
+	 * Occurs immediately before a file or other page is moved
+	 *
+	 * @param Title &$oldtitle Title object of the old article (moved from)
+	 * @param Title &$newtitle Title object of the new article (moved to)
+	 * @param User &$user
 	 * @return bool
 	 * @throws Exception
 	 */
-	public static function onTitleMoveComplete(
-		Title &$title, Title &$newTitle, User &$user,
-		$oldid, $newid, $reason, Revision $revision ) {
-		$config = ConfigFactory::getDefaultInstance()->makeConfig( 'wgLinkedWiki' );
+	public static function onTitleMove( Title &$oldtitle, Title &$newtitle, User &$user ) {
+		$config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'wgLinkedWiki' );
 		if ( !$config->has( "SPARQLServiceSaveDataOfWiki" ) ) {
-			// $output->addHTML("Database by default for the Wiki is not precised
-			// in the extension.json of the LinkedWiki extension.
-			// (parameter SPARQLServiceSaveDataOfWiki) : no data deleted.");
+// $form->getOutput()->addHTML("Database by default for the Wiki is not precised
+//			 in the extension.json of the LinkedWiki extension.
+//			 (parameter SPARQLServiceSaveDataOfWiki) : no data deleted.");
 			return true;
 		}
 
 		$configDefaultSaveData = $config->get( "SPARQLServiceSaveDataOfWiki" );
 		$configSaveData = new LinkedWikiConfig( $configDefaultSaveData );
-		$subject = "<" . urldecode( $title->getFullURL() ) . ">";
+		$subject = "<" . urldecode( $oldtitle->getFullURL() ) . ">";
 
 		$parameters = [ "?subject" ];
 		$values = [ $subject ];
@@ -132,22 +125,18 @@ class LinkedWiki {
 	 * @return bool
 	 */
 	public static function onBeforePageDisplay( OutputPage &$out, Skin &$skin ) {
-		$out->addModules( "ext.LinkedWiki.common" );
+		// todo remove
+		//$out->addModules( "ext.LinkedWiki.common" );
+		$title = $out->getTitle();
 
-		if ( $out->getTitle()->isSpecial( 'linkedwiki-specialsparqlquery' ) ) {
+		if ( $title->isSpecial( 'linkedwiki-specialsparqlquery' ) ) {
 			$out->addModules( 'ext.LinkedWiki.SpecialSparqlQuery' );
 		}
 
 		// Human or machine request ?
 		$accept = isset( $_SERVER['HTTP_ACCEPT'] ) ? $_SERVER['HTTP_ACCEPT'] : "text/turtle";
 		if ( strpos( $accept, "text/turtle" ) !== false ) {
-			// for machine but we check if there are RDF in the page
-			$keyCategoryRDFPage = "Category:"
-				. Title::newFromText(
-					wfMessage( 'linkedwiki-category-rdf-page' )->inContentLanguage()->parse()
-				)->getDBKey();
-			$listCategories = $out->getTitle()->getParentCategories();
-			if ( ( isset( $listCategories[$keyCategoryRDFPage] ) ) ) {
+			if ( LinkedWikiStatus::isPageWithRDF( $title ) ) {
 				header(
 					'Location: ' . $out->getTitle()->getFullURL() . "?action=raw&export=rdf"
 				);
@@ -155,5 +144,30 @@ class LinkedWiki {
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * Adds an "action" (i.e., a tab) to allow the purge of the current page.
+	 *
+	 * @param SkinTemplate $sktemplate
+	 * @param array &$links
+	 */
+	public static function onSkinTemplateNavigationUniversal( SkinTemplate $sktemplate, array &$links ) {
+		$title = $sktemplate->getTitle();
+		$request = $sktemplate->getRequest();
+		$links['actions']['linkedwiki-purge'] = [
+			'text' => wfMessage( 'purge' )->text(),
+			'class' => $request->getVal( 'action' ) == 'purge' ? 'selected' : '',
+			'href' => $title->getLocalURL( 'action=purge' )
+		];
+		if ( LinkedWikiStatus::isPageWithRDF( $title ) ) {
+			$links['actions']['linkedwiki-turtle'] = [
+				'text' => 'Turtle',
+				'class' => $request->getVal( 'action' ) == 'raw'
+							&& $request->getVal( 'export' ) == 'rdf'
+							? 'selected' : '',
+				'href' => $title->getLocalURL( 'action=raw&export=rdf' )
+			];
+		}
 	}
 }

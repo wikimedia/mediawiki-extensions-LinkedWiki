@@ -12,7 +12,7 @@
 	"linkedwiki-duration": "Тривалість запиту",
 	"specialpages-group-linkedwiki_group": "Інструменти SPARQL та RDF",
 	"linkedwiki-error-server": "Вибачте, сервер SPARQL надіслав помилку (див. подробиці з параметром log=2)",
-	"linkedwiki-error-endpoint-init": "Вибачте, сталася помилка з вашою точкою доступу (див. подробиці з параметром <kbd>log=2</kbd>).",
+	"linkedwiki-error-endpoint-init": "Вибачте, сталася помилка з вашою точкою доступу (див. подробиці з параметром log=2).",
 	"linkedwiki-error-endpoint-empty": "Де є точка доступу чи конфігурація?",
 	"linkedwiki-speciallinkedwikiconfig": "Конфігурація LinkedWiki",
 	"linkedwiki-specialrdfsave": "Оновити базу даних",

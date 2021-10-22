@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright (c) 2019 Bourdercloud.com
+ * @copyright (c) 2021 Bordercloud.com
  * @author Karima Rafes <karima.rafes@bordercloud.com>
  * @link https://www.mediawiki.org/wiki/Extension:LinkedWiki
  * @license CC-BY-SA-4.0
@@ -10,6 +10,9 @@
  * Constants usable with http_build_url()
  * @link http://php.net/manual/en/http.constants.php#constant.http-url-replace
  */
+
+use MediaWiki\MediaWikiServices;
+
 defined( 'HTTP_URL_REPLACE' ) || define( 'HTTP_URL_REPLACE',        0 );
 defined( 'HTTP_URL_JOIN_PATH' ) || define( 'HTTP_URL_JOIN_PATH',      1 );
 defined( 'HTTP_URL_JOIN_QUERY' ) || define( 'HTTP_URL_JOIN_QUERY',     2 );
@@ -241,7 +244,7 @@ class SpecialRDFUnit extends SpecialPage {
 			return;
 		}
 
-		$config = ConfigFactory::getDefaultInstance()->makeConfig( 'wgLinkedWiki' );
+		$config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'wgLinkedWiki' );
 		if ( !$config->has( "SPARQLServiceSaveDataOfWiki" ) ) {
 			$output->addHTML(
 				"Database by default for the Wiki is not precised "
@@ -271,13 +274,14 @@ class SpecialRDFUnit extends SpecialPage {
 			. $graphOfDatasetFileForRDFUnit . ".mv.db";
 		$endpointOfDatasetPublic = $configSaveData->getInstanceEndpoint()->getEndpointRead();
 		$endpointOfDataset = $configSaveData->getInstanceEndpoint()->getEndpointRead();
-	if ( !empty( $configSaveData->getInstanceEndpoint()->getLogin() ) ) {
-		$endpointOfDataset = http_build_url( $configSaveData->getInstanceEndpoint()->getEndpointRead(),
+		if ( !empty( $configSaveData->getInstanceEndpoint()->getLogin() ) ) {
+			$endpointOfDataset = http_build_url( $configSaveData->getInstanceEndpoint()->getEndpointRead(),
 				[
 					"user" => $configSaveData->getInstanceEndpoint()->getLogin(),
 					"pass" => $configSaveData->getInstanceEndpoint()->getPassword()
-				] );
-	}
+				]
+			);
+		}
 
 		$category = Title::newFromText(
 			wfMessage( 'linkedwiki-category-rdf-schema' )->inContentLanguage()->parse()
@@ -286,26 +290,17 @@ class SpecialRDFUnit extends SpecialPage {
 		// make the list of schema
 		// $output->addWikiTextAsInterface("List of RDF schema uses during the tests:");
 
-		$dbr = wfGetDB( DB_REPLICA );
-		$sql = "SELECT  p.page_id AS pid, p.page_title AS title FROM page p
-INNER JOIN categorylinks c ON c.cl_from = p.page_id
- WHERE c.cl_to='" . $category . "' ORDER BY p.page_title ASC";
-// echo  $sql;
-		// phpcs:disable
-		$res = $dbr->query( $sql, __METHOD__ );
-		// phpcs:enable
+		$ids = LinkedWikiStatus::getPagesWithSHACL();
 
-		$schemas = [];
+		// $schemas = [];
 		$schemasStr = [];
 		$lines = [];
-		$row = $dbr->fetchObject( $res );
-		while ( $row ) {
-			$schemas[] = $row;
-			$schemasStr[] = '"' . Title::newFromID( $row->pid )->getFullURL() . '?action=raw&export=rdf"';
+		foreach ( $ids as $pageId ) {
+			// $schemas[] = $row;
+			$title = Title::newFromID( $pageId );
+			$schemasStr[] = '"' . $title->getFullURL() . '?action=raw&export=rdf"';
 			// $lines[] = "* [[".$row->title."]] ";
-			$lines[] = "* [" . Title::newFromID( $row->pid )->getFullURL() . " " . $row->title . "] ";
-
-			$row = $dbr->fetchObject( $res );
+			$lines[] = "* [" . $title->getFullURL() . " " . $title->getPrefixedText() . "] ";
 		}
 
 		if ( count( $schemasStr ) == 0 ) {
@@ -331,21 +326,22 @@ INNER JOIN categorylinks c ON c.cl_from = p.page_id
 
 		$output->addWikiTextAsInterface( implode( "\n", $lines ) );
 
-		// return $list;
-
 		$output->addWikiTextAsInterface( "== RDFUnit command ==" );
 
+		$graphs = array_merge( [ $graphOfDataset ], $config->get( "GraphsToCheckWithShacl" ) );
 		$commandPublic = 'rdfunit -d "' . $uriOfDataset
 			. '" -r shacl -e "' . $endpointOfDatasetPublic
-			. '" -g "' . $graphOfDataset
+			. '" -g "' . implode( ',', $graphs )
 			. '" -v -s ' . implode( ',', $schemasStr );
 
 		$command = 'rdfunit -d "' . $uriOfDataset
 		. '" -r shacl -e "' . $endpointOfDataset
-		. '" -g "' . $graphOfDataset
+		. '" -g "' . implode( ',', $graphs )
 		. '" -v -s ' . implode( ',', $schemasStr );
 
 		$output->addHTML( "<pre>" . $commandPublic );
+		// Debug
+		// $output->addHTML( $command );
 
 		$output->addHTML( "</pre>" );
 
@@ -370,10 +366,13 @@ INNER JOIN categorylinks c ON c.cl_from = p.page_id
 			unlink( $dbTestCase );
 		}
 
-		// $commandRDFUnit = "ls -al";// "whoami";
-		// $commandRDFUnit =  "mvn -pl rdfunit-validate -am clean install";
-		$commandRDFUnit = "bin/" . $command;
+		// $commandRDFUnit = "ls -al";
+		//$commandRDFUnit = "whoami";
+		//$commandRDFUnit = "mvn";
+		//$commandRDFUnit =  "mvn -pl rdfunit-validate -am clean install";
 		chdir( '/RDFUnit' );
+		$commandRDFUnit = "source /etc/profile.d/maven.sh && ";
+		$commandRDFUnit .= "bin/" . $command;
 		$file = exec( $commandRDFUnit . " 2>&1", $retval );
 		$textRetval = print_r( $retval, true );
 
@@ -397,7 +396,7 @@ INNER JOIN categorylinks c ON c.cl_from = p.page_id
 	 * @param string $file
 	 * @return mixed|string
 	 */
-	public static function printTests( $file ) {
+	private static function printTests( $file ) {
 		$result = "NO RESULTS";
 		if ( file_exists( $file ) ) {
 			if ( preg_match( "#<body>(.*)</body>#s", file_get_contents( $file ), $matchesbody ) ) {

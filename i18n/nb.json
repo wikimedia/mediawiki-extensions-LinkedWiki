@@ -9,7 +9,7 @@
 	"linkedwiki-duration": "Spørringens varighet",
 	"specialpages-group-linkedwiki_group": "SPARQL- og RDF-verktøy",
 	"linkedwiki-error-server": "Beklager, SPARQL-tjeneren sendte en feil. (se detaljer med parameteren log=2)",
-	"linkedwiki-error-endpoint-init": "Beklager, det er en feil med endepunktet ditt (se detaljer med parameteren <kbd>log=2</kbd>).",
+	"linkedwiki-error-endpoint-init": "Beklager, det er en feil med endepunktet ditt (se detaljer med parameteren log=2).",
 	"linkedwiki-error-endpoint-empty": "Hvor ligger endepunktet eller konfigurasjonen?",
 	"linkedwiki-speciallinkedwikiconfig": "LinkedWiki-konfigurasjon",
 	"linkedwiki-specialrdfsave": "Oppdater databasen",

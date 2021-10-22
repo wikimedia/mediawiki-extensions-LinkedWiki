@@ -22,12 +22,11 @@
 		"test": [
 			"parallel-lint . --exclude vendor --exclude node_modules",
 			"minus-x check .",
-			"@phpcs"
+			"phpcs -p -s"
 		],
 		"fix": [
 			"minus-x fix .",
 			"phpcbf"
-		],
-		"phpcs": "phpcs -sp --cache"
+		]
 	}
 }

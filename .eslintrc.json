@@ -1,7 +1,18 @@
 {
 	"root": true,
 	"extends": [
-		"wikimedia/client-es5",
-		"wikimedia/mediawiki"
-	]
+		"wikimedia/client-es6",
+		"wikimedia/mediawiki",
+		"wikimedia/jquery"
+	],
+	"env": {
+		"browser": true
+	},
+	"rules": {
+		"no-jquery/no-parse-html-literal": "warn",
+		"no-jquery/no-global-selector": [ "warn", { "allowIds": true } ],
+		"mediawiki/msg-doc": "warn",
+		"no-use-before-define": "off",
+		"no-jquery/no-fade": "off"
+	}
 }

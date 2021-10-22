@@ -15,7 +15,7 @@ See the doc: https://www.mediawiki.org/wiki/Extension:LinkedWiki
 
 == License ==
 
- Copyright (c) 2020 Bourdercloud.com
+ Copyright (c) 2021 Bordercloud.com
 
 	This work is licensed under the Creative Commons
 	Attribution-ShareAlike 4.0
@@ -48,6 +48,21 @@ Optional extensions :
 See: https://www.mediawiki.org/wiki/Extension:LinkedWiki
 
 == Release-Notes ==
+
+* v3.6.0 Refactoring, add features and fix wiki cache refresh issues by Karima Rafes <karima.rafes@bordercloud.com>
+ 		- For all pages: add tabs "Purge" (to refresh the page cache) and "Turtle" (for pages with a RDF tag)
+ 		- For special page "SaveRDF": print the status of wiki caches of pages with RDF or SPARQL queries
+ 		- For the lua lib: add function query, load css styles for infobox, add documentation, add internationalization messsages, improve the error management and improve the rendering and navigation of images
+ 		- For SPARQL parser: add the parameter "preview", fix the CSV export and the short url <PAGEIRI> and <DATAIRI>
+ 		- For RDFUnit (again an experimental tool): add the optional parameter "GraphsToCheckWithShacl" to add other graphs to check with the SHACL of wiki
+ 		- For RDF tag: insert a RDF BASE if the page have not already a BASE
+ 		- Add wiki jobs: "LoadRDF" to automatize the loading of RDF page and "InvalidatePageWithQueryJob" to fix wiki cache refresh issues (Replace the tool "Tracking Categories" by "Pages with properties" in order to control the wiki cache of RDF pages, SPARQL queries, RDF modules, SPARQL/RDF errors, etc.)
+ 		- Fix signatures
+ 		- Upgrade scripts to JavaScript ES6 (but not Flint)
+ 		- Upgrade all libs
+		- Remove deprecated tools of precedent versions
+ 		- Add a lot tests and automatize all tests in the github project: BorderCloud/mediawiki-extension-LinkedWiki-CI
+			T263990 T285703 T285631 T269851 T263995 T287882 T293747 T293750 T185521
 
 * v3.5.1 Fix bugs by Karima Rafes <karima.rafes@bordercloud.com>
  		- HTTPMethodForWrite not being set properly

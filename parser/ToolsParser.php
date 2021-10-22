@@ -1,6 +1,9 @@
 <?php
+
+use MediaWiki\MediaWikiServices;
+
 /**
- * @copyright (c) 2019 Bourdercloud.com
+ * @copyright (c) 2021 Bordercloud.com
  * @author Karima Rafes <karima.rafes@bordercloud.com>
  * @link https://www.mediawiki.org/wiki/Extension:LinkedWiki
  * @license CC-BY-SA-4.0
@@ -17,6 +20,10 @@ class ToolsParser {
 		if ( preg_match( "/<PAGEIRI>/i", $res ) ) {
 			$uri  = "<" . self::pageIri( $parser ) . ">";
 			$res  = str_replace( "<PAGEIRI>", $uri, $res );
+		}
+		if ( preg_match( "/<DATAIRI>/i", $res ) ) {
+			$uri  = "<" . self::dataIri( $parser ) . ">";
+			$res  = str_replace( "<DATAIRI>", $uri, $res );
 		}
 		// remove comments
 		$array = explode( "\n", $res );
@@ -40,7 +47,30 @@ class ToolsParser {
 	 */
 	public static function pageIri( &$parser ) {
 		// $resolverurl = $parser->getTitle()->getFullURL();
-		$resolverurl = urldecode( $parser->getTitle()->getSubjectPage()->getFullURL() );
+		$resolverurl = urldecode(
+			MediaWikiServices::getInstance()->getNamespaceInfo()->getSubjectPage( $parser->getTitle() )->getFullURL()
+		);
+		return $resolverurl;
+	}
+
+	/**
+	 * @param Parser &$parser
+	 * @return string
+	 */
+	public static function dataIri( &$parser ) {
+		// $resolverurl = $parser->getTitle()->getFullURL();
+		$target = MediaWikiServices::getInstance()->getNamespaceInfo()->getSubjectPage( $parser->getTitle() );
+		$currentNamespace = $target->getNamespace();
+		$resolverurl = "";
+		if ( $currentNamespace === 2 ) {
+			$resolverurl = urldecode(
+				Title::makeTitle( 10002, $parser->getTitle()->getBaseText() )->getFullURL()
+			);
+		} else {
+			$resolverurl = urldecode(
+				Title::makeTitle( 10000, $parser->getTitle()->getBaseText() )->getFullURL()
+			);
+		}
 		return $resolverurl;
 	}
 

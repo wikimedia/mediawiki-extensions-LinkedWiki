@@ -1,6 +1,6 @@
 {
 	"name": "LinkedWiki",
-	"version": "3.5.1",
+	"version": "3.6.0",
 	"author": [
 		"[https://www.mediawiki.org/wiki/User:Karima_Rafes Karima Rafes]"
 	],
@@ -65,6 +65,7 @@
 	"AutoloadClasses": {
 		"LinkedWikiConfig": "LinkedWikiConfig.php",
 		"LinkedWiki": "LinkedWiki.php",
+		"LinkedWikiStatus": "LinkedWikiStatus.php",
 
 		"SpecialSparqlQuery": "specialpages/SpecialSparqlQuery.php",
 		"SpecialSparqlFlintEditor": "specialpages/SpecialSparqlFlintEditor.php",
@@ -73,9 +74,7 @@
 		"SpecialRDFSave": "specialpages/SpecialRDFSave.php",
 
 		"SparqlParser": "parser/SparqlParser.php",
-		"WSparqlParser": "parser/WSparqlParser.php",
 		"ToolsParser": "parser/ToolsParser.php",
-		"LwgraphTag": "tag/LwgraphTag.php",
 
 		"RDFTag": "tag/RDFTag.php",
 
@@ -85,7 +84,14 @@
 		"StorageInGraphMethod": "storageMethod/StorageInGraphMethod.php",
 		"SimpleStorageMethod": "storageMethod/SimpleStorageMethod.php",
 		"WikidataStorageMethod": "storageMethod/WikidataStorageMethod.php",
-		"DatabaseTestDataMethod": "storageMethod/DatabaseTestDataMethod.php"
+		"DatabaseTestDataMethod": "storageMethod/DatabaseTestDataMethod.php",
+
+		"InvalidatePageWithQueryJob": "job/InvalidatePageWithQueryJob.php",
+		"LoadRDFJob": "job/LoadRDFJob.php"
+	},
+	"JobClasses": {
+		"InvalidatePageWithQuery": "InvalidatePageWithQueryJob",
+		"LoadRDF": "LoadRDFJob"
 	},
 	"Hooks": {
 		"ParserFirstCallInit": "LinkedWiki::parserFirstCallInit",
@@ -93,8 +99,9 @@
 		"RawPageViewBeforeOutput": "RDFTag::rawRDFSource",
 		"EditFilterMergedContent": "RDFTag::onEditFilterMergedContent",
 		"ArticleDeleteAfterSuccess": "LinkedWiki::onArticleDeleteAfterSuccess",
-		"TitleMoveComplete": "LinkedWiki::onTitleMoveComplete",
-		"BeforePageDisplay": "LinkedWiki::onBeforePageDisplay"
+		"BeforePageDisplay": "LinkedWiki::onBeforePageDisplay",
+		"SkinTemplateNavigation::Universal": "LinkedWiki::onSkinTemplateNavigationUniversal",
+		"TitleMove": "LinkedWiki::onTitleMove"
 	},
 	"MessagesDirs": {
 		"LinkedWiki": [
@@ -119,21 +126,6 @@
 			"group": "ext.LinkedWiki",
 			"scripts": [
 				"js/table2CSV.js"
-			]
-		},
-		"ext.LinkedWiki.lwgraph": {
-			"group": "ext.LinkedWiki",
-			"scripts": [
-				"js/lwgraph.js"
-			]
-		},
-		"ext.LinkedWiki.flowchart": {
-			"group": "ext.LinkedWiki",
-			"scripts": [
-				"js/flowchart.js"
-			],
-			"dependencies": [
-				"ext.LinkedWiki.lwgraph"
 			]
 		},
 		"ext.LinkedWiki.flint": {
@@ -181,7 +173,13 @@
 				"js/lwsgvizler2.js"
 			],
 			"dependencies": [
-				"ext.LinkedWiki.sgvizler2"
+				"ext.LinkedWiki.sgvizler2",
+				"ext.LinkedWiki.common"
+			]
+		},
+		"ext.LinkedWiki.Lua": {
+			"styles": [
+				"lua/css/common.css"
 			]
 		}
 	},
@@ -245,8 +243,13 @@
 			"merge_strategy": "array_plus_2d"
 		},
 		"SPARQLServiceSaveDataOfWiki": {
-			"description": "If you specify the SPARQL service uses to save RDF data (in the RDF tag) on the pages of wiki, you are able to use the special page to clean/import all your RDF data.",
+			"description": "If you specify the SPARQL service uses to save RDF data (in the RDF tag) on the pages of wiki, you are able to use the special page to clean/import all your RDF data and the wiki will save automatically all new RDF data.",
 			"value": ""
+		},
+		"GraphsToCheckWithShacl": {
+			"description": "If you save RDF data (in the RDF tag) on the pages of wiki with the parameter SPARQLServiceSaveDataOfWiki, you can add others graphs to check with Shacl via the same SPARQL endpoint.",
+			"value": {},
+			"merge_strategy": "array_merge"
 		},
 		"CheckRDFPage": {
 			"description": "If you have install Rapper, you can choose to check the RDF when you save a page, with this option.",

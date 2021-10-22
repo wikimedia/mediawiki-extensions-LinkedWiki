@@ -1,6 +1,9 @@
 <?php
+
+use MediaWiki\MediaWikiServices;
+
 /**
- * @copyright (c) 2019 Bourdercloud.com
+ * @copyright (c) 2021 Bordercloud.com
  * @author Karima Rafes <karima.rafes@bordercloud.com>
  * @link https://www.mediawiki.org/wiki/Extension:LinkedWiki
  * @license CC-BY-SA-4.0
@@ -12,14 +15,15 @@ class SparqlParser {
 	 * @return array|string|null
 	 */
 	public static function render( $parser ) {
-		global $wgOut;
+		$out = $parser->getOutput();
+		$out->addModuleStyles( "ext.LinkedWiki.common" );
+		$out->addModules( 'ext.LinkedWiki.table2CSV' );
+		$out->addModules( 'ext.LinkedWiki.SparqlParser' );
 
-		$configFactory = ConfigFactory::getDefaultInstance()->makeConfig( 'wgLinkedWiki' );
+		$configFactory = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'wgLinkedWiki' );
 		$configDefault = $configFactory->get( "SPARQLServiceByDefault" );
 
 		$result = null;
-
-		$wgOut->addModules( 'ext.LinkedWiki.table2CSV' );
 
 		$args = func_get_args();
 		$countArgs = count( $args );
@@ -45,6 +49,7 @@ class SparqlParser {
 			$cache = isset( $vars["cache"] ) ? $vars["cache"] : "yes";
 			$templateBare = isset( $vars["templateBare"] ) ? $vars["templateBare"] : '';
 			$footer = isset( $vars["footer"] ) ? $vars["footer"] : '';
+			$preview = isset( $vars["preview"] ) ? $vars["preview"] : '';
 
 			$chart = isset( $vars["chart"] ) ? $vars["chart"] : '';
 			$options = isset( $vars["options"] ) ? $vars["options"] : '';
@@ -52,9 +57,15 @@ class SparqlParser {
 
 			$noResultMsg = isset( $vars["default"] ) ? $vars["default"] : '';
 
+			$title = $parser->getTitle();
+
+			$parser->addTrackingCategory( 'linkedwiki-category-query' );
+
 			if ( !empty( $chart ) ) {
 				// renderer with sgvizler2
+				$parser->getOutput()->setProperty( LinkedWikiStatus::PAGEPROP_READER_QUERY, true );
 				return self::sgvizler2Container(
+					$parser,
 					$query,
 					$config,
 					$endpoint,
@@ -66,9 +77,13 @@ class SparqlParser {
 				// renderer with php
 				if ( $cache == "no" ) {
 					$parser->getOutput()->updateCacheExpiry( 0 );
+					$parser->getOutput()->setProperty( LinkedWikiStatus::PAGEPROP_READER_QUERY, true );
+				} else {
+					$parser->getOutput()->setProperty( LinkedWikiStatus::PAGEPROP_READER_QUERY_CACHED, true );
 				}
 				if ( $templateBare == "tableCell" ) {
 					return self::tableCell(
+						$parser,
 						$query,
 						$config,
 						$endpoint,
@@ -77,6 +92,7 @@ class SparqlParser {
 				} else {
 					if ( $templates != "" ) {
 						return self::simpleHTMLWithTemplate(
+							$parser,
 							$query,
 							$config,
 							$endpoint,
@@ -85,11 +101,13 @@ class SparqlParser {
 							$headers,
 							$templates,
 							$footer,
+							$preview,
 							$debug,
 							$log,
 							$noResultMsg );
 					} else {
 						return self::simpleHTML(
+							$parser,
 							$query,
 							$config,
 							$endpoint,
@@ -97,6 +115,7 @@ class SparqlParser {
 							$classHeaders,
 							$headers,
 							$footer,
+							$preview,
 							$debug,
 							$log,
 							$noResultMsg );
@@ -107,22 +126,28 @@ class SparqlParser {
 			$parser->getOutput()->updateCacheExpiry( 0 );
 			$result = "'''Error #sparql: "
 				. "Incorrect argument (usage : #sparql: SELECT * WHERE {?a ?b ?c .} )'''";
+
+			$parser->addTrackingCategory( 'linkedwiki-category-query-error' );
 		}
 
 		return $result;
 	}
 
 	/**
+	 * Build the sgvizler2 container
+	 *
+	 * @param Parser $parser
 	 * @param string $querySparqlWiki
 	 * @param string $config
 	 * @param string $endpoint
 	 * @param string $chart
 	 * @param string $options
-	 * @param string $log
-	 * @param null $debug
+	 * @param null|string $log
+	 * @param null|string $debug
 	 * @return array
 	 */
 	public static function sgvizler2Container(
+		$parser,
 		$querySparqlWiki,
 		$config,
 		$endpoint,
@@ -136,11 +161,11 @@ class SparqlParser {
 		$logSg = $log;
 
 		if ( empty( $config ) && empty( $endpoint ) ) {
-			return self::printMessageErrorDebug( 1, wfMessage( 'linkedwiki-error-endpoint-empty' )->text() );
+			return self::printMessageErrorDebug( $parser, 1, wfMessage( 'linkedwiki-error-endpoint-empty' )->text() );
 		} elseif ( !empty( $endpoint ) ) {
 			$endpointSg = $endpoint;
 		} elseif ( !empty( $config ) ) {
-			$configuration = ConfigFactory::getDefaultInstance()->makeConfig( 'wgLinkedWiki' );
+			$configuration = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'wgLinkedWiki' );
 			$configs = $configuration->get( "ConfigSPARQLServices" );
 			$configEndpoint = isset( $configs[$config] ) ? $configs[$config] : null;
 			if ( !empty( $configEndpoint ) ) {
@@ -180,7 +205,7 @@ class SparqlParser {
 		}
 
 		// insert api keys
-		$configFactory = ConfigFactory::getDefaultInstance()->makeConfig( 'wgLinkedWiki' );
+		$configFactory = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'wgLinkedWiki' );
 		if ( $configFactory->has( "GoogleApiKey" ) ) {
 			$str .= "data-googleapikey=\"" . $configFactory->get( "GoogleApiKey" ) . "\" \n";
 		}
@@ -194,6 +219,7 @@ class SparqlParser {
 	}
 
 	/**
+	 * @param Parser $parser
 	 * @param string $querySparqlWiki
 	 * @param string $config
 	 * @param string $endpoint
@@ -202,12 +228,14 @@ class SparqlParser {
 	 * @param string $headers
 	 * @param string $templates
 	 * @param string $footer
-	 * @param null $debug
-	 * @param string $log
+	 * @param string $preview
+	 * @param null|string $debug
+	 * @param null|string $log
 	 * @param string $noResultMsg
 	 * @return array
 	 */
 	public static function simpleHTMLWithTemplate(
+		$parser,
 		$querySparqlWiki,
 		$config,
 		$endpoint,
@@ -216,6 +244,7 @@ class SparqlParser {
 		$headers = '',
 		$templates = '',
 		$footer = '',
+		$preview = '',
 		$debug = null,
 		$log = '',
 		$noResultMsg = '' ) {
@@ -227,6 +256,7 @@ class SparqlParser {
 		$arrEndpoint = ToolsParser::newEndpoint( $config, $endpoint );
 		if ( $arrEndpoint["endpoint"] == null ) {
 			return self::printMessageErrorDebug(
+				$parser,
 				$log,
 				wfMessage( 'linkedwiki-error-endpoint-init' )->text(),
 				$arrEndpoint["errorMessage"]
@@ -242,6 +272,7 @@ class SparqlParser {
 				$strerr .= "'''Error #sparql :" . $err . "'''";
 			}
 			return self::printMessageErrorDebug(
+				$parser,
 				$log,
 				wfMessage( 'linkedwiki-error-server' )->text(),
 				$strerr
@@ -274,10 +305,15 @@ class SparqlParser {
 			}
 
 			$arrayParameters = [];
+			$nbRows = 0;
+			$limitRow = is_numeric( $preview ) ? 0 + $preview : -1;
 			foreach ( $rs['result']['rows'] as $row ) {
 				$str .= "|- ";
 				if ( $lignegrise ) {
 					$str .= "bgcolor=\"#f5f5f5\"";
+				}
+				if ( $limitRow > 0 && $nbRows >= $limitRow ) {
+					$str .= ' style="display:none" ';
 				}
 				$lignegrise = !$lignegrise;
 				$str .= "\n";
@@ -311,6 +347,7 @@ class SparqlParser {
 					$separateur = "||";
 				}
 				$str .= "\n";
+				$nbRows++;
 			}
 
 			if ( $footer != "NO" && $footer != "no" ) {
@@ -327,12 +364,14 @@ class SparqlParser {
 			$str .= "Query : " . $querySparql . "\n";
 			$str .= print_r( $arrayParameters, true );
 			$str .= print_r( $rs, true );
-			return self::printMessageErrorDebug( 2, "Debug messages", $str );
+			return self::printMessageErrorDebug(
+				$parser, 2, "Debug messages", $str );
 		}
 		return [ $str, 'noparse' => false, 'isHTML' => false ];
 	}
 
 	/**
+	 * @param Parser $parser
 	 * @param string $querySparqlWiki
 	 * @param string $config
 	 * @param string $endpoint
@@ -340,12 +379,14 @@ class SparqlParser {
 	 * @param string $classHeaders
 	 * @param string $headers
 	 * @param string $footer
-	 * @param null $debug
-	 * @param string $log
+	 * @param string $preview
+	 * @param null|string $debug
+	 * @param null|string $log
 	 * @param string $noResultMsg
 	 * @return array
 	 */
 	public static function simpleHTML(
+		$parser,
 		$querySparqlWiki,
 		$config,
 		$endpoint,
@@ -353,6 +394,7 @@ class SparqlParser {
 		$classHeaders = '',
 		$headers = '',
 		$footer = '',
+		$preview = '',
 		$debug = null,
 		$log = '',
 		$noResultMsg = '' ) {
@@ -364,6 +406,7 @@ class SparqlParser {
 		$arrEndpoint = ToolsParser::newEndpoint( $config, $endpoint );
 		if ( $arrEndpoint["endpoint"] == null ) {
 			return self::printMessageErrorDebug(
+				$parser,
 				$log,
 				wfMessage( 'linkedwiki-error-endpoint-init' )->text(),
 				$arrEndpoint["errorMessage"]
@@ -379,6 +422,7 @@ class SparqlParser {
 				$strerr .= "'''Error #sparql :" . $err . "'''";
 			}
 			return self::printMessageErrorDebug(
+				$parser,
 				$log,
 				wfMessage( 'linkedwiki-error-server' )->text(),
 				$strerr
@@ -423,11 +467,15 @@ class SparqlParser {
 				$str .= "</tr>\n";
 			}
 
+			$nbRows = 0;
+			$limitRow = is_numeric( $preview ) ? 0 + $preview : -1;
 			foreach ( $rs['result']['rows'] as $row ) {
-
 				$str .= "<tr";
 				if ( $lignegrise ) {
 					$str .= " bgcolor=\"#f5f5f5\" ";
+				}
+				if ( $limitRow > 0 && $nbRows >= $limitRow ) {
+					$str .= ' style="display:none" ';
 				}
 				$str .= ">\n";
 				$lignegrise = !$lignegrise;
@@ -446,12 +494,14 @@ class SparqlParser {
 					$str .= "</td>\n";
 				}
 				$str .= "</tr>\n";
+				$nbRows++;
 			}
 
 			if ( $footer != "NO" && $footer != "no" ) {
 				$str .= "<tr style=\"font-size:80%\" align=\"right\">\n";
 				$str .= "<td colspan=\"" . count( $variables ) . "\">"
 					. self::footerHTML(
+						$parser,
 						$rs['query_time'],
 						$querySparqlWiki,
 						$config,
@@ -470,6 +520,7 @@ class SparqlParser {
 			$str .= "QUERY : " . $querySparql . "\n";
 			$str .= print_r( $rs, true );
 			return self::printMessageErrorDebug(
+				$parser,
 				2,
 				"Debug messages",
 				$str
@@ -479,14 +530,16 @@ class SparqlParser {
 	}
 
 	/**
+	 * @param Parser $parser
 	 * @param string $querySparqlWiki
 	 * @param string $config
 	 * @param string $endpoint
 	 * @param null|string $debug
-	 * @param string $log
+	 * @param null|string $log
 	 * @return array
 	 */
 	public static function tableCell(
+		$parser,
 		$querySparqlWiki,
 		$config,
 		$endpoint,
@@ -500,6 +553,7 @@ class SparqlParser {
 		$arrEndpoint = ToolsParser::newEndpoint( $config, $endpoint );
 		if ( $arrEndpoint["endpoint"] == null ) {
 			return self::printMessageErrorDebug(
+				$parser,
 				$log,
 				wfMessage( 'linkedwiki-error-endpoint-init' )->text(),
 				$arrEndpoint["errorMessage"]
@@ -514,6 +568,7 @@ class SparqlParser {
 				$strerr .= "'''Error #sparql :" . $err . "'''";
 			}
 			return self::printMessageErrorDebug(
+				$parser,
 				$log,
 				wfMessage( 'linkedwiki-error-server' )->text(),
 				$strerr
@@ -545,7 +600,8 @@ class SparqlParser {
 			$str .= "INPUT WIKI: \n" . $querySparqlWiki . "\n";
 			$str .= "QUERY : " . $querySparql . "\n";
 			$str .= print_r( $rs, true );
-			return self::printMessageErrorDebug( 2, "Debug messages", $str );
+			return self::printMessageErrorDebug(
+				$parser, 2, "Debug messages", $str );
 		}
 
 		return [ $str, 'noparse' => false, 'isHTML' => false ];
@@ -575,6 +631,7 @@ class SparqlParser {
 	}
 
 	/**
+	 * @param Parser|null $parser
 	 * @param int $duration
 	 * @param string $querySparqlWiki
 	 * @param string $config
@@ -584,6 +641,7 @@ class SparqlParser {
 	 * @return string
 	 */
 	public static function footerHTML(
+		$parser,
 		$duration,
 		$querySparqlWiki,
 		$config,
@@ -592,23 +650,20 @@ class SparqlParser {
 		$headers = '' ) {
 		// error Exception caught: Request URL not set when push a page with a query
 		try{
-			global $wgRequest;
 			$today = date( wfMessage( 'linkedwiki-date' )->text() );
-
-			$subject = $wgRequest->getRequestURL();
-			$url = "";
-			$pattern = '/\?.*(title=[^&]*).*$/';
-			if ( preg_match( $pattern, $subject ) == 1 ) {
-				$url = preg_replace( $pattern, "?\${1}&action=purge", $subject );
+			if ( empty( $parser ) ) {
+				return $today . " -- " .
+					wfMessage( 'linkedwiki-duration' )->text() . " :"
+					. round( $duration, 3 )
+					. "s -- <a class=\"csv\" style=\"cursor: pointer;\" >CSV</a>";
 			} else {
-				$url = $subject . "?action=purge";
+				$url = $parser->getTitle()->getLocalURL( "action=purge" );
+				return $today . " -- <a href=\"" . $url . "\">"
+					. wfMessage( 'linkedwiki-refresh' )->text() . "</a> -- " .
+					wfMessage( 'linkedwiki-duration' )->text() . " :"
+					. round( $duration, 3 )
+					. "s -- <a class=\"csv\" style=\"cursor: pointer;\" >CSV</a>";
 			}
-
-			return $today . " -- <a href=\"" . $url . "\">"
-				. wfMessage( 'linkedwiki-refresh' )->text() . "</a> -- " .
-				wfMessage( 'linkedwiki-duration' )->text() . " :"
-				. round( $duration, 3 )
-				. "s -- <a class=\"csv\" style=\"cursor: pointer;\" >CSV</a>";
 		} catch ( Exception $e ) {
 			return "";
 		}
@@ -634,14 +689,36 @@ class SparqlParser {
 			);
 	}
 
-	private static function printMessageErrorDebug( $logLevel = 0, $messageName = "", $details = "" ) {
+	/**
+	 * @param Parser $parser
+	 * @param int $logLevel
+	 * @param string $messageName
+	 * @param string $details
+	 * @param bool $keepSpecialChars
+	 * @return array
+	 */
+	private static function printMessageErrorDebug(
+		$parser,
+		$logLevel = 0,
+		$messageName = "",
+		$details = "",
+		$keepSpecialChars = true
+	) {
 		$html = "";
+		$messageNameHtml = $keepSpecialChars ? $messageName : htmlspecialchars( $messageName );
+		$detailsHtml = $keepSpecialChars ? $details : htmlspecialchars( $details );
 		// debug
 		if ( $logLevel == 2 ) {
-			$html .= "<p style='color:red'>" . htmlspecialchars( $messageName ) . "</p>";
-			$html .= "<pre>" . htmlspecialchars( $details ) . "</pre>";
+			$html .= "<p style='color:red'>" . $messageNameHtml . "</p>";
+			$html .= "<pre>" . $detailsHtml . "</pre>";
 		} elseif ( $logLevel == 1 ) {
-			$html .= "<p style='color:red'>" . htmlspecialchars( $messageName ) . "</p>";
+			$html .= "<p style='color:red'>" . $messageNameHtml . "</p>";
+		}
+
+		if ( !empty( $parser ) && !empty( $parser->getTitle() ) ) {
+			// deprecated ?
+			$parser->addTrackingCategory( 'linkedwiki-category-query-error' );
+			$parser->getOutput()->setProperty( LinkedWikiStatus::PAGEPROP_ERROR_MESSAGE, $details );
 		}
 		// $logLevel == 0 // Print nothing
 		return [ $html, 'noparse' => true, 'isHTML' => false ];

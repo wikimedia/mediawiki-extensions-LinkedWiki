@@ -9,7 +9,7 @@
 	"linkedwiki-duration": "مدة الاستعلام",
 	"specialpages-group-linkedwiki_group": "أدوات سباركل وRDF",
 	"linkedwiki-error-server": "عذرا، أرسل خادم سباركل خطأ. (انظر التفاصيل مع سجل الوسيط=2)",
-	"linkedwiki-error-endpoint-init": "عذرا، أرسل خادم سباركل خطأ. (انظر التفاصيل مع سجل الوسيط <kbd>log=2</kbd>)",
+	"linkedwiki-error-endpoint-init": "عذرا، أرسل خادم سباركل خطأ. (انظر التفاصيل مع سجل الوسيط log=2)",
 	"linkedwiki-error-endpoint-empty": "أين هي نقطة النهاية أو التكوين؟",
 	"linkedwiki-speciallinkedwikiconfig": "تكوين ويكي مرتبط",
 	"linkedwiki-specialrdfsave": "تحديث قاعدة البيانات",

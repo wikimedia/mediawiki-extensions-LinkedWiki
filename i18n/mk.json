@@ -9,7 +9,7 @@
 	"linkedwiki-duration": "Траење на барањето",
 	"specialpages-group-linkedwiki_group": "Алатки за SPARQL и RDF",
 	"linkedwiki-error-server": "За жал, опслужувачот на SPARQL пријави грешка (погл. подробно со параметарот log=2).",
-	"linkedwiki-error-endpoint-init": "За жал, има грешка во вашата завршница (погл. подробно со параметарот <kbd>log=2</kbd>).",
+	"linkedwiki-error-endpoint-init": "За жал, има грешка во вашата завршница (погл. подробно со параметарот log=2).",
 	"linkedwiki-error-endpoint-empty": "Каде е завршницата или поставеноста?",
 	"linkedwiki-speciallinkedwikiconfig": "Поставување на LinkedWiki",
 	"linkedwiki-specialrdfsave": "Превчитај база",

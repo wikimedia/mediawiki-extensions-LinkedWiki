@@ -1,22 +1,22 @@
-.linkedwiki_current_value {
-	display: block;
-	background-image: url(MW-Icon-Warning.png);
-}
-.linkedwiki_tooltip {
-	position: relative;
-}
-.linkedwiki_tooltip:after {
-	content: "";
-	position: absolute;
-	top: 0;
-	right: 0;
-	width: 0;
-	height: 0;
-	display: block;
-	border-left: 15px solid transparent;
-	border-bottom: 15px solid transparent;
-	border-top: 15px solid #f00;
-}
+/*.linkedwiki_current_value {*/
+/*	display: block;*/
+/*	background-image: url(MW-Icon-Warning.png);*/
+/*}*/
+/*.linkedwiki_tooltip {*/
+/*	position: relative;*/
+/*}*/
+/*.linkedwiki_tooltip:after {*/
+/*	content: "";*/
+/*	position: absolute;*/
+/*	top: 0;*/
+/*	right: 0;*/
+/*	width: 0;*/
+/*	height: 0;*/
+/*	display: block;*/
+/*	border-left: 15px solid transparent;*/
+/*	border-bottom: 15px solid transparent;*/
+/*	border-top: 15px solid #f00;*/
+/*}*/
 
 .custom-select {
 	-webkit-appearance: none;

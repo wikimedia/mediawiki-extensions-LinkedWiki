@@ -1,7 +1,7 @@
 --[[
 	Registers and defines functions to access LinkedWiki through the Scribunto extension
 	Provides Lua setupInterface
- @copyright (c) 2019 Bourdercloud.com
+ @copyright (c) 2021 Bordercloud.com
  @author Karima Rafes <karima.rafes@bordercloud.com>
  @link https://www.mediawiki.org/wiki/Extension:LinkedWiki
  @license CC-BY-SA-4.0
@@ -11,6 +11,13 @@
 local linkedwiki = {}
 local php
 
+
+function linkedwiki.checkResult(result, errorMessage)
+  if errorMessage ~= nil then
+ 		error(tostring(errorMessage),2)
+ 	end
+   return result
+end
 -- FIX temporary the problem https://phabricator.wikimedia.org/T264413 for Mediawiki 1.35
 local currentFrame
 function linkedwiki.setCurrentFrame(frame)
@@ -23,7 +30,7 @@ function linkedwiki.getCurrentFrame()
     if mw.getCurrentFrame ~= nil then
     	return mw.getCurrentFrame()
     else
-    	error('ERROR T264413. You can set manually the frame in a module with the code linkedwiki.setCurrentFrame(mw.getCurrentFrame())')
+    	error( 'ERROR T264413. ' .. mw.message.new( "linkedwiki-lua-error-currentframe-nil", valueInDB):plain())
     end
 end
 
@@ -31,39 +38,43 @@ function linkedwiki.isEmpty(s)
     return s == nil or s == ''
 end
 
-function linkedwiki.tprint(t)
-  local text = ''
-  for k, v in pairs(t) do
-      local kfmt = '["' .. tostring(k) ..'"]'
-      if type(k) ~= 'string' then
-          kfmt = '[' .. k .. ']'
-      end
-      local vfmt = '"'.. tostring(v) ..'"'
-      if type(v) == 'table' then
-          tprint(v, (s or '')..kfmt)
-      else
-          if type(v) ~= 'string' then
-              vfmt = tostring(v)
-          end
-          text = text .. type(t)..(s or '')..kfmt..' = '..vfmt ..'\n'
-      end
-  end
-  return text
+function linkedwiki.loadStyles()
+    php.loadStyles()
 end
 
-function linkedwiki.info()
-    local wikitext = mw.html.create('div')
-    wikitext:addClass("plainlinks")
-    wikitext:wikitext(php.info())
-    return tostring(wikitext)
+function linkedwiki.print_r ( t )
+    local print_r_cache={}
+    local function sub_print_r(t,indent)
+            if (type(t)=="table") then
+                for pos,val in pairs(t) do
+                    if (type(val)=="table") then
+                        mw.log(indent.."["..pos.."] => "..tostring(t).." {")
+                        sub_print_r(val,indent..string.rep(" ",string.len(pos)+8))
+                        mw.log(indent..string.rep(" ",string.len(pos)+6).."}")
+                    else
+                        mw.log(indent.."["..pos.."] => "..tostring(val))
+                    end
+                end
+            else
+                mw.log(indent..tostring(t))
+            end
+    end
+    sub_print_r(t,"  ")
 end
+
+-- Obsolete ?
+-- function linkedwiki.info()
+--     local wikitext = mw.html.create('div')
+--     wikitext:addClass("plainlinks")
+--     wikitext:wikitext(php.info())
+--     return tostring(wikitext)
+-- end
 
 function linkedwiki.timeStamp(dateStringArg)
     local patternDateTime = '^(%d%d%d%d)-(%d?%d)-(%d?%d)T(%d?%d):(%d?%d):(%d?%d)(.-)$';
     local patternDate = '^(%d%d%d%d)-(%d?%d)-(%d?%d)$';
     local returnTime = 0
-    if  string.find(dateStringArg, patternDateTime) then
-        mw.log("dateCoucou")
+    if string.find(dateStringArg, patternDateTime) then
         local inYear, inMonth, inDay, inHour, inMinute, inSecond, inZone =
         string.match(dateStringArg,patternDateTime)
         local zHours, zMinutes = string.match(inZone, '^(.-):(%d%d)$')
@@ -87,35 +98,24 @@ end
     setConfig can replace setEndpoint and setGraph.
 ]]
 function linkedwiki.setConfig(iriDataset)
-	local status, message = php.setConfig(iriDataset);
-	if not status then
-		error(message)
-	end
-	return message
+	return linkedwiki.checkResult(php.setConfig(iriDataset))
 end
 function linkedwiki.getConfig()
-    return php.getConfig()
+    return linkedwiki.checkResult(php.getConfig())
 end
 function linkedwiki.getDefaultConfig()
-    return php.getDefaultConfig()
+    return linkedwiki.checkResult(php.getDefaultConfig())
 end
 
 function linkedwiki.setEndpoint(urlEndpoint)
-    return php.setEndpoint(urlEndpoint)
+    return linkedwiki.checkResult(php.setEndpoint(urlEndpoint))
 end
 
 function linkedwiki.setDebug(boolDebug)
-    return php.setDebug(boolDebug)
+    return linkedwiki.checkResult(php.setDebug(boolDebug))
 end
 function linkedwiki.isDebug()
---    local result =""
---    if linkedwiki.isEmpty(tagLang) then
---        result = php.getLang()
---    else
---        result = tagLang
---    end
---    return result
-    return php.isDebug()
+    return linkedwiki.checkResult(php.isDebug())
 end
 
 --function linkedwiki.setGraph(iriGraph)
@@ -123,51 +123,48 @@ end
 --end
 
 function linkedwiki.setSubject(iriSubject)
-    return php.setSubject(iriSubject)
+    return linkedwiki.checkResult(php.setSubject(iriSubject))
 end
 
 function linkedwiki.setLang(tagLang)
-    return php.setLang(tagLang)
+    return linkedwiki.checkResult(php.setLang(tagLang))
 end
 
 function linkedwiki.getLang(tagLang)
---    local result =""
---    if linkedwiki.isEmpty(tagLang) then
---        result = php.getLang()
---    else
---        result = tagLang
---    end
---    return result
-    return php.getLang()
+    return linkedwiki.checkResult(php.getLang())
 end
 
 function linkedwiki.getLastQuery()
-    return php.getLastQuery()
+    return linkedwiki.checkResult(php.getLastQuery())
 end
 
 function linkedwiki.getValue(iriProperty, iriSubject)
-    return php.getValue(iriProperty, iriSubject)
+    return linkedwiki.checkResult(php.getValue(iriProperty, iriSubject))
+end
+
+function linkedwiki.query(q)
+    return linkedwiki.checkResult(php.query(q))
 end
 
 function linkedwiki.getString(iriProperty, tagLang, iriSubject)
     --checkTypeMulti( 'getString', 1, tagLang, { 'string', 'nil' } )
-    return php.getString(iriProperty, tagLang, iriSubject)
+    return linkedwiki.checkResult(php.getString(iriProperty, tagLang, iriSubject))
 end
 
 function linkedwiki.addPropertyWithIri(iriProperty, iriValue, iriSubject)
-    return php.addPropertyWithIri(iriProperty, iriValue, iriSubject)
+    return linkedwiki.checkResult(php.addPropertyWithIri(iriProperty, iriValue, iriSubject))
 end
 
-function linkedwiki.addPropertyWithLitteral(iriProperty, value, type, tagLang, iriSubject)
-    return php.addPropertyWithLitteral(iriProperty, value, type, tagLang, iriSubject)
+function linkedwiki.addPropertyWithLiteral(iriProperty, value, type, tagLang, iriSubject)
+    return linkedwiki.checkResult(php.addPropertyWithLiteral(iriProperty, value, type, tagLang, iriSubject))
 end
 
 function linkedwiki.removeSubject(iriSubject)
-    return php.removeSubject(iriSubject)
+    return linkedwiki.checkResult(php.removeSubject(iriSubject))
 end
 
 function linkedwiki.loadData(titles)
-    return php.loadData(titles)
+    return linkedwiki.checkResult(php.loadData(titles))
 end
 
 local currentFullPageName
@@ -181,6 +178,10 @@ end
 
 function linkedwiki.getCurrentIRI()
     return mw.uri.decode(linkedwiki.getCurrentTitle():fullUrl())
+end
+
+function linkedwiki.getProtocol()
+    return linkedwiki.checkResult(php.getProtocol())
 end
 
 
@@ -197,12 +198,21 @@ function linkedwiki.explode(div, str)
     return arr
 end
 
-function linkedwiki.concatWithComma(tab)
+function linkedwiki.concatWithComma(tab,tabOrder)
     local html = ""
     local comma = ""
-    for key, value in pairs(tab) do
-        html = html .. comma .. value
-        comma=", "
+    if tabOrder then
+		for id, iri in ipairs(tabOrder) do
+			if tab[iri] then
+				html = html .. comma .. tab[iri]
+				comma=", "
+			end
+		end
+    else
+        for key, value in pairs(tab) do
+            html = html .. comma .. value
+            comma=", "
+        end
     end
     return html
 end
@@ -212,13 +222,17 @@ function linkedwiki.buildDivSimple(isDifferent,html,valueInDB)
     local div = mw.html.create('div')
 
     if isDifferent then
-        div:addClass("linkedwiki_new_value")
-        div:addClass("linkedwiki_tooltip")
+        div:addClass("mw-ext-linkedwiki-new-value")
+        div:addClass("mw-ext-linkedwiki-tooltip")
         div:attr("data-toggle", "tooltip")
         div:attr("data-placement", "bottom")
-        div:attr("title", "Currently in DB : " .. valueInDB)
+        if string.find(tostring(valueInDB), '^t%d+$') then
+            div:attr("title", mw.message.new( "linkedwiki-lua-tooltip-db-currently-unknown-value" ):plain())
+        else
+            div:attr("title", mw.message.new( "linkedwiki-lua-tooltip-db-currently-value", valueInDB):plain())
+        end
     else
-        div:addClass("linkedwiki_value_equal")
+        div:addClass("mw-ext-linkedwiki-value-equal")
     end
 
     if not linkedwiki.isEmpty(html) then
@@ -229,25 +243,25 @@ function linkedwiki.buildDivSimple(isDifferent,html,valueInDB)
     return result
 end
 
-function linkedwiki.buildDiv(countInWiki,tabHtmlInWiki,countInDB,tabHtmlInDB,tabTitleInDB)
+function linkedwiki.buildDiv(countInWiki,tabHtmlInWiki,countInDB,tabHtmlInDB,tabTitleInDB,tabOrder)
     local result = ""
     local html = ""
     local html2 = ""
     local div = mw.html.create('div')
 
     if countInWiki > 0 then
-        html = html .. linkedwiki.concatWithComma(tabHtmlInWiki)
-        div:addClass("linkedwiki_new_value")
+        html = html .. linkedwiki.concatWithComma(tabHtmlInWiki,tabOrder)
+        div:addClass("mw-ext-linkedwiki-new-value")
         if countInDB > 0  then
             html = html .. ", " .. linkedwiki.concatWithComma(tabHtmlInDB,tabOrder)
-            div:addClass("linkedwiki_tooltip")
+            div:addClass("mw-ext-linkedwiki-tooltip")
             div:attr("data-toggle", "tooltip")
             div:attr("data-placement", "bottom")
-            html2 = linkedwiki.concatWithComma(tabTitleInDB)
-            div:attr("title", "Currently in DB : " .. html2)
+            html2 = linkedwiki.concatWithComma(tabTitleInDB,tabOrder)
+            div:attr("title", mw.message.new( "linkedwiki-lua-tooltip-db-currently-value", html2):plain())
         end
     elseif countInDB > 0 then
-        div:addClass("linkedwiki_value_equal")
+        div:addClass("mw-ext-linkedwiki-value-equal")
         html = html .. linkedwiki.concatWithComma(tabHtmlInDB,tabOrder)
     end
 
@@ -255,6 +269,7 @@ function linkedwiki.buildDiv(countInWiki,tabHtmlInWiki,countInDB,tabHtmlInDB,tab
         div:wikitext(html)
         result = tostring(div)
     end
+
     return result
 end
 
@@ -319,7 +334,8 @@ function linkedwiki.new(subject,config,tagLang,debug)
     function Linkedwiki:getMaintenanceCategory()
         local result = ''
         local labelInDB = self:getValue("http://www.w3.org/2000/01/rdf-schema#label", linkedwiki.getCurrentIRI())
-        if self.databaseIsUpdate and not linkedwiki.isEmpty(labelInDB) then
+        -- remove? and not linkedwiki.isEmpty(labelInDB)
+        if self.databaseIsUpdate then
             result = ""
         else
             result = "[[Category:Check data]]"
@@ -331,7 +347,7 @@ function linkedwiki.new(subject,config,tagLang,debug)
         self.debug = boolDebug
     end
     function Linkedwiki:isDebug()
-        return self.debug or  linkedwiki.isDebug()
+        return self.debug or linkedwiki.isDebug()
     end
 
     function Linkedwiki:getLastQuery()
@@ -359,16 +375,16 @@ function linkedwiki.new(subject,config,tagLang,debug)
         return linkedwiki.addPropertyWithIri(iriProperty, iriValue)
     end
 
-    function Linkedwiki:addPropertyWithLitteral(iriProperty, value, type, tagLang)
+    function Linkedwiki:addPropertyWithLiteral(iriProperty, value, type, tagLang)
         self:initConfig()
-        return  linkedwiki.addPropertyWithLitteral(iriProperty, value, type, tagLang)
+        return  linkedwiki.addPropertyWithLiteral(iriProperty, value, type, tagLang)
     end
     function Linkedwiki:addProperty(iriProperty, value, type)
-        return  self:addPropertyWithLitteral(iriProperty, value,type,'')
+        return  self:addPropertyWithLiteral(iriProperty, value,type,'')
     end
 
     function Linkedwiki:addPropertyString(iriProperty, value, tagLang)
-        return  self:addPropertyWithLitteral(iriProperty, value, nil, tagLang)
+        return  self:addPropertyWithLiteral(iriProperty, value, nil, tagLang)
     end
 
     function Linkedwiki:removeSubject()
@@ -490,30 +506,6 @@ function linkedwiki.new(subject,config,tagLang,debug)
         return linkedwiki.buildDivSimple(isDifferent,html,listValueInDB)
     end
 
-    function Linkedwiki:printValueInWiki(valueInWiki, valueInDB)
-        local div = mw.html.create('div')
-
-        if not linkedwiki.isEmpty(valueInWiki) then
-            div:wikitext(valueInWiki)
-
-            if valueInWiki == valueInDB then
-                div:addClass("linkedwiki_value_equal")
-            else
-                self.databaseIsUpdate = false
-                div:addClass("linkedwiki_new_value")
-                if not linkedwiki.isEmpty(valueInDB) then
-                    div:addClass("linkedwiki_tooltip")
-                    div:attr("data-toggle", "tooltip")
-                    div:attr("data-placement", "bottom")
-                    div:attr("title", "Currently in DB : " .. valueInDB)
-                end
-            end
-        elseif not linkedwiki.isEmpty(valueInDB) then
-            div:wikitext(valueInDB)
-        end
-        return tostring(div)
-    end
-
     function Linkedwiki:printTitleInWiki(valueInWiki, valueInDB, tagLang)
         --mw.log("linkedwiki.printTitleInWiki("..valueInWiki..",".. valueInDB..")")
 
@@ -533,6 +525,8 @@ function linkedwiki.new(subject,config,tagLang,debug)
         local countInWiki = 0
         local cleanTitle =""
 
+        local tabOrder = {}
+
         if not linkedwiki.isEmpty(valueInDB) then
             listIri = linkedwiki.explode(";", valueInDB)
             for i, iri in ipairs(listIri) do
@@ -543,6 +537,7 @@ function linkedwiki.new(subject,config,tagLang,debug)
                 tabTitleInDB[iri]= titleInDB
                 tabHtmlInDB[iri]= text
                 countInDB = countInDB + 1
+                table.insert(tabOrder, iri)
             end
         end
 
@@ -557,9 +552,11 @@ function linkedwiki.new(subject,config,tagLang,debug)
                 cleanTitle = mw.text.trim( title )
                 text = '[[' .. cleanTitle .. ']]'
                 iriInWiki = mw.title.new(cleanTitle):fullUrl()
+
                 if not tabIriInDB[iriInWiki] then
                     tabHtmlInWiki[iriInWiki]= text
                     countInWiki = countInWiki +1
+                    table.insert(tabOrder, iriInWiki)
                 elseif tabTitleInDB[iriInWiki] ~= cleanTitle then
                     tabHtmlInWiki[iriInWiki]= text
                     countInWiki = countInWiki +1
@@ -571,7 +568,40 @@ function linkedwiki.new(subject,config,tagLang,debug)
             self.databaseIsUpdate = false
         end
 
-        return linkedwiki.buildDiv(countInWiki,tabHtmlInWiki,countInDB,tabHtmlInDB,tabTitleInDB)
+--        for key, value in pairs(tabOrder) do
+--          mw.log( key.." "..value)
+--        end
+
+        return linkedwiki.buildDiv(countInWiki,tabHtmlInWiki,countInDB,tabHtmlInDB,tabTitleInDB,tabOrder)
+    end
+
+    function Linkedwiki:printValueInWiki(valueInWiki, valueInDB)
+        local div = mw.html.create('div')
+
+        if not linkedwiki.isEmpty(valueInWiki) then
+            div:wikitext(valueInWiki)
+
+            if valueInWiki == valueInDB then
+                div:addClass("mw-ext-linkedwiki-value-equal")
+            else
+                self.databaseIsUpdate = false
+                div:addClass("mw-ext-linkedwiki-new-value")
+                if not linkedwiki.isEmpty(valueInDB) then
+                    -- Wikidata blank node
+                    div:addClass("mw-ext-linkedwiki-tooltip")
+                    div:attr("data-toggle", "tooltip")
+                    div:attr("data-placement", "bottom")
+                    if string.find(tostring(valueInDB), '^t%d+$') then
+                        div:attr("title", mw.message.new( "linkedwiki-lua-tooltip-db-currently-unknown-value" ):plain())
+                    else
+                        div:attr("title", mw.message.new( "linkedwiki-lua-tooltip-db-currently-value", valueInDB):plain())
+                    end
+                end
+            end
+        elseif not linkedwiki.isEmpty(valueInDB) then
+            div:wikitext(valueInDB)
+        end
+        return tostring(div)
     end
 
     function Linkedwiki:printUserInWiki(valueInWiki, valueInDB, tagLang)
@@ -590,6 +620,8 @@ function linkedwiki.new(subject,config,tagLang,debug)
         local tabHtmlInWiki = {}
         local countInWiki = 0
         local cleanTitle =""
+
+        local tabOrder = {}
 
         if not linkedwiki.isEmpty(valueInDB) then
             listIri = linkedwiki.explode(";", valueInDB)
@@ -610,6 +642,7 @@ function linkedwiki.new(subject,config,tagLang,debug)
                 tabTitleInDB[iri]= titleInDB
                 tabHtmlInDB[iri]= text
                 countInDB = countInDB + 1
+                table.insert(tabOrder, iri)
             end
         end
 
@@ -623,6 +656,7 @@ function linkedwiki.new(subject,config,tagLang,debug)
                 if not tabIriInDB[iriInWiki] then
                     tabHtmlInWiki[iriInWiki]= text
                     countInWiki = countInWiki +1
+                    table.insert(tabOrder, iriInWiki)
                 elseif tabTitleInDB[iriInWiki] ~= cleanTitle then
                     tabHtmlInWiki[iriInWiki]= text
                     countInWiki = countInWiki +1
@@ -634,78 +668,118 @@ function linkedwiki.new(subject,config,tagLang,debug)
             self.databaseIsUpdate = false
         end
 
-        return linkedwiki.buildDiv(countInWiki,tabHtmlInWiki,countInDB,tabHtmlInDB,tabTitleInDB)
+        return linkedwiki.buildDiv(countInWiki,tabHtmlInWiki,countInDB,tabHtmlInDB,tabTitleInDB,tabOrder)
     end
 
-    function Linkedwiki:printImageInWiki(valueInWiki, valueInDB, width, height)
-        -- todo insert width, height
-        local div = mw.html.create('div')
-        local img = mw.html.create('img')
+    function Linkedwiki:printImageInWiki(valueInWiki, valueInDB)
+       local linkImage = ''
+       local srcImage = ''
+       local divClass = ''
+       local tooltipTitle = nil
 
-        if not linkedwiki.isEmpty(width) then
-            img:css( "width",tostring(width) .. 'px')
-        end
-        if not linkedwiki.isEmpty(height) then
-            img:css( "height",tostring(height) .. 'px')
-        end
-
-        if not linkedwiki.isEmpty(valueInWiki) then
-            img:attr("src", string.gsub( valueInWiki, "https?://", "//" ) )
-            div:node(img)
+       if not linkedwiki.isEmpty(valueInWiki) then
+            linkImage = valueInWiki
+            srcImage = string.gsub( valueInWiki, "https?://", linkedwiki.getProtocol().."//" )
 
             if valueInWiki == valueInDB then
-                div:addClass("linkedwiki_value_equal")
+                divClass = "mw-ext-linkedwiki-value-equal"
             else
                 self.databaseIsUpdate = false
-                div:addClass("linkedwiki_new_value")
+                divClass = "mw-ext-linkedwiki-new-value"
                 if not linkedwiki.isEmpty(valueInDB) then
-                    div:addClass("linkedwiki_tooltip")
-                    div:attr("data-toggle", "tooltip")
-                    div:attr("data-placement", "bottom")
-                    div:attr("title", "Currently in DB : " .. valueInDB)
+                    if string.find(tostring(valueInDB), '^http.*$') then
+                        tooltipTitle = mw.message.new( "linkedwiki-lua-tooltip-db-currently-value", valueInDB):plain()
+                    else
+                        tooltipTitle = mw.message.new( "linkedwiki-lua-tooltip-db-currently-unknown-value" ):plain()
+                    end
                 end
             end
-        elseif not linkedwiki.isEmpty(valueInDB) then
-            img:attr("src", valueInDB)
-            div:node(img)
-        else -- Empty
+       elseif not linkedwiki.isEmpty(valueInDB) then
+            linkImage = valueInDB
+            srcImage = string.gsub( valueInDB, "https?://", linkedwiki.getProtocol().."//" )
+       else -- Empty
             return ''
-        end
-        return tostring(div)
+       end
+
+        return self:renderImageInWikiText(linkImage, linkImage, tooltipTitle, divClass)
     end
 
-    function Linkedwiki:printDateInWiki(valueInWiki, valueInDB,format)
+    function Linkedwiki:renderImageInWikiText(linkImage, srcImage, tooltipTitle, divClasses)
+        local cssClasses = ''
+        local otherAttr = ''
+        if not linkedwiki.isEmpty(divClasses) then
+            cssClasses = divClasses
+        end
+        if not linkedwiki.isEmpty(tooltipTitle) then
+            cssClasses = cssClasses .. " mw-ext-linkedwiki-tooltip"
+            otherAttr = 'title="'..tooltipTitle..'" data-toggle="tooltip" data-placement="bottom"'
+        end
+        return '<div class="'..cssClasses..'" '..otherAttr..'><span class="plainlinks">['..linkImage..' '..srcImage..']</span></div>'
+    end
+
+    function Linkedwiki:printDateInWiki(valueInWiki, valueInDB, format)
         local div = mw.html.create('div')
 
         if not linkedwiki.isEmpty(valueInWiki) then
             local timeStampInWiki = linkedwiki.timeStamp(valueInWiki)
             if linkedwiki.isEmpty(timeStampInWiki) then
-                div:wikitext('Error is not a date (0000-00-00) : ' .. valueInWiki)
+                div:wikitext(
+                    mw.message.new( "linkedwiki-lua-date-error", valueInWiki):plain()
+                )
             else
-                div:wikitext(linkedwiki.getCurrentFrame():preprocess('{{#time:' .. format .. '|' .. valueInWiki .. '}}'))
+                div:wikitext(linkedwiki.getCurrentFrame():preprocess(
+                '{{#iferror: {{#time:' .. format .. '|' .. valueInWiki .. '}} | '..
+                mw.message.new( "linkedwiki-lua-time-parser-error", valueInWiki):plain()
+                ..' }}'
+                ))
                 if not linkedwiki.isEmpty(valueInDB) then
                     local timeStampInDB = linkedwiki.timeStamp(valueInDB)
                     if linkedwiki.timeStamp(valueInWiki) == timeStampInDB then
-                        div:addClass("linkedwiki_value_equal")
+                        div:addClass("mw-ext-linkedwiki-value-equal")
                     else
                         self.databaseIsUpdate = false
-                        div:addClass("linkedwiki_new_value")
+                        div:addClass("mw-ext-linkedwiki-new-value")
                         if not linkedwiki.isEmpty(valueInDB) then
-                            div:addClass("linkedwiki_tooltip")
+                            div:addClass("mw-ext-linkedwiki-tooltip")
                             div:attr("data-toggle", "tooltip")
                             div:attr("data-placement", "bottom")
-                            if linkedwiki.isEmpty(timeStampInDB) then
-                                div:attr("title", "Currently in DB : not a date")
+                            if string.find(tostring(valueInDB), '^t%d+$') then
+                                div:attr(
+                                    "title",
+                                    mw.message.new( "linkedwiki-lua-tooltip-db-currently-date-unknown" ):plain()
+                                 )
+                            elseif linkedwiki.isEmpty(timeStampInDB) then
+                                div:attr(
+                                    "title",
+                                    mw.message.new( "linkedwiki-lua-tooltip-db-currently-date-wrong" ):plain()
+                                 )
                             else
-                                div:attr("title", "Currently in DB : " ..
-                                    linkedwiki.getCurrentFrame():preprocess('{{#time:' .. format .. '|' .. valueInDB .. '}}'))
+                                div:attr(
+                                   "title",
+                                    mw.message.new(
+                                        "linkedwiki-lua-tooltip-db-currently-value",
+                                        linkedwiki.getCurrentFrame():preprocess(
+                '{{#iferror: {{#time:' .. format .. '|' .. valueInDB .. '}} | '..
+                  mw.message.new( "linkedwiki-lua-time-parser-error",valueInDB):plain()
+                ..' }}'
+                                        )
+                                    ):plain()
+                                )
                             end
                         end
                     end
                 end
             end
         elseif not linkedwiki.isEmpty(valueInDB) then
-            div:wikitext(linkedwiki.getCurrentFrame():preprocess('{{#time:' .. format .. '|' .. valueInDB .. '}}'))
+            if string.find(tostring(valueInDB), '^t%d+$') then
+                div:wikitext(mw.message.new( "linkedwiki-lua-date-error", valueInDB):plain())
+            else
+                div:wikitext(linkedwiki.getCurrentFrame():preprocess(
+                '{{#iferror: {{#time:' .. format .. '|' .. valueInDB .. '}} | '..
+                  mw.message.new( "linkedwiki-lua-time-parser-error", valueInDB):plain()
+                ..' }}'
+                ))
+            end
         else -- Empty
             return ''
         end
@@ -719,15 +793,19 @@ function linkedwiki.new(subject,config,tagLang,debug)
             div:wikitext('[' .. valueInWiki .. ' ' .. label .. ']')
 
             if valueInWiki == valueInDB then
-                div:addClass("linkedwiki_value_equal")
+                div:addClass("mw-ext-linkedwiki-value-equal")
             else
                 self.databaseIsUpdate = false
-                div:addClass("linkedwiki_new_value")
+                div:addClass("mw-ext-linkedwiki-new-value")
                 if not linkedwiki.isEmpty(valueInDB) then
-                    div:addClass("linkedwiki_tooltip")
+                    div:addClass("mw-ext-linkedwiki-tooltip")
                     div:attr("data-toggle", "tooltip")
                     div:attr("data-placement", "bottom")
-                    div:attr("title", "Currently in DB : " .. valueInDB)
+                    if string.find(tostring(valueInDB), '^t%d+$') then
+                        div:attr("title", "Currently in DB: unknown value")
+                    else
+                        div:attr("title", "Currently in DB: " .. valueInDB)
+                    end
                 end
             end
         elseif not linkedwiki.isEmpty(valueInDB) then
@@ -740,20 +818,22 @@ function linkedwiki.new(subject,config,tagLang,debug)
 
     function Linkedwiki:printLinkInWiki(valueInWiki, valueInDB, link)
         local div = mw.html.create('div')
-
         if not linkedwiki.isEmpty(valueInWiki) then
             div:wikitext('<span class="plainlinks">[' .. link .. ' ' .. valueInWiki .. ']</span>')
-
             if valueInWiki == valueInDB then
-                div:addClass("linkedwiki_value_equal")
+                div:addClass("mw-ext-linkedwiki-value-equal")
             else
                 self.databaseIsUpdate = false
-                div:addClass("linkedwiki_new_value")
+                div:addClass("mw-ext-linkedwiki-new-value")
                 if not linkedwiki.isEmpty(valueInDB) then
-                    div:addClass("linkedwiki_tooltip")
+                    div:addClass("mw-ext-linkedwiki-tooltip")
                     div:attr("data-toggle", "tooltip")
                     div:attr("data-placement", "bottom")
-                    div:attr("title", "Currently in DB : " .. valueInDB)
+                    if string.find(tostring(valueInDB), '^t%d+$') then
+                        div:attr("title", "Currently in DB: unknown value")
+                    else
+                        div:attr("title", "Currently in DB: " .. valueInDB)
+                    end
                 end
             end
         elseif not linkedwiki.isEmpty(valueInDB) then
@@ -765,26 +845,32 @@ function linkedwiki.new(subject,config,tagLang,debug)
     end
 
     function Linkedwiki:checkValue(property, valueInWiki)
+        linkedwiki.loadStyles()
         return self:printValueInWiki(valueInWiki, self:getValue(property))
     end
 
     function Linkedwiki:checkString(property, valueInWiki, tagLang)
+        linkedwiki.loadStyles()
         return self:printValueInWiki(valueInWiki, self:getString(property, tagLang))
     end
 
     function Linkedwiki:checkItem(property, valueInWiki, tagLang)
+        linkedwiki.loadStyles()
         return self:printItemInWiki(valueInWiki, self:getValue(property), tagLang)
     end
 
-    function Linkedwiki:checkImage(property, valueInWiki, width, height)
-        return self:printImageInWiki(valueInWiki, self:getValue(property), width, height)
+    function Linkedwiki:checkImage(property, valueInWiki)
+        linkedwiki.loadStyles()
+        return self:printImageInWiki(valueInWiki, self:getValue(property))
     end
 
     function Linkedwiki:checkDate(property, valueInWiki, format)
+        linkedwiki.loadStyles()
         return self:printDateInWiki(valueInWiki, self:getValue(property),format)
     end
 
     function Linkedwiki:checkTitle(property, labelInWiki, tagLang)
+        linkedwiki.loadStyles()
         local iriInDB = self:getValue(property)
         --[[
            local labelInDB = nil
@@ -796,26 +882,31 @@ function linkedwiki.new(subject,config,tagLang,debug)
     end
 
     function Linkedwiki:checkUser(property, valueInWiki, tagLang)
+        linkedwiki.loadStyles()
         return self:printUserInWiki(valueInWiki, self:getValue(property), tagLang)
     end
 
     -- checkLabelOfInternLink
     function Linkedwiki:checkLabelOfInternLink(link, propertyOfLabel, labelInWiki, tagLang)
+        linkedwiki.loadStyles()
         return self:printLinkInWiki(labelInWiki, self:getString(propertyOfLabel, tagLang), link)
     end
 
     -- deprecated
     function Linkedwiki:checkLink(link, property, valueInWiki, tagLang)
+        linkedwiki.loadStyles()
         return self:printLinkInWiki(valueInWiki, self:getString(property, tagLang), link)
     end
 
     -- checkIriOfExternLink
     function Linkedwiki:checkIriOfExternLink(labelOfExternLink, propertyOfExternLink, externLinkInWiki)
+        linkedwiki.loadStyles()
         return self:printExternLinkInWiki(externLinkInWiki, self:getValue(propertyOfExternLink), labelOfExternLink)
     end
 
     -- deprecated
     function Linkedwiki:checkExternLink(label, property, valueInWiki)
+        linkedwiki.loadStyles()
         return self:printExternLinkInWiki(valueInWiki, self:getString(property), label)
     end
 

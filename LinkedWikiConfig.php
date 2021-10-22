@@ -1,12 +1,13 @@
 <?php
 /**
- * @copyright (c) 2019 Bourdercloud.com
+ * @copyright (c) 2021 Bordercloud.com
  * @author Karima Rafes <karima.rafes@bordercloud.com>
  * @link https://www.mediawiki.org/wiki/Extension:LinkedWiki
  * @license CC-BY-SA-4.0
  */
 
 use BorderCloud\SPARQL\SparqlClient;
+use MediaWiki\MediaWikiServices;
 
 class LinkedWikiConfig {
 	// region private variables
@@ -365,7 +366,7 @@ class LinkedWikiConfig {
 	 * @throws Exception
 	 */
 	public function __construct( $urlEndpointConfig = null ) {
-		$this->config = ConfigFactory::getDefaultInstance()->makeConfig( 'wgLinkedWiki' );
+		$this->config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'wgLinkedWiki' );
 		$this->configEndpoints = $this->config->get( "ConfigSPARQLServices" );
 		$this->idEndpointByDefault = $this->config->get( "SPARQLServiceByDefault" );
 
@@ -485,7 +486,7 @@ class LinkedWikiConfig {
 	 */
 	public static function info() {
 		// global $wgLinkedWikiConfigDefault, $wgLinkedWikiAccessEndpoint;
-		$config = ConfigFactory::getDefaultInstance()->makeConfig( 'wgLinkedWiki' );
+		$config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'wgLinkedWiki' );
 		$configDefault = $config->get( "SPARQLServiceByDefault" );
 		$configs = $config->get( "ConfigSPARQLServices" );
 
@@ -717,7 +718,7 @@ class LinkedWikiConfig {
 	}
 
 	public static function infoOtherOptions() {
-		$config = ConfigFactory::getDefaultInstance()->makeConfig( 'wgLinkedWiki' );
+		$config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'wgLinkedWiki' );
 		$varSPARQLServiceByDefault = $config->get( "SPARQLServiceByDefault" );
 		$varSPARQLServiceSaveDataOfWiki = $config->get( "SPARQLServiceSaveDataOfWiki" );
 		$varCheckRDFPage = $config->get( "CheckRDFPage" );

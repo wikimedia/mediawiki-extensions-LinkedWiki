@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright (c) 2019 Bourdercloud.com
+ * @copyright (c) 2021 Bordercloud.com
  * @author Karima Rafes <karima.rafes@bordercloud.com>
  * @link https://www.mediawiki.org/wiki/Extension:LinkedWiki
  * @license CC-BY-SA-4.0
@@ -29,12 +29,12 @@ class DatabaseExampleMethod extends StorageMethodAbstract {
 	 */
 	public function getQueryReadStringWithTagLang() {
 		return <<<EOT
-SELECT DISTINCT  ?value  
-WHERE 
-    {GRAPH <$this->graphNamed>  
-        { 
-            ?subject ?property ?value . 
-        } 
+SELECT DISTINCT  ?value
+WHERE
+    {GRAPH <$this->graphNamed>
+        {
+            ?subject ?property ?value .
+        }
     FILTER langMatches( lang(?value), ?lang )
     }
 EOT;
@@ -45,12 +45,12 @@ EOT;
 	 */
 	public function getQueryReadStringWithoutTagLang() {
 		return <<<EOT
-SELECT DISTINCT  ?value  
-WHERE 
-    {GRAPH <$this->graphNamed>  
-        { 
-            ?subject ?property ?value . 
-        } 
+SELECT DISTINCT  ?value
+WHERE
+    {GRAPH <$this->graphNamed>
+        {
+            ?subject ?property ?value .
+        }
     FILTER ( lang(?value) = "" )
     }
 EOT;
@@ -61,12 +61,12 @@ EOT;
 	 */
 	public function getQueryReadValue() {
 		return <<<EOT
-SELECT DISTINCT  ?value  
-WHERE 
-    {GRAPH <$this->graphNamed>  
-        { 
-            ?subject ?property ?value . 
-        } 
+SELECT DISTINCT  ?value
+WHERE
+    {GRAPH <$this->graphNamed>
+        {
+            ?subject ?property ?value .
+        }
     }
 EOT;
 	}
@@ -76,11 +76,11 @@ EOT;
 	 */
 	public function getQueryInsertValue() {
 		return <<<EOT
-INSERT DATA 
-    {GRAPH <$this->graphNamed>  
-        { 
-            ?subject ?property ?value . 
-        } 
+INSERT DATA
+    {GRAPH <$this->graphNamed>
+        {
+            ?subject ?property ?value .
+        }
     }
 EOT;
 	}
@@ -90,13 +90,13 @@ EOT;
 	 */
 	public function getQueryDeleteSubject() {
 		return <<<EOT
-DELETE  
-    {GRAPH <$this->graphNamed>  
-        { ?subject ?property ?value . } 
-    } 
-WHERE 
-    {GRAPH <$this->graphNamed>  
-        { ?subject ?property ?value . } 
+DELETE
+    {GRAPH <$this->graphNamed>
+        { ?subject ?property ?value . }
+    }
+WHERE
+    {GRAPH <$this->graphNamed>
+        { ?subject ?property ?value . }
     }
 EOT;
 	}

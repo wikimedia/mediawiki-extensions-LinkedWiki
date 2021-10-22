@@ -1,146 +1,162 @@
-function eventChangeSelectConfig() {
-    var selectConfig = document.getElementById('config');
-    var divFieldEndpoint = document.getElementById('fieldEndpoint');
-    var inputFieldEndpoint = document.getElementById('endpointOther');
-    var value = selectConfig.options[selectConfig.selectedIndex].value;
-    if(value != "other"){
-        inputFieldEndpoint.value = "";
-        divFieldEndpoint.style.display = "none";
-    }else{
-        divFieldEndpoint.style.display = "";
-    }
-    console.log("change");
-}
+/**
+ * JavaScript for the LinkedWiki extension.
+ *
+ * @see https://www.mediawiki.org/wiki/Extension:LinkedWiki
+ *
+ * @author Karima Rafes < karima dot rafes@gmail.com >
+ */
+/* globals jQuery sgvizler2 */
+( function ( $ ) {
+	$( function () {
+		const $sgvizlerInputsForm = $( '#sgvizlerInputsForm' );
 
+		function eventChangeSelectConfig() {
+			const selectConfig = document.getElementById( 'config' );
+			const divFieldEndpoint = document.getElementById( 'fieldEndpoint' );
+			const inputFieldEndpoint = document.getElementById( 'endpointOther' );
+			const value = selectConfig.options[ selectConfig.selectedIndex ].value;
+			if ( value !== 'other' ) {
+				inputFieldEndpoint.value = '';
+				divFieldEndpoint.style.display = 'none';
+			} else {
+				divFieldEndpoint.style.display = '';
+			}
+			// console.log( 'change' );
+		}
 
-$( function ()  {
-    $('#chart').selectchart({
-        action: "render",
-        subtext: "classFullName",
-        selected: "bordercloud.visualization.DataTable"
-    });
+		const $chart = $( '#chart' );
+		const $config = $( '#config' );
+		const $formSparqlQuery = $( '#formSparqlQuery' );
+		const $endpointOther = $( '#endpointOther' );
 
-    $('#chart').selectpicker('refresh');
+		$chart.selectchart( {
+			action: 'render',
+			subtext: 'classFullName',
+			selected: 'bordercloud.visualization.DataTable'
+		} );
 
-    $("#config").on('change',eventChangeSelectConfig);
+		$chart.selectpicker( 'refresh' );
 
-    $("#execQuery").click(function () {
+		$config.on( 'change', eventChangeSelectConfig );
 
-        var inputValue =$('input[name=radio]:checked', '#formSparqlQuery').val();
-        if(inputValue === "php"){
-            $('#formSparqlQuery').submit();
-        }else{
-            var endpoint = $('#endpointOther').val();
-            var config = $('#config').val();
-            var query = $('#query').val();
-            var chart = $('.selectpicker').selectpicker('val');
-            var options = $('#options').val();
-            var logsLevel = $('#logsLevel').val();
-            var optionConfigSelected = $("#config option:selected");
-            var credential = optionConfigSelected.attr('credential');
-            var method = optionConfigSelected.attr('method');
-            var parameter = optionConfigSelected.attr('parameter');
-            var wiki = "";
-            var errorMessage = "";
+		$( '#execQuery' ).on( 'click', function () {
 
+			const inputValue = $formSparqlQuery.find( 'input[name=radio]:checked' ).val();
+			if ( inputValue === 'php' ) {
+				$formSparqlQuery.trigger( 'submit' );
+			} else {
+				let endpoint = $endpointOther.val();
+				const config = $config.val();
+				const query = $( '#query' ).val();
+				const chart = $formSparqlQuery.find( '.selectpicker' ).selectpicker( 'val' );
+				const options = $( '#options' ).val();
+				const logsLevel = $( '#logsLevel' ).val();
+				// eslint-disable-next-line no-jquery/no-sizzle
+				const $optionConfigSelected = $config.find( 'option:selected' );
+				const credential = $optionConfigSelected.attr( 'credential' );
+				const method = $optionConfigSelected.attr( 'method' );
+				const parameter = $optionConfigSelected.attr( 'parameter' );
+				let wiki = '';
+				let errorMessage = '';
 
-//build container for Wiki
+				// build container for Wiki
 
-            wiki = "{{#sparql:\n" + query;
+				wiki = '{{#sparql:\n' + query;
 
-            if (config == "other" && endpoint != "") {
-                wiki += "\n|endpoint=" + endpoint;
-            } else if ( config != "") {
-                wiki += "\n|config=" + config;
-            // } else if (!EMPTY($config)) {
-            //     //do nothing
-            } else {
-                errorMessage = "An endpoint Sparql or "
-                    + "a configuration by default is not found.";
-            }
-            wiki += "\n|chart=" + chart;
+				if ( config === 'other' && endpoint !== '' ) {
+					wiki += '\n|endpoint=' + endpoint;
+				} else if ( config !== '' ) {
+					wiki += '\n|config=' + config;
+				// } else if (!EMPTY($config)) {
+				//     //do nothing
+				} else {
+					errorMessage = 'An endpoint Sparql or ' +
+                    'a configuration by default is not found.';
+				}
+				wiki += '\n|chart=' + chart;
 
-            if(options !== ""){
-                wiki +=  "\n|options=" + options ;
-            }
-            if(logsLevel !== "0"){
-                wiki +=  "\n|log=" + logsLevel ;
-            }
-            wiki += "\n}}";
+				if ( options !== '' ) {
+					wiki += '\n|options=' + options;
+				}
+				if ( logsLevel !== '0' ) {
+					wiki += '\n|log=' + logsLevel;
+				}
+				wiki += '\n}}';
 
-            $("#consoleWiki").text(
-                wiki !="" ? wiki : errorMessage
-            );
-
-//build container for html
-
-            $('#result').children().remove();
-
-            $('#tabSparqlQuery a[href="#resultTab"]').tab('show')
-            if(credential == 'true'){
-                $('#result').html("<b>This SPARQL service is not accessible via Javascript.</b>")
-            }else{
-                if (config == "other"){
-                    endpoint = $('#endpointOther').val();
-                }else{
-                    endpoint = optionConfigSelected.attr('endpoint');
-                }
-                sgvizler2.create(
-                    'result',
-                    endpoint,
-                    query,
-                    chart,
-                    options,
-                    logsLevel,
-                    '' ,
-                    method,
-                    parameter
-                );
-
-				$("[data-sgvizler-query]").each(
-					function() {
-						var obj = $( this );
-						obj.containerchart({
-							googleApiKey: obj.data( "googleapikey" ) ,
-							osmAccessToken: obj.data( "osmaccesstoken" ) ,
-							path: mw.config.get('wgScriptPath') + "/extensions/LinkedWiki/node_modules/sgvizler2/build/browser"
-						});
-					}
+				$( '#consoleWiki' ).text(
+					wiki !== '' ? wiki : errorMessage
 				);
-            }
-        }
 
-        // $("#result").html("")
-        // $("#console").html("")
-        //
-        //
-        //
-        // $("#consoleHtml").text(
-        // )
-        //
-        // $("#consoleScript").text(
-        // )
+				// build container for html
+				const $result = $( '#result' );
+				$result.children().remove();
 
-    });
+				$( '#tabSparqlQuery' ).find( 'a[href="#resultTab"]' ).tab( 'show' );
+				if ( credential === 'true' ) {
+					// eslint-disable-next-line no-jquery/no-parse-html-literal
+					$result.html( '<b>This SPARQL service is not accessible via Javascript.</b>' );
+				} else {
+					if ( config === 'other' ) {
+						endpoint = $endpointOther.val();
+					} else {
+						endpoint = $optionConfigSelected.attr( 'endpoint' );
+					}
+					sgvizler2.create(
+						'result',
+						endpoint,
+						query,
+						chart,
+						options,
+						logsLevel,
+						'',
+						method,
+						parameter
+					);
 
-    $("#seeDoc").click(function () {
-        var url = sgvizler2.getChartDoc(
-            $('.selectpicker').selectpicker('val')
-        )
-        window.open(url, '_blank');
-    });
+					// eslint-disable-next-line no-jquery/no-global-selector
+					$( '[data-sgvizler-query]' ).each(
+						function () {
+							const $obj = $( this );
+							$obj.containerchart( {
+								googleApiKey: $obj.data( 'googleapikey' ),
+								osmAccessToken: $obj.data( 'osmaccesstoken' ),
+								path: mw.config.get( 'wgScriptPath' ) + '/extensions/LinkedWiki/node_modules/sgvizler2/build/browser'
+							} );
+						}
+					);
+				}
+			}
 
-    $('input[type="radio"]').click(function(){
-        if( $(this).prop("checked") ) {
-            var inputValue = $(this).attr("value");
-            if(inputValue == "php"){
-                $('#sgvizlerInputsForm').hide();
-            }else{
-                $('#sgvizlerInputsForm').show();
-            }
-        }
-    });
+			// $("#result").html("")
+			// $("#console").html("")
+			//
+			//
+			//
+			// $("#consoleHtml").text(
+			// )
+			//
+			// $("#consoleScript").text(
+			// )
 
+		} );
 
-});
+		$( '#seeDoc' ).on( 'click', function () {
+			const url = sgvizler2.getChartDoc(
+				$sgvizlerInputsForm.find( '.selectpicker' ).selectpicker( 'val' )
+			);
+			window.open( url, '_blank' );
+		} );
 
+		$sgvizlerInputsForm.find( 'input[type="radio"]' ).on( 'click', function () {
+			if ( $( this ).prop( 'checked' ) ) {
+				const inputValue = $( this ).attr( 'value' );
+				if ( inputValue === 'php' ) {
+					$sgvizlerInputsForm.hide();
+				} else {
+					$sgvizlerInputsForm.show();
+				}
+			}
+		} );
+
+	} );
+}( jQuery ) );

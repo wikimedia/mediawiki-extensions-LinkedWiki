@@ -6,7 +6,6 @@
 		]
 	},
 	"linkedwiki-desc": "{{desc|name=LinkedWiki|url=LinkedWiki}}",
-	"linkedwiki-test": "{{notranslate}}\nA unused test message",
 	"linkedwiki-date": "{{optional}}",
 	"linkedwiki-refresh": "A link text\n{{Identical|Refresh}}",
 	"linkedwiki-duration": "A label message",
@@ -18,6 +17,8 @@
 	"linkedwiki-specialrdfsave": "{{doc-special}}",
 	"linkedwiki-category-rdf-page": "A category name",
 	"linkedwiki-category-rdf-schema": "A category name",
+	"linkedwiki-category-query": "A category name",
+	"linkedwiki-category-query-error": "A category name",
 	"linkedwiki-specialrdfunit": "{{doc-special}}",
 	"linkedwiki-specialsparqlflinteditor": "{{doc-special}}",
 	"linkedwiki-specialsparqlquery": "{{doc-special}}",
@@ -38,5 +39,33 @@
 	"linkedwiki-specialsparqlquery_seethedoc": "A label message",
 	"linkedwiki-specialsparqlquery_result": "A label message",
 	"action-data-edit": "{{doc-action|data-edit}}",
-	"right-data-edit": "{{doc-right|data-edit}}"
+	"right-data-edit": "{{doc-right|data-edit}}",
+
+	"linkedwiki-col-pages": "A header of column in the special page",
+	"linkedwiki-col-page-date-touched": "A header of column in the special page",
+	"linkedwiki-col-page-date-links-updated": "A header of column in the special page",
+	"linkedwiki-col-page-with-sparql-query": "A header of column in the special page",
+	"linkedwiki-col-page-with-sparql-query-cached": "A header of column in the special page",
+	"linkedwiki-col-page-with-rdf-reader-module": "A header of column in the special page",
+	"linkedwiki-col-page-with-rdf-writer-module": "A header of column in the special page",
+	"linkedwiki-col-page-with-rdf-writer-tag": "A header of column in the special page",
+	"linkedwiki-col-page-current-state": "A header of column in the special page",
+
+	"linkedwiki-lua-tooltip-db-currently-unknown-value": "Tooltip message",
+	"linkedwiki-lua-tooltip-db-currently-value": "Tooltip message",
+	"linkedwiki-lua-error-currentframe-nil": "Error message",
+	"linkedwiki-lua-tooltip-db-currently-date-unknown": "Tooltip message",
+	"linkedwiki-lua-tooltip-db-currently-date-wrong": "Tooltip message",
+	"linkedwiki-lua-date-error":  "Error message",
+	"linkedwiki-lua-time-parser-error": "Error message",
+
+	"linkedwiki-lua-type-error-xsddate":  "Error message",
+	"linkedwiki-lua-type-error-xsddatetime":  "Error message",
+	"linkedwiki-lua-type-error-xsddecimal":  "Error message",
+	"linkedwiki-lua-type-error-xsdint":  "Error message",
+
+	"linkedwiki-lua-param-error-subject-unknown": "Error message",
+	"linkedwiki-lua-query-error-not-allow-to-write": "Error message",
+	"linkedwiki-lua-message-preview-or-history": "Message",
+	"linkedwiki-lua-query-error-unknown": "Error message"
 }

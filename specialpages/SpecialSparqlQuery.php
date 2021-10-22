@@ -1,6 +1,9 @@
 <?php
+
+use MediaWiki\MediaWikiServices;
+
 /**
- * @copyright (c) 2019 Bourdercloud.com
+ * @copyright (c) 2021 Bordercloud.com
  * @author Karima Rafes <karima.rafes@bordercloud.com>
  * @link https://www.mediawiki.org/wiki/Extension:LinkedWiki
  * @license CC-BY-SA-4.0
@@ -25,8 +28,9 @@ class SpecialSparqlQuery extends SpecialPage {
 	public function execute( $par = null ) {
 		// https://www.mediawiki.org/wiki/OOjs_UI/Using_OOjs_UI_in_MediaWiki
 		$output = $this->getOutput();
+		$output->addModules( 'ext.LinkedWiki.SpecialSparqlQuery' );
 
-		$configFactory = ConfigFactory::getDefaultInstance()->makeConfig( 'wgLinkedWiki' );
+		$configFactory = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'wgLinkedWiki' );
 		$querySparqlInSpecialPage = $configFactory->get( "QuerySparqlInSpecialPage" );
 		$configDefault = $configFactory->get( "SPARQLServiceByDefault" );
 
@@ -174,7 +178,7 @@ class SpecialSparqlQuery extends SpecialPage {
         <div id=\"example\" style=\"padding: 25px;\"><div id=\"result\" ";
 
 		// insert api keys
-		$configFactory = ConfigFactory::getDefaultInstance()->makeConfig( 'wgLinkedWiki' );
+		$configFactory = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'wgLinkedWiki' );
 		if ( $configFactory->has( "GoogleApiKey" ) ) {
 			$html .= "data-googleapikey=\"" . $configFactory->get( "GoogleApiKey" ) . "\" \n";
 		}
@@ -185,7 +189,19 @@ class SpecialSparqlQuery extends SpecialPage {
 		$html .= ">";
 
 		if ( !empty( $query ) ) {
-			$arr = SparqlParser::simpleHTML( $query, $idConfig, $endpoint, 'wikitable sortable', '', null, false, 2 );
+			$arr = SparqlParser::simpleHTML(
+				null,
+				$query,
+				$idConfig,
+				$endpoint,
+				'wikitable sortable',
+				'',
+				null,
+				false,
+				false,
+				2,
+				2
+			);
 			$html .= $arr[0];
 		}
 		$html .= "</div></div>
@@ -231,7 +247,7 @@ class SpecialSparqlQuery extends SpecialPage {
 	 */
 	protected function printSelectConfig( $configIri ) {
 		$html = "";
-		$config = ConfigFactory::getDefaultInstance()->makeConfig( 'wgLinkedWiki' );
+		$config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'wgLinkedWiki' );
 
 		$configs = $config->get( "ConfigSPARQLServices" );
 

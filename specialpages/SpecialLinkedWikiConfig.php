@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright (c) 2019 Bourdercloud.com
+ * @copyright (c) 2021 Bordercloud.com
  * @author Karima Rafes <karima.rafes@bordercloud.com>
  * @link https://www.mediawiki.org/wiki/Extension:LinkedWiki
  * @license CC-BY-SA-4.0
@@ -27,8 +27,8 @@ class SpecialLinkedWikiConfig extends SpecialPage {
 		$output = $this->getOutput();
 
 		$output->addWikiTextAsInterface(
-			"SPARQL services are configurated by the file LinkedWiki/extension.json 
-			and the file LocalSettings.php of wiki. 
+			"SPARQL services are configurated by the file LinkedWiki/extension.json
+			and the file LocalSettings.php of wiki.
 			[https://www.mediawiki.org/wiki/Extension:LinkedWiki/Configuration Details]"
 		);
 

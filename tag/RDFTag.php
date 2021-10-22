@@ -1,13 +1,15 @@
 <?php
+
+use MediaWiki\MediaWikiServices;
+
 /**
- * @copyright (c) 2019 Bourdercloud.com
+ * @copyright (c) 2021 Bordercloud.com
  * @author Karima Rafes <karima.rafes@bordercloud.com>
  * @link https://www.mediawiki.org/wiki/Extension:LinkedWiki
  * @license CC-BY-SA-4.0
  */
 
 class RDFTag {
-
 	/**
 	 * @param string $input
 	 * @param array $args
@@ -26,13 +28,18 @@ class RDFTag {
 			$output = $parser->recursiveTagParse( "<pre>" . $input . "</pre>", $frame );
 		}
 
+		$parser->getOutput()->setProperty( LinkedWikiStatus::PAGEPROP_WRITER_TAG, true );
 		$parser->addTrackingCategory( 'linkedwiki-category-rdf-page' );
-
 		$constraint = isset( $args['constraint'] ) ? strtolower( $args['constraint'] ) : '';
 		if ( $constraint == "shacl" ) {
+			$parser->getOutput()->setProperty( LinkedWikiStatus::PAGEPROP_SHACL, true );
 			$parser->addTrackingCategory( 'linkedwiki-category-rdf-schema' );
 		}
 
+		// push a job to load the data in the default database
+		$queueJob = JobQueueGroup::singleton();
+		$jobLoadData = new LoadRDFJob( $parser->getTitle(), [] );
+		$queueJob->push( $jobLoadData );
 		return [ $output, 'isHTML' => true ];
 	}
 
@@ -51,6 +58,8 @@ class RDFTag {
 		foreach ( $matches[1] as $source ) {
 			$textTemp .= $source;
 		}
+
+		// todo Clean ?
 		$parameters = [ "?subject","?type","?property" ];
 		$iri = "<" . $IRISource . ">";
 		$values = [ $iri,$iri,$iri ];
@@ -58,7 +67,11 @@ class RDFTag {
 			$values,
 			$textTemp );
 
-		return $text;
+		if ( preg_match( "/BASE\s</i", $text ) ) {
+			return $text;
+		} else {
+			return "BASE <" . $IRISource . ">\n" . $text;
+		}
 	}
 
 	/**
@@ -147,7 +160,7 @@ class RDFTag {
 	 */
 	public static function onEditFilterMergedContent(
 		$context, $content, $status, $summary, $user, $minoredit ) {
-		$config = ConfigFactory::getDefaultInstance()->makeConfig( 'wgLinkedWiki' );
+		$config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'wgLinkedWiki' );
 		if ( $config->has( "CheckRDFPage" ) && $config->get( "CheckRDFPage" ) &&
 			preg_match( '#<rdf.*?>#is', $content->getWikitextForTransclusion(), $matches ) ) {
 

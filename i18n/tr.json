@@ -10,7 +10,7 @@
 	"linkedwiki-duration": "Sorgu süresi",
 	"specialpages-group-linkedwiki_group": "SPARQL ve RDF araçları",
 	"linkedwiki-error-server": "Maalesef SPARQL sunucusu bir hata gönderdi. (parametre log=2 olan ayrıntılara bakın)",
-	"linkedwiki-error-endpoint-init": "Maalesef, uç noktanızla ilgili bir hata var (<kbd>log=2</kbd> parametresiyle ilgili ayrıntılara bakın).",
+	"linkedwiki-error-endpoint-init": "Maalesef, uç noktanızla ilgili bir hata var (log=2 parametresiyle ilgili ayrıntılara bakın).",
 	"linkedwiki-error-endpoint-empty": "Bitiş noktası veya yapılandırma nerede?",
 	"linkedwiki-speciallinkedwikiconfig": "LinkedWiki yapılandırması",
 	"linkedwiki-specialrdfsave": "Veritabanını yenile",
