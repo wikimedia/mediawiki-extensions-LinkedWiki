@@ -30,7 +30,7 @@
 	"linkedwiki-specialsparqlquery_endpointsparql": "Endpoint SPARQL",
 	"linkedwiki-specialsparqlquery_chooseaconfiguration": "Choose a configuration",
 	"linkedwiki-specialsparqlquery_option1part1javascriptvisualizationsof": "JavaScript visualizations of",
-	"linkedwiki-specialsparqlquery_option1part2details": "(wihtout cache and only for public data)",
+	"linkedwiki-specialsparqlquery_option1part2details": "(without cache and only for public data)",
 	"linkedwiki-specialsparqlquery_option2tableonly": "Table only (with cache and for public data or private data)",
 	"linkedwiki-specialsparqlquery_options": "Options",
 	"linkedwiki-specialsparqlquery_loglevel": "Logs level",
@@ -64,7 +64,7 @@
 	"linkedwiki-lua-type-error-xsdint": "Error, it is not a number with the type xsd:int (example '14'): $1",
 
 	"linkedwiki-lua-param-error-subject-unknown": "Subject unknown (Use the parameter iriSubject or the function setSubject.",
-	"linkedwiki-lua-query-error-not-allow-to-write": "You cannot update the database via a query via lua.",
+	"linkedwiki-lua-query-error-not-allow-to-write": "You cannot update the database via a query via Lua.",
 	"linkedwiki-lua-message-preview-or-history": "Mode PreviewOrHistory detected: data will not save",
 	"linkedwiki-lua-query-error-unknown": "ERROR SPARQL (see details in mode debug)"
 }
