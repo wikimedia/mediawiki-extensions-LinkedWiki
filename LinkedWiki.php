@@ -22,10 +22,7 @@ class LinkedWiki {
 	 * @return bool
 	 */
 	public static function parserFirstCallInit( &$parser ) {
-		if ( !empty( $parser->getTitle() ) ) {
-			// TODO question: $parser->unsetProperty( $name ); or write directly in the database
-			LinkedWikiStatus::clearPageProperties();
-		}
+		LinkedWikiStatus::clearPagePropertiesViaParser( $parser );
 		$parser->setFunctionHook( 'sparql', 'SparqlParser::render' );
 		$parser->setHook( 'rdf', 'RDFTag::render' );
 		return true;

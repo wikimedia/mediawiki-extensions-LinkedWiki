@@ -49,6 +49,9 @@ See: https://www.mediawiki.org/wiki/Extension:LinkedWiki
 
 == Release-Notes ==
 
+* v3.6.1 Fix the compatibility with 1.35, 1.36 and 1.37 by Karima Rafes <karima.rafes@bordercloud.com>
+ 		- Fix "Lock wait timeout exceeded" during LinkedWiki's jobs
+
 * v3.6.0 Refactoring, add features and fix wiki cache refresh issues by Karima Rafes <karima.rafes@bordercloud.com>
  		- For all pages: add tabs "Purge" (to refresh the page cache) and "Turtle" (for pages with a RDF tag)
  		- For special page "SaveRDF": print the status of wiki caches of pages with RDF or SPARQL queries

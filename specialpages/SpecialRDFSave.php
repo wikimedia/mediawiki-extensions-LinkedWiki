@@ -162,18 +162,6 @@ EOT
 
 		if ( !empty( $debug ) ) {
 			$output->addHTML( "<h2>Job pending</h2>" );
-			// $output->addHTML("<br/>" . print_r(JobQueueGroup::singleton()->getDefaultQueueTypes(), true));
-			$output->addHTML(
-				"Nb job queues: <span id='testJobsResult'>"
-				. count( JobQueueGroup::singleton()->getQueuesWithJobs() ) . "</span>"
-			);
-			foreach ( JobQueueGroup::singleton()->getQueuesWithJobs() as $queue ) {
-				// $queue->delete()
-				$output->addHTML(
-					"<br/>" . $queue . ": <span id='testJobsQueue" . $queue . "'>"
-					. JobQueueGroup::singleton()->get( $queue )->getSize() . "</span>"
-				);
-			}
 
 			$output->addHTML( "<br/><a href='?debug=true&runJobs=true'
  class=\"mw-htmlform-submit mw-ui-button mw-ui-primary mw-ui-progressive\"
@@ -183,7 +171,7 @@ EOT
 				// phpcs:disable
 				global $IP;
 				// phpcs:enable
-				$file = exec( "/usr/bin/php $IP/maintenance/runJobs.php", $retval );
+				$file = exec( "/usr/bin/php $IP/maintenance/runJobs.php --maxtime 60", $retval );
 				$textRetval = print_r( $retval, true );
 				$output->addHTML( "<br/>Run jobs: <br/><pre id='testJobs'>" );
 				$output->addHTML( htmlentities( $textRetval ) );
@@ -194,6 +182,25 @@ EOT
 					. count( JobQueueGroup::singleton()->getQueuesWithJobs() ) . "</span>"
 				);
 			}
+
+			// $output->addHTML("<br/>" . print_r(JobQueueGroup::singleton()->getDefaultQueueTypes(), true));
+			foreach ( JobQueueGroup::singleton()->getQueuesWithJobs() as $queue ) {
+				$queueObj = JobQueueGroup::singleton()->get( $queue );
+				if ( $queueObj->getSize() == 0 ) {
+					// strange ?? need to clean all jobs for automatic tests (code only for doing the tests)
+					JobQueueGroup::singleton()->get( $queue )->delete();
+				} else {
+					$output->addHTML(
+						"<br/>" . $queue . ": <span id='testJobsQueue" . $queue . "'>"
+						. $queueObj->getSize() . "</span>"
+					);
+				}
+			}
+			$output->addHTML(
+				"Nb job queues: <span id='testJobsResult'>"
+				. count( JobQueueGroup::singleton()->getQueuesWithJobs() ) . "</span>"
+			);
+
 		}
 		$this->endSpecialPage();
 	}
@@ -208,7 +215,8 @@ EOT
 		$html = "<h2>Jobs pending</h2>";
 		$html .= "Nb job 'refreshLinks' in the queue: " . $jobQueueGroup->get( "refreshLinks" )->getSize() . "<br/>";
 		$html .= "Nb job 'InvalidatePageWithQuery' in the queue: " . $nbJobInvalidatePageWithQuery . "<br/>";
-		$html .= "Nb job 'LoadRDF' in the queue: " . $jobQueueGroup->get( "LoadRDF" )->getSize() . "<br/>";
+		$html .= "Nb job 'LoadRDF' in the queue: <span id='testJobsQueueLoadRDF'>"
+			. $jobQueueGroup->get( "LoadRDF" )->getSize() . "</span><br/>";
 
 		$btnClearGraph = new OOUI\ButtonWidget( [
 			'label' => 'Refresh status of jobs',

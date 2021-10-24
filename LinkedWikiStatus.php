@@ -196,53 +196,76 @@ class LinkedWikiStatus {
 	/**
 	 * Clear the LinkedWiki properties for one page
 	 *
-	 * @param Title $title
+	 * @param Parser &$parser
 	 */
-	public static function clearPageProperties( $title ) {
-		$dbw = wfGetDB( DB_PRIMARY );
-		$conditions = [
-			'pp_page' => $title->getArticleID(),
-			$dbw->makeList( [
-				$dbw->makeList(
-					[ 'pp_propname' => self::PAGEPROP_DB_TOUCHED, ],
-					LIST_AND
-				),
-				$dbw->makeList(
-					[ 'pp_propname' => self::PAGEPROP_READER_QUERY, ],
-					LIST_AND
-				),
-				$dbw->makeList(
-					[ 'pp_propname' => self::PAGEPROP_READER_QUERY_CACHED, ],
-					LIST_AND
-				),
-				$dbw->makeList(
-					[ 'pp_propname' => self::PAGEPROP_READER_MODULE, ],
-					LIST_AND
-				),
-				$dbw->makeList(
-					[ 'pp_propname' => self::PAGEPROP_WRITER_MODULE, ],
-					LIST_AND
-				),
-				$dbw->makeList(
-					[ 'pp_propname' => self::PAGEPROP_WRITER_TAG, ],
-					LIST_AND
-				),
-				$dbw->makeList(
-					[ 'pp_propname' => self::PAGEPROP_ERROR_MESSAGE, ],
-					LIST_AND
-				),
-				$dbw->makeList(
-					[ 'pp_propname' => self::PAGEPROP_SHACL, ],
-					LIST_AND
-				)
-			], LIST_OR )
-		];
-		$dbw->delete(
-			'page_props',
-			$conditions,
-			__METHOD__
-		);
+	public static function clearPagePropertiesViaParser( Parser &$parser ) {
+		$out = $parser->getOutput();
+
+		if ( empty( $out ) ) {
+			return;
+		}
+
+		$out->unsetProperty( self::PAGEPROP_DB_TOUCHED );
+		$out->unsetProperty( self::PAGEPROP_READER_QUERY );
+		$out->unsetProperty( self::PAGEPROP_READER_QUERY_CACHED );
+		$out->unsetProperty( self::PAGEPROP_READER_MODULE );
+		$out->unsetProperty( self::PAGEPROP_WRITER_MODULE );
+		$out->unsetProperty( self::PAGEPROP_WRITER_TAG );
+		$out->unsetProperty( self::PAGEPROP_ERROR_MESSAGE );
+		$out->unsetProperty( self::PAGEPROP_SHACL );
 	}
+
+// /**
+//	 * Clear the LinkedWiki properties for one page
+//	 * (not use for the moment)
+//	 *
+//	 * @param Title $title
+//	 */
+//	public static function clearPageProperties( $title ) {
+//		$dbw = wfGetDB( DB_PRIMARY );
+//		$conditions = [
+//			'pp_page' => $title->getArticleID(),
+//			$dbw->makeList( [
+//				$dbw->makeList(
+//					[ 'pp_propname' => self::PAGEPROP_DB_TOUCHED, ],
+//					LIST_AND
+//				),
+//				$dbw->makeList(
+//					[ 'pp_propname' => self::PAGEPROP_READER_QUERY, ],
+//					LIST_AND
+//				),
+//				$dbw->makeList(
+//					[ 'pp_propname' => self::PAGEPROP_READER_QUERY_CACHED, ],
+//					LIST_AND
+//				),
+//				$dbw->makeList(
+//					[ 'pp_propname' => self::PAGEPROP_READER_MODULE, ],
+//					LIST_AND
+//				),
+//				$dbw->makeList(
+//					[ 'pp_propname' => self::PAGEPROP_WRITER_MODULE, ],
+//					LIST_AND
+//				),
+//				$dbw->makeList(
+//					[ 'pp_propname' => self::PAGEPROP_WRITER_TAG, ],
+//					LIST_AND
+//				),
+//				$dbw->makeList(
+//					[ 'pp_propname' => self::PAGEPROP_ERROR_MESSAGE, ],
+//					LIST_AND
+//				),
+//				$dbw->makeList(
+//					[ 'pp_propname' => self::PAGEPROP_SHACL, ],
+//					LIST_AND
+//				)
+//			], LIST_OR )
+//		];
+//		$dbw->delete(
+//			'page_props',
+//			$conditions,
+//			__METHOD__
+//		);
+//	}
 
 	/**
 	 * Clear LinkedWiki's jobs
