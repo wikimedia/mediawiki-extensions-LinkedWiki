@@ -1,11 +1,13 @@
 {
 	"@metadata": {
 		"authors": [
+			"Ajeje Brazorf",
 			"Beta16"
 		]
 	},
 	"linkedwiki-refresh": "Aggiorna",
 	"linkedwiki-specialsparqlquery_chooseaconfiguration": "Scegli una configurazione",
 	"linkedwiki-specialsparqlquery_options": "Opzioni",
-	"linkedwiki-specialsparqlquery_result": "Risultato"
+	"linkedwiki-specialsparqlquery_result": "Risultato",
+	"linkedwiki-col-pages": "Titolo"
 }

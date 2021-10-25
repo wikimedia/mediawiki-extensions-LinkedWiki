@@ -15,6 +15,8 @@
 	"linkedwiki-specialrdfsave": "Превчитај база",
 	"linkedwiki-category-rdf-page": "RDF-страница",
 	"linkedwiki-category-rdf-schema": "RDF-шема",
+	"linkedwiki-category-query": "Барање од SPARQL",
+	"linkedwiki-category-query-error": "Неисправно барање од SPARQL",
 	"linkedwiki-specialrdfunit": "Пробни случаи за RDF",
 	"linkedwiki-specialsparqlflinteditor": "Уредник Flint за SPARQL",
 	"linkedwiki-specialsparqlquery": "Уредник за SPARQL",
@@ -35,5 +37,10 @@
 	"linkedwiki-specialsparqlquery_seethedoc": "Погл. документацијата",
 	"linkedwiki-specialsparqlquery_result": "Исход",
 	"action-data-edit": "уредување на податотечни страници (во именските простори Податоци и Кориснички податоци), пренос на овие податоци со [[Special:RDFSave]] и проверка на RDF-графикони",
-	"right-data-edit": "Уредување на податотечни страници (во именските простори Податоци и Кориснички податоци), пренос на овие податоци со [[Special:RDFSave]] и проверка на RDF-графикони со [[Special:RDFUnit]]. [https://www.mediawiki.org/wiki/Special:MyLanguage/Extension:LinkedWiki/Import_in_wiki_to_write,_check,_transfer_and_validate_RDF Документации]"
+	"right-data-edit": "Уредување на податотечни страници (во именските простори Податоци и Кориснички податоци), пренос на овие податоци со [[Special:RDFSave]] и проверка на RDF-графикони со [[Special:RDFUnit]]. [https://www.mediawiki.org/wiki/Special:MyLanguage/Extension:LinkedWiki/Import_in_wiki_to_write,_check,_transfer_and_validate_RDF Документации]",
+	"linkedwiki-col-pages": "Наслов",
+	"linkedwiki-col-page-date-touched": "Последна измена",
+	"linkedwiki-col-page-date-links-updated": "Последно пречистување",
+	"linkedwiki-col-page-with-sparql-query": "SPARQL-расчленувач без меѓусклад",
+	"linkedwiki-col-page-with-sparql-query-cached": "SPARQL-расчленувач со меѓусклад"
 }

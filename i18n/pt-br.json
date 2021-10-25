@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Eduardo Addad de Oliveira",
-			"Eduardoaddad"
+			"Eduardoaddad",
+			"Svjatysberega"
 		]
 	},
 	"linkedwiki-desc": "Veja os dados vinculados em uma wiki",
@@ -16,6 +17,8 @@
 	"linkedwiki-specialrdfsave": "Atualizar banco de dados",
 	"linkedwiki-category-rdf-page": "Página RDF",
 	"linkedwiki-category-rdf-schema": "Esquema RDF",
+	"linkedwiki-category-query": "Consulta SPARQL",
+	"linkedwiki-category-query-error": "Consulta no SPARQL com defeito",
 	"linkedwiki-specialrdfunit": "Casos de teste RDF",
 	"linkedwiki-specialsparqlflinteditor": "Editor SPARQL Flint",
 	"linkedwiki-specialsparqlquery": "Editor SPARQL",
@@ -36,5 +39,21 @@
 	"linkedwiki-specialsparqlquery_seethedoc": "Veja a documentação",
 	"linkedwiki-specialsparqlquery_result": "Resultado",
 	"action-data-edit": "edite as páginas de dados (nos espaços nominais Data e UserData), transfira esses dados com [[Special:RDFSave]] e verifique os gráficos RDF",
-	"right-data-edit": "Edite as páginas de dados (nos espaços nominais Data e UserData), transfira esses dados com [[Special:RDFSave]] e verifique os gráficos RDF com [[Special:RDFUnit]]. [https://www.mediawiki.org/wiki/Special:MyLanguage/Extension:LinkedWiki/Import_in_wiki_to_write,_check,_transfer_and_validate_RDF Documentações]"
+	"right-data-edit": "Edite as páginas de dados (nos espaços nominais Data e UserData), transfira esses dados com [[Special:RDFSave]] e verifique os gráficos RDF com [[Special:RDFUnit]]. [https://www.mediawiki.org/wiki/Special:MyLanguage/Extension:LinkedWiki/Import_in_wiki_to_write,_check,_transfer_and_validate_RDF Documentações]",
+	"linkedwiki-col-pages": "Título",
+	"linkedwiki-col-page-date-touched": "Última modificação",
+	"linkedwiki-col-page-with-sparql-query": "Analisador sintático SPARQL sem cache",
+	"linkedwiki-col-page-with-sparql-query-cached": "Analisador sintático SPARQL com cache",
+	"linkedwiki-lua-tooltip-db-currently-unknown-value": "Atualmente no banco de dados: valor desconhecido",
+	"linkedwiki-lua-tooltip-db-currently-date-unknown": "Atualmente no banco de dados: data desconhecida",
+	"linkedwiki-lua-tooltip-db-currently-date-wrong": "Atualmente no banco de dados: não é uma data",
+	"linkedwiki-lua-date-error": "Erro, não é uma data (exemplo '2021-11-20'): $1",
+	"linkedwiki-lua-time-parser-error": "Erro, não é uma data/data e hora (exemplo '2021-11-20' ou '2021-10-20T14:14:52+00:00'): $1",
+	"linkedwiki-lua-type-error-xsddate": "Erro, não é uma data do tipo xsd:date (exemplo '2021-11-20'): $1",
+	"linkedwiki-lua-type-error-xsddatetime": "Erro, não é uma data do tipo xsd:datetime (exemplo '2021-10-20T14:14:52+00:00'): $1",
+	"linkedwiki-lua-type-error-xsddecimal": "Erro, não é um número do tipo xsd:decimal (exemplo '20.25' ou '20'): $1",
+	"linkedwiki-lua-type-error-xsdint": "Erro, não é um número do tipo xsd:int (exemplo '14'): $1",
+	"linkedwiki-lua-param-error-subject-unknown": "Tema desconhecido (Use o parâmetro iriSubject ou a função setSubject.",
+	"linkedwiki-lua-query-error-not-allow-to-write": "Não é possível atualizar o banco de dados por uma consulta no lua.",
+	"linkedwiki-lua-message-preview-or-history": "Modo Pré-visualizaçãoOuHistórico detectado: os dados não serão salvos"
 }

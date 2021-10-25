@@ -43,7 +43,6 @@
 	"linkedwiki-specialsparqlquery_result": "Résultat",
 	"action-data-edit": "modifier les pages de données (dans les espaces de noms Data et UserData), transférer ces données avec [[Special:RDFSave]] et vérifier les graphes RDF",
 	"right-data-edit": "Modifier les pages de données (dans les espaces de noms Data et UserData), transférer ces données avec [[Special:RDFSave]] et vérfier les graphes RDF avec [[Special:RDFUnit]]. [https://www.mediawiki.org/wiki/Special:MyLanguage/Extension:LinkedWiki/Import_in_wiki_to_write,_check,_transfer_and_validate_RDF Documentations]",
-
 	"linkedwiki-col-pages": "Titre",
 	"linkedwiki-col-page-date-touched": "Dernière modification",
 	"linkedwiki-col-page-date-links-updated": "Dernière purge du cache",
@@ -53,19 +52,17 @@
 	"linkedwiki-col-page-with-rdf-writer-module": "Module RDF en écriture",
 	"linkedwiki-col-page-with-rdf-writer-tag": "Tag RDF",
 	"linkedwiki-col-page-current-state": "Etat actuel",
-
 	"linkedwiki-lua-tooltip-db-currently-unknown-value": "Actuellement dans la base de données : valeur inconnue",
 	"linkedwiki-lua-tooltip-db-currently-value": "Actuellement dans la base de données : $1",
 	"linkedwiki-lua-error-currentframe-nil": "Vous pouvez définir manuellement la 'frame' du module avec le code linkedwiki.setCurrentFrame(mw.getCurrentFrame())",
 	"linkedwiki-lua-tooltip-db-currently-date-unknown": "Actuellement dans la base de données : date inconnue",
 	"linkedwiki-lua-tooltip-db-currently-date-wrong": "Actuellement dans la base de données : pas une date",
 	"linkedwiki-lua-date-error": "Erreur, ce n'est pas une date (0000-00-00): $1",
-	"linkedwiki-lua-time-parser-error": "Erreur, ce n'est pas une date/dateTime (exemple '2021-11-20' ou '2021-10-20T14:14:52+00:00'): $1 ",
+	"linkedwiki-lua-time-parser-error": "Erreur, ce n'est pas une date/dateTime (exemple '2021-11-20' ou '2021-10-20T14:14:52+00:00'): $1",
 	"linkedwiki-lua-type-error-xsddate": "Erreur, ce n'est pas une date de type xsd:date (exemple '2021-11-20'): $1",
 	"linkedwiki-lua-type-error-xsddatetime": "Erreur, ce n'est pas une date de type xsd:datetime (exemple '2021-10-20T14:14:52+00:00'): $1",
 	"linkedwiki-lua-type-error-xsddecimal": "Erreur, ce n'est pas un nombre de type xsd:decimal (exemple '20.25' ou '20'): $1",
 	"linkedwiki-lua-type-error-xsdint": "Erreur, ce n'est pas un nombre de type xsd:int (exemple '14'): $1",
-
 	"linkedwiki-lua-param-error-subject-unknown": "Sujet inconnu (Utilisez le paramètre iriSubject ou la fonction setSubject.",
 	"linkedwiki-lua-query-error-not-allow-to-write": "Vous ne pouvez pas mettre à jour la base de données avec une requête via lua.",
 	"linkedwiki-lua-message-preview-or-history": "Mode prévisualisation ou historique détecté : les données ne seront pas enregistrées",

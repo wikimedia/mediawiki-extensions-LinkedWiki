@@ -1,7 +1,9 @@
 {
 	"@metadata": {
 		"authors": [
-			"Fitoschido"
+			"Avengium",
+			"Fitoschido",
+			"Jakeukalane"
 		]
 	},
 	"linkedwiki-refresh": "Actualizar",
@@ -13,8 +15,12 @@
 	"linkedwiki-specialsparqlquery_categorysparqlquery": "Consulta de SPARQL",
 	"linkedwiki-specialsparqlquery_query": "Consulta",
 	"linkedwiki-specialsparqlquery_sendquery": "Ejecutar consulta",
+	"linkedwiki-specialsparqlquery_option1part2details": "(sin caché y solo para datos públicos)",
 	"linkedwiki-specialsparqlquery_options": "Opciones",
 	"linkedwiki-specialsparqlquery_loglevel": "Nivel de registros",
 	"linkedwiki-specialsparqlquery_visualization": "Visualización",
-	"linkedwiki-specialsparqlquery_result": "Resultado"
+	"linkedwiki-specialsparqlquery_result": "Resultado",
+	"linkedwiki-col-pages": "Título",
+	"linkedwiki-col-page-date-touched": "Última modificación",
+	"linkedwiki-lua-query-error-not-allow-to-write": "No puedes actualizar la base de datos mediante una consulta a través de Lua."
 }

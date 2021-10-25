@@ -10,5 +10,7 @@
 	"linkedwiki-specialsparqlquery_options": "Optiounen",
 	"linkedwiki-specialsparqlquery_visualization": "Visualisatioun",
 	"linkedwiki-specialsparqlquery_seethedoc": "Kuckt d'Dokumentatioun",
-	"linkedwiki-specialsparqlquery_result": "Resultat"
+	"linkedwiki-specialsparqlquery_result": "Resultat",
+	"linkedwiki-col-pages": "Titel",
+	"linkedwiki-lua-tooltip-db-currently-unknown-value": "Aktuell an der Datebank: onbekannte Wäert"
 }
