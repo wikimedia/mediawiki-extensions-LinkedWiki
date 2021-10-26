@@ -53,6 +53,7 @@ class SpecialRDFSave extends SpecialPage {
 		$deleteData = $request->getText( 'deleteData' );
 		// $refreshDataPage = $request->getText('refreshDataPage');
 		$refreshWikiPage = $request->getText( 'refreshWikiPage' );
+		$refreshData = $request->getText( 'refreshData' );
 		$debug = $request->getText( 'debug' );
 		$runJobs = $request->getText( 'runJobs' );
 
@@ -77,18 +78,32 @@ class SpecialRDFSave extends SpecialPage {
 
 		// phpcs:disable
 		$output->addWikiTextAsContent( <<<EOT
-The button "Refresh the wiki and save the RDF data in the wiki" helps you to:
+The button "Refresh all the wiki" rebuilds the cache and the properties of wiki's pages (via jobs).
+It's only useful after an update of the LinkedWiki extension. If you want only refresh the RDF database, you can use the next button.
+EOT
+		);
+		// phpcs:enable
+		$btnRefreshAll = new OOUI\ButtonWidget( [
+			'label' => 'Refresh all the wiki',
+			'href' => '?refreshWikiPage=true',
+			'id' => 'buttonRefreshAll'
+		] );
+		$output->addHTML( $btnRefreshAll );
+
+		// phpcs:disable
+		$output->addWikiTextAsContent( <<<EOT
+The button "Save the RDF data in the wiki" helps you to:
 # clear the named graph in the config:  <nowiki>$configDefaultSaveData</nowiki> (if the database by default for the Wiki is precised)
-# save all data in RDF tag of wiki (if the database by default for the Wiki is precised)
+# save quickly all data in RDF tag of wiki (if the database by default for the Wiki is precised)
 # refresh the pages with SPARQL queries
 # refresh all pages with Linkedwiki modules
 EOT
-			);
+		);
 		// phpcs:enable
 		$btnRefreshAll = new OOUI\ButtonWidget( [
-			'label' => 'Refresh the wiki and save the RDF data in the wiki',
-			'href' => '?refreshWikiPage=true',
-			'id' => 'buttonRefreshAll'
+			'label' => 'Save the RDF data in the wiki',
+			'href' => '?refreshData=true',
+			'id' => 'buttonRefreshData'
 		] );
 		$output->addHTML( $btnRefreshAll );
 
@@ -126,6 +141,39 @@ EOT
 
 		// show all pages
 		if ( !empty( $refreshWikiPage ) ) {
+			// save all RDF tags
+			if ( $config->has( "SPARQLServiceSaveDataOfWiki" ) ) {
+				try{
+					LinkedWikiStatus::clearJobsInDatabase();
+					if ( $config->has( "SPARQLServiceSaveDataOfWiki" ) ) {
+						$output->addHTML( LinkedWikiStatus::clearDefaultGraph() );
+					}
+					$output->addHTML( LinkedWikiStatus::invalidateAllPages() );
+
+					// phpcs:disable
+					$output->addHTML(
+						<<<EOT
+<br/>When all the tasks are done, the wiki will be up to date.
+You can follow the number of jobs remaining by clicking on the button "Refresh status of jobs"
+EOT
+					);
+					// phpcs:enable
+
+				}catch ( Exception $e ) {
+					$output->addHTML(
+						"There are errors. You need to fix the problem before trying to refresh the wiki."
+					);
+					$output->addHTML( "<br/>Error: <pre>" . htmlentities( $e->getMessage() ) . "</pre>" );
+					$this->endSpecialPage();
+					return;
+				}
+			}
+
+			// not lazyPush
+			JobQueueGroup::singleton()->push( new InvalidatePageWithQueryJob() );
+		}
+
+		if ( !empty( $refreshData ) ) {
 			// save all RDF tags
 			if ( $config->has( "SPARQLServiceSaveDataOfWiki" ) ) {
 				try{

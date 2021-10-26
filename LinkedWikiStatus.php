@@ -305,6 +305,33 @@ class LinkedWikiStatus {
 	}
 
 	/**
+	 * Refresh all the wiki's pages
+	 *
+	 * @return string
+	 * @throws Exception
+	 */
+	public static function invalidateAllPages() {
+		// Find the Nb pages in this wiki
+		$dbr = wfGetDB( DB_REPLICA );
+		$titleArray = TitleArray::newFromResult(
+			$dbr->select( 'page',
+				[ 'page_id', 'page_namespace', 'page_title' ]
+			) );
+		$nbPage = $titleArray->count();
+		$html = "<br/>Nb pages in this wiki : " . $nbPage;
+
+		if ( $nbPage ) {
+			foreach ( $titleArray as $title ) {
+				$jobParams = [];
+				$job = new RefreshLinksJob( $title, $jobParams );
+				JobQueueGroup::singleton()->push( $job );
+			}
+		}
+		$html = "<br/>Nb inserted job in the queue: " . $nbPage;
+		return $html;
+	}
+
+	/**
 	 * Load all RDF of wiki in the database and return a report of the query with the response of server.
 	 *
 	 * @return string

@@ -49,6 +49,9 @@ See: https://www.mediawiki.org/wiki/Extension:LinkedWiki
 
 == Release-Notes ==
 
+* v3.6.2 Help the migration to the version 3.6 by Karima Rafes <karima.rafes@bordercloud.com>
+ 		- Addition of a button in the special "SaveRDF" page to rebuild all the properties of the wiki pages after the migration to version 3.6
+
 * v3.6.1 Fix the compatibility with 1.35, 1.36 and 1.37 by Karima Rafes <karima.rafes@bordercloud.com>
  		- Fix "Lock wait timeout exceeded" during LinkedWiki's jobs
 
