@@ -50,7 +50,8 @@ class LinkedWiki {
 	 */
 	public static function onArticleDeleteAfterSuccess( Title $title, OutputPage $output ) {
 		$config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'wgLinkedWiki' );
-		if ( !$config->has( "SPARQLServiceSaveDataOfWiki" ) ) {
+		if ( !$config->has( "SPARQLServiceSaveDataOfWiki" )
+			|| empty( $config->get( "SPARQLServiceSaveDataOfWiki" ) ) ) {
 			$output->addHTML( "Database by default for the Wiki is not precised
 			in the extension.json of the LinkedWiki extension.
 			(parameter SPARQLServiceSaveDataOfWiki) : no data deleted." );
@@ -94,7 +95,8 @@ class LinkedWiki {
 	 */
 	public static function onTitleMove( Title &$oldtitle, Title &$newtitle, User &$user ) {
 		$config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'wgLinkedWiki' );
-		if ( !$config->has( "SPARQLServiceSaveDataOfWiki" ) ) {
+		if ( !$config->has( "SPARQLServiceSaveDataOfWiki" )
+			|| empty( $config->get( "SPARQLServiceSaveDataOfWiki" ) ) ) {
 // $form->getOutput()->addHTML("Database by default for the Wiki is not precised
 //			 in the extension.json of the LinkedWiki extension.
 //			 (parameter SPARQLServiceSaveDataOfWiki) : no data deleted.");

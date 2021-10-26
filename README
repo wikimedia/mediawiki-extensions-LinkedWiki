@@ -49,6 +49,11 @@ See: https://www.mediawiki.org/wiki/Extension:LinkedWiki
 
 == Release-Notes ==
 
+* v3.6.3 Fix bugs by Karima Rafes <karima.rafes@bordercloud.com>
+ 		- Fix bad IRIs for the shortcuts "DATAIRI" and "PAGEIRI"
+ 		- Fix bad detection when there is not a RDF database for saving the data
+ 		- Fix clean of error messages during the saving of RDF pages in the RDF database
+
 * v3.6.2 Help the migration to the version 3.6 by Karima Rafes <karima.rafes@bordercloud.com>
  		- Addition of a button in the special "SaveRDF" page to rebuild all the properties of the wiki pages after the migration to version 3.6
 

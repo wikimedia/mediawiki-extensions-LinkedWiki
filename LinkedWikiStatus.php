@@ -106,6 +106,24 @@ class LinkedWikiStatus {
 	}
 
 	/**
+	 * Delete a property
+	 *
+	 * @param Title $title
+	 * @param string $propertyName
+	 */
+	public static function unsetProperty( Title $title, $propertyName ) {
+		$dbr = wfGetDB( DB_PRIMARY );
+		$result = $dbr->delete(
+			'page_props',
+			[
+				'pp_propname' => $propertyName,
+				'pp_page' => $title->getArticleID()
+			],
+			__METHOD__
+		);
+	}
+
+	/**
 	 * Copy of this function in the class PagePropsTest
 	 *
 	 * @param Title $title
@@ -288,6 +306,10 @@ class LinkedWikiStatus {
 	public static function loadTagsRDFInPage( Title $title ) {
 		$config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'wgLinkedWiki' );
 		$configDefaultSaveData = $config->get( "SPARQLServiceSaveDataOfWiki" );
+		if ( empty( $configDefaultSaveData ) ) {
+			return;
+		}
+
 		$configSaveData = new LinkedWikiConfig( $configDefaultSaveData );
 
 		$query = $configSaveData->getQueryLoadData( $title->getFullURL( 'action=raw&export=rdf' ) ) . ' ;' . "\n";
@@ -338,6 +360,12 @@ class LinkedWikiStatus {
 	 * @throws Exception
 	 */
 	public static function loadAllTagsRDFInPage() {
+		$config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'wgLinkedWiki' );
+		$configDefaultSaveData = $config->get( "SPARQLServiceSaveDataOfWiki" );
+		if ( empty( $configDefaultSaveData ) ) {
+			return "Database by default for the Wiki is not precised
+				(parameter SPARQLServiceSaveDataOfWiki)";
+		}
 		$dbr = wfGetDB( DB_REPLICA );
 		$resultDb = $dbr->select(
 			[
@@ -361,8 +389,6 @@ class LinkedWikiStatus {
 			]
 		);
 		$query = "";
-		$config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'wgLinkedWiki' );
-		$configDefaultSaveData = $config->get( "SPARQLServiceSaveDataOfWiki" );
 		$configSaveData = new LinkedWikiConfig( $configDefaultSaveData );
 		$titles = [];
 		foreach ( $resultDb as $row ) {
@@ -385,6 +411,7 @@ class LinkedWikiStatus {
 			} else {
 				foreach ( $titles as $title ) {
 					self::setProperty( $title, self::PAGEPROP_DB_TOUCHED, time() );
+					self::unsetProperty( $title, self::PAGEPROP_ERROR_MESSAGE );
 				}
 				$html .= "<br/>Result: <pre>" . htmlentities( $response ) . "</pre>";
 			}

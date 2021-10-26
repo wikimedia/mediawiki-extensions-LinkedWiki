@@ -46,10 +46,19 @@ class ToolsParser {
 	 * @return string
 	 */
 	public static function pageIri( &$parser ) {
-		// $resolverurl = $parser->getTitle()->getFullURL();
-		$resolverurl = urldecode(
-			MediaWikiServices::getInstance()->getNamespaceInfo()->getSubjectPage( $parser->getTitle() )->getFullURL()
-		);
+		$target = MediaWikiServices::getInstance()->getNamespaceInfo()->getSubjectPage( $parser->getTitle() );
+		$currentNamespace = $target->getNamespace();
+		$base = $parser->getTitle()->getBaseText();
+		$resolverurl = "";
+		if ( $currentNamespace === 2 || $currentNamespace === 3 || $currentNamespace === 10002 ) {
+			$resolverurl = urldecode(
+				Title::makeTitle( 2, $base )->getFullURL()
+			);
+		} else {
+			$resolverurl = urldecode(
+				Title::makeTitle( 0, $base )->getFullURL()
+			);
+		}
 		return $resolverurl;
 	}
 
@@ -58,11 +67,10 @@ class ToolsParser {
 	 * @return string
 	 */
 	public static function dataIri( &$parser ) {
-		// $resolverurl = $parser->getTitle()->getFullURL();
 		$target = MediaWikiServices::getInstance()->getNamespaceInfo()->getSubjectPage( $parser->getTitle() );
 		$currentNamespace = $target->getNamespace();
 		$resolverurl = "";
-		if ( $currentNamespace === 2 ) {
+		if ( $currentNamespace === 2 || $currentNamespace === 3 ) {
 			$resolverurl = urldecode(
 				Title::makeTitle( 10002, $parser->getTitle()->getBaseText() )->getFullURL()
 			);

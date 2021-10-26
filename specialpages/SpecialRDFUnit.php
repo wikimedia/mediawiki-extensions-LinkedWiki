@@ -245,7 +245,8 @@ class SpecialRDFUnit extends SpecialPage {
 		}
 
 		$config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'wgLinkedWiki' );
-		if ( !$config->has( "SPARQLServiceSaveDataOfWiki" ) ) {
+		if ( !$config->has( "SPARQLServiceSaveDataOfWiki" )
+			|| empty( $config->get( "SPARQLServiceSaveDataOfWiki" ) ) ) {
 			$output->addHTML(
 				"Database by default for the Wiki is not precised "
 				. "in the LocalSettings.php. "
