@@ -1,0 +1,10 @@
+{
+	"@metadata": {
+		"authors": [
+			"Fraxinus.cs"
+		]
+	},
+	"linkedwiki-specialsparqlquery_option1part2details": "(bez cache a pouze pro veřejná data)",
+	"linkedwiki-lua-type-error-xsddecimal": "Chyba, nejedná se o číslo s typem xsd:decimal (například '20.25' nebo '20'): $1",
+	"linkedwiki-lua-query-error-not-allow-to-write": "Tuto databázi nelze aktualizovat dotazem přes Lua."
+}
