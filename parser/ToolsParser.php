@@ -25,20 +25,17 @@ class ToolsParser {
 			$uri  = "<" . self::dataIri( $parser ) . ">";
 			$res  = str_replace( "<DATAIRI>", $uri, $res );
 		}
-		// remove comments
-		$array = explode( "\n", $res );
-		$output = [];
-		foreach ( $array as $line ) {
-			if ( preg_match( "/^ *#/", $line ) ) {
-				// do nothing
-			} elseif ( preg_match( "/#[^<>]*$/", $line ) ) {
-				$output[] = preg_replace( "/#[^<>]*$/", "", $line );
-			} else {
-				$output[] = $line;
-			}
+		// remove comments because the mediawiki parser removes \n of the query in the html and the # break the query
+		// Comments in SPARQL queries take the form of '#', outside an IRI or string, and continue to the end of line
+		//(marked by characters 0x0D or 0x0A) or end of file if there is no end of line after the comment marker.
+		// Comments are treated as white space.
+		$re = '/((([^"\'<#])*("[^"]*"){0,1}(\'[^\']*\'){0,1}(<[^>]*>){0,1})*)(?:#.*)?/m';
+		preg_match_all( $re, $res, $matches, PREG_SET_ORDER, 0 );
+		$result = "";
+		foreach ( $matches as $group ) {
+			$result .= $group[1];
 		}
-		$res = implode( "\n", $output );
-		return $res;
+		return $result;
 	}
 
 	/**

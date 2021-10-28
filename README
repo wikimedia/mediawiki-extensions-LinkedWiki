@@ -49,6 +49,12 @@ See: https://www.mediawiki.org/wiki/Extension:LinkedWiki
 
 == Release-Notes ==
 
+* v3.6.4 Fix bugs by Karima Rafes <karima.rafes@bordercloud.com>
+ 		- correctly remove comments from SPARQL because the parser in Mediawiki removes newlines in the HTML code
+ 		  and thus breaks the SPARQL queries for Sgvizler2 when the query has a comment line
+ 		- remove debug messages during the jobs
+ 		- Use mediaviewer's external link with images of wikimedia in infobox
+
 * v3.6.3 Fix bugs by Karima Rafes <karima.rafes@bordercloud.com>
  		- Fix bad IRIs for the shortcuts "DATAIRI" and "PAGEIRI"
  		- Fix bad detection when there is not a RDF database for saving the data

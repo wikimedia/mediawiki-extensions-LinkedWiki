@@ -128,7 +128,7 @@ class InvalidatePageWithQueryJob extends Job {
 				]
 			]
 		);
-		$nbJobRefreshlinksAdded = $resultDb->numRows();
+		// $nbJobRefreshlinksAdded = $resultDb->numRows();
 		$jobQueueGroup = JobQueueGroup::singleton();
 		foreach ( $resultDb as $row ) {
 
@@ -138,10 +138,10 @@ class InvalidatePageWithQueryJob extends Job {
 			$jobQueueGroup->push( $job );
 		}
 
-		print(
-			"Job InvalidatePageWithQueryJob: nbJobRefreshlinksAdded " . $nbJobRefreshlinksAdded
-			. " nbPageInvalidated " . $nbPageInvalidated . "\n"
-		);
+		// print(
+		//			"Job InvalidatePageWithQueryJob: nbJobRefreshlinksAdded " . $nbJobRefreshlinksAdded
+		//			. " nbPageInvalidated " . $nbPageInvalidated . "\n"
+		//		);
 		return true;
 	}
 }

@@ -714,6 +714,13 @@ function linkedwiki.new(subject,config,tagLang,debug)
             cssClasses = cssClasses .. " mw-ext-linkedwiki-tooltip"
             otherAttr = 'title="'..tooltipTitle..'" data-toggle="tooltip" data-placement="bottom"'
         end
+
+        if string.find(linkImage, 'commons.wikimedia.org') then
+            linkImage = string.gsub(linkImage, "http://commons.wikimedia.org/wiki/Special:FilePath/(.*)", "https://commons.wikimedia.org/wiki/File:%1#/media/File:%1")
+            linkImage = string.gsub(linkImage, "%%20", "_")
+            linkImage = string.gsub(linkImage, " ", "_")
+        end
+
         return '<div class="'..cssClasses..'" '..otherAttr..'><span class="plainlinks">['..linkImage..' '..srcImage..']</span></div>'
     end
 
