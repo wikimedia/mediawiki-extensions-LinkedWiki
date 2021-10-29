@@ -7,10 +7,13 @@
 	"linkedwiki-refresh": "Aktualiséieren",
 	"linkedwiki-specialrdfsave": "Datebank aktualiséieren",
 	"linkedwiki-category-rdf-page": "RDF-Säit",
+	"linkedwiki-category-query-error": "Defekt SPARQL Ufro",
 	"linkedwiki-specialsparqlquery_options": "Optiounen",
 	"linkedwiki-specialsparqlquery_visualization": "Visualisatioun",
 	"linkedwiki-specialsparqlquery_seethedoc": "Kuckt d'Dokumentatioun",
 	"linkedwiki-specialsparqlquery_result": "Resultat",
 	"linkedwiki-col-pages": "Titel",
+	"linkedwiki-col-page-date-touched": "Lescht Ännerung",
+	"linkedwiki-col-page-current-state": "Aktuelle Status",
 	"linkedwiki-lua-tooltip-db-currently-unknown-value": "Aktuell an der Datebank: onbekannte Wäert"
 }
