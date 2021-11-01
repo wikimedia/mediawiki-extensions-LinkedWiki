@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Avengium",
+			"Bruno44101",
 			"Fitoschido",
 			"Jakeukalane"
 		]
@@ -35,7 +36,9 @@
 	"linkedwiki-lua-tooltip-db-currently-value": "Actualmente en DB: $1",
 	"linkedwiki-lua-tooltip-db-currently-date-unknown": "Actualmente en DB: fecha desconocida",
 	"linkedwiki-lua-tooltip-db-currently-date-wrong": "Actualmente en DB: no es una fecha",
+	"linkedwiki-lua-date-error": "Error, no es una fecha (ejemplo '2021-11-20'): $1",
 	"linkedwiki-lua-type-error-xsddate": "Error, no es una fecha con el tipo xsd:date (ejemplo '2021-11-20'): $1",
+	"linkedwiki-lua-type-error-xsddecimal": "Error, no es un número con el tipo xsd:decimal (ejemplo '20.25' or '20'): $1",
 	"linkedwiki-lua-type-error-xsdint": "Error, no es un número con el tipo xsd:int (ejemplo '14'): $1",
 	"linkedwiki-lua-param-error-subject-unknown": "Asunto desconocido. Utilice el parámetro iriSubject o la función setSubject.",
 	"linkedwiki-lua-query-error-not-allow-to-write": "No puedes actualizar la base de datos mediante una consulta a través de Lua.",

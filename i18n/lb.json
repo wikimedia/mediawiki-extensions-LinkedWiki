@@ -15,5 +15,8 @@
 	"linkedwiki-col-pages": "Titel",
 	"linkedwiki-col-page-date-touched": "Lescht Ännerung",
 	"linkedwiki-col-page-current-state": "Aktuelle Status",
-	"linkedwiki-lua-tooltip-db-currently-unknown-value": "Aktuell an der Datebank: onbekannte Wäert"
+	"linkedwiki-lua-tooltip-db-currently-unknown-value": "Aktuell an der Datebank: onbekannte Wäert",
+	"linkedwiki-lua-tooltip-db-currently-value": "Aktuell an der Datebank: $1",
+	"linkedwiki-lua-tooltip-db-currently-date-unknown": "Aktuell an der Datebank: onbekannten Datum",
+	"linkedwiki-lua-tooltip-db-currently-date-wrong": "Aktuell an der Datebank: keen Datum"
 }
