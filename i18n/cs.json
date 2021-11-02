@@ -1,10 +1,18 @@
 {
 	"@metadata": {
 		"authors": [
+			"Adam N.",
 			"Fraxinus.cs"
 		]
 	},
 	"linkedwiki-specialsparqlquery_option1part2details": "(bez cache a pouze pro veřejná data)",
+	"linkedwiki-col-pages": "Název",
+	"linkedwiki-col-page-date-touched": "Oznámení o přidání příspěvku",
+	"linkedwiki-col-page-date-links-updated": "Poslední stránka",
+	"linkedwiki-col-page-current-state": "Aktuální stav",
+	"linkedwiki-lua-type-error-xsddate": "Chyba, nejedná se o číslo s typem xsd:decimal (například '2021-11-20'): $1",
+	"linkedwiki-lua-type-error-xsddatetime": "Chyba, nejedná se o číslo s typem xsd:decimal (například '2021-11-20T14:14:52+00:00'): $1",
 	"linkedwiki-lua-type-error-xsddecimal": "Chyba, nejedná se o číslo s typem xsd:decimal (například '20.25' nebo '20'): $1",
+	"linkedwiki-lua-type-error-xsdint": "Chyba, nejedná se o číslo s typem xsd:int (například '14'): $1",
 	"linkedwiki-lua-query-error-not-allow-to-write": "Tuto databázi nelze aktualizovat dotazem přes Lua."
 }
