@@ -2,11 +2,12 @@
 	"@metadata": {
 		"authors": [
 			"Ajeje Brazorf",
+			"Mormegil",
 			"Robby",
 			"Umherirrender"
 		]
 	},
-	"linkedwiki-desc": "{{desc|name=LinkedWiki|url=LinkedWiki}}",
+	"linkedwiki-desc": "{{desc|name=LinkedWiki|url=https://www.mediawiki.org/wiki/Extension:LinkedWiki}}",
 	"linkedwiki-date": "{{optional}}",
 	"linkedwiki-refresh": "A link text\n{{Identical|Refresh}}",
 	"linkedwiki-duration": "A label message",
