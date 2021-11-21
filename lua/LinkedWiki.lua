@@ -360,6 +360,11 @@ function linkedwiki.new(subject,config,tagLang,debug)
         linkedwiki.setDebug(self:isDebug())
     end
 
+    function Linkedwiki:query(q)
+        self:initConfig()
+        return linkedwiki.query(q)
+    end
+
     function Linkedwiki:getValue(iriProperty)
         self:initConfig()
         return linkedwiki.getValue(iriProperty)
