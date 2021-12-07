@@ -2,10 +2,12 @@
 	"@metadata": {
 		"authors": [
 			"Movses",
-			"Piramidion"
+			"Piramidion",
+			"DDPAT"
 		]
 	},
-	"linkedwiki-desc": "Див. Linked Data у вікі",
+	"linkedwiki-desc": "Переглянути пов’язані дані у вікі",
+	"linkedwiki-date": "H:i:s m/d/Y",
 	"linkedwiki-refresh": "Оновити",
 	"linkedwiki-duration": "Тривалість запиту",
 	"specialpages-group-linkedwiki_group": "Інструменти SPARQL та RDF",

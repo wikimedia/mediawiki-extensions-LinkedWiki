@@ -1,9 +1,13 @@
 {
 	"@metadata": {
 		"authors": [
-			"Gebu"
+			"Gebu",
+			"MrFraggle",
+			"Umlaut",
+			"Zabe"
 		]
 	},
+	"linkedwiki-desc": "Die verknüpften Daten in einem Wiki sehen",
 	"linkedwiki-refresh": "Aktualisieren",
 	"linkedwiki-duration": "Dauer der Abfrage",
 	"specialpages-group-linkedwiki_group": "SPARQL- und RDF-Werkzeuge",
@@ -19,6 +23,16 @@
 	"linkedwiki-specialsparqlquery": "SPARQL-Editor",
 	"linkedwiki-specialsparqlquery_categorysparqlquery": "SPARQL-Abfrage",
 	"linkedwiki-specialsparqlquery_query": "Abfrage",
+	"linkedwiki-specialsparqlquery_mainpage": "Auf dieser Seite kannst du deine Abfragen testen, optimieren und weitergeben, wenn du dies wünscht.\n\nStelle deine Fragen auf: [https://www.mediawiki.org/wiki/Extension_talk:LinkedWiki Talk:LinkedWiki]",
+	"linkedwiki-specialsparqlquery_sendquery": "Abfrage ausführen",
+	"linkedwiki-specialsparqlquery_usethisquery": "Wie man diese Abfrage in diesem Wiki verwendet",
+	"linkedwiki-specialsparqlquery_usethisquery_tutorial": "Kopiere diese Zeile und füge sie in eine Seite dieses Wikis ein.\n\nSiehe mehr: [https://www.mediawiki.org/wiki/Special:MyLanguage/Extension:LinkedWiki Extension:LinkedWiki]",
+	"linkedwiki-specialsparqlquery_endpointsparql": "SPARQL-Endpunkt",
+	"linkedwiki-specialsparqlquery_chooseaconfiguration": "Wähle eine Konfiguration",
+	"linkedwiki-specialsparqlquery_option1part1javascriptvisualizationsof": "JavaScript-Visualisierungen von",
+	"linkedwiki-specialsparqlquery_option2tableonly": "Nur Tabelle (mit Cache und für öffentliche oder private Daten)",
 	"linkedwiki-specialsparqlquery_options": "Optionen",
+	"linkedwiki-specialsparqlquery_visualization": "Visualisierung",
+	"linkedwiki-specialsparqlquery_seethedoc": "Dokumentation ansehen",
 	"linkedwiki-specialsparqlquery_result": "Ergebnis"
 }

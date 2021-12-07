@@ -2,9 +2,14 @@
 	"@metadata": {
 		"authors": [
 			"Mainframe98",
-			"Nieuwsgierige Gebruiker"
+			"Nieuwsgierige Gebruiker",
+			"Romaine"
 		]
 	},
 	"linkedwiki-refresh": "Vernieuwen",
+	"linkedwiki-specialsparqlquery_options": "Opties",
+	"linkedwiki-specialsparqlquery_visualization": "Visualisatie",
+	"linkedwiki-specialsparqlquery_seethedoc": "Bekijk de documentatie",
+	"linkedwiki-specialsparqlquery_result": "Resultaat",
 	"right-data-edit": "Bewerk datapagina's (in de naamruimten Data en GebruikersData), verplaats deze data met [[Special:RDFSave]] en check RDFgraphs met [[Special:RDFUnit]]. [https://www.mediawiki.org/wiki/Special:MyLanguage/Extension:LinkedWiki/Import_in_wiki_to_write,_check,_transfer_and_validate_RDF Documentaties]"
 }

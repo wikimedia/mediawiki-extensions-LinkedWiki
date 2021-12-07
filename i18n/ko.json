@@ -19,6 +19,7 @@
 	"linkedwiki-specialsparqlquery_usethisquery": "이 위키에서 이 쿼리를 사용하는 방법",
 	"linkedwiki-specialsparqlquery_endpointsparql": "엔드포인트 SPARQL",
 	"linkedwiki-specialsparqlquery_chooseaconfiguration": "구성 선택",
+	"linkedwiki-specialsparqlquery_option2tableonly": "테이블 전용 (캐시 포함, 공개 데이터 또는 비공개 데이터용)",
 	"linkedwiki-specialsparqlquery_options": "옵션",
 	"linkedwiki-specialsparqlquery_loglevel": "로그 레벨",
 	"linkedwiki-specialsparqlquery_visualization": "시각화",

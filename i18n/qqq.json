@@ -2,10 +2,12 @@
 	"@metadata": {
 		"authors": [
 			"Robby",
-			"Umherirrender"
+			"Umherirrender",
+			"Ajeje Brazorf",
+			"Mormegil"
 		]
 	},
-	"linkedwiki-desc": "{{desc|name=LinkedWiki|url=LinkedWiki}}",
+	"linkedwiki-desc": "{{desc|name=LinkedWiki|url=https://www.mediawiki.org/wiki/Extension:LinkedWiki}}",
 	"linkedwiki-test": "{{notranslate}}\nA unused test message",
 	"linkedwiki-date": "{{optional}}",
 	"linkedwiki-refresh": "A link text\n{{Identical|Refresh}}",
