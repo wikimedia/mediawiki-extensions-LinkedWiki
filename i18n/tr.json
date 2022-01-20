@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"BaRaN6161 TURK",
+			"Can",
 			"MuratTheTurkish"
 		]
 	},
@@ -36,5 +37,9 @@
 	"linkedwiki-specialsparqlquery_seethedoc": "Belgelere bakın",
 	"linkedwiki-specialsparqlquery_result": "Sonuç",
 	"action-data-edit": "veri sayfalarını düzenleyin (Data ve UserData ad alanlarında), bu verileri [[Special:RDFSave]] ile aktarın ve RDF grafiklerini kontrol edin",
-	"right-data-edit": "Veri sayfalarını düzenleyin (Data ve UserData ad alanlarında), bu verileri [[Special:RDFSave]] ile aktarın ve [[Special:RDFUnit]] ile RDF grafiklerini kontrol edin. [https://www.mediawiki.org/wiki/Special:MyLanguage/Extension:LinkedWiki/Import_in_wiki_to_write,_check,_transfer_and_validate_RDF Belgeler]"
+	"right-data-edit": "Veri sayfalarını düzenleyin (Data ve UserData ad alanlarında), bu verileri [[Special:RDFSave]] ile aktarın ve [[Special:RDFUnit]] ile RDF grafiklerini kontrol edin. [https://www.mediawiki.org/wiki/Special:MyLanguage/Extension:LinkedWiki/Import_in_wiki_to_write,_check,_transfer_and_validate_RDF Belgeler]",
+	"linkedwiki-col-pages": "Başlık",
+	"linkedwiki-col-page-date-touched": "Son düzenleme",
+	"linkedwiki-col-page-current-state": "Mevcut durum",
+	"linkedwiki-lua-date-error": "Hata, bu bir tarih değil (örnek '2021-11-20'): $1"
 }
