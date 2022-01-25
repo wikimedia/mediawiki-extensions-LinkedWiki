@@ -1,6 +1,7 @@
 <?php
 
 use BorderCloud\SPARQL\ParserSparql;
+use MediaWiki\MediaWikiServices;
 
 /**
  * @package Bourdercloud/linkedwiki
@@ -779,7 +780,13 @@ class LinkedWikiLuaLibrary extends Scribunto_LuaLibraryBase {
 		// push a job to refresh old queries (also in the modules) in the wiki if it is not a job
 		if ( !RequestContext::getMain()->getRequest() instanceof FauxRequest ) {
 			$p->setProperty( LinkedWikiStatus::PAGEPROP_DB_TOUCHED, time() );
-			JobQueueGroup::singleton()->lazyPush( new InvalidatePageWithQueryJob() );
+			$job = new InvalidatePageWithQueryJob();
+			if ( method_exists( MediaWikiServices::class, 'getJobQueueGroup' ) ) {
+				// MW 1.37+
+				MediaWikiServices::getInstance()->getJobQueueGroup()->lazyPush( $job );
+			} else {
+				JobQueueGroup::singleton()->lazyPush( $job );
+			}
 		}
 	}
 

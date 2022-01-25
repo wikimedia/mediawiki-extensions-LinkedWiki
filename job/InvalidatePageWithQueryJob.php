@@ -129,13 +129,18 @@ class InvalidatePageWithQueryJob extends Job {
 			]
 		);
 		// $nbJobRefreshlinksAdded = $resultDb->numRows();
-		$jobQueueGroup = JobQueueGroup::singleton();
+		$jobs = [];
 		foreach ( $resultDb as $row ) {
 
 			// echo $row->page_title."\n";
 			$jobParams = [];
-			$job = new RefreshLinksJob( Title::newFromID( $row->page_id ), $jobParams );
-			$jobQueueGroup->push( $job );
+			$jobs[] = new RefreshLinksJob( Title::newFromID( $row->page_id ), $jobParams );
+		}
+		if ( method_exists( MediaWikiServices::class, 'getJobQueueGroup' ) ) {
+			// MW 1.37+
+			MediaWikiServices::getInstance()->getJobQueueGroup()->push( $jobs );
+		} else {
+			JobQueueGroup::singleton()->push( $jobs );
 		}
 
 		// print(

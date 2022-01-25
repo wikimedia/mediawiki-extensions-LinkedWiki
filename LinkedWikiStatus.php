@@ -290,7 +290,12 @@ class LinkedWikiStatus {
 	 * @throws JobQueueError
 	 */
 	public static function clearJobsInDatabase() {
-		$jobQueueGroup = JobQueueGroup::singleton();
+		if ( method_exists( MediaWikiServices::class, 'getJobQueueGroup' ) ) {
+			// MW 1.37+
+			$jobQueueGroup = MediaWikiServices::getInstance()->getJobQueueGroup();
+		} else {
+			$jobQueueGroup = JobQueueGroup::singleton();
+		}
 		$jobQueue = $jobQueueGroup->get( "InvalidatePageWithQuery" );
 		$jobQueue->delete();
 		$jobQueue = $jobQueueGroup->get( "LoadRDF" );
@@ -322,7 +327,13 @@ class LinkedWikiStatus {
 			throw new Exception( $error );
 		} else {
 			self::setProperty( $title, self::PAGEPROP_DB_TOUCHED, time() );
-			JobQueueGroup::singleton()->lazyPush( new InvalidatePageWithQueryJob() );
+			$job = new InvalidatePageWithQueryJob();
+			if ( method_exists( MediaWikiServices::class, 'getJobQueueGroup' ) ) {
+				// MW 1.37+
+				MediaWikiServices::getInstance()->getJobQueueGroup()->lazyPush( $job );
+			} else {
+				JobQueueGroup::singleton()->lazyPush( $job );
+			}
 		}
 	}
 
@@ -343,10 +354,16 @@ class LinkedWikiStatus {
 		$html = "<br/>Nb pages in this wiki : " . $nbPage;
 
 		if ( $nbPage ) {
+			$jobs = [];
 			foreach ( $titleArray as $title ) {
 				$jobParams = [];
-				$job = new RefreshLinksJob( $title, $jobParams );
-				JobQueueGroup::singleton()->push( $job );
+				$jobs[] = new RefreshLinksJob( $title, $jobParams );
+			}
+			if ( method_exists( MediaWikiServices::class, 'getJobQueueGroup' ) ) {
+				// MW 1.37+
+				MediaWikiServices::getInstance()->getJobQueueGroup()->push( $jobs );
+			} else {
+				JobQueueGroup::singleton()->push( $jobs );
 			}
 		}
 		$html = "<br/>Nb inserted job in the queue: " . $nbPage;

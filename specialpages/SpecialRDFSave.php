@@ -141,6 +141,12 @@ EOT
 			}
 		}
 
+		if ( method_exists( MediaWikiServices::class, 'getJobQueueGroup' ) ) {
+			// MW 1.37+
+			$jobQueueGroup = MediaWikiServices::getInstance()->getJobQueueGroup();
+		} else {
+			$jobQueueGroup = JobQueueGroup::singleton();
+		}
 		// show all pages
 		if ( !empty( $refreshWikiPage ) ) {
 				try{
@@ -167,7 +173,7 @@ EOT
 					return;
 				}
 			// not lazyPush
-			JobQueueGroup::singleton()->push( new InvalidatePageWithQueryJob() );
+			$jobQueueGroup->push( new InvalidatePageWithQueryJob() );
 		}
 
 		if ( !empty( $refreshData ) ) {
@@ -178,7 +184,7 @@ EOT
 						$output->addHTML( LinkedWikiStatus::clearDefaultGraph() );
 						$output->addHTML( LinkedWikiStatus::loadAllTagsRDFInPage() );
 					}
-					JobQueueGroup::singleton()->lazyPush( new InvalidatePageWithQueryJob() );
+					$jobQueueGroup->lazyPush( new InvalidatePageWithQueryJob() );
 					// phpcs:disable
 					$output->addHTML(
 						<<<EOT
@@ -198,7 +204,7 @@ EOT
 				}
 
 			// not lazyPush
-			JobQueueGroup::singleton()->push( new InvalidatePageWithQueryJob() );
+			$jobQueueGroup->push( new InvalidatePageWithQueryJob() );
 		}
 
 		$output->addHTML( self::printStatus( $configDefaultSaveData ) );
@@ -222,16 +228,16 @@ EOT
 				$output->addHTML( "<h3>Result after the runJobs: </h3>" );
 				$output->addHTML(
 					"Nb job queues: <span id='testJobsResult'>"
-					. count( JobQueueGroup::singleton()->getQueuesWithJobs() ) . "</span>"
+					. count( $jobQueueGroup->getQueuesWithJobs() ) . "</span>"
 				);
 			}
 
-			// $output->addHTML("<br/>" . print_r(JobQueueGroup::singleton()->getDefaultQueueTypes(), true));
-			foreach ( JobQueueGroup::singleton()->getQueuesWithJobs() as $queue ) {
-				$queueObj = JobQueueGroup::singleton()->get( $queue );
+			// $output->addHTML("<br/>" . print_r($jobQueueGroup->getDefaultQueueTypes(), true));
+			foreach ( $jobQueueGroup->getQueuesWithJobs() as $queue ) {
+				$queueObj = $jobQueueGroup->get( $queue );
 				if ( $queueObj->getSize() == 0 ) {
 					// strange ?? need to clean all jobs for automatic tests (code only for doing the tests)
-					JobQueueGroup::singleton()->get( $queue )->delete();
+					$jobQueueGroup->get( $queue )->delete();
 				} else {
 					$output->addHTML(
 						"<br/>" . $queue . ": <span id='testJobsQueue" . $queue . "'>"
@@ -241,7 +247,7 @@ EOT
 			}
 			$output->addHTML(
 				"Nb job queues: <span id='testJobsResult'>"
-				. count( JobQueueGroup::singleton()->getQueuesWithJobs() ) . "</span>"
+				. count( $jobQueueGroup->getQueuesWithJobs() ) . "</span>"
 			);
 
 		}
@@ -253,7 +259,12 @@ EOT
 	}
 
 	private static function printStatus( $configDefaultSaveData ) {
-		$jobQueueGroup = JobQueueGroup::singleton();
+		if ( method_exists( MediaWikiServices::class, 'getJobQueueGroup' ) ) {
+			// MW 1.37+
+			$jobQueueGroup = MediaWikiServices::getInstance()->getJobQueueGroup();
+		} else {
+			$jobQueueGroup = JobQueueGroup::singleton();
+		}
 		$nbJobInvalidatePageWithQuery = $jobQueueGroup->get( "InvalidatePageWithQuery" )->getSize();
 		$html = "<h2>Jobs pending</h2>";
 		$html .= "Nb job 'refreshLinks' in the queue: " . $jobQueueGroup->get( "refreshLinks" )->getSize() . "<br/>";

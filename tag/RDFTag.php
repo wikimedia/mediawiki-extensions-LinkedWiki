@@ -37,7 +37,12 @@ class RDFTag {
 		}
 
 		// push a job to load the data in the default database
-		$queueJob = JobQueueGroup::singleton();
+		if ( method_exists( MediaWikiServices::class, 'getJobQueueGroup' ) ) {
+			// MW 1.37+
+			$queueJob = MediaWikiServices::getInstance()->getJobQueueGroup();
+		} else {
+			$queueJob = JobQueueGroup::singleton();
+		}
 		$jobLoadData = new LoadRDFJob( $parser->getTitle(), [] );
 		$queueJob->push( $jobLoadData );
 		return [ $output, 'isHTML' => true ];
