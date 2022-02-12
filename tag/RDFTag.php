@@ -28,11 +28,22 @@ class RDFTag {
 			$output = $parser->recursiveTagParse( "<pre>" . $input . "</pre>", $frame );
 		}
 
-		$parser->getOutput()->setProperty( LinkedWikiStatus::PAGEPROP_WRITER_TAG, true );
+		$parserOutput = $parser->getOutput();
+		if ( method_exists( $parserOutput, 'setPageProperty' ) ) {
+			// MW 1.38
+			$parserOutput->setPageProperty( LinkedWikiStatus::PAGEPROP_WRITER_TAG, true );
+		} else {
+			$parserOutput->setProperty( LinkedWikiStatus::PAGEPROP_WRITER_TAG, true );
+		}
 		$parser->addTrackingCategory( 'linkedwiki-category-rdf-page' );
 		$constraint = isset( $args['constraint'] ) ? strtolower( $args['constraint'] ) : '';
 		if ( $constraint == "shacl" ) {
-			$parser->getOutput()->setProperty( LinkedWikiStatus::PAGEPROP_SHACL, true );
+			if ( method_exists( $parserOutput, 'setPageProperty' ) ) {
+				// MW 1.38
+				$parserOutput->setPageProperty( LinkedWikiStatus::PAGEPROP_SHACL, true );
+			} else {
+				$parserOutput->setProperty( LinkedWikiStatus::PAGEPROP_SHACL, true );
+			}
 			$parser->addTrackingCategory( 'linkedwiki-category-rdf-schema' );
 		}
 

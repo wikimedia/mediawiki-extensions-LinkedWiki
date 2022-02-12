@@ -63,7 +63,13 @@ class SparqlParser {
 
 			if ( !empty( $chart ) ) {
 				// renderer with sgvizler2
-				$parser->getOutput()->setProperty( LinkedWikiStatus::PAGEPROP_READER_QUERY, true );
+				$parserOutput = $parser->getOutput();
+				if ( method_exists( $parserOutput, 'setPageProperty' ) ) {
+					// MW 1.38
+					$parserOutput->setPageProperty( LinkedWikiStatus::PAGEPROP_READER_QUERY, true );
+				} else {
+					$parserOutput->setProperty( LinkedWikiStatus::PAGEPROP_READER_QUERY, true );
+				}
 				return self::sgvizler2Container(
 					$parser,
 					$query,
@@ -75,11 +81,22 @@ class SparqlParser {
 					$debug );
 			} else {
 				// renderer with php
+				$parserOutput = $parser->getOutput();
 				if ( $cache == "no" ) {
-					$parser->getOutput()->updateCacheExpiry( 0 );
-					$parser->getOutput()->setProperty( LinkedWikiStatus::PAGEPROP_READER_QUERY, true );
+					$parserOutput->updateCacheExpiry( 0 );
+					if ( method_exists( $parserOutput, 'setPageProperty' ) ) {
+						// MW 1.38
+						$parserOutput->setPageProperty( LinkedWikiStatus::PAGEPROP_READER_QUERY, true );
+					} else {
+						$parserOutput->setProperty( LinkedWikiStatus::PAGEPROP_READER_QUERY, true );
+					}
 				} else {
-					$parser->getOutput()->setProperty( LinkedWikiStatus::PAGEPROP_READER_QUERY_CACHED, true );
+					if ( method_exists( $parserOutput, 'setPageProperty' ) ) {
+						// MW 1.38
+						$parserOutput->setPageProperty( LinkedWikiStatus::PAGEPROP_READER_QUERY_CACHED, true );
+					} else {
+						$parserOutput->setProperty( LinkedWikiStatus::PAGEPROP_READER_QUERY_CACHED, true );
+					}
 				}
 				if ( $templateBare == "tableCell" ) {
 					return self::tableCell(
@@ -718,7 +735,13 @@ class SparqlParser {
 		if ( !empty( $parser ) && !empty( $parser->getTitle() ) ) {
 			// deprecated ?
 			$parser->addTrackingCategory( 'linkedwiki-category-query-error' );
-			$parser->getOutput()->setProperty( LinkedWikiStatus::PAGEPROP_ERROR_MESSAGE, $details );
+			$parserOutput = $parser->getOutput();
+			if ( method_exists( $parserOutput, 'setPageProperty' ) ) {
+				// MW 1.38
+				$parserOutput->setPageProperty( LinkedWikiStatus::PAGEPROP_ERROR_MESSAGE, $details );
+			} else {
+				$parserOutput->setProperty( LinkedWikiStatus::PAGEPROP_ERROR_MESSAGE, $details );
+			}
 		}
 		// $logLevel == 0 // Print nothing
 		return [ $html, 'noparse' => true, 'isHTML' => false ];
