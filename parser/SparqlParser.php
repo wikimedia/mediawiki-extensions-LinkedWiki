@@ -45,11 +45,14 @@ class SparqlParser {
 			$classHeaders = isset( $vars["classHeaders"] ) ? $vars["classHeaders"] : '';
 			$headers = isset( $vars["headers"] ) ? $vars["headers"] : '';
 			$templates = isset( $vars["templates"] ) ? $vars["templates"] : '';
+			$template = isset( $vars["template"] ) ? $vars["template"] : '';
 			$debug = isset( $vars["debug"] ) ? $vars["debug"] : null;
 			$cache = isset( $vars["cache"] ) ? $vars["cache"] : "yes";
 			$templateBare = isset( $vars["templateBare"] ) ? $vars["templateBare"] : '';
 			$footer = isset( $vars["footer"] ) ? $vars["footer"] : '';
 			$preview = isset( $vars["preview"] ) ? $vars["preview"] : '';
+			$introtemplate = isset( $vars["intro"] ) ? $vars["intro"] : '';
+			$outrotemplate = isset( $vars["outro"] ) ? $vars["outro"] : '';
 
 			$chart = isset( $vars["chart"] ) ? $vars["chart"] : '';
 			$options = isset( $vars["options"] ) ? $vars["options"] : '';
@@ -107,6 +110,22 @@ class SparqlParser {
 						$debug,
 						$log );
 				} else {
+					if ( $template != "" ) {
+						return self::simpleHTMLWithRowTemplate(
+							$parser,
+							$query,
+							$config,
+							$endpoint,
+							$template,
+							$introtemplate,
+							$outrotemplate,
+							$footer,
+							$preview,
+							$debug,
+							$log,
+							$noResultMsg
+						);
+					}
 					if ( $templates != "" ) {
 						return self::simpleHTMLWithTemplate(
 							$parser,
@@ -233,6 +252,106 @@ class SparqlParser {
 		$str .= "></div>";
 
 		return [ $str, 'isChildObj' => true ];
+	}
+
+	public static function simpleHTMLWithRowTemplate(
+		$parser,
+		$querySparqlWiki,
+		$config,
+		$endpoint,
+		$template,
+		$introtemplate,
+		$outrotemplate,
+		$footer = '',
+		$preview = '',
+		$debug = null,
+		$log = '',
+		$noResultMsg = '' ) {
+		$isDebug = self::isDebug( $debug );
+		$specialC = [ "&#39;" ];
+		$replaceC = [ "'" ];
+		$querySparql = str_replace( $specialC, $replaceC, $querySparqlWiki );
+
+		$arrEndpoint = ToolsParser::newEndpoint( $config, $endpoint );
+		if ( $arrEndpoint["endpoint"] == null ) {
+			return self::printMessageErrorDebug(
+				$parser,
+				$log,
+				wfMessage( 'linkedwiki-error-endpoint-init' )->text(),
+				$arrEndpoint["errorMessage"]
+			);
+		}
+		$sp = $arrEndpoint["endpoint"];
+
+		$rs = $sp->query( $querySparqlWiki );
+		$errs = $sp->getErrors();
+		if ( $errs ) {
+			$strerr = "";
+			foreach ( $errs as $err ) {
+				$strerr .= "'''Error #sparql :" . $err . "'''";
+			}
+			return self::printMessageErrorDebug(
+				$parser,
+				$log,
+				wfMessage( 'linkedwiki-error-server' )->text(),
+				$strerr
+			);
+		}
+		$variables = $rs['result']['variables'];
+
+		$str = '';
+		if ( empty( $rs['result']['rows'] ) && !empty( $noResultMsg ) ) {
+			$str = $noResultMsg;
+		} else {
+			if ($introtemplate != '') {
+				$str = '{{' . $introtemplate . '}}';
+			}
+			$arrayParameters = [];
+			$nbRows = 0;
+			$limitRow = is_numeric( $preview ) ? 0 + $preview : -1;
+			foreach ( $rs['result']['rows'] as $row ) {
+				if ( $limitRow > 0 && $nbRows >= $limitRow ) {
+					break;
+				}
+				unset( $arrayParameters );
+				foreach ( $variables as $variable ) {
+					// START ADD BY DOUG to support optional variables in query
+					if ( !isset( $row[$variable] ) ) {
+						continue;
+					}
+					// END ADD BY DOUG
+					if ( isset( $row[$variable . " type"] ) && $row[$variable . " type"] == "uri" ) {
+						$arrayParameters[] = $variable . " = " . self::uri2Link( $row[$variable], true );
+					} else {
+						if ( isset( $variable ) ) {
+							$arrayParameters[] = $variable . " = " . $row[$variable];
+						}
+					}
+				}
+				$str .= "{{" . $template
+					. "|" . implode("|", $arrayParameters)
+					. "}}";
+				$nbRows++;
+			}
+			if ($outrotemplate != '') {
+				$str .= '{{' . $outrotemplate . '}}';
+			}
+
+			if ($footer != "NO" && $footer != "no") {
+				$str .= "\n<span style=\"font-size:80%\" align=\"right\">";
+				$str .= self::footer($rs['query_time'], $querySparqlWiki, $config, $endpoint, '', '')
+					. "</span>\n";
+			}
+		}
+
+		if ($isDebug) {
+			$str .= "INPUT WIKI : " . $querySparqlWiki . "\n";
+			$str .= "Query : " . $querySparql . "\n";
+			$str .= print_r($rs, true);
+			return self::printMessageErrorDebug(
+				$parser, 2, "Debug messages", $str );
+		}
+		return [ $str, 'noparse' => false, 'isHTML' => false ];
 	}
 
 	/**
