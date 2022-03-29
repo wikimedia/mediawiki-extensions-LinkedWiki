@@ -51,8 +51,8 @@ class SparqlParser {
 			$templateBare = isset( $vars["templateBare"] ) ? $vars["templateBare"] : '';
 			$footer = isset( $vars["footer"] ) ? $vars["footer"] : '';
 			$preview = isset( $vars["preview"] ) ? $vars["preview"] : '';
-			$introtemplate = isset( $vars["intro"] ) ? $vars["intro"] : '';
-			$outrotemplate = isset( $vars["outro"] ) ? $vars["outro"] : '';
+			$introtemplate = isset( $vars["introtemplate"] ) ? $vars["introtemplate"] : '';
+			$outrotemplate = isset( $vars["outrotemplate"] ) ? $vars["outrotemplate"] : '';
 
 			$chart = isset( $vars["chart"] ) ? $vars["chart"] : '';
 			$options = isset( $vars["options"] ) ? $vars["options"] : '';
