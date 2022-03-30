@@ -51,6 +51,8 @@ class SparqlParser {
 			$templateBare = isset( $vars["templateBare"] ) ? $vars["templateBare"] : '';
 			$footer = isset( $vars["footer"] ) ? $vars["footer"] : '';
 			$preview = isset( $vars["preview"] ) ? $vars["preview"] : '';
+			$intro = isset( $vars["intro"] ) ? $vars["intro"] : '';
+			$outro = isset( $vars["outro"] ) ? $vars["outro"] : '';
 			$introtemplate = isset( $vars["introtemplate"] ) ? $vars["introtemplate"] : '';
 			$outrotemplate = isset( $vars["outrotemplate"] ) ? $vars["outrotemplate"] : '';
 
@@ -117,6 +119,8 @@ class SparqlParser {
 							$config,
 							$endpoint,
 							$template,
+							$intro,
+							$outro,
 							$introtemplate,
 							$outrotemplate,
 							$footer,
@@ -260,6 +264,8 @@ class SparqlParser {
 		$config,
 		$endpoint,
 		$template,
+		$intro,
+		$outro,
 		$introtemplate,
 		$outrotemplate,
 		$footer = '',
@@ -303,7 +309,10 @@ class SparqlParser {
 		if ( empty( $rs['result']['rows'] ) && !empty( $noResultMsg ) ) {
 			$str = $noResultMsg;
 		} else {
-			if ($introtemplate != '') {
+			if ($intro != '') {
+				$str = $intro;
+			}
+			else if ($introtemplate != '') {
 				$str = '{{' . $introtemplate . '}}';
 			}
 			$arrayParameters = [];
@@ -333,7 +342,10 @@ class SparqlParser {
 					. "}}";
 				$nbRows++;
 			}
-			if ($outrotemplate != '') {
+			if ($outro != '') {
+				$str .= $outro;
+			}
+			else if ($outrotemplate != '') {
 				$str .= '{{' . $outrotemplate . '}}';
 			}
 
