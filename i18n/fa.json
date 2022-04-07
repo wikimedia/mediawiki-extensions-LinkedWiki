@@ -1,11 +1,12 @@
 {
 	"@metadata": {
 		"authors": [
-			"Jeeputer"
+			"Jeeputer",
+			"Beginneruser"
 		]
 	},
 	"linkedwiki-refresh": "تازه‌سازی",
-	"linkedwiki-specialsparqlquery_option1part2details": "(بدون کاشه و تنها برای داده‌های عمومی)",
+	"linkedwiki-specialsparqlquery_option1part2details": "(بدون حافظۀ نهان و فقط برای داده‌های عمومی)",
 	"linkedwiki-specialsparqlquery_options": "گزینه‌ها",
 	"linkedwiki-specialsparqlquery_loglevel": "سطح سیاهه‌ها",
 	"linkedwiki-specialsparqlquery_result": "نتیجه"
