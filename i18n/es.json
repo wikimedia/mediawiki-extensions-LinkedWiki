@@ -1,20 +1,30 @@
 {
 	"@metadata": {
 		"authors": [
-			"Fitoschido"
+			"Fitoschido",
+			"Avengium",
+			"Bruno44101",
+			"DiegoAmbrocio",
+			"Jakeukalane"
 		]
 	},
+	"linkedwiki-desc": "Ver los datos vinculados en una wiki",
 	"linkedwiki-refresh": "Actualizar",
 	"linkedwiki-duration": "Duración de consulta",
 	"specialpages-group-linkedwiki_group": "Herramientas para SPARQL y RDF",
 	"linkedwiki-speciallinkedwikiconfig": "Configuración de LinkedWiki",
 	"linkedwiki-specialrdfsave": "Actualizar base de datos",
+	"linkedwiki-category-rdf-page": "Página RDF",
+	"linkedwiki-category-rdf-schema": "Esquema RDF",
+	"linkedwiki-specialrdfunit": "Casos de prueba RDF",
 	"linkedwiki-specialsparqlquery": "Editor de SPARQL",
 	"linkedwiki-specialsparqlquery_categorysparqlquery": "Consulta de SPARQL",
 	"linkedwiki-specialsparqlquery_query": "Consulta",
 	"linkedwiki-specialsparqlquery_sendquery": "Ejecutar consulta",
+	"linkedwiki-specialsparqlquery_chooseaconfiguration": "Elija una configuración",
 	"linkedwiki-specialsparqlquery_options": "Opciones",
 	"linkedwiki-specialsparqlquery_loglevel": "Nivel de registros",
 	"linkedwiki-specialsparqlquery_visualization": "Visualización",
+	"linkedwiki-specialsparqlquery_seethedoc": "Consulte la documentación",
 	"linkedwiki-specialsparqlquery_result": "Resultado"
 }
