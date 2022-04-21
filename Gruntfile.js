@@ -11,7 +11,8 @@ module.exports = function ( grunt ) {
 		eslint: {
 			options: {
 				cache: true,
-				fix: grunt.option( 'fix' ) // this will get params from the flags
+				// this will get params from the flags
+				fix: grunt.option( 'fix' )
 			},
 			all: [
 				'js/*.js',
