@@ -55,6 +55,7 @@ class SparqlParser {
 			$outro = isset( $vars["outro"] ) ? $vars["outro"] : '';
 			$introtemplate = isset( $vars["introtemplate"] ) ? $vars["introtemplate"] : '';
 			$outrotemplate = isset( $vars["outrotemplate"] ) ? $vars["outrotemplate"] : '';
+			$userparam = isset( $vars["userparam"] ) ? $vars["userparam"] : '';
 
 			$chart = isset( $vars["chart"] ) ? $vars["chart"] : '';
 			$options = isset( $vars["options"] ) ? $vars["options"] : '';
@@ -127,7 +128,8 @@ class SparqlParser {
 							$preview,
 							$debug,
 							$log,
-							$noResultMsg
+							$noResultMsg,
+							$userparam
 						);
 					}
 					if ( $templates != "" ) {
@@ -144,7 +146,9 @@ class SparqlParser {
 							$preview,
 							$debug,
 							$log,
-							$noResultMsg );
+							$noResultMsg,
+							$userparam
+						);
 					} else {
 						return self::simpleHTML(
 							$parser,
@@ -272,7 +276,8 @@ class SparqlParser {
 		$preview = '',
 		$debug = null,
 		$log = '',
-		$noResultMsg = '' ) {
+		$noResultMsg = '',
+		$userparam = '' ) {
 		$isDebug = self::isDebug( $debug );
 		$specialC = [ "&#39;" ];
 		$replaceC = [ "'" ];
@@ -313,7 +318,7 @@ class SparqlParser {
 				$str = $intro;
 			}
 			else if ($introtemplate != '') {
-				$str = '{{' . $introtemplate . '}}';
+				$str = '{{' . $introtemplate . ($userparam != '' ? '|userparam=' . $userparam : '') . '}}';
 			}
 			$arrayParameters = [];
 			$nbRows = 0;
@@ -337,6 +342,9 @@ class SparqlParser {
 						}
 					}
 				}
+				if ($userparam != '') {
+					$arrayParameters['userparam'] = $userparam;
+				}
 				$str .= "{{" . $template
 					. "|" . implode("|", $arrayParameters)
 					. "}}";
@@ -346,7 +354,7 @@ class SparqlParser {
 				$str .= $outro;
 			}
 			else if ($outrotemplate != '') {
-				$str .= '{{' . $outrotemplate . '}}';
+				$str .= '{{' . $outrotemplate . ($userparam != '' ? '|userparam=' . $userparam : '') . '}}';
 			}
 
 			if ($footer != "NO" && $footer != "no") {
@@ -395,7 +403,8 @@ class SparqlParser {
 		$preview = '',
 		$debug = null,
 		$log = '',
-		$noResultMsg = '' ) {
+		$noResultMsg = '',
+		$userparam = '' ) {
 		$isDebug = self::isDebug( $debug );
 		$specialC = [ "&#39;" ];
 		$replaceC = [ "'" ];
@@ -480,6 +489,9 @@ class SparqlParser {
 							$arrayParameters[] = $variable . " = " . $row[$variable];
 						}
 					}
+				}
+				if ($userparam != '') {
+					$arrayParameters['userparam'] = $userparam;
 				}
 				foreach ( $TableFormatTemplates as $key => $TableFormatTemplate ) {
 					if ( empty( $TableFormatTemplate ) ) {
