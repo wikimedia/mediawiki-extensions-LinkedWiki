@@ -442,39 +442,37 @@ class SparqlParser {
 			$str = $noResultMsg;
 		} else {
 			$lignegrise = false;
-			$str = "{| class=\"" . $class . "\" \n";
+			$str = "<table class='" . $class . "'>\n";
 			if ( $headers != '' ) {
 				$TableTitleHeaders = explode( ",", $headers );
 				$TableClassHeaders = explode( ",", $classHeaders );
-				for ( $i = 0; $i < count( $TableClassHeaders ); $i++ ) {
+				for ( $i = 0; $i < count( $TableTitleHeaders ); $i++ ) {
 					if ( !isset( $TableClassHeaders[$i] ) || $TableClassHeaders[$i] == "" ) {
 						$classStr = "";
-
 					} else {
-						$classStr = $TableClassHeaders[$i] . "|";
+						$classStr = " class=\"" . $TableClassHeaders[$i] . "\"";
 					}
-					$TableTitleHeaders[$i] = $classStr . $TableTitleHeaders[$i];
+					$TableTitleHeaders[$i] = "<th" . $classStr . ">" . $TableTitleHeaders[$i] . "</th>";
 				}
 
-				$str .= "|- \n";
-				$str .= "!" . implode( "!!", $TableTitleHeaders );
-				$str .= "\n";
+				$str .= "<tr>";
+				$str .= implode( "\n", $TableTitleHeaders );
+				$str .= "</tr>\n";
 			}
 
 			$arrayParameters = [];
 			$nbRows = 0;
 			$limitRow = is_numeric( $preview ) ? 0 + $preview : -1;
 			foreach ( $rs['result']['rows'] as $row ) {
-				$str .= "|- ";
+				$str .= "<tr";
 				if ( $lignegrise ) {
-					$str .= "bgcolor=\"#f5f5f5\"";
+					$str .= " bgcolor=\"#f5f5f5\"";
 				}
 				if ( $limitRow > 0 && $nbRows >= $limitRow ) {
 					$str .= ' style="display:none" ';
 				}
+				$str .= ">\n";
 				$lignegrise = !$lignegrise;
-				$str .= "\n";
-				$separateur = "|";
 				unset( $arrayParameters );
 				foreach ( $variables as $variable ) {
 					// START ADD BY DOUG to support optional variables in query
@@ -494,29 +492,36 @@ class SparqlParser {
 					$arrayParameters[] = 'userparam=' . $userparam;
 				}
 				foreach ( $TableFormatTemplates as $key => $TableFormatTemplate ) {
+					$str .= "<td>";
 					if ( empty( $TableFormatTemplate ) ) {
-						$str .= $separateur;
 						$str .= isset( $row[$variables[$key]] ) && !empty( $row[$variables[$key]] ) ?
 							$row[$variables[$key]] : "";
 					} else {
-						$str .= $separateur
-							. "{{" . $TableFormatTemplate
+						$str .= "{{" . $TableFormatTemplate
 							. "|" . implode( "|", $arrayParameters )
 							. "}}";
 					}
-					$separateur = "||";
+					$str .= "</td>\n";
 				}
-				$str .= "\n";
+				$str .= "</tr>\n";
 				$nbRows++;
 			}
 
 			if ( $footer != "NO" && $footer != "no" ) {
-				$str .= "|- style=\"font-size:80%\" align=\"right\"\n";
-				$str .= "| colspan=\"" . count( $TableFormatTemplates ) . "\"|" .
-					self::footer( $rs['query_time'], $querySparqlWiki, $config, $endpoint, $classHeaders, $headers )
-					. "\n";
+				$str .= "<tr style=\"font-size:80%\" align=\"right\">\n";
+				$str .= "<td colspan=\"" . count( $variables ) . "\">"
+					. self::footerHTML(
+						$parser,
+						$rs['query_time'],
+						$querySparqlWiki,
+						$config,
+						$endpoint,
+						$classHeaders,
+						$headers
+					) . "</td>\n";
+				$str .= "</tr>\n";
 			}
-			$str .= "|}\n";
+			$str .= "</table>\n";
 		}
 
 		if ( $isDebug ) {
