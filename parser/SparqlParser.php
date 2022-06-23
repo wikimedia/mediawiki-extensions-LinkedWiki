@@ -343,7 +343,7 @@ class SparqlParser {
 					}
 				}
 				if ($userparam != '') {
-					$arrayParameters['userparam'] = $userparam;
+					$arrayParameters[] = 'userparam=' . $userparam;
 				}
 				$str .= "{{" . $template
 					. "|" . implode("|", $arrayParameters)
@@ -491,7 +491,7 @@ class SparqlParser {
 					}
 				}
 				if ($userparam != '') {
-					$arrayParameters['userparam'] = $userparam;
+					$arrayParameters[] = 'userparam=' . $userparam;
 				}
 				foreach ( $TableFormatTemplates as $key => $TableFormatTemplate ) {
 					if ( empty( $TableFormatTemplate ) ) {
