@@ -1,0 +1,11 @@
+{
+	"@metadata": {
+		"authors": [
+			"McDutchie"
+		]
+	},
+	"linkedwiki-desc": "Vider le datos ligate in un wiki",
+	"linkedwiki-refresh": "Refrescar",
+	"linkedwiki-duration": "Duration del consulta",
+	"specialpages-group-linkedwiki_group": "Utensiles pro SPARQL e RDF"
+}
