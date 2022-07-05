@@ -1,0 +1,37 @@
+{
+	"@metadata": {
+		"authors": [
+			"McDutchie"
+		]
+	},
+	"linkedwiki-desc": "Vider le datos ligate in un wiki",
+	"linkedwiki-refresh": "Refrescar",
+	"linkedwiki-duration": "Duration del consulta",
+	"specialpages-group-linkedwiki_group": "Utensiles pro SPARQL e RDF",
+	"linkedwiki-error-server": "Le servitor SPARQL ha inviate un error. (pro vider le detalios, usa le parametro log=2)",
+	"linkedwiki-error-endpoint-empty": "Ubi es le puncto final o le configuration?",
+	"linkedwiki-speciallinkedwikiconfig": "Configuration de LinkedWiki",
+	"linkedwiki-specialrdfsave": "Actualisar le base de datos",
+	"linkedwiki-category-rdf-page": "Pagina PDF",
+	"linkedwiki-category-rdf-schema": "Schema RDF",
+	"linkedwiki-specialrdfunit": "Tests de RDF",
+	"linkedwiki-specialsparqlflinteditor": "Editor Flint SPARQL",
+	"linkedwiki-specialsparqlquery": "Editor SPARQL",
+	"linkedwiki-specialsparqlquery_categorysparqlquery": "Consulta SPARQL",
+	"linkedwiki-specialsparqlquery_query": "Consulta",
+	"linkedwiki-specialsparqlquery_mainpage": "Iste pagina essera usate pro testar, optimisar e condivider tu consultas si tu lo vole.\n\nInvia tu questiones a: [https://www.mediawiki.org/wiki/Extension_talk:LinkedWiki Discussion:LinkedWiki]",
+	"linkedwiki-specialsparqlquery_sendquery": "Executar consulta",
+	"linkedwiki-specialsparqlquery_usethisquery": "Como usar iste consulta in iste wiki",
+	"linkedwiki-specialsparqlquery_usethisquery_tutorial": "Copiar e collar iste linea in un pagina de iste wiki.\n\nVide plus: [https://www.mediawiki.org/wiki/Special:MyLanguage/Extension:LinkedWiki Extension:LinkedWiki]",
+	"linkedwiki-specialsparqlquery_endpointsparql": "Puncto final SPARQL",
+	"linkedwiki-specialsparqlquery_chooseaconfiguration": "Elige un configuration",
+	"linkedwiki-specialsparqlquery_option1part1javascriptvisualizationsof": "Visualisations in Javascript de",
+	"linkedwiki-specialsparqlquery_option2tableonly": "Tabella solo (con cache e pro datos public o private)",
+	"linkedwiki-specialsparqlquery_options": "Optiones",
+	"linkedwiki-specialsparqlquery_loglevel": "Nivello de registros",
+	"linkedwiki-specialsparqlquery_visualization": "Visualisation",
+	"linkedwiki-specialsparqlquery_seethedoc": "Vide le documentation",
+	"linkedwiki-specialsparqlquery_result": "Resultato",
+	"action-data-edit": "modificar paginas de datos (in le spatios de nomines Data e UserData), transferer iste datos con [[Special:RDFSave]] e verificar graphicos RDF",
+	"right-data-edit": "Modificar paginas de datos (in le spatios de nomines Data e UserData), transferer iste datos con [[Special:RDFSave]] e verificar graphicos RDF con [[Special:RDFUnit]]. [https://www.mediawiki.org/wiki/Special:MyLanguage/Extension:LinkedWiki/Import_in_wiki_to_write,_check,_transfer_and_validate_RDF Documentation]"
+}
