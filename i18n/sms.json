@@ -9,5 +9,6 @@
 	"linkedwiki-category-query": "SPARQL-kõjldõs",
 	"linkedwiki-specialsparqlquery_categorysparqlquery": "SPARQL-kõjldõs",
 	"linkedwiki-specialsparqlquery_query": "Kõjldõs",
-	"linkedwiki-specialsparqlquery_result": "Puåđõs"
+	"linkedwiki-specialsparqlquery_result": "Puåđõs",
+	"linkedwiki-col-page-with-rdf-writer-tag": "RDF-ǩeâlǥal"
 }
