@@ -4,7 +4,8 @@
 			"Gebu",
 			"MrFraggle",
 			"Umlaut",
-			"Zabe"
+			"Zabe",
+			"TMg"
 		]
 	},
 	"linkedwiki-desc": "Die verknüpften Daten in einem Wiki sehen",
@@ -38,10 +39,12 @@
 	"linkedwiki-specialsparqlquery_visualization": "Visualisierung",
 	"linkedwiki-specialsparqlquery_seethedoc": "Dokumentation ansehen",
 	"linkedwiki-specialsparqlquery_result": "Ergebnis",
+	"linkedwiki-col-pages": "Titel",
 	"linkedwiki-col-page-date-touched": "Letzte Modifizierung",
 	"linkedwiki-col-page-with-sparql-query": "SPARQL Parser ohne Zwischenspeicher",
 	"linkedwiki-col-page-with-rdf-writer-module": "\nModul RDF writer",
 	"linkedwiki-col-page-with-rdf-writer-tag": "Markiere RDF",
+	"linkedwiki-col-page-current-state": "Aktueller Status",
 	"linkedwiki-lua-error-currentframe-nil": "Du kannst manuell den Ausschnitt in einem Modul festlegen mit dem Code linkedwiki.setCurrentFrame(mw.getCurrentFrame())",
 	"linkedwiki-lua-tooltip-db-currently-date-unknown": "Aktuell in DB: unbekanntes Datum",
 	"linkedwiki-lua-tooltip-db-currently-date-wrong": "Aktuell in DB: kein Datum",
