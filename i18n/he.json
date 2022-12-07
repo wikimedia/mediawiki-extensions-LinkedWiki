@@ -1,12 +1,14 @@
 {
 	"@metadata": {
 		"authors": [
-			"Eli"
+			"Eli",
+			"Amire80"
 		]
 	},
 	"linkedwiki-refresh": "רענון",
 	"linkedwiki-duration": "משך השאילתה",
 	"linkedwiki-specialsparqlquery": "עורך SPARQL",
 	"linkedwiki-specialsparqlquery_categorysparqlquery": "שאילתת SPARQL",
-	"linkedwiki-specialsparqlquery_query": "שאילתה"
+	"linkedwiki-specialsparqlquery_query": "שאילתה",
+	"linkedwiki-col-pages": "כותרת"
 }
