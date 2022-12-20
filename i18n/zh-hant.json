@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Kly",
-			"Xiplus"
+			"Xiplus",
+			"捍粵者"
 		]
 	},
 	"linkedwiki-desc": "在wiki上查看已連結的資料",
@@ -28,7 +29,7 @@
 	"linkedwiki-specialsparqlquery_usethisquery": "如何使用此 wiki 上的查詢",
 	"linkedwiki-specialsparqlquery_usethisquery_tutorial": "在此 wiki 的頁面上複製貼上該行。\n\n了解更多：[https://www.mediawiki.org/wiki/Special:MyLanguage/Extension:LinkedWiki Extension:LinkedWiki]",
 	"linkedwiki-specialsparqlquery_endpointsparql": "端點SPARQL",
-	"linkedwiki-specialsparqlquery_chooseaconfiguration": "選擇一個配置",
+	"linkedwiki-specialsparqlquery_chooseaconfiguration": "選擇配置",
 	"linkedwiki-specialsparqlquery_option1part1javascriptvisualizationsof": "JavaScript視覺化",
 	"linkedwiki-specialsparqlquery_option1part2details": "（無快取，僅用於公開資料）",
 	"linkedwiki-specialsparqlquery_option2tableonly": "僅表格（有快取，用於公開和私人資料）",
