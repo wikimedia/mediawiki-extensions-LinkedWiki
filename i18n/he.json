@@ -10,5 +10,6 @@
 	"linkedwiki-specialsparqlquery": "עורך SPARQL",
 	"linkedwiki-specialsparqlquery_categorysparqlquery": "שאילתת SPARQL",
 	"linkedwiki-specialsparqlquery_query": "שאילתה",
+	"linkedwiki-specialsparqlquery_mainpage": "הדף הזה ישמש לבדיקה, מיטוב ושיתוף השאילתות שלך אם זה רצונך.\n\nאפשר לשלוח את השאלות שלך לדף [https://www.mediawiki.org/wiki/Extension_talk:LinkedWiki Talk:LinkedWiki]",
 	"linkedwiki-col-pages": "כותרת"
 }
