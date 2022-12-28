@@ -28,7 +28,7 @@ class SpecialSparqlQuery extends SpecialPage {
 	public function execute( $par = null ) {
 		// https://www.mediawiki.org/wiki/OOjs_UI/Using_OOjs_UI_in_MediaWiki
 		$output = $this->getOutput();
-		$output->addModules( 'ext.LinkedWiki.SpecialSparqlQuery' );
+		$output->addModules( [ 'ext.LinkedWiki.SpecialSparqlQuery' ] );
 
 		$configFactory = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'wgLinkedWiki' );
 		$querySparqlInSpecialPage = $configFactory->get( "QuerySparqlInSpecialPage" );
@@ -189,18 +189,22 @@ class SpecialSparqlQuery extends SpecialPage {
 		$html .= ">";
 
 		if ( !empty( $query ) ) {
-			$arr = SparqlParser::simpleHTML(
+			$arr = SparqlParser::tableHTML(
 				null,
 				$query,
 				$idConfig,
 				$endpoint,
 				'wikitable sortable',
 				'',
+				'',
+				'',
+				'',
 				null,
 				false,
 				false,
 				2,
-				2
+				2,
+				'no result'
 			);
 			$html .= $arr[0];
 		}

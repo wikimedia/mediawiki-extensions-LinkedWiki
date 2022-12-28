@@ -83,7 +83,7 @@
 			$l.on( 'click', function () {
 				let csv = $table.table2CSV( { delivery: 'value' } );
 				// remove last line table
-				csv = csv.substring( 0, csv.lastIndexOf( '\n' ) );
+				csv = csv.slice( 0, csv.lastIndexOf( '\n' ) );
 				window.location.href = 'data:text/csv;charset=UTF-8,' + encodeURIComponent( csv );
 			} );
 		} );

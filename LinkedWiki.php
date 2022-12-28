@@ -124,12 +124,10 @@ class LinkedWiki {
 	 * @return bool
 	 */
 	public static function onBeforePageDisplay( OutputPage &$out, Skin &$skin ) {
-		// todo remove
-		//$out->addModules( "ext.LinkedWiki.common" );
 		$title = $out->getTitle();
 
 		if ( $title->isSpecial( 'linkedwiki-specialsparqlquery' ) ) {
-			$out->addModules( 'ext.LinkedWiki.SpecialSparqlQuery' );
+			$out->addModules( [ 'ext.LinkedWiki.SpecialSparqlQuery' ] );
 		}
 
 		// Human or machine request ?

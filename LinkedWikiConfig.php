@@ -723,6 +723,7 @@ class LinkedWikiConfig {
 		$varSPARQLServiceSaveDataOfWiki = $config->get( "SPARQLServiceSaveDataOfWiki" );
 		$varCheckRDFPage = $config->get( "CheckRDFPage" );
 		$varQuerySparqlInSpecialPage = $config->get( "QuerySparqlInSpecialPage" );
+		$varSPARQLParserTableByDefault = $config->get( "SPARQLParserTableByDefault" );
 
 		$html = "";
 
@@ -770,6 +771,15 @@ class LinkedWikiConfig {
 		$html .= "</th>";
 		$html .= "<td><pre>";
 		$html .= htmlentities( $varQuerySparqlInSpecialPage );
+		$html .= "</pre></td>";
+		$html .= "</tr>";
+
+		$html .= "<tr>";
+		$html .= "<th>";
+		$html .= 'SPARQLParserTableByDefault <br/>($wgLinkedWikiSPARQLParserTableByDefault)';
+		$html .= "</th>";
+		$html .= "<td><pre>";
+		$html .= htmlentities( $varSPARQLParserTableByDefault );
 		$html .= "</pre></td>";
 		$html .= "</tr>";
 

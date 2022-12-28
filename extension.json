@@ -1,6 +1,6 @@
 {
 	"name": "LinkedWiki",
-	"version": "3.6.5",
+	"version": "3.7.0",
 	"author": [
 		"[https://www.mediawiki.org/wiki/User:Karima_Rafes Karima Rafes]"
 	],
@@ -210,6 +210,10 @@
 		"SPARQLServiceByDefault": {
 			"description": "Without parameters (config or endpoint) the SPARQL queries are sent at this SPARQL service.",
 			"value": "http://www.wikidata.org"
+		},
+		"SPARQLParserTableByDefault": {
+			"description": "SPARQL parser can print a table with different formats: wiki or html. By default: html",
+			"value": "html"
 		},
 		"ConfigSPARQLServices": {
 			"description": "Array of SPARQL services uses in this wiki. http://www.example.org is the configuration by default for all SPARQL service. If you need to change, be careful about other endpoints.",

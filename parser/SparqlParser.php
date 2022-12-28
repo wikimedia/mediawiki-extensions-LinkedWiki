@@ -16,9 +16,8 @@ class SparqlParser {
 	 */
 	public static function render( $parser ) {
 		$out = $parser->getOutput();
-		$out->addModuleStyles( "ext.LinkedWiki.common" );
-		$out->addModules( 'ext.LinkedWiki.table2CSV' );
-		$out->addModules( 'ext.LinkedWiki.SparqlParser' );
+		$out->addModuleStyles( [ 'ext.LinkedWiki.common' ] );
+		$out->addModules( [ 'ext.LinkedWiki.table2CSV', 'ext.LinkedWiki.SparqlParser' ] );
 
 		$configFactory = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'wgLinkedWiki' );
 		$configDefault = $configFactory->get( "SPARQLServiceByDefault" );
@@ -41,21 +40,50 @@ class SparqlParser {
 
 			$config = isset( $vars["config"] ) ? $vars["config"] : $configDefault;
 			$endpoint = isset( $vars["endpoint"] ) ? $vars["endpoint"] : null;
-			$class = isset( $vars["class"] ) ? $vars["class"] : 'wikitable sortable';
-			$classHeaders = isset( $vars["classHeaders"] ) ? $vars["classHeaders"] : '';
-			$headers = isset( $vars["headers"] ) ? $vars["headers"] : '';
-			$templates = isset( $vars["templates"] ) ? $vars["templates"] : '';
+
 			$debug = isset( $vars["debug"] ) ? $vars["debug"] : null;
 			$cache = isset( $vars["cache"] ) ? $vars["cache"] : "yes";
-			$templateBare = isset( $vars["templateBare"] ) ? $vars["templateBare"] : '';
-			$footer = isset( $vars["footer"] ) ? $vars["footer"] : '';
-			$preview = isset( $vars["preview"] ) ? $vars["preview"] : '';
-
-			$chart = isset( $vars["chart"] ) ? $vars["chart"] : '';
-			$options = isset( $vars["options"] ) ? $vars["options"] : '';
 			$log = isset( $vars["log"] ) ? $vars["log"] : 1;
 
 			$noResultMsg = isset( $vars["default"] ) ? $vars["default"] : '';
+
+			$table = isset( $vars["table"] ) ? $vars["table"] : $configFactory->get( "SPARQLParserTableByDefault" );
+			if ( $table !== "wiki" && $table !== "html" ) {
+				$parser->getOutput()->updateCacheExpiry( 0 );
+				$result = "'''Error #sparql: "
+					. "Parameter table is incorrect. Possible values: '''wiki''' or '''html'''.";
+
+				$parser->addTrackingCategory( 'linkedwiki-category-query-error' );
+			}
+
+			// Parameters with only cells
+			$templateBare = isset( $vars["templateBare"] ) ? $vars["templateBare"] : '';
+
+			// Parameters with a chart
+			$chart = isset( $vars["chart"] ) ? $vars["chart"] : '';
+			$options = isset( $vars["options"] ) ? $vars["options"] : '';
+
+			// Parameters with a wiki/html table
+			$class = isset( $vars["class"] ) ? $vars["class"] : 'wikitable sortable';
+			$classHeaders = isset( $vars["classHeaders"] ) ? $vars["classHeaders"] : '';
+			$headers = isset( $vars["headers"] ) ? $vars["headers"] : '';
+			$footer = isset( $vars["footer"] ) ? $vars["footer"] : '';
+			$preview = isset( $vars["preview"] ) ? $vars["preview"] : '';
+			// one template by cell
+			$templatesInCells = isset( $vars["templates"] ) ? $vars["templates"] : '';
+			// one template in one cell with colspan
+			$templatesInSingleCell = isset( $vars["templatesInSingleCell"] ) ? $vars["templatesInSingleCell"] : '';
+
+			// Parameters with a grid
+			$gridIntro = isset( $vars["gridIntro"] ) ? $vars["gridIntro"] : '';
+			$gridOutro = isset( $vars["gridOutro"] ) ? $vars["gridOutro"] : '';
+			$gridIntroTemplate = isset( $vars["gridIntroTemplate"] ) ? $vars["gridIntroTemplate"] : '';
+			$gridOutroTemplate = isset( $vars["gridOutroTemplate"] ) ? $vars["gridOutroTemplate"] : '';
+			// one template by row
+			$gridRowTemplate = isset( $vars["gridRowTemplate"] ) ? $vars["gridRowTemplate"] : '';
+
+			// Parameter with all templates
+			$userparam = isset( $vars["userparam"] ) ? $vars["userparam"] : '';
 
 			$title = $parser->getTitle();
 
@@ -106,9 +134,26 @@ class SparqlParser {
 						$endpoint,
 						$debug,
 						$log );
+				} elseif ( $gridRowTemplate != '' ) {
+					return self::grid(
+						$parser,
+						$query,
+						$config,
+						$endpoint,
+						$gridRowTemplate,
+						$gridIntro,
+						$gridOutro,
+						$gridIntroTemplate,
+						$gridOutroTemplate,
+						$userparam,
+						$footer,
+						$preview,
+						$debug,
+						$log,
+						$noResultMsg );
 				} else {
-					if ( $templates != "" ) {
-						return self::simpleHTMLWithTemplate(
+					if ( $table == "wiki" ) {
+						return self::tableWiki(
 							$parser,
 							$query,
 							$config,
@@ -116,14 +161,16 @@ class SparqlParser {
 							$class,
 							$classHeaders,
 							$headers,
-							$templates,
+							$templatesInCells,
+							$templatesInSingleCell,
+							$userparam,
 							$footer,
 							$preview,
 							$debug,
 							$log,
 							$noResultMsg );
-					} else {
-						return self::simpleHTML(
+					} elseif ( $table == "html" ) {
+						return self::tableHTML(
 							$parser,
 							$query,
 							$config,
@@ -131,6 +178,9 @@ class SparqlParser {
 							$class,
 							$classHeaders,
 							$headers,
+							$templatesInCells,
+							$templatesInSingleCell,
+							$userparam,
 							$footer,
 							$preview,
 							$debug,
@@ -240,10 +290,12 @@ class SparqlParser {
 	 * @param string $querySparqlWiki
 	 * @param string $config
 	 * @param string $endpoint
-	 * @param string $class
-	 * @param string $classHeaders
-	 * @param string $headers
-	 * @param string $templates
+	 * @param string $gridRowTemplate
+	 * @param string $gridIntro
+	 * @param string $gridOutro
+	 * @param string $gridIntroTemplate
+	 * @param string $gridOutroTemplate
+	 * @param string $userparam
 	 * @param string $footer
 	 * @param string $preview
 	 * @param null|string $debug
@@ -251,15 +303,17 @@ class SparqlParser {
 	 * @param string $noResultMsg
 	 * @return array
 	 */
-	public static function simpleHTMLWithTemplate(
+	public static function grid(
 		$parser,
 		$querySparqlWiki,
 		$config,
 		$endpoint,
-		$class,
-		$classHeaders = '',
-		$headers = '',
-		$templates = '',
+		$gridRowTemplate,
+		$gridIntro = '',
+		$gridOutro = '',
+		$gridIntroTemplate = '',
+		$gridOutroTemplate = '',
+		$userparam = '',
 		$footer = '',
 		$preview = '',
 		$debug = null,
@@ -296,12 +350,128 @@ class SparqlParser {
 			);
 		}
 		$variables = $rs['result']['variables'];
-		$TableFormatTemplates = explode( ",", $templates );
+
+		$str = '';
+		if ( empty( $rs['result']['rows'] ) && !empty( $noResultMsg ) ) {
+			$str = $noResultMsg;
+		} else {
+			if ( $gridIntro != '' ) {
+				$str = $gridIntro;
+			} elseif ( $gridIntroTemplate != '' ) {
+				$str = '{{' . $gridIntroTemplate . ( $userparam != '' ? '|userparam=' . $userparam : '' ) . '}}';
+			}
+			$nbRows = 0;
+			$limitRow = is_numeric( $preview ) ? 0 + $preview : -1;
+			foreach ( $rs['result']['rows'] as $row ) {
+				if ( $limitRow > 0 && $nbRows >= $limitRow ) {
+					break;
+				}
+				$str .= self::valueTemplate( $gridRowTemplate, $variables, $row, $userparam );
+				$nbRows++;
+			}
+			if ( $gridOutro != '' ) {
+				$str .= $gridOutro;
+			} elseif ( $gridOutroTemplate != '' ) {
+				$str .= '{{' . $gridOutroTemplate . ( $userparam != '' ? '|userparam=' . $userparam : '' ) . '}}';
+			}
+
+			if ( $footer != "NO" && $footer != "no" ) {
+				$str .= "<br/><span>\n";
+				$str .= self::footerHTML(
+						$parser,
+						$rs['query_time'],
+						$querySparqlWiki,
+						$config,
+						$endpoint,
+						'',
+						''
+					);
+				$str .= "</span>\n";
+			}
+		}
+		if ( $isDebug ) {
+			$str .= "INPUT WIKI: " . $querySparqlWiki . "\n";
+			$str .= "Query: " . $querySparql . "\n";
+			$str .= print_r( $rs, true );
+			return self::printMessageErrorDebug(
+				$parser, 2, "Debug messages", $str );
+		}
+		return [ $str, 'noparse' => false, 'isHTML' => true ];
+	}
+
+	/**
+	 * @param Parser $parser
+	 * @param string $querySparqlWiki
+	 * @param string $config
+	 * @param string $endpoint
+	 * @param string $class
+	 * @param string $classHeaders
+	 * @param string $headers
+	 * @param string $templatesInCells
+	 * @param string $templatesInSingleCell
+	 * @param string $userparam
+	 * @param string $footer
+	 * @param string $preview
+	 * @param null|string $debug
+	 * @param null|string $log
+	 * @param string $noResultMsg
+	 * @return array
+	 */
+	public static function tableWiki(
+		$parser,
+		$querySparqlWiki,
+		$config,
+		$endpoint,
+		$class,
+		$classHeaders = '',
+		$headers = '',
+		$templatesInCells = '',
+		$templatesInSingleCell = '',
+		$userparam = '',
+		$footer = '',
+		$preview = '',
+		$debug = null,
+		$log = '',
+		$noResultMsg = '' ) {
+		$isDebug = self::isDebug( $debug );
+		$specialC = [ "&#39;" ];
+		$replaceC = [ "'" ];
+		$querySparql = str_replace( $specialC, $replaceC, $querySparqlWiki );
+
+		$arrEndpoint = ToolsParser::newEndpoint( $config, $endpoint );
+		if ( $arrEndpoint["endpoint"] == null ) {
+			return self::printMessageErrorDebug(
+				$parser,
+				$log,
+				wfMessage( 'linkedwiki-error-endpoint-init' )->text(),
+				$arrEndpoint["errorMessage"]
+			);
+		}
+		$sp = $arrEndpoint["endpoint"];
+
+		$rs = $sp->query( $querySparqlWiki );
+		$errs = $sp->getErrors();
+		if ( $errs ) {
+			$strerr = "";
+			foreach ( $errs as $err ) {
+				$strerr .= "'''Error #sparql :" . $err . "'''";
+			}
+			return self::printMessageErrorDebug(
+				$parser,
+				$log,
+				wfMessage( 'linkedwiki-error-server' )->text(),
+				$strerr
+			);
+		}
+
+		$variables = $rs['result']['variables'];
+		$isSingleCell = !empty( $templatesInSingleCell );
+		$nbColumn = 0;
 
 		if ( empty( $rs['result']['rows'] ) && !empty( $noResultMsg ) ) {
 			$str = $noResultMsg;
 		} else {
-			$lignegrise = false;
+			$lineGrey  = false;
 			$str = "{| class=\"" . $class . "\" \n";
 			if ( $headers != '' ) {
 				$TableTitleHeaders = explode( ",", $headers );
@@ -319,49 +489,82 @@ class SparqlParser {
 				$str .= "|- \n";
 				$str .= "!" . implode( "!!", $TableTitleHeaders );
 				$str .= "\n";
+			} elseif ( $isSingleCell ) {
+				// no headers by default
+			} else {
+				$TableClassHeaders = explode( ",", $classHeaders );
+				for ( $i = 0; $i < count( $variables ); $i++ ) {
+					if ( !isset( $TableClassHeaders[$i] ) || $TableClassHeaders[$i] == "" ) {
+						$classStr = "";
+					} else {
+						$classStr = $TableClassHeaders[$i] . "|";
+					}
+					$TableTitleHeaders[$i] = $classStr . $variables[$i];
+				}
+
+				$str .= "|- \n";
+				$str .= "!" . implode( "!!", $TableTitleHeaders );
+				$str .= "\n";
 			}
 
-			$arrayParameters = [];
 			$nbRows = 0;
 			$limitRow = is_numeric( $preview ) ? 0 + $preview : -1;
 			foreach ( $rs['result']['rows'] as $row ) {
 				$str .= "|- ";
-				if ( $lignegrise ) {
+				if ( $lineGrey ) {
 					$str .= "bgcolor=\"#f5f5f5\"";
 				}
 				if ( $limitRow > 0 && $nbRows >= $limitRow ) {
 					$str .= ' style="display:none" ';
 				}
-				$lignegrise = !$lignegrise;
+				$lineGrey = !$lineGrey;
 				$str .= "\n";
-				$separateur = "|";
-				unset( $arrayParameters );
-				foreach ( $variables as $variable ) {
-					// START ADD BY DOUG to support optional variables in query
-					if ( !isset( $row[$variable] ) ) {
-						continue;
+				$separator = "|";
+
+				if ( $isSingleCell ) {
+					$tableFormatTemplatesInSingleCell = explode( ",", $templatesInSingleCell );
+					$nbColumn = count( $tableFormatTemplatesInSingleCell );
+					$str .= $separator;
+					foreach ( $tableFormatTemplatesInSingleCell as $key => $tableFormatTemplate ) {
+						$str .= self::valueTemplate( $tableFormatTemplate, $variables, $row, $userparam );
 					}
-					// END ADD BY DOUG
-					if ( isset( $row[$variable . " type"] ) && $row[$variable . " type"] == "uri" ) {
-						$arrayParameters[] = $variable . " = " . self::uri2Link( $row[$variable], true );
+				} else {
+					$tableFormatTemplatesInCells = explode( ",", $templatesInCells );
+					if ( $headers != '' ) {
+						$TableTitleHeaders = explode( ",", $headers );
+
+						$nbColumn = count( $TableTitleHeaders );
+						foreach ( $TableTitleHeaders as $key => $title ) {
+							$str .= $separator;
+							if ( isset( $tableFormatTemplatesInCells[$key] )
+								&& !empty( $tableFormatTemplatesInCells[$key] ) ) {
+								$str .= self::valueTemplate(
+									$tableFormatTemplatesInCells[$key],
+									$variables,
+									$row,
+									$userparam );
+							} elseif ( isset( $variables[$key] ) ) {
+								$str .= self::valueWiki( $row, $variables[$key] );
+							}
+							$separator = !empty( $templatesInSingleCell ) ? "" : "||";
+						}
 					} else {
-						if ( isset( $variable ) ) {
-							$arrayParameters[] = $variable . " = " . $row[$variable];
+						$nbColumn = count( $variables );
+						foreach ( $variables as $key => $variable ) {
+							$str .= $separator;
+							if ( isset( $tableFormatTemplatesInCells[$key] )
+								&& !empty( $tableFormatTemplatesInCells[$key] ) ) {
+								$str .= self::valueTemplate(
+									$tableFormatTemplatesInCells[$key],
+									$variables,
+									$row,
+									$userparam );
+							} else {
+								$str .= self::valueWiki( $row, $variable );
+							}
+							$separator = !empty( $templatesInSingleCell ) ? "" : "||";
 						}
 					}
-				}
-				foreach ( $TableFormatTemplates as $key => $TableFormatTemplate ) {
-					if ( empty( $TableFormatTemplate ) ) {
-						$str .= $separateur;
-						$str .= isset( $row[$variables[$key]] ) && !empty( $row[$variables[$key]] ) ?
-							$row[$variables[$key]] : "";
-					} else {
-						$str .= $separateur
-							. "{{" . $TableFormatTemplate
-							. "|" . implode( "|", $arrayParameters )
-							. "}}";
-					}
-					$separateur = "||";
 				}
 				$str .= "\n";
 				$nbRows++;
@@ -369,17 +572,16 @@ class SparqlParser {
 
 			if ( $footer != "NO" && $footer != "no" ) {
 				$str .= "|- style=\"font-size:80%\" align=\"right\"\n";
-				$str .= "| colspan=\"" . count( $TableFormatTemplates ) . "\"|" .
-					self::footer( $rs['query_time'], $querySparqlWiki, $config, $endpoint, $classHeaders, $headers )
+				$str .= "| colspan=\"" . $nbColumn . "\"|" .
+					self::footerWiki( $rs['query_time'], $querySparqlWiki, $config, $endpoint, $classHeaders, $headers )
 					. "\n";
 			}
 			$str .= "|}\n";
 		}
 
 		if ( $isDebug ) {
-			$str .= "INPUT WIKI : " . $querySparqlWiki . "\n";
-			$str .= "Query : " . $querySparql . "\n";
-			$str .= print_r( $arrayParameters, true );
+			$str .= "INPUT WIKI: " . $querySparqlWiki . "\n";
+			$str .= "Query: " . $querySparql . "\n";
 			$str .= print_r( $rs, true );
 			return self::printMessageErrorDebug(
 				$parser, 2, "Debug messages", $str );
@@ -395,6 +597,9 @@ class SparqlParser {
 	 * @param string $class
 	 * @param string $classHeaders
 	 * @param string $headers
+	 * @param string $templatesInCells
+	 * @param string $templatesInSingleCell
+	 * @param string $userparam
 	 * @param string $footer
 	 * @param string $preview
 	 * @param null|string $debug
@@ -402,7 +607,7 @@ class SparqlParser {
 	 * @param string $noResultMsg
 	 * @return array
 	 */
-	public static function simpleHTML(
+	public static function tableHTML(
 		$parser,
 		$querySparqlWiki,
 		$config,
@@ -410,6 +615,9 @@ class SparqlParser {
 		$class,
 		$classHeaders = '',
 		$headers = '',
+		$templatesInCells = '',
+		$templatesInSingleCell = '',
+		$userparam = '',
 		$footer = '',
 		$preview = '',
 		$debug = null,
@@ -446,12 +654,15 @@ class SparqlParser {
 			);
 		}
 
-		$lignegrise = false;
 		$variables = $rs['result']['variables'];
+		$isOneColumnByVariable = empty( $templatesInSingleCell );
+		$isSingleCell = !empty( $templatesInSingleCell );
+		$nbColumn = 0;
 
 		if ( empty( $rs['result']['rows'] ) && !empty( $noResultMsg ) ) {
 			$str = $noResultMsg;
 		} else {
+			$lineGrey  = false;
 			$str = "<table class='" . $class . "'>\n";
 			if ( $headers != '' ) {
 				$TableTitleHeaders = explode( ",", $headers );
@@ -467,18 +678,18 @@ class SparqlParser {
 				$str .= "<tr>";
 				$str .= implode( "\n", $TableTitleHeaders );
 				$str .= "</tr>\n";
+			} elseif ( $isSingleCell ) {
+				// no headers by default
 			} else {
 				$TableClassHeaders = explode( ",", $classHeaders );
 				for ( $i = 0; $i < count( $variables ); $i++ ) {
 					if ( !isset( $TableClassHeaders[$i] ) || $TableClassHeaders[$i] == "" ) {
 						$classStr = "";
-
 					} else {
 						$classStr = " class=\"" . $TableClassHeaders[$i] . "\"";
 					}
 					$TableTitleHeaders[$i] = "<th" . $classStr . ">" . $variables[$i] . "</th>";
 				}
-
 				$str .= "<tr>\n";
 				$str .= implode( "\n", $TableTitleHeaders );
 				$str .= "</tr>\n";
@@ -488,27 +699,65 @@ class SparqlParser {
 			$limitRow = is_numeric( $preview ) ? 0 + $preview : -1;
 			foreach ( $rs['result']['rows'] as $row ) {
 				$str .= "<tr";
-				if ( $lignegrise ) {
+				if ( $lineGrey ) {
 					$str .= " bgcolor=\"#f5f5f5\" ";
 				}
 				if ( $limitRow > 0 && $nbRows >= $limitRow ) {
 					$str .= ' style="display:none" ';
 				}
 				$str .= ">\n";
-				$lignegrise = !$lignegrise;
+				$lineGrey = !$lineGrey;
 
-				foreach ( $variables as $variable ) {
+				if ( $isSingleCell ) {
+					$tableFormatTemplatesInSingleCell = explode( ",", $templatesInSingleCell );
+					$nbColumn = count( $tableFormatTemplatesInSingleCell );
 					$str .= "<td>";
-					$value = isset( $row[$variable] ) && !empty( $row[$variable] ) ?
-						$row[$variable] : "";
-
-					if ( isset( $row[$variable . " type"] ) && $row[$variable . " type"] == "uri" ) {
-						$str .= "<a href='" . $value . "'>" . $value . "</a>";
-					} else {
-						// T227845
-						$str .= empty( $value ) ? "&nbsp;" : htmlentities( $value );
+					foreach ( $tableFormatTemplatesInSingleCell as $key => $tableFormatTemplate ) {
+						$str .= self::valueTemplate(
+							$tableFormatTemplate,
+							$variables,
+							$row,
+							$userparam );
 					}
-					$str .= "</td>\n";
+					$str .= "</td>";
+				} else {
+					$tableFormatTemplatesInCells = explode( ",", $templatesInCells );
+
+					if ( $headers != '' ) {
+						$TableTitleHeaders = explode( ",", $headers );
+
+						$nbColumn = count( $TableTitleHeaders );
+						foreach ( $TableTitleHeaders as $key => $title ) {
+							$str .= "<td>";
+							if ( isset( $tableFormatTemplatesInCells[$key] )
+								&& !empty( $tableFormatTemplatesInCells[$key] ) ) {
+								$str .= self::valueTemplate(
+									$tableFormatTemplatesInCells[$key],
+									$variables,
+									$row,
+									$userparam );
+							} elseif ( isset( $variables[$key] ) ) {
+								$str .= self::valueHTML( $row, $variables[$key] );
+							}
+							$str .= "</td>\n";
+						}
+					} else {
+						$nbColumn = count( $variables );
+						foreach ( $variables as $key => $variable ) {
+							$str .= "<td>";
+							if ( isset( $tableFormatTemplatesInCells[$key] )
+								&& !empty( $tableFormatTemplatesInCells[$key] ) ) {
+								$str .= self::valueTemplate(
+									$tableFormatTemplatesInCells[$key],
+									$variables,
+									$row,
+									$userparam );
+							} else {
+								$str .= self::valueHTML( $row, $variable );
+							}
+							$str .= "</td>\n";
+						}
+					}
 				}
 				$str .= "</tr>\n";
 				$nbRows++;
@@ -516,7 +765,7 @@ class SparqlParser {
 
 			if ( $footer != "NO" && $footer != "no" ) {
 				$str .= "<tr style=\"font-size:80%\" align=\"right\">\n";
-				$str .= "<td colspan=\"" . count( $variables ) . "\">"
+				$str .= "<td colspan=\"" . $nbColumn . "\">"
 					. self::footerHTML(
 						$parser,
 						$rs['query_time'],
@@ -531,10 +780,9 @@ class SparqlParser {
 
 			$str .= "</table>\n";
 		}
-
 		if ( $isDebug ) {
 			$str .= "INPUT WIKI: \n" . $querySparqlWiki . "\n";
-			$str .= "QUERY : " . $querySparql . "\n";
+			$str .= "QUERY: " . $querySparql . "\n";
 			$str .= print_r( $rs, true );
 			return self::printMessageErrorDebug(
 				$parser,
@@ -596,31 +844,21 @@ class SparqlParser {
 		$str = "";
 		foreach ( $rs['result']['rows'] as $row ) {
 			$str .= "\n";
-			$separateur = "| ";
+			$separator = "| ";
 			foreach ( $variables as $variable ) {
-				// START ADD BY DOUG to support optional variables in query
-				if ( !isset( $row[$variable] ) ) {
-					continue;
-				}
-				// END ADD BY DOUG
-				if ( isset( $row[$variable . " type"] ) && $row[$variable . " type"] == "uri" ) {
-					$str .= $separateur . self::uri2Link( $row[$variable] );
-				} else {
-					$str .= $separateur . $row[$variable];
-				}
-				$separateur = " || ";
+				$str .= $separator . self::valueWiki( $row, $variable );
+				$separator = " || ";
 			}
 			$str .= "\n|- \n";
 		}
 
 		if ( $isDebug ) {
 			$str .= "INPUT WIKI: \n" . $querySparqlWiki . "\n";
-			$str .= "QUERY : " . $querySparql . "\n";
+			$str .= "QUERY: " . $querySparql . "\n";
 			$str .= print_r( $rs, true );
 			return self::printMessageErrorDebug(
 				$parser, 2, "Debug messages", $str );
 		}
-
 		return [ $str, 'noparse' => false, 'isHTML' => false ];
 	}
 
@@ -633,7 +871,7 @@ class SparqlParser {
 	 * @param string $headers
 	 * @return string
 	 */
-	public static function footer(
+	public static function footerWiki(
 		$duration,
 		$querySparqlWiki,
 		$config,
@@ -687,14 +925,65 @@ class SparqlParser {
 	}
 
 	/**
-	 * @param string $uri
-	 * @param bool $nowiki
-	 * @return mixed
+	 * @param array $row
+	 * @param string $variable
+	 * @return string
 	 */
-	public static function uri2Link( $uri, $nowiki = false ) {
-		// TODO : $title ??? CLEAN ?
-		$result = str_replace( "=", "{{equal}}", $uri );
-		return $result;
+	private static function valueWiki( $row, $variable ) {
+		$str = '';
+		$value = isset( $row[$variable] ) && !empty( $row[$variable] ) ?
+			$row[$variable] : "";
+
+		if ( isset( $row[$variable . " type"] ) && $row[$variable . " type"] == "uri" ) {
+			$str .= str_replace( "=", "{{equal}}", $value );
+		} else {
+			$str .= empty( $value ) ? "" : $value;
+		}
+		return $str;
+	}
+
+	/**
+	 * @param array $row
+	 * @param string $variable
+	 * @return string
+	 */
+	private static function valueHTML( $row, $variable ) {
+		$str = '';
+		$value = isset( $row[$variable] ) && !empty( $row[$variable] ) ?
+			$row[$variable] : "";
+
+		if ( isset( $row[$variable . " type"] ) && $row[$variable . " type"] == "uri" ) {
+			$str .= "<a href='" . $value . "'>" . $value . "</a>";
+		} else {
+			$str .= empty( $value ) ? "&nbsp;" : htmlentities( $value );
+		}
+		return $str;
+	}
+
+	/**
+	 * @param string $templateName
+	 * @param array $variables
+	 * @param array $row
+	 * @param string $userparam
+	 * @return string
+	 */
+	private static function valueTemplate( $templateName, $variables, $row, $userparam = '' ) {
+		$str = '';
+		$arrayParameters = [];
+		foreach ( $variables as $variable ) {
+			// support optional variables
+			if ( isset( $row[$variable] ) ) {
+				$arrayParameters[] = $variable . " = " . self::valueWiki( $row, $variable );
+			}
+		}
+		if ( !empty( $userparam ) ) {
+			$arrayParameters[] = 'userparam=' . $userparam;
+		}
+
+		$str .= "{{" . $templateName
+			. "|" . implode( "|", $arrayParameters )
+			. "}}";
+		return $str;
 	}
 
 	private static function isDebug( $debugParam ) {

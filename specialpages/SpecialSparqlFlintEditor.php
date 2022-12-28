@@ -24,7 +24,7 @@ class SpecialSparqlFlintEditor extends SpecialPage {
 	 */
 	public function execute( $par = null ) {
 		$output = $this->getOutput();
-		$output->addModules( 'ext.LinkedWiki.flint' );
+		$output->addModules( [ 'ext.LinkedWiki.flint' ] );
 		$output->addHTML( "<div id=\"flint-test\">" );
 		$this->setHeaders();
 	}
