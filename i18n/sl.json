@@ -4,5 +4,8 @@
 			"Eleassar"
 		]
 	},
-	"linkedwiki-col-pages": "Naslov"
+	"linkedwiki-duration": "Trajanje poizvedbe",
+	"linkedwiki-specialsparqlquery_query": "Poizvedba",
+	"linkedwiki-col-pages": "Naslov",
+	"linkedwiki-col-page-date-touched": "Zadnja sprememba"
 }
