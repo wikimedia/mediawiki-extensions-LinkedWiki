@@ -8,5 +8,6 @@
 	"linkedwiki-specialsparqlquery_query": "Poizvedba",
 	"linkedwiki-col-pages": "Naslov",
 	"linkedwiki-col-page-date-touched": "Zadnja sprememba",
-	"linkedwiki-col-page-date-links-updated": "Zadnje počiščenje"
+	"linkedwiki-col-page-date-links-updated": "Zadnje počiščenje",
+	"linkedwiki-lua-query-error-not-allow-to-write": "Podatkovne zbirke ne morete posodobiti s poizvedbo prek Lue."
 }
