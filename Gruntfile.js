@@ -5,7 +5,6 @@ module.exports = function ( grunt ) {
 	grunt.loadNpmTasks( 'grunt-banana-checker' );
 	grunt.loadNpmTasks( 'grunt-eslint' );
 	grunt.loadNpmTasks( 'grunt-stylelint' );
-	grunt.loadNpmTasks( 'grunt-jsonlint' );
 
 	grunt.initConfig( {
 		eslint: {
@@ -15,11 +14,10 @@ module.exports = function ( grunt ) {
 				fix: grunt.option( 'fix' )
 			},
 			all: [
-				'js/*.js',
+				'**/*.{js,json}',
 				'js/SparqlEditor/*.js',
 				'!js/flowchart.js',
 				'!js/lwgraph.js',
-				'!**/*.{css,less}',
 				'!**/coverage/**',
 				'!node_modules/**',
 				'!vendor/**',
@@ -49,19 +47,9 @@ module.exports = function ( grunt ) {
 					]
 				}
 			}
-		},
-		jsonlint: {
-			all: [
-				'**/*.json',
-				'!node_modules/**',
-				'!vendor/**',
-				'!js/FlintSparqlEditor/**',
-				'!resources/**',
-				'!old/**'
-			]
 		}
 	} );
 
-	grunt.registerTask( 'test', [ 'eslint', 'stylelint', 'banana', 'jsonlint' ] );
+	grunt.registerTask( 'test', [ 'eslint', 'stylelint', 'banana' ] );
 	grunt.registerTask( 'default', 'test' );
 };
