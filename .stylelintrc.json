@@ -3,7 +3,6 @@
 	"rules": {
 		"selector-class-pattern": "^((mw|oo-ui)-|(wikitable|(toc(|toggle|hidden))|client-(no)?js)$)",
 		"no-descending-specificity": null,
-		"selector-max-id": null,
-		"selector-pseudo-element-colon-notation": null
+		"selector-max-id": null
 	}
 }
