@@ -4,6 +4,7 @@
 			"Eleassar"
 		]
 	},
+	"linkedwiki-date": "H:i:s d/m/Y",
 	"linkedwiki-duration": "Trajanje poizvedbe",
 	"linkedwiki-specialsparqlquery_query": "Poizvedba",
 	"linkedwiki-col-pages": "Naslov",
