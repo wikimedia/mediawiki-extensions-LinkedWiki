@@ -7,6 +7,8 @@
 	"linkedwiki-date": "H:i:s d/m/Y",
 	"linkedwiki-duration": "Trajanje poizvedbe",
 	"linkedwiki-specialsparqlquery_query": "Poizvedba",
+	"action-data-edit": "urejanje podatkovnih strani (v imenskih prostorih Data in UserData), prenos teh podatkov s [[Special:RDFSave]] in preverjanje RDF-grafov",
+	"right-data-edit": "Urejanje podatkovnih strani (v imenskih prostorih Data in UserData), prenos teh podatkov s [[Special:RDFSave]] in preverjanje RDF-grafov s [[Special:RDFUnit]]. [https://www.mediawiki.org/wiki/Special:MyLanguage/Extension:LinkedWiki/Import_in_wiki_to_write,_check,_transfer_and_validate_RDF Dokumentacija]",
 	"linkedwiki-col-pages": "Naslov",
 	"linkedwiki-col-page-date-touched": "Zadnja sprememba",
 	"linkedwiki-col-page-date-links-updated": "Zadnje počiščenje",
