@@ -7,7 +7,7 @@
 		"buildcss": "sass  resources/bootstrap/scss/custom.scss resources/bootstrap/dist/bootstrap.light.css; sass  resources/bootstrap/scss/custom.scss resources/bootstrap/dist/bootstrap.light.min.css --style compressed"
 	},
 	"devDependencies": {
-		"eslint-config-wikimedia": "0.24.0",
+		"eslint-config-wikimedia": "0.25.0",
 		"grunt": "1.6.1",
 		"grunt-banana-checker": "0.10.0",
 		"grunt-eslint": "24.0.1",
