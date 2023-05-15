@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Alshamiri1",
 			"ديفيد"
 		]
 	},
@@ -15,6 +16,8 @@
 	"linkedwiki-specialrdfsave": "تحديث قاعدة البيانات",
 	"linkedwiki-category-rdf-page": "صفحة RDF",
 	"linkedwiki-category-rdf-schema": "مخطط RDF",
+	"linkedwiki-category-query": "استعلام سباركل",
+	"linkedwiki-category-query-error": "استعلام سباركل المعيب",
 	"linkedwiki-specialrdfunit": "حالات RDF تجريبية",
 	"linkedwiki-specialsparqlflinteditor": "محرر سباركل فلينت",
 	"linkedwiki-specialsparqlquery": "محرر سباركل",
@@ -35,5 +38,29 @@
 	"linkedwiki-specialsparqlquery_seethedoc": "انظر التوثيق",
 	"linkedwiki-specialsparqlquery_result": "النتيجة",
 	"action-data-edit": "تحرير صفحات البيانات (في نطاقي البيانات وبيانات المستخدم) ونقل هذه البيانات مع [[Special:RDFSave]] وتحقق من الرسوم البيانية RDF",
-	"right-data-edit": "تحرير صفحات البيانات (في نطاقي البيانات وبيانات المستخدم) ونقل هذه البيانات مع [[Special:RDFSave]] والتحقق من الرسوم البيانية RDF ب[[Special:RDFUnit]]. [https://www.mediawiki.org/wiki/Extension:LinkedWiki/Import_in_wiki_to_write,_check,_transfer_and_validate_RDF التوثيق]"
+	"right-data-edit": "تحرير صفحات البيانات (في نطاقي البيانات وبيانات المستخدم) ونقل هذه البيانات مع [[Special:RDFSave]] والتحقق من الرسوم البيانية RDF ب[[Special:RDFUnit]]. [https://www.mediawiki.org/wiki/Extension:LinkedWiki/Import_in_wiki_to_write,_check,_transfer_and_validate_RDF التوثيق]",
+	"linkedwiki-col-pages": "العنوان",
+	"linkedwiki-col-page-date-touched": "اخر تعديل",
+	"linkedwiki-col-page-date-links-updated": "آخر تطهير",
+	"linkedwiki-col-page-with-sparql-query": "محلل سباركل بدون ذاكرة تخزين مؤقت",
+	"linkedwiki-col-page-with-sparql-query-cached": "محلل سباركل مع ذاكرة التخزين المؤقت",
+	"linkedwiki-col-page-with-rdf-reader-module": "قارئ وحدة RDF",
+	"linkedwiki-col-page-with-rdf-writer-module": "كاتب وحدة RDF",
+	"linkedwiki-col-page-with-rdf-writer-tag": "وسم RDF",
+	"linkedwiki-col-page-current-state": "الوضع الحالي",
+	"linkedwiki-lua-tooltip-db-currently-unknown-value": "حاليًا في DB: قيمة غير معروفة",
+	"linkedwiki-lua-tooltip-db-currently-value": "حاليًا في DB: $1",
+	"linkedwiki-lua-error-currentframe-nil": "يمكنك ضبط الإطار يدويًا في وحدة نمطية باستخدام الرمز linkedwiki.setCurrentFrame (mw.getCurrentFrame ())",
+	"linkedwiki-lua-tooltip-db-currently-date-unknown": "حاليا في DB: تاريخ غير معروف",
+	"linkedwiki-lua-tooltip-db-currently-date-wrong": "حاليًا في DB: ليس تاريخًا",
+	"linkedwiki-lua-date-error": "خطأ ، إنه ليس تاريخًا (مثال 2021-11-20): $1",
+	"linkedwiki-lua-time-parser-error": "خطأ ، إنه ليس تاريخًا / تاريخًا / وقتًا (مثال \"2021-11-20\" أو \"2021-10-20T14: 14: 52 + 00: 00\"): $1",
+	"linkedwiki-lua-type-error-xsddate": "خطأ ، إنه ليس تاريخًا من النوع xsd: date (مثال \"2021-11-20\"): $1",
+	"linkedwiki-lua-type-error-xsddatetime": "خطأ ، إنه ليس تاريخًا بالنوع xsd: datetime (مثال \"2021-10-20T14: 14: 52 + 00: 00\"): $1",
+	"linkedwiki-lua-type-error-xsddecimal": "خطأ ، إنه ليس رقمًا من النوع xsd: عشري (مثال \"20 .25\" أو \"20\"): $1",
+	"linkedwiki-lua-type-error-xsdint": "خطأ ، إنه ليس رقمًا من النوع xsd: int (مثال \"14\"): $1",
+	"linkedwiki-lua-param-error-subject-unknown": "الموضوع غير معروف (استخدم المعلمة iriSubject أو دالة setSubject.",
+	"linkedwiki-lua-query-error-not-allow-to-write": "لا يمكنك تحديث قاعدة البيانات عبر استعلام عبر Lua.",
+	"linkedwiki-lua-message-preview-or-history": "تم اكتشاف الوضع PreviewOrHistory: لن يتم حفظ البيانات",
+	"linkedwiki-lua-query-error-unknown": "خطأ سباركل (انظر التفاصيل في تصحيح الوضع)"
 }
