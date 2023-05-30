@@ -5,7 +5,8 @@
 			"Bruno44101",
 			"DiegoAmbrocio",
 			"Fitoschido",
-			"Jakeukalane"
+			"Jakeukalane",
+			"No se"
 		]
 	},
 	"linkedwiki-desc": "Ver los datos vinculados en una wiki",
@@ -44,7 +45,9 @@
 	"linkedwiki-lua-tooltip-db-currently-date-unknown": "Actualmente en DB: fecha desconocida",
 	"linkedwiki-lua-tooltip-db-currently-date-wrong": "Actualmente en DB: no es una fecha",
 	"linkedwiki-lua-date-error": "Error, no es una fecha (ejemplo '2021-11-20'): $1",
-	"linkedwiki-lua-type-error-xsddate": "Error, no es una fecha con el tipo xsd:date (ejemplo '2021-11-20'): $1",
+	"linkedwiki-lua-time-parser-error": "Error, no es una fecha/fecha y hora (ejemplo '2021-11-20' o '2021-10-20T14:14:52+00:00'): $1",
+	"linkedwiki-lua-type-error-xsddate": "Error, no es una fecha con el tipo xsd:fecha (ejemplo '2021-11-20'): $1",
+	"linkedwiki-lua-type-error-xsddatetime": "Error, no es una fecha con el tipo xsd:fecha y hora (ejemplo '2021-10-20T14:14:52+00:00'): $1",
 	"linkedwiki-lua-type-error-xsddecimal": "Error, no es un número con el tipo xsd:decimal (ejemplo '20.25' or '20'): $1",
 	"linkedwiki-lua-type-error-xsdint": "Error, no es un número con el tipo xsd:int (ejemplo '14'): $1",
 	"linkedwiki-lua-param-error-subject-unknown": "Asunto desconocido. Utilice el parámetro iriSubject o la función setSubject.",
