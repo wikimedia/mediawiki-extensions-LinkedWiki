@@ -7,6 +7,7 @@
 	},
 	"linkedwiki-refresh": "רענון",
 	"linkedwiki-duration": "משך השאילתה",
+	"linkedwiki-category-rdf-page": "דף RDF",
 	"linkedwiki-specialsparqlquery": "עורך SPARQL",
 	"linkedwiki-specialsparqlquery_categorysparqlquery": "שאילתת SPARQL",
 	"linkedwiki-specialsparqlquery_query": "שאילתה",
