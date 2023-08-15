@@ -63,7 +63,7 @@
 	"linkedwiki-lua-type-error-xsddecimal": "Error, it is not a number with the type xsd:decimal (example '20.25' or '20'): $1",
 	"linkedwiki-lua-type-error-xsdint": "Error, it is not a number with the type xsd:int (example '14'): $1",
 
-	"linkedwiki-lua-param-error-subject-unknown": "Subject unknown (Use the parameter iriSubject or the function setSubject.",
+	"linkedwiki-lua-param-error-subject-unknown": "Subject unknown. Use the parameter iriSubject or the function setSubject.",
 	"linkedwiki-lua-query-error-not-allow-to-write": "You cannot update the database via a query via Lua.",
 	"linkedwiki-lua-message-preview-or-history": "Mode PreviewOrHistory detected: data will not save",
 	"linkedwiki-lua-query-error-unknown": "ERROR SPARQL (see details in mode debug)"
