@@ -53,7 +53,7 @@
 	"linkedwiki-lua-type-error-xsddate": "Fehler, es ist kein Datum des Typs xsd:date (Beispiel '2021-11-20'): $1",
 	"linkedwiki-lua-type-error-xsddatetime": "Fehler, das ist kein Datum mit dem Typ xsd:datetime (example '2021-10-20T14:14:52+00:00'): $1",
 	"linkedwiki-lua-type-error-xsddecimal": "Fehler, es handelt sich nicht um eine Nummer mit dem Typ xsd:decimal (Beispiel: '20.25' oder '20\"): $1",
-	"linkedwiki-lua-param-error-subject-unknown": "Gegenstand unbekannt (Benutze den Parameter iriSubject oder die Funktion setSubject).",
+	"linkedwiki-lua-param-error-subject-unknown": "Gegenstand unbekannt. Benutze den Parameter iriSubject oder die Funktion setSubject.",
 	"linkedwiki-lua-query-error-not-allow-to-write": "\nDu kannst die Datenbank nicht durch eine Anforderung per Lua aktualisieren.",
 	"linkedwiki-lua-message-preview-or-history": "Modus PreviewOrHistory erkannt: Daten werden nicht speichern",
 	"linkedwiki-lua-query-error-unknown": "Fehler SPARQL (Siehe Details im debug modus)"
