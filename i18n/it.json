@@ -9,5 +9,6 @@
 	"linkedwiki-specialsparqlquery_chooseaconfiguration": "Scegli una configurazione",
 	"linkedwiki-specialsparqlquery_options": "Opzioni",
 	"linkedwiki-specialsparqlquery_result": "Risultato",
-	"linkedwiki-col-pages": "Titolo"
+	"linkedwiki-col-pages": "Titolo",
+	"linkedwiki-lua-param-error-subject-unknown": "Soggetto sconosciuto. Utilizza il parametro iriSubject o la funzione setSubject."
 }

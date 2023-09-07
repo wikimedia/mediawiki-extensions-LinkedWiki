@@ -58,7 +58,7 @@
 	"linkedwiki-lua-type-error-xsddatetime": "Error, non es un data del typo xsd:datetime (exemplo '2021-10-20T14:14:52+00:00'): $1",
 	"linkedwiki-lua-type-error-xsddecimal": "Error, non es un numero del typo xsd:decimal (exemplo '20.25' or '20'): $1",
 	"linkedwiki-lua-type-error-xsdint": "Error, non es un numero del typo xsd:int (exemplo '14'): $1",
-	"linkedwiki-lua-param-error-subject-unknown": "Subjecto incognite (usa le parametro iriSubject o le function setSubject).",
+	"linkedwiki-lua-param-error-subject-unknown": "Subjecto incognite. Usa le parametro iriSubject o le function setSubject.",
 	"linkedwiki-lua-query-error-not-allow-to-write": "Non es possibile actualisar le base de datos per medio de un consulta Lua.",
 	"linkedwiki-lua-message-preview-or-history": "Modo PreviewOrHistory detegite: le datos non essera salveguardate",
 	"linkedwiki-lua-query-error-unknown": "ERROR SPARQL (vide detalios in modo depuration)"
