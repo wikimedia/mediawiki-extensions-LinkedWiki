@@ -59,7 +59,7 @@
 	"linkedwiki-lua-type-error-xsddatetime": "Napaka, to ni datum z vrsto xsd:datetime (primer »2021-10-20T14:14:52+00:00«): $1",
 	"linkedwiki-lua-type-error-xsddecimal": "Napaka, to ni število z vrsto xsd:decimal (primer »20.25« ali »20«): $1",
 	"linkedwiki-lua-type-error-xsdint": "Napaka, to ni število z vrsto xsd:int (primer »14«): $1",
-	"linkedwiki-lua-param-error-subject-unknown": "Zadeva neznana (uporabite parameter iriSubject ali funkcijo setSubject).",
+	"linkedwiki-lua-param-error-subject-unknown": "Neznana zadeva. Uporabite parameter iriSubject ali funkcijo setSubject.",
 	"linkedwiki-lua-query-error-not-allow-to-write": "Podatkovne zbirke ne morete posodobiti s poizvedbo prek Lue.",
 	"linkedwiki-lua-message-preview-or-history": "Zaznan način PreviewOrHistory: podatki se ne bodo shranili",
 	"linkedwiki-lua-query-error-unknown": "Napaka SPARQL (podrobnosti si oglejte v načinu za odpravljanje napak)"
