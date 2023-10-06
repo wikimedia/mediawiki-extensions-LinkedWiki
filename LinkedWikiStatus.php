@@ -217,8 +217,10 @@ class LinkedWikiStatus {
 	 * @param Parser &$parser
 	 */
 	public static function clearPagePropertiesViaParser( Parser &$parser ) {
+		if ( !isset( $parser ) ) {
+			return;
+		}
 		$out = $parser->getOutput();
-
 		if ( empty( $out ) ) {
 			return;
 		}
