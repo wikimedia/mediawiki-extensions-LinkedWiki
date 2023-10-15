@@ -95,6 +95,7 @@
 	},
 	"Hooks": {
 		"ParserFirstCallInit": "LinkedWiki::parserFirstCallInit",
+		"ParserClearState": "LinkedWiki::onParserClearState",
 		"ScribuntoExternalLibraries": "LinkedWiki::scribuntoExternalLibraries",
 		"RawPageViewBeforeOutput": "RDFTag::rawRDFSource",
 		"EditFilterMergedContent": "RDFTag::onEditFilterMergedContent",

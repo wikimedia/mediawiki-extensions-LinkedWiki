@@ -216,8 +216,8 @@ class LinkedWikiStatus {
 	 *
 	 * @param Parser &$parser
 	 */
-	public static function clearPagePropertiesViaParser( Parser &$parser ) {
-		if ( !isset( $parser ) ) {
+	public static function clearPagePropertiesViaParser( &$parser ) {
+		if ( empty( $parser ) ) {
 			return;
 		}
 		$out = $parser->getOutput();
@@ -225,14 +225,14 @@ class LinkedWikiStatus {
 			return;
 		}
 
-		$out->unsetProperty( self::PAGEPROP_DB_TOUCHED );
-		$out->unsetProperty( self::PAGEPROP_READER_QUERY );
-		$out->unsetProperty( self::PAGEPROP_READER_QUERY_CACHED );
-		$out->unsetProperty( self::PAGEPROP_READER_MODULE );
-		$out->unsetProperty( self::PAGEPROP_WRITER_MODULE );
-		$out->unsetProperty( self::PAGEPROP_WRITER_TAG );
-		$out->unsetProperty( self::PAGEPROP_ERROR_MESSAGE );
-		$out->unsetProperty( self::PAGEPROP_SHACL );
+		$out->unsetPageProperty( self::PAGEPROP_DB_TOUCHED );
+		$out->unsetPageProperty( self::PAGEPROP_READER_QUERY );
+		$out->unsetPageProperty( self::PAGEPROP_READER_QUERY_CACHED );
+		$out->unsetPageProperty( self::PAGEPROP_READER_MODULE );
+		$out->unsetPageProperty( self::PAGEPROP_WRITER_MODULE );
+		$out->unsetPageProperty( self::PAGEPROP_WRITER_TAG );
+		$out->unsetPageProperty( self::PAGEPROP_ERROR_MESSAGE );
+		$out->unsetPageProperty( self::PAGEPROP_SHACL );
 	}
 
 // /**

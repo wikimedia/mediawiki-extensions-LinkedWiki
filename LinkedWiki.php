@@ -22,10 +22,17 @@ class LinkedWiki {
 	 * @return bool
 	 */
 	public static function parserFirstCallInit( &$parser ) {
-		LinkedWikiStatus::clearPagePropertiesViaParser( $parser );
 		$parser->setFunctionHook( 'sparql', 'SparqlParser::render' );
 		$parser->setHook( 'rdf', 'RDFTag::render' );
 		return true;
+	}
+
+	/**
+	 * @param Parser &$parser
+	 * @return bool
+	 */
+	public static function onParserClearState( &$parser ) {
+		LinkedWikiStatus::clearPagePropertiesViaParser( $parser );
 	}
 
 	/**
