@@ -63,5 +63,5 @@
 	"linkedwiki-lua-param-error-subject-unknown": "נושא לא ידוע. יש להשתמש בפרמטר iriSubject או בפונקציה setSubject.",
 	"linkedwiki-lua-query-error-not-allow-to-write": "לא ניתן לעדכן את מסד הנתונים באמצעות שאילתה דרך Lua.",
 	"linkedwiki-lua-message-preview-or-history": "מצב PreviewOrHistory זוהתה: הנתונים לא יישמרו",
-	"linkedwiki-lua-query-error-unknown": "שגיאת SPARQL (ר' פרטים במצב איתור באגים)"
+	"linkedwiki-lua-query-error-unknown": "שגיאת SPARQL (ר' פרטים במצב ניפוי שגיאות)"
 }
