@@ -59,7 +59,7 @@
 	"linkedwiki-lua-type-error-xsddatetime": "Erro, não é uma data e hora com o tipo xsd:datetime (exemplo '2021-10-20T14:14:52+00:00'): $1",
 	"linkedwiki-lua-type-error-xsddecimal": "Erro, não é um número com o tipo xsd:decimal (exemplo '20.25' ou '20'): $1",
 	"linkedwiki-lua-type-error-xsdint": "Erro, não é um número com o tipo xsd:int (exemplo '14'): $1",
-	"linkedwiki-lua-param-error-subject-unknown": "Assunto desconhecido (use o parâmetro \"iriSubject\" ou a função \"setSubject\".",
+	"linkedwiki-lua-param-error-subject-unknown": "Assunto desconhecido. Use o parâmetro \"iriSubject\" ou a função \"setSubject\".",
 	"linkedwiki-lua-query-error-not-allow-to-write": "Não pode atualizar a base de dados por meio de uma consulta via Lua.",
 	"linkedwiki-lua-message-preview-or-history": "Modo \"PreviewOrHistory\" detetado: os dados não serão gravados",
 	"linkedwiki-lua-query-error-unknown": "ERRO SPARQL (ver detalhes no modo \"debug\")"
