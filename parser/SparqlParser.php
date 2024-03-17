@@ -904,7 +904,7 @@ class SparqlParser {
 		$classHeaders = '',
 		$headers = '' ) {
 		// error Exception caught: Request URL not set when push a page with a query
-		try{
+		try {
 			$today = date( wfMessage( 'linkedwiki-date' )->text() );
 			if ( empty( $parser ) ) {
 				return $today . " -- " .

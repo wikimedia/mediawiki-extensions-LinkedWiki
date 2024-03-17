@@ -13,18 +13,18 @@
 
 use MediaWiki\MediaWikiServices;
 
-defined( 'HTTP_URL_REPLACE' ) || define( 'HTTP_URL_REPLACE',        0 );
-defined( 'HTTP_URL_JOIN_PATH' ) || define( 'HTTP_URL_JOIN_PATH',      1 );
-defined( 'HTTP_URL_JOIN_QUERY' ) || define( 'HTTP_URL_JOIN_QUERY',     2 );
-defined( 'HTTP_URL_STRIP_USER' ) || define( 'HTTP_URL_STRIP_USER',     4 );
-defined( 'HTTP_URL_STRIP_PASS' ) || define( 'HTTP_URL_STRIP_PASS',     8 );
-defined( 'HTTP_URL_STRIP_AUTH' ) || define( 'HTTP_URL_STRIP_AUTH',     12 );
-defined( 'HTTP_URL_STRIP_PORT' ) || define( 'HTTP_URL_STRIP_PORT',     32 );
-defined( 'HTTP_URL_STRIP_PATH' ) || define( 'HTTP_URL_STRIP_PATH',     64 );
-defined( 'HTTP_URL_STRIP_QUERY' ) || define( 'HTTP_URL_STRIP_QUERY',    128 );
+defined( 'HTTP_URL_REPLACE' ) || define( 'HTTP_URL_REPLACE', 0 );
+defined( 'HTTP_URL_JOIN_PATH' ) || define( 'HTTP_URL_JOIN_PATH', 1 );
+defined( 'HTTP_URL_JOIN_QUERY' ) || define( 'HTTP_URL_JOIN_QUERY', 2 );
+defined( 'HTTP_URL_STRIP_USER' ) || define( 'HTTP_URL_STRIP_USER', 4 );
+defined( 'HTTP_URL_STRIP_PASS' ) || define( 'HTTP_URL_STRIP_PASS', 8 );
+defined( 'HTTP_URL_STRIP_AUTH' ) || define( 'HTTP_URL_STRIP_AUTH', 12 );
+defined( 'HTTP_URL_STRIP_PORT' ) || define( 'HTTP_URL_STRIP_PORT', 32 );
+defined( 'HTTP_URL_STRIP_PATH' ) || define( 'HTTP_URL_STRIP_PATH', 64 );
+defined( 'HTTP_URL_STRIP_QUERY' ) || define( 'HTTP_URL_STRIP_QUERY', 128 );
 defined( 'HTTP_URL_STRIP_FRAGMENT' ) || define( 'HTTP_URL_STRIP_FRAGMENT', 256 );
-defined( 'HTTP_URL_STRIP_ALL' ) || define( 'HTTP_URL_STRIP_ALL',      492 );
-if ( !function_exists( 'http_build_str' ) ) :
+defined( 'HTTP_URL_STRIP_ALL' ) || define( 'HTTP_URL_STRIP_ALL', 492 );
+if ( !function_exists( 'http_build_str' ) ) {
 
 	/**
 	 * Build query string
@@ -54,9 +54,9 @@ if ( !function_exists( 'http_build_str' ) ) :
 		return implode( $arg_separator, $out );
 	}
 
-endif;
+}
 
-if ( !function_exists( 'http_build_url' ) ) :
+if ( !function_exists( 'http_build_url' ) ) {
 
 	/**
 	 * Build a URL
@@ -113,7 +113,8 @@ if ( !function_exists( 'http_build_url' ) ) :
 			$d_path = $defaults['path'];
 			$u_path = ( isset( $url['path'] ) ? $url['path'] : '' );
 			$p_path = ( isset( $parts['path'] ) ? $parts['path'] : '' );
-			if ( $p_path ) { $u_path = '';
+			if ( $p_path ) {
+				$u_path = '';
 			}
 			$path = $d_path;
 			if ( isset( $url['host'] ) && !$p_path ) {
@@ -142,7 +143,8 @@ if ( !function_exists( 'http_build_url' ) ) :
 				} elseif ( $v == '.' ) {
 					unset( $path[$k] );
 
-				} else { $k_stack[] = $k;
+				} else {
+					$k_stack[] = $k;
 				}
 			}
 			$path = implode( '/', $path );
@@ -159,9 +161,11 @@ if ( !function_exists( 'http_build_url' ) ) :
 			if ( is_array( $p_query ) ) {
 				$query = $u_query;
 			} elseif ( $JOIN_QUERY ) {
-				if ( !is_array( $u_query ) ) { parse_str( $u_query, $u_query );
+				if ( !is_array( $u_query ) ) {
+					parse_str( $u_query, $u_query );
 				}
-				if ( !is_array( $p_query ) ) { parse_str( $p_query, $p_query );
+				if ( !is_array( $p_query ) ) {
+					parse_str( $p_query, $p_query );
 				}
 				$u_query = http_build_str( $u_query );
 				$p_query = http_build_str( $p_query );
@@ -213,7 +217,7 @@ if ( !function_exists( 'http_build_url' ) ) :
 		return $out;
 	}
 
-endif;
+}
 
 class SpecialRDFUnit extends SpecialPage {
 

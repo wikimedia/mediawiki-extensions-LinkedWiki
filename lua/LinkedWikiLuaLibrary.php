@@ -116,7 +116,7 @@ class LinkedWikiLuaLibrary extends Scribunto_LuaLibraryBase {
 	 * ]
 	 */
 	public function setConfig( $urlConfig = null ) {
-		try{
+		try {
 			if ( empty( $this->objConfig ) ) {
 				$this->objConfig = new LinkedWikiConfig( $urlConfig );
 			} elseif ( $this->objConfig->getConfigEndpoint() !== $urlConfig ) {

@@ -76,9 +76,9 @@ class RDFTag {
 		}
 
 		// todo Clean ?
-		$parameters = [ "?subject","?type","?property" ];
+		$parameters = [ "?subject", "?type", "?property" ];
 		$iri = "<" . $IRISource . ">";
-		$values = [ $iri,$iri,$iri ];
+		$values = [ $iri, $iri, $iri ];
 		$text = str_replace( $parameters,
 			$values,
 			$textTemp );
@@ -133,7 +133,7 @@ class RDFTag {
 		// $shaclSchemasArrayIri = [];
 		// str_replace($wikiPage->getTitle()->getBaseText()
 
-		$badChar = [ ".","/"," " ];
+		$badChar = [ ".", "/", " " ];
 		$filename = '/tmp/' . str_replace( $badChar, "", $context->getTitle()->getDBKey() ) . '.ttl';
 		$commandRDFUnit = "rapper -i turtle \"" . $filename . "\"  ";
 		// check RDF

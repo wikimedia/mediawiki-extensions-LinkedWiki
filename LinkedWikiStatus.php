@@ -392,7 +392,7 @@ class LinkedWikiStatus {
 				'page_props'
 			],
 			[
-				'page_id','page_title'
+				'page_id', 'page_title'
 			],
 			[
 				'pp_propname' => self::PAGEPROP_WRITER_TAG,

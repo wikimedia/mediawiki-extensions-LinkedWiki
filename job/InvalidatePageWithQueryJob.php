@@ -50,16 +50,14 @@ class InvalidatePageWithQueryJob extends Job {
 							'pp_value' => true
 						],
 						LIST_AND
-					)
-					,
+					),
 					$dbr->makeList(
 						[
 							'pp_propname' => LinkedWikiStatus::PAGEPROP_READER_MODULE,
 							'pp_value' => true
 						],
 						LIST_AND
-					)
-					,
+					),
 					$dbr->makeList(
 						[
 							'pp_propname' => LinkedWikiStatus::PAGEPROP_WRITER_MODULE,
@@ -98,7 +96,7 @@ class InvalidatePageWithQueryJob extends Job {
 				'page_props'
 			],
 			[
-				'page_id','page_title'
+				'page_id', 'page_title'
 			],
 			[
 				$dbr->makeList( [
@@ -108,8 +106,7 @@ class InvalidatePageWithQueryJob extends Job {
 							'pp_value' => true
 						],
 						LIST_AND
-					)
-					,
+					),
 					$dbr->makeList(
 						[
 							'pp_propname' => LinkedWikiStatus::PAGEPROP_WRITER_MODULE,

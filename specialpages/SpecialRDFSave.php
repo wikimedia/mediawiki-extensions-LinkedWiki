@@ -127,10 +127,10 @@ EOT
 			);
 
 			if ( !empty( $deleteData ) ) {
-				try{
+				try {
 					LinkedWikiStatus::clearJobsInDatabase();
 					$output->addHTML( LinkedWikiStatus::clearDefaultGraph() );
-				}catch ( Exception $e ) {
+				} catch ( Exception $e ) {
 					$output->addHTML(
 						"There are errors. You need to fix the problem before trying to refresh the wiki."
 					);
@@ -149,59 +149,59 @@ EOT
 		}
 		// show all pages
 		if ( !empty( $refreshWikiPage ) ) {
-				try{
-					LinkedWikiStatus::clearJobsInDatabase();
-					if ( !empty( $configDefaultSaveData ) ) {
-						$output->addHTML( LinkedWikiStatus::clearDefaultGraph() );
-					}
-					$output->addHTML( LinkedWikiStatus::invalidateAllPages() );
+			try {
+				LinkedWikiStatus::clearJobsInDatabase();
+				if ( !empty( $configDefaultSaveData ) ) {
+					$output->addHTML( LinkedWikiStatus::clearDefaultGraph() );
+				}
+				$output->addHTML( LinkedWikiStatus::invalidateAllPages() );
 
-					// phpcs:disable
-					$output->addHTML(
-						<<<EOT
+				// phpcs:disable
+				$output->addHTML(
+					<<<EOT
 <br/>When all the tasks are done, the wiki will be up to date.
 You can follow the number of jobs remaining by clicking on the button "Refresh status of jobs"
 EOT
-					);
-					// phpcs:enable
-				}catch ( Exception $e ) {
-					$output->addHTML(
-						"There are errors. You need to fix the problem before trying to refresh the wiki."
-					);
-					$output->addHTML( "<br/>Error: <pre>" . htmlentities( $e->getMessage() ) . "</pre>" );
-					$this->endSpecialPage();
-					return;
-				}
+				);
+				// phpcs:enable
+			} catch ( Exception $e ) {
+				$output->addHTML(
+					"There are errors. You need to fix the problem before trying to refresh the wiki."
+				);
+				$output->addHTML( "<br/>Error: <pre>" . htmlentities( $e->getMessage() ) . "</pre>" );
+				$this->endSpecialPage();
+				return;
+			}
 			// not lazyPush
 			$jobQueueGroup->push( new InvalidatePageWithQueryJob() );
 		}
 
 		if ( !empty( $refreshData ) ) {
-				try{
-					// save all RDF tags
-					if ( !empty( $configDefaultSaveData ) ) {
-						LinkedWikiStatus::clearJobsInDatabase();
-						$output->addHTML( LinkedWikiStatus::clearDefaultGraph() );
-						$output->addHTML( LinkedWikiStatus::loadAllTagsRDFInPage() );
-					}
-					$jobQueueGroup->lazyPush( new InvalidatePageWithQueryJob() );
-					// phpcs:disable
-					$output->addHTML(
-						<<<EOT
+			try {
+				// save all RDF tags
+				if ( !empty( $configDefaultSaveData ) ) {
+					LinkedWikiStatus::clearJobsInDatabase();
+					$output->addHTML( LinkedWikiStatus::clearDefaultGraph() );
+					$output->addHTML( LinkedWikiStatus::loadAllTagsRDFInPage() );
+				}
+				$jobQueueGroup->lazyPush( new InvalidatePageWithQueryJob() );
+				// phpcs:disable
+				$output->addHTML(
+					<<<EOT
 <br/>When all the tasks are done, the wiki will be up to date.
 You can follow the number of jobs remaining by clicking on the button "Refresh status of jobs"
 EOT
-					);
-					// phpcs:enable
+				);
+				// phpcs:enable
 
-				}catch ( Exception $e ) {
-					$output->addHTML(
-						"There are errors. You need to fix the problem before trying to refresh the RDF database."
-					);
-					$output->addHTML( "<br/>Error: <pre>" . htmlentities( $e->getMessage() ) . "</pre>" );
-					$this->endSpecialPage();
-					return;
-				}
+			} catch ( Exception $e ) {
+				$output->addHTML(
+					"There are errors. You need to fix the problem before trying to refresh the RDF database."
+				);
+				$output->addHTML( "<br/>Error: <pre>" . htmlentities( $e->getMessage() ) . "</pre>" );
+				$this->endSpecialPage();
+				return;
+			}
 
 			// not lazyPush
 			$jobQueueGroup->push( new InvalidatePageWithQueryJob() );
@@ -359,7 +359,7 @@ EOT;
 			],
 			[
 				'page_touched', 'page_links_updated', 'page_namespace', 'page_title',
-				'GROUP_CONCAT(pp_propname) as props','GROUP_CONCAT(job_id) as jobs'
+				'GROUP_CONCAT(pp_propname) as props', 'GROUP_CONCAT(job_id) as jobs'
 			],
 			[
 				$dbr->makeList( [
