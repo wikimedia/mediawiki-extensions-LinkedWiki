@@ -1,8 +1,10 @@
 {
 	"@metadata": {
 		"authors": [
-			"MITO"
+			"MITO",
+			"Pyscowicz"
 		]
 	},
+	"linkedwiki-specialsparqlquery_options": "Asetukset",
 	"linkedwiki-col-pages": "Otsikko"
 }
