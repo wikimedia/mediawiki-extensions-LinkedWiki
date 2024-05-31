@@ -1,13 +1,24 @@
 {
 	"@metadata": {
 		"authors": [
-			"Robby"
+			"Robby",
+			"Volvox"
 		]
 	},
 	"linkedwiki-refresh": "Aktualiséieren",
 	"linkedwiki-specialrdfsave": "Datebank aktualiséieren",
 	"linkedwiki-category-rdf-page": "RDF-Säit",
-	"linkedwiki-category-query-error": "Defekt SPARQL Ufro",
+	"linkedwiki-category-rdf-schema": "RDF-Scheema",
+	"linkedwiki-category-query": "SPARQL-Requête",
+	"linkedwiki-category-query-error": "Feelerhaft SPARQL-Requête",
+	"linkedwiki-specialrdfunit": "RDF-Testfäll",
+	"linkedwiki-specialsparqlflinteditor": "SPARQL-Flint-Editeur",
+	"linkedwiki-specialsparqlquery": "SPARQL-Editeur",
+	"linkedwiki-specialsparqlquery_categorysparqlquery": "SPARQL-Requête",
+	"linkedwiki-specialsparqlquery_query": "Requête",
+	"linkedwiki-specialsparqlquery_mainpage": "Dës Säit gëtt benotzt fir Är Requêten ze testen, z'optimiséiereun an ze deelen, wann Dir wëllt.\n\nStellt Är Froen op: [https://www.mediawiki.org/wiki/Extension_talk:LinkedWiki Talk:LinkedWiki]",
+	"linkedwiki-specialsparqlquery_sendquery": "Requête ausféieren",
+	"linkedwiki-specialsparqlquery_usethisquery": "Wéi een dës Requête op dëser Wiki benotzt",
 	"linkedwiki-specialsparqlquery_options": "Optiounen",
 	"linkedwiki-specialsparqlquery_visualization": "Visualisatioun",
 	"linkedwiki-specialsparqlquery_seethedoc": "Kuckt d'Dokumentatioun",
