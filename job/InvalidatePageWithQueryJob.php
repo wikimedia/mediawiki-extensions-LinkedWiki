@@ -25,7 +25,7 @@ class InvalidatePageWithQueryJob extends Job {
 		$nbPageInvalidated = 0;
 		$nbJobRefreshlinksAdded = 0;
 
-		$dbr = wfGetDB( DB_PRIMARY );
+		$dbr = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_PRIMARY );
 		$lang = MediaWikiServices::getInstance()->getContentLanguage();
 		$resultDb = $dbr->select(
 			[

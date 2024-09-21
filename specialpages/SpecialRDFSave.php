@@ -349,7 +349,7 @@ EOT;
 				)
 			)
 		];
-		$dbr = wfGetDB( DB_REPLICA );
+		$dbr = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_REPLICA );
 		$lang = MediaWikiServices::getInstance()->getContentLanguage();
 		$resultDb = $dbr->select(
 			[
