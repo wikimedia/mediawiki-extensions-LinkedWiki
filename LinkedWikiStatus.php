@@ -58,7 +58,7 @@ class LinkedWikiStatus {
 	 * @return false|int timestamp
 	 */
 	public static function getLastUpdate() {
-		$dbr = wfGetDB( DB_REPLICA );
+		$dbr = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_REPLICA );
 		$result = $dbr->selectField(
 			'page_props',
 			'pp_value',
@@ -91,7 +91,7 @@ class LinkedWikiStatus {
 			];
 		}
 
-		$dbw = wfGetDB( DB_PRIMARY );
+		$dbw = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_PRIMARY );
 		$dbw->replace(
 			'page_props',
 			[
@@ -112,7 +112,7 @@ class LinkedWikiStatus {
 	 * @param string $propertyName
 	 */
 	public static function unsetProperty( Title $title, $propertyName ) {
-		$dbr = wfGetDB( DB_PRIMARY );
+		$dbr = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_PRIMARY );
 		$result = $dbr->delete(
 			'page_props',
 			[
@@ -144,7 +144,7 @@ class LinkedWikiStatus {
 	 */
 	public static function getProperty( Title $title, $propertyName ) {
 		// TODO in PHP 8 : $propertyName is a type ENUM
-		$dbr = wfGetDB( DB_REPLICA );
+		$dbr = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_REPLICA );
 		$result = $dbr->selectField(
 			'page_props',
 			'pp_value',
@@ -174,7 +174,7 @@ class LinkedWikiStatus {
 	 * @return array of page id
 	 */
 	public static function getPagesWithSHACL() {
-		$dbr = wfGetDB( DB_REPLICA );
+		$dbr = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_REPLICA );
 		$resultDb = $dbr->select(
 			[
 				'page_props'
@@ -242,7 +242,7 @@ class LinkedWikiStatus {
 //	 * @param Title $title
 //	 */
 //	public static function clearPageProperties( $title ) {
-//		$dbw = wfGetDB( DB_PRIMARY );
+//		$dbw = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_PRIMARY );
 //		$conditions = [
 //			'pp_page' => $title->getArticleID(),
 //			$dbw->makeList( [
@@ -347,7 +347,7 @@ class LinkedWikiStatus {
 	 */
 	public static function invalidateAllPages() {
 		// Find the Nb pages in this wiki
-		$dbr = wfGetDB( DB_REPLICA );
+		$dbr = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_REPLICA );
 		$titleArray = TitleArray::newFromResult(
 			$dbr->select( 'page',
 				[ 'page_id', 'page_namespace', 'page_title' ]
@@ -385,7 +385,7 @@ class LinkedWikiStatus {
 			return "Database by default for the Wiki is not precised
 				(parameter SPARQLServiceSaveDataOfWiki)";
 		}
-		$dbr = wfGetDB( DB_REPLICA );
+		$dbr = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_REPLICA );
 		$resultDb = $dbr->select(
 			[
 				'page',
@@ -465,7 +465,7 @@ class LinkedWikiStatus {
 
 	private static function clearPropertyInDatabase( $name ) {
 		$conditions = [ 'pp_propname' => $name ];
-		$dbw = wfGetDB( DB_PRIMARY );
+		$dbw = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_PRIMARY );
 		$dbw->delete(
 			'page_props',
 			$conditions,
