@@ -10,7 +10,6 @@ module.exports = function ( grunt ) {
 		eslint: {
 			options: {
 				cache: true,
-				// this will get params from the flags
 				fix: grunt.option( 'fix' )
 			},
 			all: [
