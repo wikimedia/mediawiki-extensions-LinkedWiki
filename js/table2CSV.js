@@ -7,10 +7,10 @@
  */
 /* globals jQuery */
 ( function ( $ ) {
-	$( function () {
+	$( () => {
 		jQuery.fn.table2CSV = function ( pOptions ) {
 			const
-				options = jQuery.extend( {
+				options = Object.assign( {
 					separator: ',',
 					header: [],
 					delivery: 'popup' // popup or value
@@ -80,7 +80,7 @@
 				$table = $( this ),
 				$l = $table.find( '.csv' );
 
-			$l.on( 'click', function () {
+			$l.on( 'click', () => {
 				let csv = $table.table2CSV( { delivery: 'value' } );
 				// remove last line table
 				csv = csv.slice( 0, csv.lastIndexOf( '\n' ) );

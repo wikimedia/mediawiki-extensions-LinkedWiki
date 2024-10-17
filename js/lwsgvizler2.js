@@ -7,7 +7,7 @@
  */
 /* globals mediaWiki jQuery */
 ( function ( mw, $ ) {
-	$( function () {
+	$( () => {
 		// eslint-disable-next-line  no-jquery/no-global-selector
 		$( '[data-sgvizler-query]' ).each(
 			function () {

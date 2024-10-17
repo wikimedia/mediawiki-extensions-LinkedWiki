@@ -7,7 +7,7 @@
  */
 /* globals jQuery sgvizler2 */
 ( function ( $ ) {
-	$( function () {
+	$( () => {
 		const $sgvizlerInputsForm = $( '#sgvizlerInputsForm' );
 
 		function eventChangeSelectConfig() {
@@ -39,7 +39,7 @@
 
 		$config.on( 'change', eventChangeSelectConfig );
 
-		$( '#execQuery' ).on( 'click', function () {
+		$( '#execQuery' ).on( 'click', () => {
 
 			const inputValue = $formSparqlQuery.find( 'input[name=radio]:checked' ).val();
 			if ( inputValue === 'php' ) {
@@ -140,7 +140,7 @@
 
 		} );
 
-		$( '#seeDoc' ).on( 'click', function () {
+		$( '#seeDoc' ).on( 'click', () => {
 			const url = sgvizler2.getChartDoc(
 				$sgvizlerInputsForm.find( '.selectpicker' ).selectpicker( 'val' )
 			);
