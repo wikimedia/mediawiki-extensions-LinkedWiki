@@ -197,7 +197,7 @@
 	},
 	"manifest_version": 2,
 	"requires": {
-		"MediaWiki": ">= 1.31"
+		"MediaWiki": ">= 1.40"
 	},
 	"ConfigRegistry": {
 		"wgLinkedWiki": "LinkedWiki::makeConfig"

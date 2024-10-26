@@ -1,6 +1,7 @@
 <?php
 
 use BorderCloud\SPARQL\ParserSparql;
+use MediaWiki\Extension\Scribunto\Engines\LuaCommon\LibraryBase;
 use MediaWiki\MediaWikiServices;
 
 /**
@@ -14,7 +15,7 @@ use MediaWiki\MediaWikiServices;
 // Libraries
 //require_once( dirname(__FILE__) ."/../LinkedWikiConfig.php");
 
-class LinkedWikiLuaLibrary extends Scribunto_LuaLibraryBase {
+class LinkedWikiLuaLibrary extends LibraryBase {
 	/**
 	 * Current configuration
 	 * @var LinkedWikiConfig
