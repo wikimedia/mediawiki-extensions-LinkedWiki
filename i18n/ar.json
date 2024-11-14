@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Alshamiri1",
-			"ديفيد"
+			"ديفيد",
+			"Meno25"
 		]
 	},
 	"linkedwiki-desc": "انظر البيانات المرتبطة في الويكي",
@@ -59,7 +60,7 @@
 	"linkedwiki-lua-type-error-xsddatetime": "خطأ ، إنه ليس تاريخًا بالنوع xsd: datetime (مثال \"2021-10-20T14: 14: 52 + 00: 00\"): $1",
 	"linkedwiki-lua-type-error-xsddecimal": "خطأ ، إنه ليس رقمًا من النوع xsd: عشري (مثال \"20 .25\" أو \"20\"): $1",
 	"linkedwiki-lua-type-error-xsdint": "خطأ ، إنه ليس رقمًا من النوع xsd: int (مثال \"14\"): $1",
-	"linkedwiki-lua-param-error-subject-unknown": "الموضوع غير معروف (استخدم المعلمة iriSubject أو دالة setSubject.",
+	"linkedwiki-lua-param-error-subject-unknown": "الموضوع غير معروف. استخدم المعلمة iriSubject أو الدالة setSubject.",
 	"linkedwiki-lua-query-error-not-allow-to-write": "لا يمكنك تحديث قاعدة البيانات عبر استعلام عبر Lua.",
 	"linkedwiki-lua-message-preview-or-history": "تم اكتشاف الوضع PreviewOrHistory: لن يتم حفظ البيانات",
 	"linkedwiki-lua-query-error-unknown": "خطأ سباركل (انظر التفاصيل في تصحيح الوضع)"
