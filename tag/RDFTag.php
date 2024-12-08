@@ -18,7 +18,7 @@ class RDFTag {
 	 * @return array
 	 */
 	public static function render( $input, array $args, Parser $parser, PPFrame $frame ) {
-		if ( class_exists( SyntaxHighlight::class ) ) {
+		if ( ExtensionRegistry::getInstance()->isLoaded( 'SyntaxHighlight_GesShi' ) ) {
 			// print RDF with the extension : SyntaxHighlight_GesShi
 			$output = $parser->recursiveTagParse(
 				"<syntaxhighlight lang=\"sparql\">" . $input . "</syntaxhighlight>",
