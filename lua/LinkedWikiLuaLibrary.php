@@ -3,6 +3,7 @@
 use BorderCloud\SPARQL\ParserSparql;
 use MediaWiki\Extension\Scribunto\Engines\LuaCommon\LibraryBase;
 use MediaWiki\MediaWikiServices;
+use MediaWiki\Title\Title;
 
 /**
  * @package Bourdercloud/linkedwiki

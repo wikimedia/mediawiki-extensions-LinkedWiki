@@ -12,6 +12,7 @@
  */
 
 use MediaWiki\MediaWikiServices;
+use MediaWiki\Title\Title;
 
 defined( 'HTTP_URL_REPLACE' ) || define( 'HTTP_URL_REPLACE', 0 );
 defined( 'HTTP_URL_JOIN_PATH' ) || define( 'HTTP_URL_JOIN_PATH', 1 );
