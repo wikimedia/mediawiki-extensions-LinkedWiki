@@ -1,5 +1,7 @@
 <?php
 
+use MediaWiki\EditPage\EditPage;
+use MediaWiki\Language\RawMessage;
 use MediaWiki\MediaWikiServices;
 
 /**
