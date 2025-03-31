@@ -7,6 +7,8 @@
  * @license CC-BY-SA-4.0
  */
 
+use MediaWiki\Title\Title;
+
 class LoadRDFJob extends Job {
 	/**
 	 * @param Title $title
