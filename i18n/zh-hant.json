@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Kly",
+			"Winston Sung",
 			"Xiplus",
 			"捍粵者"
 		]
@@ -16,7 +17,7 @@
 	"linkedwiki-speciallinkedwikiconfig": "LinkedWiki配置",
 	"linkedwiki-specialrdfsave": "重新整理資料庫",
 	"linkedwiki-category-rdf-page": "RDF頁",
-	"linkedwiki-category-rdf-schema": "RDF架構",
+	"linkedwiki-category-rdf-schema": "RDF綱要",
 	"linkedwiki-category-query": "SPARQL 查詢",
 	"linkedwiki-category-query-error": "有問題的 SPARQL 查詢",
 	"linkedwiki-specialrdfunit": "RDF測試樣例",
