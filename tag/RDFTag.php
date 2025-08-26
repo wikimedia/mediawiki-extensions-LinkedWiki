@@ -31,21 +31,11 @@ class RDFTag {
 		}
 
 		$parserOutput = $parser->getOutput();
-		if ( method_exists( $parserOutput, 'setPageProperty' ) ) {
-			// MW 1.38
-			$parserOutput->setPageProperty( LinkedWikiStatus::PAGEPROP_WRITER_TAG, true );
-		} else {
-			$parserOutput->setProperty( LinkedWikiStatus::PAGEPROP_WRITER_TAG, true );
-		}
+		$parserOutput->setNumericPageProperty( LinkedWikiStatus::PAGEPROP_WRITER_TAG, 1 );
 		$parser->addTrackingCategory( 'linkedwiki-category-rdf-page' );
 		$constraint = isset( $args['constraint'] ) ? strtolower( $args['constraint'] ) : '';
 		if ( $constraint == "shacl" ) {
-			if ( method_exists( $parserOutput, 'setPageProperty' ) ) {
-				// MW 1.38
-				$parserOutput->setPageProperty( LinkedWikiStatus::PAGEPROP_SHACL, true );
-			} else {
-				$parserOutput->setProperty( LinkedWikiStatus::PAGEPROP_SHACL, true );
-			}
+			$parserOutput->setNumericPageProperty( LinkedWikiStatus::PAGEPROP_SHACL, 1 );
 			$parser->addTrackingCategory( 'linkedwiki-category-rdf-schema' );
 		}
 

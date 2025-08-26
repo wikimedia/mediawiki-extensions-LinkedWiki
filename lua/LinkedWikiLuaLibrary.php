@@ -764,12 +764,7 @@ class LinkedWikiLuaLibrary extends LibraryBase {
 	private function manageError( $response, $err ) {
 		$messageError = print_r( $err, true );
 		$p = $this->getParser()->getOutput();
-		if ( method_exists( $p, 'setPageProperty' ) ) {
-			// MW 1.38
-			$p->setPageProperty( LinkedWikiStatus::PAGEPROP_ERROR_MESSAGE, $messageError );
-		} else {
-			$p->setProperty( LinkedWikiStatus::PAGEPROP_ERROR_MESSAGE, $messageError );
-		}
+		$p->setPageProperty( LinkedWikiStatus::PAGEPROP_ERROR_MESSAGE, $messageError );
 		$message = $this->getInstanceConfig()->isDebug() ?
 			$messageError
 			: wfMessage( "linkedwiki-lua-query-error-unknown" )->plain();
@@ -784,20 +779,10 @@ class LinkedWikiLuaLibrary extends LibraryBase {
 	 */
 	private function doAfterWriting() {
 		$p = $this->getParser()->getOutput();
-		if ( method_exists( $p, 'setPageProperty' ) ) {
-			// MW 1.38
-			$p->setPageProperty( LinkedWikiStatus::PAGEPROP_WRITER_MODULE, true );
-		} else {
-			$p->setProperty( LinkedWikiStatus::PAGEPROP_WRITER_MODULE, true );
-		}
+		$p->setNumericPageProperty( LinkedWikiStatus::PAGEPROP_WRITER_MODULE, 1 );
 		// push a job to refresh old queries (also in the modules) in the wiki if it is not a job
 		if ( !RequestContext::getMain()->getRequest() instanceof FauxRequest ) {
-			if ( method_exists( $p, 'setPageProperty' ) ) {
-				// MW 1.38
-				$p->setPageProperty( LinkedWikiStatus::PAGEPROP_DB_TOUCHED, time() );
-			} else {
-				$p->setProperty( LinkedWikiStatus::PAGEPROP_DB_TOUCHED, time() );
-			}
+			$p->setNumericPageProperty( LinkedWikiStatus::PAGEPROP_DB_TOUCHED, time() );
 			$job = new InvalidatePageWithQueryJob();
 			if ( method_exists( MediaWikiServices::class, 'getJobQueueGroup' ) ) {
 				// MW 1.37+
@@ -814,11 +799,6 @@ class LinkedWikiLuaLibrary extends LibraryBase {
 	 */
 	private function doAfterReading() {
 		$p = $this->getParser()->getOutput();
-		if ( method_exists( $p, 'setPageProperty' ) ) {
-			// MW 1.38
-			$p->setPageProperty( LinkedWikiStatus::PAGEPROP_READER_MODULE, true );
-		} else {
-			$p->setProperty( LinkedWikiStatus::PAGEPROP_READER_MODULE, true );
-		}
+		$p->setNumericPageProperty( LinkedWikiStatus::PAGEPROP_READER_MODULE, 1 );
 	}
 }

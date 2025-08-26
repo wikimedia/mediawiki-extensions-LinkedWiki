@@ -373,31 +373,31 @@ EOT;
 					),
 					$dbr->makeList(
 						[ 'pp_propname' => LinkedWikiStatus::PAGEPROP_READER_QUERY,
-							'pp_value' => true
+							'pp_value' => 1
 						],
 						LIST_AND
 					),
 					$dbr->makeList(
 						[ 'pp_propname' => LinkedWikiStatus::PAGEPROP_READER_QUERY_CACHED,
-							'pp_value' => true
+							'pp_value' => 1
 						],
 						LIST_AND
 					),
 					$dbr->makeList(
 						[ 'pp_propname' => LinkedWikiStatus::PAGEPROP_READER_MODULE,
-							'pp_value' => true
+							'pp_value' => 1
 						],
 						LIST_AND
 					),
 					$dbr->makeList(
 						[ 'pp_propname' => LinkedWikiStatus::PAGEPROP_WRITER_MODULE,
-							'pp_value' => true
+							'pp_value' => 1
 						],
 						LIST_AND
 					),
 					$dbr->makeList(
 						[ 'pp_propname' => LinkedWikiStatus::PAGEPROP_WRITER_TAG,
-							'pp_value' => true
+							'pp_value' => 1
 						],
 						LIST_AND
 					),

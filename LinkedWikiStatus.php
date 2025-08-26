@@ -349,7 +349,7 @@ class LinkedWikiStatus {
 	public static function invalidateAllPages() {
 		// Find the Nb pages in this wiki
 		$dbr = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_REPLICA );
-		$titleArray = TitleArray::newFromResult(
+		$titleArray = new TitleArrayFromResult(
 			$dbr->select( 'page',
 				[ 'page_id', 'page_namespace', 'page_title' ]
 			) );
