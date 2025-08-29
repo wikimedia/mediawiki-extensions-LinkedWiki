@@ -54,7 +54,7 @@ class LinkedWikiConfig {
 	 * @var string
 	 */
 	private $endpointRead = "";
-	private $endpointUpdate = "";
+	private $endpointWrite = "";
 	private $login = "";
 	private $password = "";
 	private $typeRDFDatabase = "virtuoso";

@@ -423,7 +423,7 @@ class LinkedWikiLuaLibrary extends LibraryBase {
 		if ( preg_match( "/(\"\"\"|'''| )/i", trim( $iriProperty ) ) ) {
 			return [ null, "Bad property" ];
 		}
-		if ( preg_match( "/(\"\"\"|'''| )/i", trim( $iriSubject ) ) ) {
+		if ( preg_match( "/(\"\"\"|'''| )/i", trim( $iriSubject ?? '' ) ) ) {
 			return [ null, "Bad subject" ];
 		}
 		if ( $this->isPreviewOrHistory() ) {
@@ -494,7 +494,7 @@ class LinkedWikiLuaLibrary extends LibraryBase {
 			|| preg_match( "/(\"\"\"|'''| )/i", trim( $iriProperty ) ) ) {
 			return [ null, "Bad property" ];
 		}
-		if ( preg_match( "/(\"\"\"|'''| )/i", trim( $iriSubject ) ) ) {
+		if ( preg_match( "/(\"\"\"|'''| )/i", trim( $iriSubject ?? '' ) ) ) {
 			return [ null, "Bad subject" ];
 		}
 		if ( $this->isPreviewOrHistory() ) {
@@ -574,7 +574,7 @@ class LinkedWikiLuaLibrary extends LibraryBase {
 			if ( $type != null ) {
 				$strValue .= "^^" . "<" . trim( $type ) . ">";
 			}
-			switch ( trim( $type ) ) {
+			switch ( trim( $type ?? '' ) ) {
 				case "http://www.w3.org/2001/XMLSchema#date":
 				case "http://www.w3.org/2001/XMLSchema#dateTime":
 				case "http://www.w3.org/2001/XMLSchema#long":
@@ -636,7 +636,7 @@ class LinkedWikiLuaLibrary extends LibraryBase {
 				wfMessage( "linkedwiki-lua-param-error-subject-unknown" )->plain()
 			];
 		}
-		if ( preg_match( "/(\"\"\"|'''| )/i", trim( $iriSubject ) ) ) {
+		if ( preg_match( "/(\"\"\"|'''| )/i", trim( $iriSubject ?? '' ) ) ) {
 			return [ null, "ERROR : Bad subject" ];
 		}
 		if ( $this->isPreviewOrHistory() ) {
