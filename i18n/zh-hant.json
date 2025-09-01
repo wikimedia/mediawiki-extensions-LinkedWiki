@@ -3,7 +3,8 @@
 		"authors": [
 			"Kly",
 			"Xiplus",
-			"捍粵者"
+			"捍粵者",
+			"Winston Sung"
 		]
 	},
 	"linkedwiki-desc": "在wiki上查看已連結的資料",
@@ -16,7 +17,7 @@
 	"linkedwiki-speciallinkedwikiconfig": "LinkedWiki配置",
 	"linkedwiki-specialrdfsave": "重新整理資料庫",
 	"linkedwiki-category-rdf-page": "RDF頁",
-	"linkedwiki-category-rdf-schema": "RDF架構",
+	"linkedwiki-category-rdf-schema": "RDF綱要",
 	"linkedwiki-category-query": "SPARQL 查詢",
 	"linkedwiki-category-query-error": "有問題的 SPARQL 查詢",
 	"linkedwiki-specialrdfunit": "RDF測試樣例",
@@ -60,7 +61,7 @@
 	"linkedwiki-lua-type-error-xsddatetime": "錯誤，這不是 xsd:datetime 類型的日期（範例「2021-10-20T14:14:52+00:00」）：$1",
 	"linkedwiki-lua-type-error-xsddecimal": "錯誤，這不是 xsd:decimal 類型的數字（範例「20.25」或「20」）：$1",
 	"linkedwiki-lua-type-error-xsdint": "錯誤，這不是 xsd:int 類型的數字（範例「14」）：$1",
-	"linkedwiki-lua-param-error-subject-unknown": "主題未知（使用參數 iriSubject 或函式 setSubject）。",
+	"linkedwiki-lua-param-error-subject-unknown": "主題未知。使用參數 iriSubject 或函式 setSubject。",
 	"linkedwiki-lua-query-error-not-allow-to-write": "您無法透過 Lua 查詢來更新資料庫。",
 	"linkedwiki-lua-message-preview-or-history": "檢測到模式 PreviewOrHistory：不會保存資料",
 	"linkedwiki-lua-query-error-unknown": "錯誤的 SPARQL（請查看在除錯模式的詳細資訊）"

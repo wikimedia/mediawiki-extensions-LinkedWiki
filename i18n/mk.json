@@ -58,7 +58,7 @@
 	"linkedwiki-lua-type-error-xsddatetime": "Грешка. Ова не е датум од видот xsd:datetime (на пр. „2021-10-20T14:14:52+00:00“): $1",
 	"linkedwiki-lua-type-error-xsddecimal": "Грешка. Ова не е број од видот xsd:decimal (на пр. „20.25“ или „20“): $1",
 	"linkedwiki-lua-type-error-xsdint": "Грешка. Ова не е број од видот xsd:int (на пр. „14“): $1",
-	"linkedwiki-lua-param-error-subject-unknown": "Предметот е непознат (Користете го параметарот iriSubject или функцијата setSubject).",
+	"linkedwiki-lua-param-error-subject-unknown": "Предметот е непознат. Користете го параметарот iriSubject или функцијата setSubject.",
 	"linkedwiki-lua-query-error-not-allow-to-write": "Не можете да ја подновите базата со барање преку Lua.",
 	"linkedwiki-lua-message-preview-or-history": "Пронајден режимот PreviewOrHistory: податоците нема да се зачуваат",
 	"linkedwiki-lua-query-error-unknown": "Грешка во SPARQL (поединости ќе најдете во режимот за поправање на грешки)"

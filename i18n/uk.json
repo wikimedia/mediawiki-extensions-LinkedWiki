@@ -4,7 +4,8 @@
 			"DDPAT",
 			"Ice bulldog",
 			"Movses",
-			"Piramidion"
+			"Piramidion",
+			"Ата"
 		]
 	},
 	"linkedwiki-desc": "Переглянути пов’язані дані у вікі",
@@ -62,7 +63,7 @@
 	"linkedwiki-lua-type-error-xsddatetime": "Помилка, це не дата з типом xsd:datetime (приклад «2021-10-20T14:14:52+00:00»): $1",
 	"linkedwiki-lua-type-error-xsddecimal": "Помилка, це не число з типом xsd:decimal (приклад «20 .25» або «20»): $1",
 	"linkedwiki-lua-type-error-xsdint": "Помилка, це не число з типом xsd:int (приклад «14»): $1",
-	"linkedwiki-lua-param-error-subject-unknown": "Тема невідома (використовуйте параметр iriSubject або функцію setSubject.",
+	"linkedwiki-lua-param-error-subject-unknown": "Тема невідома. Використовуйте параметр iriSubject або функцію setSubject.",
 	"linkedwiki-lua-query-error-not-allow-to-write": "Ви не можете оновити базу даних за допомогою запиту через lua.",
 	"linkedwiki-lua-message-preview-or-history": "Виявлено режим PreviewOrHistory: дані не зберігаються",
 	"linkedwiki-lua-query-error-unknown": "ПОМИЛКА SPARQL (див. деталі в режимі налагодження)"
