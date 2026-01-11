@@ -1,6 +1,7 @@
 <?php
 
-use MediaWiki\MediaWikiServices;
+use MediaWiki\Config\Config;
+use MediaWiki\Config\ConfigFactory;
 use MediaWiki\SpecialPage\SpecialPage;
 
 /**
@@ -12,7 +13,12 @@ use MediaWiki\SpecialPage\SpecialPage;
 
 class SpecialSparqlQuery extends SpecialPage {
 
-	public function __construct() {
+	private readonly Config $config;
+
+	public function __construct(
+		ConfigFactory $configFactory,
+	) {
+		$this->config = $configFactory->makeConfig( 'wgLinkedWiki' );
 		parent::__construct( 'linkedwiki-specialsparqlquery' );
 	}
 
@@ -31,9 +37,8 @@ class SpecialSparqlQuery extends SpecialPage {
 		$output = $this->getOutput();
 		$output->addModules( [ 'ext.LinkedWiki.SpecialSparqlQuery' ] );
 
-		$configFactory = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'wgLinkedWiki' );
-		$querySparqlInSpecialPage = $configFactory->get( "QuerySparqlInSpecialPage" );
-		$configDefault = $configFactory->get( "SPARQLServiceByDefault" );
+		$querySparqlInSpecialPage = $this->config->get( 'QuerySparqlInSpecialPage' );
+		$configDefault = $this->config->get( 'SPARQLServiceByDefault' );
 
 		$query = isset( $_REQUEST["query"] ) ? stripslashes( $_REQUEST["query"] ) : "";
 		$endpoint = isset( $_REQUEST["endpoint"] ) ? trim( $_REQUEST["endpoint"] ) : '';
@@ -179,12 +184,11 @@ class SpecialSparqlQuery extends SpecialPage {
         <div id=\"example\" style=\"padding: 25px;\"><div id=\"result\" ";
 
 		// insert api keys
-		$configFactory = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'wgLinkedWiki' );
-		if ( $configFactory->has( "GoogleApiKey" ) ) {
-			$html .= "data-googleapikey=\"" . $configFactory->get( "GoogleApiKey" ) . "\" \n";
+		if ( $this->config->has( 'GoogleApiKey' ) ) {
+			$html .= "data-googleapikey=\"" . $this->config->get( 'GoogleApiKey' ) . "\" \n";
 		}
-		if ( $configFactory->has( "OSMAccessToken" ) ) {
-			$html .= "data-osmaccesstoken=\"" . $configFactory->get( "OSMAccessToken" ) . "\" \n";
+		if ( $this->config->has( 'OSMAccessToken' ) ) {
+			$html .= "data-osmaccesstoken=\"" . $this->config->get( 'OSMAccessToken' ) . "\" \n";
 		}
 		// end of div id=result
 		$html .= ">";
@@ -252,9 +256,7 @@ class SpecialSparqlQuery extends SpecialPage {
 	 */
 	protected function printSelectConfig( $configIri ) {
 		$html = "";
-		$config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'wgLinkedWiki' );
-
-		$configs = $config->get( "ConfigSPARQLServices" );
+		$configs = $this->config->get( 'ConfigSPARQLServices' );
 
 		$html .= "<select id='config' name='config'  class=\"form-control\">";
 		foreach ( $configs as $key => $value ) {

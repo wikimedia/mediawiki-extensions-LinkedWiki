@@ -11,7 +11,8 @@
  * @link http://php.net/manual/en/http.constants.php#constant.http-url-replace
  */
 
-use MediaWiki\MediaWikiServices;
+use MediaWiki\Config\Config;
+use MediaWiki\Config\ConfigFactory;
 use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\Title\Title;
 
@@ -223,7 +224,12 @@ if ( !function_exists( 'http_build_url' ) ) {
 
 class SpecialRDFUnit extends SpecialPage {
 
-	public function __construct() {
+	private readonly Config $config;
+
+	public function __construct(
+		ConfigFactory $configFactory,
+	) {
+		$this->config = $configFactory->makeConfig( 'wgLinkedWiki' );
 		parent::__construct( 'linkedwiki-specialrdfunit' );
 	}
 
@@ -255,9 +261,8 @@ class SpecialRDFUnit extends SpecialPage {
 			return;
 		}
 
-		$config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'wgLinkedWiki' );
-		if ( !$config->has( "SPARQLServiceSaveDataOfWiki" )
-			|| empty( $config->get( "SPARQLServiceSaveDataOfWiki" ) ) ) {
+		if ( !$this->config->has( 'SPARQLServiceSaveDataOfWiki' )
+			|| empty( $this->config->get( 'SPARQLServiceSaveDataOfWiki' ) ) ) {
 			$output->addHTML(
 				"Database by default for the Wiki is not precised "
 				. "in the LocalSettings.php. "
@@ -266,7 +271,7 @@ class SpecialRDFUnit extends SpecialPage {
 			return;
 		}
 
-		$configDefaultSaveData = $config->get( "SPARQLServiceSaveDataOfWiki" );
+		$configDefaultSaveData = $this->config->get( 'SPARQLServiceSaveDataOfWiki' );
 		$configSaveData = new LinkedWikiConfig( $configDefaultSaveData );
 
 		$request = $this->getRequest();
@@ -340,7 +345,7 @@ class SpecialRDFUnit extends SpecialPage {
 
 		$output->addWikiTextAsInterface( "== RDFUnit command ==" );
 
-		$graphs = array_merge( [ $graphOfDataset ], $config->get( "GraphsToCheckWithShacl" ) );
+		$graphs = array_merge( [ $graphOfDataset ], $this->config->get( 'GraphsToCheckWithShacl' ) );
 		$commandPublic = 'rdfunit -d "' . $uriOfDataset
 			. '" -r shacl -e "' . $endpointOfDatasetPublic
 			. '" -g "' . implode( ',', $graphs )

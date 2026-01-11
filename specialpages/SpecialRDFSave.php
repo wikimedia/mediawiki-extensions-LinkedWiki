@@ -1,9 +1,13 @@
 <?php
 
+use MediaWiki\Config\Config;
+use MediaWiki\Config\ConfigFactory;
 use MediaWiki\Html\Html;
-use MediaWiki\MediaWikiServices;
+use MediaWiki\JobQueue\JobQueueGroup;
+use MediaWiki\Language\Language;
 use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\Title\Title;
+use Wikimedia\Rdbms\ILoadBalancer;
 
 /**
  * @copyright (c) 2021 Bordercloud.com
@@ -29,7 +33,15 @@ use MediaWiki\Title\Title;
  */
 class SpecialRDFSave extends SpecialPage {
 
-	public function __construct() {
+	private readonly Config $config;
+
+	public function __construct(
+		ConfigFactory $configFactory,
+		private readonly Language $contentLanguage,
+		private readonly ILoadBalancer $loadBalancer,
+		private readonly JobQueueGroup $jobQueueGroup,
+	) {
+		$this->config = $configFactory->makeConfig( 'wgLinkedWiki' );
 		parent::__construct( 'linkedwiki-specialrdfsave' );
 	}
 
@@ -68,9 +80,8 @@ class SpecialRDFSave extends SpecialPage {
 		// UI
 
 		// Default config for saving the schemas
-		$config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'wgLinkedWiki' );
-		if ( !$config->has( "SPARQLServiceSaveDataOfWiki" )
-			|| empty( $config->get( "SPARQLServiceSaveDataOfWiki" ) ) ) {
+		if ( !$this->config->has( "SPARQLServiceSaveDataOfWiki" )
+			|| empty( $this->config->get( "SPARQLServiceSaveDataOfWiki" ) ) ) {
 			$output->addHTML(
 				"Database by default for the Wiki is not precised
 				(parameter SPARQLServiceSaveDataOfWiki). "
@@ -81,7 +92,7 @@ class SpecialRDFSave extends SpecialPage {
 			);
 		}
 
-		$configDefaultSaveData = $config->get( "SPARQLServiceSaveDataOfWiki" );
+		$configDefaultSaveData = $this->config->get( "SPARQLServiceSaveDataOfWiki" );
 		$configSaveData = new LinkedWikiConfig( $configDefaultSaveData );
 
 		// phpcs:disable
@@ -149,7 +160,6 @@ EOT
 			}
 		}
 
-		$jobQueueGroup = MediaWikiServices::getInstance()->getJobQueueGroup();
 		// show all pages
 		if ( !empty( $refreshWikiPage ) ) {
 			try {
@@ -176,7 +186,7 @@ EOT
 				return;
 			}
 			// not lazyPush
-			$jobQueueGroup->push( new InvalidatePageWithQueryJob() );
+			$this->jobQueueGroup->push( new InvalidatePageWithQueryJob() );
 		}
 
 		if ( !empty( $refreshData ) ) {
@@ -187,7 +197,7 @@ EOT
 					$output->addHTML( LinkedWikiStatus::clearDefaultGraph() );
 					$output->addHTML( LinkedWikiStatus::loadAllTagsRDFInPage() );
 				}
-				$jobQueueGroup->lazyPush( new InvalidatePageWithQueryJob() );
+				$this->jobQueueGroup->lazyPush( new InvalidatePageWithQueryJob() );
 				// phpcs:disable
 				$output->addHTML(
 					<<<EOT
@@ -207,10 +217,10 @@ EOT
 			}
 
 			// not lazyPush
-			$jobQueueGroup->push( new InvalidatePageWithQueryJob() );
+			$this->jobQueueGroup->push( new InvalidatePageWithQueryJob() );
 		}
 
-		$output->addHTML( self::printStatus( $configDefaultSaveData ) );
+		$output->addHTML( $this->printStatus( $configDefaultSaveData ) );
 
 		if ( !empty( $debug ) ) {
 			$output->addHTML( "<h2>Job pending</h2>" );
@@ -231,16 +241,16 @@ EOT
 				$output->addHTML( "<h3>Result after the runJobs: </h3>" );
 				$output->addHTML(
 					"Nb job queues: <span id='testJobsResult'>"
-					. count( $jobQueueGroup->getQueuesWithJobs() ) . "</span>"
+					. count( $this->jobQueueGroup->getQueuesWithJobs() ) . "</span>"
 				);
 			}
 
-			// $output->addHTML("<br/>" . print_r($jobQueueGroup->getDefaultQueueTypes(), true));
-			foreach ( $jobQueueGroup->getQueuesWithJobs() as $queue ) {
-				$queueObj = $jobQueueGroup->get( $queue );
+			// $output->addHTML("<br/>" . print_r($this->jobQueueGroup->getDefaultQueueTypes(), true));
+			foreach ( $this->jobQueueGroup->getQueuesWithJobs() as $queue ) {
+				$queueObj = $this->jobQueueGroup->get( $queue );
 				if ( $queueObj->getSize() == 0 ) {
 					// strange ?? need to clean all jobs for automatic tests (code only for doing the tests)
-					$jobQueueGroup->get( $queue )->delete();
+					$this->jobQueueGroup->get( $queue )->delete();
 				} else {
 					$output->addHTML(
 						"<br/>" . $queue . ": <span id='testJobsQueue" . $queue . "'>"
@@ -250,7 +260,7 @@ EOT
 			}
 			$output->addHTML(
 				"Nb job queues: <span id='testJobsResult'>"
-				. count( $jobQueueGroup->getQueuesWithJobs() ) . "</span>"
+				. count( $this->jobQueueGroup->getQueuesWithJobs() ) . "</span>"
 			);
 
 		}
@@ -261,14 +271,14 @@ EOT
 		$this->setHeaders();
 	}
 
-	private static function printStatus( $configDefaultSaveData ) {
-		$jobQueueGroup = MediaWikiServices::getInstance()->getJobQueueGroup();
-		$nbJobInvalidatePageWithQuery = $jobQueueGroup->get( "InvalidatePageWithQuery" )->getSize();
+	private function printStatus( $configDefaultSaveData ) {
+		$nbJobInvalidatePageWithQuery = $this->jobQueueGroup->get( "InvalidatePageWithQuery" )->getSize();
 		$html = "<h2>Jobs pending</h2>";
-		$html .= "Nb job 'refreshLinks' in the queue: " . $jobQueueGroup->get( "refreshLinks" )->getSize() . "<br/>";
+		$html .= "Nb job 'refreshLinks' in the queue: "
+			. $this->jobQueueGroup->get( "refreshLinks" )->getSize() . "<br/>";
 		$html .= "Nb job 'InvalidatePageWithQuery' in the queue: " . $nbJobInvalidatePageWithQuery . "<br/>";
 		$html .= "Nb job 'LoadRDF' in the queue: <span id='testJobsQueueLoadRDF'>"
-			. $jobQueueGroup->get( "LoadRDF" )->getSize() . "</span><br/>";
+			. $this->jobQueueGroup->get( "LoadRDF" )->getSize() . "</span><br/>";
 
 		$btnClearGraph = new OOUI\ButtonWidget( [
 			'label' => 'Refresh status of jobs',
@@ -290,7 +300,7 @@ EOT;
 
 		$databaseRDFTouched = LinkedWikiStatus::getLastUpdate();
 		if ( $databaseRDFTouched ) {
-			$html .= MediaWikiServices::getInstance()->getContentLanguage()->timeanddate( $databaseRDFTouched )
+			$html .= $this->contentLanguage->timeanddate( $databaseRDFTouched )
 				. "<br/>";
 		} else {
 			$html .= "Never<br/>";
@@ -347,8 +357,7 @@ EOT;
 				)
 			)
 		];
-		$dbr = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_REPLICA );
-		$lang = MediaWikiServices::getInstance()->getContentLanguage();
+		$dbr = $this->loadBalancer->getConnection( DB_REPLICA );
 		$resultDb = $dbr->select(
 			[
 				'page',
@@ -454,12 +463,12 @@ EOT;
 				Html::element(
 					'td',
 					[ 'style' => 'text-align: center;' ],
-					$lang->timeanddate( $row->page_touched )
+					$$this->contentLanguage->timeanddate( $row->page_touched )
 				) .
 				Html::element(
 					'td',
 					[ 'style' => 'text-align: center;' ],
-					$lang->timeanddate( $row->page_links_updated )
+					$$this->contentLanguage->timeanddate( $row->page_links_updated )
 				) .
 				Html::element(
 					'td',

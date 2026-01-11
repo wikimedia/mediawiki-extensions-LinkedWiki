@@ -189,11 +189,29 @@
 		"remoteExtPath": "LinkedWiki"
 	},
 	"SpecialPages": {
-		"linkedwiki-specialsparqlquery": "SpecialSparqlQuery",
+		"linkedwiki-specialsparqlquery": {
+			"class": "SpecialSparqlQuery",
+			"services": [
+				"ConfigFactory"
+			]
+		},
 		"linkedwiki-specialsparqlflinteditor": "SpecialSparqlFlintEditor",
 		"linkedwiki-speciallinkedwikiconfig": "SpecialLinkedWikiConfig",
-		"linkedwiki-specialrdfunit": "SpecialRDFUnit",
-		"linkedwiki-specialrdfsave": "SpecialRDFSave"
+		"linkedwiki-specialrdfunit": {
+			"class": "SpecialRDFUnit",
+			"services": [
+				"ConfigFactory"
+			]
+		},
+		"linkedwiki-specialrdfsave": {
+			"class": "SpecialRDFSave",
+			"services": [
+				"ConfigFactory",
+				"ContentLanguage",
+				"DBLoadBalancer",
+				"JobQueueGroup"
+			]
+		}
 	},
 	"manifest_version": 2,
 	"requires": {
