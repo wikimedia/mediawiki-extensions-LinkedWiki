@@ -143,12 +143,7 @@ EOT
 			}
 		}
 
-		if ( method_exists( MediaWikiServices::class, 'getJobQueueGroup' ) ) {
-			// MW 1.37+
-			$jobQueueGroup = MediaWikiServices::getInstance()->getJobQueueGroup();
-		} else {
-			$jobQueueGroup = JobQueueGroup::singleton();
-		}
+		$jobQueueGroup = MediaWikiServices::getInstance()->getJobQueueGroup();
 		// show all pages
 		if ( !empty( $refreshWikiPage ) ) {
 			try {
@@ -261,12 +256,7 @@ EOT
 	}
 
 	private static function printStatus( $configDefaultSaveData ) {
-		if ( method_exists( MediaWikiServices::class, 'getJobQueueGroup' ) ) {
-			// MW 1.37+
-			$jobQueueGroup = MediaWikiServices::getInstance()->getJobQueueGroup();
-		} else {
-			$jobQueueGroup = JobQueueGroup::singleton();
-		}
+		$jobQueueGroup = MediaWikiServices::getInstance()->getJobQueueGroup();
 		$nbJobInvalidatePageWithQuery = $jobQueueGroup->get( "InvalidatePageWithQuery" )->getSize();
 		$html = "<h2>Jobs pending</h2>";
 		$html .= "Nb job 'refreshLinks' in the queue: " . $jobQueueGroup->get( "refreshLinks" )->getSize() . "<br/>";

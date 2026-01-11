@@ -784,12 +784,7 @@ class LinkedWikiLuaLibrary extends LibraryBase {
 		if ( !RequestContext::getMain()->getRequest() instanceof FauxRequest ) {
 			$p->setNumericPageProperty( LinkedWikiStatus::PAGEPROP_DB_TOUCHED, time() );
 			$job = new InvalidatePageWithQueryJob();
-			if ( method_exists( MediaWikiServices::class, 'getJobQueueGroup' ) ) {
-				// MW 1.37+
-				MediaWikiServices::getInstance()->getJobQueueGroup()->lazyPush( $job );
-			} else {
-				JobQueueGroup::singleton()->lazyPush( $job );
-			}
+			MediaWikiServices::getInstance()->getJobQueueGroup()->lazyPush( $job );
 		}
 	}
 

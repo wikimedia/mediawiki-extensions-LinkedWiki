@@ -134,12 +134,7 @@ class InvalidatePageWithQueryJob extends Job {
 			$jobParams = [];
 			$jobs[] = new RefreshLinksJob( Title::newFromID( $row->page_id ), $jobParams );
 		}
-		if ( method_exists( MediaWikiServices::class, 'getJobQueueGroup' ) ) {
-			// MW 1.37+
-			MediaWikiServices::getInstance()->getJobQueueGroup()->push( $jobs );
-		} else {
-			JobQueueGroup::singleton()->push( $jobs );
-		}
+		MediaWikiServices::getInstance()->getJobQueueGroup()->push( $jobs );
 
 		// print(
 		//			"Job InvalidatePageWithQueryJob: nbJobRefreshlinksAdded " . $nbJobRefreshlinksAdded

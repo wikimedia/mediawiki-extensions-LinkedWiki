@@ -1,6 +1,5 @@
 <?php
 
-use MediaWiki\EditPage\EditPage;
 use MediaWiki\Language\RawMessage;
 use MediaWiki\MediaWikiServices;
 
@@ -40,12 +39,7 @@ class RDFTag {
 		}
 
 		// push a job to load the data in the default database
-		if ( method_exists( MediaWikiServices::class, 'getJobQueueGroup' ) ) {
-			// MW 1.37+
-			$queueJob = MediaWikiServices::getInstance()->getJobQueueGroup();
-		} else {
-			$queueJob = JobQueueGroup::singleton();
-		}
+		$queueJob = MediaWikiServices::getInstance()->getJobQueueGroup();
 		$jobLoadData = new LoadRDFJob( $parser->getTitle(), [] );
 		$queueJob->push( $jobLoadData );
 		return [ $output, 'isHTML' => true ];
@@ -180,8 +174,6 @@ class RDFTag {
 						. htmlspecialchars( $error ) . "</div>"
 					)
 				);
-				// @todo Remove this line after this extension do not support mediawiki version 1.36 and before
-				$status->value = EditPage::AS_HOOK_ERROR_EXPECTED;
 				return false;
 			}
 		}
