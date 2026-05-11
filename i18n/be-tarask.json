@@ -14,5 +14,6 @@
 	"linkedwiki-specialsparqlquery_seethedoc": "Глядзець дакумэнтацыю",
 	"linkedwiki-specialsparqlquery_result": "Вынік",
 	"linkedwiki-col-pages": "Тытул",
-	"linkedwiki-col-page-with-rdf-writer-tag": "Тэґ RDF"
+	"linkedwiki-col-page-with-rdf-writer-tag": "Тэґ RDF",
+	"linkedwiki-col-page-current-state": "Бягучы стан"
 }
