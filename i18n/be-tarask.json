@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Red Winged Duck",
 			"Ucukor"
 		]
 	},
@@ -8,12 +9,12 @@
 	"linkedwiki-specialrdfsave": "Абнавіць базу зьвестак",
 	"linkedwiki-specialsparqlquery_query": "Запыт",
 	"linkedwiki-specialsparqlquery_sendquery": "Выканаць запыт",
-	"linkedwiki-specialsparqlquery_chooseaconfiguration": "Абраць канфіґурацыю",
+	"linkedwiki-specialsparqlquery_chooseaconfiguration": "Абраць канфігурацыю",
 	"linkedwiki-specialsparqlquery_options": "Опцыі",
 	"linkedwiki-specialsparqlquery_visualization": "Візуалізацыя",
 	"linkedwiki-specialsparqlquery_seethedoc": "Глядзець дакумэнтацыю",
 	"linkedwiki-specialsparqlquery_result": "Вынік",
 	"linkedwiki-col-pages": "Тытул",
-	"linkedwiki-col-page-with-rdf-writer-tag": "Тэґ RDF",
+	"linkedwiki-col-page-with-rdf-writer-tag": "Тэг RDF",
 	"linkedwiki-col-page-current-state": "Бягучы стан"
 }
