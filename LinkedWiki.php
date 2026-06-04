@@ -29,8 +29,8 @@ class LinkedWiki {
 	 * @return bool
 	 */
 	public static function parserFirstCallInit( &$parser ) {
-		$parser->setFunctionHook( 'sparql', 'SparqlParser::render' );
-		$parser->setHook( 'rdf', 'RDFTag::render' );
+		$parser->setFunctionHook( 'sparql', SparqlParser::render( ... ) );
+		$parser->setHook( 'rdf', RDFTag::render( ... ) );
 		return true;
 	}
 
