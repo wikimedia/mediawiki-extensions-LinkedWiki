@@ -29,7 +29,12 @@ use MediaWiki\Title\Title;
 class SpecialRDFSave extends SpecialPage {
 
 	public function __construct() {
-		parent::__construct( 'linkedwiki-specialrdfsave', "data-edit" );
+		parent::__construct( 'linkedwiki-specialrdfsave' );
+	}
+
+	/** @inheritDoc */
+	public function getRestriction(): string {
+		return 'data-edit';
 	}
 
 	/**

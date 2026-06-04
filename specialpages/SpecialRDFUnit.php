@@ -223,7 +223,12 @@ if ( !function_exists( 'http_build_url' ) ) {
 class SpecialRDFUnit extends SpecialPage {
 
 	public function __construct() {
-		parent::__construct( 'linkedwiki-specialrdfunit', "data-edit" );
+		parent::__construct( 'linkedwiki-specialrdfunit' );
+	}
+
+	/** @inheritDoc */
+	public function getRestriction(): string {
+		return 'data-edit';
 	}
 
 	/**
