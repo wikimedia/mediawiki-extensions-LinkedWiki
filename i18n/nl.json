@@ -4,7 +4,8 @@
 			"Mainframe98",
 			"McDutchie",
 			"Nieuwsgierige Gebruiker",
-			"Romaine"
+			"Romaine",
+			"Siebrand"
 		]
 	},
 	"linkedwiki-desc": "De gekoppelde gegevens in een wiki zien",
@@ -40,7 +41,7 @@
 	"linkedwiki-specialsparqlquery_seethedoc": "Bekijk de documentatie",
 	"linkedwiki-specialsparqlquery_result": "Resultaat",
 	"action-data-edit": "gegevenspagina’s te bewerken (in de naamruimtes Data en UserData), deze gegevens over te brengen met [[Special:RDFSave]] en RDF-grafieken te controleren",
-	"right-data-edit": "Bewerk datapagina's (in de naamruimten Data en GebruikersData), verplaats deze data met [[Special:RDFSave]] en check RDFgraphs met [[Special:RDFUnit]]. [https://www.mediawiki.org/wiki/Special:MyLanguage/Extension:LinkedWiki/Import_in_wiki_to_write,_check,_transfer_and_validate_RDF Documentaties]",
+	"right-data-edit": "Bewerk gegevenspagina's (in de naamruimten Data en GebruikersData), verplaats deze gegevens met [[Special:RDFSave]] en check RDFgraphs met [[Special:RDFUnit]]. [https://www.mediawiki.org/wiki/Special:MyLanguage/Extension:LinkedWiki/Import_in_wiki_to_write,_check,_transfer_and_validate_RDF Documentaties]",
 	"linkedwiki-col-pages": "Titel",
 	"linkedwiki-col-page-date-touched": "Laatste wijziging",
 	"linkedwiki-col-page-date-links-updated": "Laatste opschoning",
