@@ -1,7 +1,13 @@
 <?php
 
+use MediaWiki\Content\Content;
+use MediaWiki\Context\IContextSource;
 use MediaWiki\Language\RawMessage;
 use MediaWiki\MediaWikiServices;
+use MediaWiki\Parser\Parser;
+use MediaWiki\Parser\PPFrame;
+use MediaWiki\Status\Status;
+use MediaWiki\User\User;
 
 /**
  * @copyright (c) 2021 Bordercloud.com

@@ -6,6 +6,8 @@
  * @license CC-BY-SA-4.0
  */
 
+use MediaWiki\SpecialPage\SpecialPage;
+
 class SpecialSparqlFlintEditor extends SpecialPage {
 
 	public function __construct() {

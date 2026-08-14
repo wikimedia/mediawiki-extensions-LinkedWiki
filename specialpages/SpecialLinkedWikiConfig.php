@@ -6,6 +6,8 @@
  * @license CC-BY-SA-4.0
  */
 
+use MediaWiki\SpecialPage\SpecialPage;
+
 class SpecialLinkedWikiConfig extends SpecialPage {
 
 	public function __construct() {

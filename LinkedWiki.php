@@ -2,7 +2,12 @@
 
 use MediaWiki\Config\GlobalVarConfig;
 use MediaWiki\MediaWikiServices;
+use MediaWiki\Output\OutputPage;
+use MediaWiki\Parser\Parser;
+use MediaWiki\Skin\Skin;
+use MediaWiki\Skin\SkinTemplate;
 use MediaWiki\Title\Title;
+use MediaWiki\User\User;
 
 /**
  * @copyright (c) 2021 Bordercloud.com
